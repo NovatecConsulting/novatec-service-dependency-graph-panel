@@ -1,0 +1,42 @@
+{
+  "type": "panel",
+  "name": "Novatec Flowmap",
+  "id": "novatec-flowmap-panel",
+  "info": {
+    "description": "Flowmap panel for Grafana",
+    "author": {
+      "name": "Novatec Consulting GmbH",
+      "url": "https://www.novatec-gmbh.de/"
+    },
+    "keywords": [
+      "clock",
+      "panel"
+    ],
+    "logos": {
+      "small": "img/novatec_flowmap_panel_logo.svg",
+      "large": "img/novatec_flowmap_panel_logo.svg"
+    },
+    "links": [
+      {
+        "name": "Project site",
+        "url": "https://github.com/NovatecConsulting/grafana-flowmap-panel"
+      },
+      {
+        "name": "Apache License",
+        "url": "https://github.com/NovatecConsulting/grafana-flowmap-panel/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [
+      {
+        "name": "Showcase",
+        "path": "img/screenshot-showcase.png"
+      }
+    ],
+    "version": "0.0.1",
+    "updated": "2019-03-06"
+  },
+  "dependencies": {
+    "grafanaVersion": "5.x.x",
+    "plugins": []
+  }
+}

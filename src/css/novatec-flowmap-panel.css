@@ -1,0 +1,40 @@
+.clock-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.vizceral {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+
+.vizceral .vizceral-notice {
+  display: block;
+  position: absolute;
+  padding: 0 3px;
+  width: 200px;
+  background-color: black;
+  border-left: 2px solid grey;
+  font-size: 11px;
+  color: grey;
+}
+
+.vizceral .vizceral-notice ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vizceral .vizceral-notice>ul>li {
+  line-height: 12px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.vizceral .vizceral-notice .subtitle {
+  font-weight: 900;
+}
