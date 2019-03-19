@@ -1,7 +1,7 @@
 {
-  "name": "novatec-flowmap-panel",
+  "name": "novatec-service-dependency-graph-panel",
   "version": "1.0.0",
-  "description": "Novatec Flowmap",
+  "description": "Service Dependency Graph panel for Grafana",
   "main": "src/module.js",
   "scripts": {
     "build": "node --max-old-space-size=8192 ./node_modules/.bin/webpack --config webpack.config.prod.js",
@@ -15,8 +15,8 @@
     "plugin",
     "panel"
   ],
-  "author": "Raintank",
-  "license": "MIT",
+  "author": "Novatec",
+  "license": "Apache 2.0",
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
