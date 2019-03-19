@@ -1,19 +1,19 @@
-## Novatec Flowmap Panel
+## Novatec Service Dependency Graph Panel
 
-![Flowmap Showcase](src/img/screenshot-showcase.png)
+![Service Dependency Graph Showcase](src/img/screenshot-showcase.png)
 
 ### How to use it
 
 ##### Interaction
 
-You can move a node by dragging it. You can also move the whole flowmap by dragging its background.
+You can move a node by dragging it. You can also move the whole service dependency graph (SDG) by dragging its background.
 
-You can zoom in and out of the flowmap by using the mouse wheel while the SHIFT key is pressed.
+You can zoom in and out of the SDG by using the mouse wheel while the SHIFT key is pressed.
 
 ##### Data Model
 
 The data model is not final, yet.
-In order to use the flowmap-plugin, you have to setup a data-source which provides a the data in the `TABLE` format! You can use multiple queries as long each data table contains the same `<from>` and `<to>` columns.
+In order to use the plugin, you have to setup a data-source which provides a the data in the `TABLE` format! You can use multiple queries as long each data table contains the same `<from>` and `<to>` columns.
 
 The table must be structured as follows:
 - A `<from>` and `<to>` column must exist.
@@ -49,7 +49,7 @@ This plugin is using a modified version of the Vizeral library, thus you have to
 1. Clone the Vizceral fork
 1. Run inside the repository `npm link`
 1. Build it: `npm run dev`
-1. Go to the flowmap-plugin directory and execute `npm link vizceral`
+1. Go to the SDG-plugin directory and execute `npm link vizceral`
 
 #### Changelog
 
