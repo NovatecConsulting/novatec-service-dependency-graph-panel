@@ -1,5 +1,5 @@
-import { FlowmapCtrl } from './flowmap_ctrl';
+import { ServiceDependencyGraphCtrl } from './service_dependency_graph_ctrl.ts';
 
 export {
-	FlowmapCtrl as PanelCtrl
+	ServiceDependencyGraphCtrl as PanelCtrl
 };

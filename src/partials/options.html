@@ -73,30 +73,30 @@
 
 
         <div class="section gf-form-group">
-            <h5 class="section-heading">Flowmap Settings</h5>
+            <h5 class="section-heading">SDG Settings</h5>
 
             <div class="gf-form-inline">
-                <gf-form-switch class="gf-form" label="Show Connection Statistics" label-class="width-16" checked="ctrl.panel.flowmapSettings.showConnectionStats" on-change="ctrl.forceRender()"></gf-form-switch>
+                <gf-form-switch class="gf-form" label="Show Connection Statistics" label-class="width-16" checked="ctrl.panel.sdgSettings.showConnectionStats" on-change="ctrl.forceRender()"></gf-form-switch>
 
                 <label class="gf-form-label width-8">Layout</label>
-                <select class="input-small gf-form-input width-10" ng-model="ctrl.panel.flowmapSettings.layout" ng-change="ctrl.forceRender()">
+                <select class="input-small gf-form-input width-10" ng-model="ctrl.panel.sdgSettings.layout" ng-change="ctrl.forceRender()">
                     <option ng-repeat="variable in editor.getLayoutOptions()" value="{{variable}}">{{variable}}</option>
                 </select>
             </div>
         </div>
 
         <div class="section gf-form-group">
-            <h5 class="section-heading">Flowmap Style</h5>
+            <h5 class="section-heading">SDG Style</h5>
 
             <div class="gf-form-inline">
                 <label class="gf-form-label width-8">Healthy Color</label>
                 <span class="gf-form-label">
-                    <spectrum-picker ng-model="ctrl.panel.flowmapStyle.healthyColor" ng-change="ctrl.updateFlowmapStyle()"></spectrum-picker>
+                    <spectrum-picker ng-model="ctrl.panel.sdgStyle.healthyColor" ng-change="ctrl.updateSDGStyle()"></spectrum-picker>
                 </span>
 
                 <label class="gf-form-label width-8">Danger Color</label>
                 <span class="gf-form-label">
-                    <spectrum-picker ng-model="ctrl.panel.flowmapStyle.dangerColor" ng-change="ctrl.updateFlowmapStyle()"></spectrum-picker>
+                    <spectrum-picker ng-model="ctrl.panel.sdgStyle.dangerColor" ng-change="ctrl.updateSDGStyle()"></spectrum-picker>
                 </span>
             </div>
         </div>

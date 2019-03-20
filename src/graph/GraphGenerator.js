@@ -19,7 +19,7 @@ class GraphGenerator {
 			name: "INTERNET",
 			displayName: "INTERNET",
 			nodes: nodes,
-			layout: this.panelCtrl.panel.flowmapSettings.layout,
+			layout: this.panelCtrl.panel.sdgSettings.layout,
 			metadata: {},
 			class: "normal",
 			maxVolume: 10000,
@@ -249,7 +249,7 @@ class GraphGenerator {
 			if (!_.has(c, 'metadata')) {
 				c['metadata'] = {};
 			}
-			c.metadata['showStats'] = this.panelCtrl.panel.flowmapSettings.showConnectionStats;
+			c.metadata['showStats'] = this.panelCtrl.panel.sdgSettings.showConnectionStats;
 		});
 
 		return allConnections;

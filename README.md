@@ -46,10 +46,11 @@ To build a production build with minification: `yarn build`
 This plugin is using a modified version of the Vizeral library, thus you have to link the customized Vizceral version in order to build the plugin!
 
 1. Ensure that NodeJS and NPM is installed
-1. Clone the Vizceral fork
+1. Clone the Vizceral fork: `git clone https://github.com/NovatecConsulting/vizceral.git`
+1. Checkout the `flowmap` branch: `git checkout -b flowmap`
 1. Run inside the repository `npm link`
-1. Build it: `npm run dev`
-1. Go to the SDG-plugin directory and execute `npm link vizceral`
+1. Build it: `npm run build` (or `npm run dev` for development)
+1. Go to the flowmap-plugin directory and execute `npm link vizceral`
 
 #### Changelog
 

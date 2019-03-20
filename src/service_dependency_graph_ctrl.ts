@@ -1,13 +1,13 @@
 import { MetricsPanelCtrl } from 'grafana/app/plugins/sdk';
 import _ from 'lodash';
 import { optionsTab } from './options_ctrl';
-import './css/novatec-flowmap-panel.css';
+import './css/novatec-service-dependency-graph-panel.css';
 import Vizceral from 'vizceral';
 import PreProcessor from './data/PreProcessor';
 
 import GraphGenerator from './graph/GraphGenerator'
 
-export class FlowmapCtrl extends MetricsPanelCtrl {
+export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	static templateUrl = 'partials/module.html';
 
@@ -24,11 +24,11 @@ export class FlowmapCtrl extends MetricsPanelCtrl {
 			responseTimeExternalColumn: "response-time-external",
 			requestRateExternalColumn: "request-rate-external",
 		},
-		flowmapStyle: {
+		sdgStyle: {
 			healthyColor: 'rgb(87, 148, 242)',
 			dangerColor: 'rgb(184, 36, 36)'
 		},
-		flowmapSettings: {
+		sdgSettings: {
 			showConnectionStats: true,
 			layout: 'ltrTree'
 		}
@@ -60,17 +60,17 @@ export class FlowmapCtrl extends MetricsPanelCtrl {
 		return this.currentData != null && _.has(this.currentData, 'data') && this.currentData.data.length > 0;
 	}
 
-	updateFlowmapStyle() {
+	updateSDGStyle() {
 		if (this.vizceral) {
 			this.vizceral.updateStyles({
 				colorText: 'rgb(214, 214, 214)',
 				colorTextDisabled: 'rgb(129, 129, 129)',
 				colorTraffic: {
-					healthy: this.panel.flowmapStyle.healthyColor,
+					healthy: this.panel.sdgStyle.healthyColor,
 					normal: 'rgb(186, 213, 237)',
 					normalDonut: 'rgb(91, 91, 91)',
 					warning: 'rgb(268, 185, 73)',
-					danger: this.panel.flowmapStyle.dangerColor
+					danger: this.panel.sdgStyle.dangerColor
 				},
 				colorNormalDimmed: 'rgb(101, 117, 128)',
 				colorBackgroundDark: 'rgb(35, 35, 35)',
@@ -100,15 +100,15 @@ export class FlowmapCtrl extends MetricsPanelCtrl {
 
 	onRender(payload) {
 		if (!this.vizceral) {
-			var flowmapContainer = document.getElementById("nt-flowmap-container");
+			var sdgContainer = document.getElementById("nt-sdg-container");
 
-			if (flowmapContainer != null) {
-				flowmapContainer.innerHTML = '<canvas id="nt-flowmap-viz"></canvas>';
+			if (sdgContainer != null) {
+				sdgContainer.innerHTML = '<canvas id="nt-sdg-viz"></canvas>';
 			} else {
-				console.warn("Flowmap container cannot be found!");
+				console.warn("SDG container cannot be found!");
 			}
 
-			var vizContainer = <HTMLCanvasElement>document.getElementById("nt-flowmap-viz");
+			var vizContainer = <HTMLCanvasElement>document.getElementById("nt-sdg-viz");
 
 			if (vizContainer != null) {
 
@@ -128,11 +128,11 @@ export class FlowmapCtrl extends MetricsPanelCtrl {
 					colorText: 'rgb(214, 214, 214)',
 					colorTextDisabled: 'rgb(129, 129, 129)',
 					colorTraffic: {
-						healthy: this.panel.flowmapStyle.healthyColor,
+						healthy: this.panel.sdgStyle.healthyColor,
 						normal: 'rgb(186, 213, 237)',
 						normalDonut: 'rgb(91, 91, 91)',
 						warning: 'rgb(268, 185, 73)',
-						danger: this.panel.flowmapStyle.dangerColor
+						danger: this.panel.sdgStyle.dangerColor
 					},
 					colorNormalDimmed: 'rgb(101, 117, 128)',
 					colorBackgroundDark: 'rgb(35, 35, 35)',
