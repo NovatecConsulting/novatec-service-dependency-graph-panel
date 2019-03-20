@@ -83,6 +83,12 @@
                     <option ng-repeat="variable in editor.getLayoutOptions()" value="{{variable}}">{{variable}}</option>
                 </select>
             </div>
+
+            <div class="gf-form-inline">
+                
+                <label class="gf-form-label width-16">Handle Timings as Sums<info-popover mode="right-normal">If this setting is active, the timings provided by the mapped response time columns are considered as a continually increasing sum of response times. When deactivated, it is considered that the timings provided by columns are the actual average response times.</info-popover></label>
+                <gf-form-switch class="gf-form" checked="ctrl.panel.sdgSettings.sumTimings" on-change="ctrl.forceRender()"></gf-form-switch>
+            </div>
         </div>
 
         <div class="section gf-form-group">
@@ -99,6 +105,31 @@
                     <spectrum-picker ng-model="ctrl.panel.sdgStyle.dangerColor" ng-change="ctrl.updateSDGStyle()"></spectrum-picker>
                 </span>
             </div>
+        </div>
+
+        <div class="section gf-form-group">
+            <h5 class="section-heading">External Service Icon Mapping</h5>
+
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-10">Target Type</label>
+                    <label class="gf-form-label width-10">Icon</label>
+                </div>
+            </div>
+
+            <div class="gf-form-inline" ng-repeat="(index, mapping) in ctrl.panel.sdgSettings.externalIcons">
+                <div class="gf-form">
+                    <input type="text" class="input-small gf-form-input width-10" ng-model="ctrl.panel.sdgSettings.externalIcons[index].type" ng-change="ctrl.forceRender()" ng-model-onblur />
+                
+                    <select class="input-small gf-form-input width-10" ng-model="ctrl.panel.sdgSettings.externalIcons[index].icon" ng-change="ctrl.forceRender()">
+                        <option ng-repeat="variable in editor.getExternalIconOptions()" value="{{variable}}">{{variable}}</option>
+                    </select>
+
+                    <a class="gf-form-label tight-form-func" ng-click="editor.removeExternalMapping(index)"><i class="fa fa-trash"></i></a>
+                </div>
+            </div>
+
+            <button class="btn navbar-button navbar-button--primary" ng-click="editor.addExternalMapping()">Add External Service Icon Mapping</button>
         </div>
     </div>
 </div>

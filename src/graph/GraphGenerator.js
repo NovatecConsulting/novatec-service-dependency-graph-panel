@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import {has, find} from 'lodash';
 
 class GraphGenerator {
 
@@ -26,7 +27,8 @@ class GraphGenerator {
 			connections: connections,
 			layoutOptions: {
 				noRankPromotion: true,
-				pullUpLeaves: true
+				pullUpLeaves: true,
+				adjustWidthToRanks: true
 			}
 		};
 
@@ -69,7 +71,7 @@ class GraphGenerator {
 					.map(n => n.data.res_time_sum)
 					.sum(), -1);
 
-				if (responseTime >= 0) {
+				if (this.panelCtrl.panel.sdgSettings.sumTimings && responseTime >= 0) {
 					responseTime = responseTime / (requestCount + errorCount);
 				}
 
@@ -256,17 +258,22 @@ class GraphGenerator {
 	}
 
 	getTypeSymbol(type) {
-		if (type.toLowerCase() === 'database') {
-			return this.getAssetUrl('database.png');
-		}
-		else if (type.toLowerCase() === 'jms') {
-			return this.getAssetUrl('message.png');
-		}
-		else if (type.toLowerCase() === 'web') {
-			return this.getAssetUrl('web.png');
-		}
-		else {
-			return '';
+		const mapping = find(this.panelCtrl.panel.sdgSettings.externalIcons, e => e.type.toLowerCase() === type.toLowerCase());
+
+		// debugger;
+
+		// const typeLC = type.toLowerCase();
+		// const iconMap = {
+		// 	'database': 'database.png',
+		// 	'jms': 'message.png',
+		// 	'web': 'web.png',
+		// 	'http': 'http.png'
+		// };
+
+		if (mapping !== undefined) {
+			return this.getAssetUrl(mapping.icon + '.png');
+		} else {
+			return this.getAssetUrl('default.png');
 		}
 	}
 

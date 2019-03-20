@@ -29,8 +29,27 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			dangerColor: 'rgb(184, 36, 36)'
 		},
 		sdgSettings: {
+			sumTimings: false,
 			showConnectionStats: true,
-			layout: 'ltrTree'
+			layout: 'ltrTree',
+			externalIcons: [
+				{
+					type:'web',
+					icon: 'web'
+				},
+				{
+					type:'jms',
+					icon: 'message'
+				},
+				{
+					type:'database',
+					icon: 'database'
+				},
+				{
+					type:'http',
+					icon: 'http'
+				}
+			]
 		}
 	};
 
@@ -40,7 +59,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	currentGraphNodes: Array<string> = [];
 
-	currentLayout: string;
+	zoomLevel: number;
 
 	/** @ngInject */
 	constructor($scope, $injector) {
@@ -54,6 +73,17 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		this.events.on('render', this.onRender.bind(this));
 		this.events.on('data-received', this.onDataReceived.bind(this));
 		this.events.on('data-snapshot-load', this.onDataReceived.bind(this));
+	}
+
+	zoom(zoom) {
+		const zoomStep = 0.1 * zoom;
+		const nextZoomLevel = Math.min(Math.max(this.zoomLevel + zoomStep, 0.1), 2);
+
+		if (this.vizceral) {
+			console.log("Current:", this.zoomLevel, "New:", nextZoomLevel);
+			this.zoomLevel = nextZoomLevel;
+			this.vizceral.setZoom(this.zoomLevel);
+		}
 	}
 
 	dataAvailable() {
@@ -111,6 +141,9 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			var vizContainer = <HTMLCanvasElement>document.getElementById("nt-sdg-viz");
 
 			if (vizContainer != null) {
+
+				// init variables for vizceral
+				this.zoomLevel = 1;
 
 				var viz = new Vizceral(vizContainer);
 				viz.setOptions({
@@ -212,13 +245,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			this.currentData = [];
 		}
 
-		var layout = this.getTemplateVariable('layout');
-		if (this.currentLayout === layout) {
-			this.render();
-		} else {
-			this.currentLayout = layout;
-			this.forceRender();
-		}
+		this.render();
 	}
 
 	getTemplateVariable(name) {

@@ -38,3 +38,9 @@
 .vizceral .vizceral-notice .subtitle {
   font-weight: 900;
 }
+
+.zoom-button-container {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+}

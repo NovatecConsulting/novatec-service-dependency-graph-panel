@@ -16,10 +16,26 @@ export class OptionsCtrl {
 		this.getColumnNames = this.getColumnNames.bind(this);
 		this.getPrefixCandidates = this.getPrefixCandidates.bind(this);
 		this.getColumnNamesExternal = this.getColumnNamesExternal.bind(this);
+		this.addExternalMapping = this.addExternalMapping.bind(this);
+		this.removeExternalMapping = this.removeExternalMapping.bind(this);
+	}
+
+	addExternalMapping() {
+		this.panel.sdgSettings.externalIcons.push({type: 'my-type', icon: 'default'});
+		this.panelCtrl.render();
+	}
+
+	removeExternalMapping(index) {
+		this.panel.sdgSettings.externalIcons.splice(index, 1);
+		this.panelCtrl.render();
 	}
 
 	getLayoutOptions() {
 		return ['ltrTree', 'ring', 'ringCenter', 'cytoscape'];
+	}
+
+	getExternalIconOptions() {
+		return ['default', 'message', 'database', 'http', 'web'];
 	}
 
 	getColumnNames() {
