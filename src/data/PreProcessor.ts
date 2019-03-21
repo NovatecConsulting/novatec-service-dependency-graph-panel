@@ -10,6 +10,8 @@ class PreProcessor {
 	}
 
 	processData(inputData) {
+		// check for table types
+
 		var connectionTables = _.filter(inputData, table => {
 			var aggregationType: string = Utils.getTemplateVariable(this.controller, 'aggregationType');
 			var sourcePrefix: string = Utils.getSourcePrefix(this.controller);
@@ -32,6 +34,7 @@ class PreProcessor {
 					return _.merge(result, next);
 				}, {});
 			})
+			.filter(o => _.has(o, 'data.rate') || _.has(o, 'data.rate_out'))
 			.value();
 
 		var columns = _(connectionTables)
@@ -41,41 +44,13 @@ class PreProcessor {
 			.uniq()
 			.value();
 
-		var componentMapping = this.createComponentMapping(inputData);
-
-		var external = this.getExternal(inputData);
+		// var componentMapping = this.createComponentMapping(inputData);
 
 		return {
 			data: processedData,
 			rawData: inputData,
 			columns: columns,
-			componentMapping: componentMapping,
-			external: external
-		};
-	}
-
-	getExternal(rawData) {
-		var externalTables = _.filter(rawData, { type: 'table', columns: [{ text: 'target' }, { text: 'type' }] });
-		var externalColumns = _(externalTables)
-			.flatMap(t => t.columns)
-			.map(v => v.text)
-			.uniq()
-			.value();
-
-		var externalComponents = _(externalTables)
-			.flatMap((table: any) => _.map(table.rows, row => this.dataArrayToDataObject(table, row)))
-			.groupBy(o => o.source + '===' + o.target)
-			.values()
-			.map(grp => {
-				return _.reduce(grp, (result, next) => {
-					return _.merge(result, next);
-				}, {});
-			})
-			.value()
-
-		return {
-			components: externalComponents,
-			columns: externalColumns
+			// componentMapping: componentMapping
 		};
 	}
 
@@ -118,13 +93,25 @@ class PreProcessor {
 
 			if (attrName === 'source' || attrName === 'target') {
 				rowObject[attrName] = value;
-			} else {
+			} else if (value && value !== '') {
 				if (!_.has(rowObject, 'data')) {
 					rowObject.data = {};
 				}
 				rowObject.data[attrName] = value;
 			}
 		});
+
+		// handle external calls
+		if (_.has(rowObject, 'data.ext_origin') && rowObject.data.ext_origin.length > 0) {
+			rowObject.source = rowObject.data.ext_origin;
+			rowObject.data['external'] = 'source';
+			delete rowObject.data.ext_origin;
+		} else if (_.has(rowObject, 'data.ext_target') && rowObject.data.ext_target.length > 0) {
+			rowObject.target = rowObject.data.ext_target;
+			rowObject.data['external'] = 'target';
+			delete rowObject.data.ext_target;
+		}
+
 		return rowObject;
 	}
 
@@ -143,9 +130,9 @@ class PreProcessor {
 
 		nameLookup[Utils.getConfig(this.controller, 'requestRateExternalColumn')] = 'rate_ext';
 		nameLookup[Utils.getConfig(this.controller, 'responseTimeExternalColumn')] = 'res_time_sum_ext';
-		nameLookup['target'] = 'target';
-		nameLookup['type'] = 'type';
-		nameLookup[aggregationType] = 'source';
+		nameLookup[Utils.getConfig(this.controller, 'extOrigin')] = 'ext_origin';
+		nameLookup[Utils.getConfig(this.controller, 'extTarget')] = 'ext_target';
+		nameLookup[Utils.getConfig(this.controller, 'type')] = 'type';
 
 		var name = table.columns[index].text;
 
@@ -153,6 +140,16 @@ class PreProcessor {
 			return 'source';
 		} else if (name === targetPrefix + aggregationType) {
 			return 'target';
+		} else if (name === aggregationType) {
+		
+			if (_.find(table.columns, {text: "origin_service"})) {
+				// incoming
+				return 'target';
+			} else {
+				// outgoing
+				return 'source';
+			}
+
 		} else if (_.has(nameLookup, name)) {
 			return nameLookup[name];
 		} else {

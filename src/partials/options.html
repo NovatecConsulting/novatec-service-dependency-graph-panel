@@ -16,6 +16,24 @@
                       data-min-length=0 data-items=100 ng-change="ctrl.render()" ng-model-onblur />
                 </div>
             </div>
+
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-8">Type</label>
+                    <input type="text" class="input-small gf-form-input width-12" placeholder="{{ctrl.panelDefaults.dataMapping.type}}" ng-model="ctrl.panel.dataMapping.type" bs-typeahead="editor.getColumnNames"
+                      data-min-length=0 data-items=100 ng-change="ctrl.render()" ng-model-onblur />
+                </div>
+                <div class="gf-form">
+                    <label class="gf-form-label width-8">External Origin</label>
+                    <input type="text" class="input-small gf-form-input width-12" placeholder="{{ctrl.panelDefaults.dataMapping.extOrigin}}" ng-model="ctrl.panel.dataMapping.extOrigin" bs-typeahead="editor.getColumnNames"
+                      data-min-length=0 data-items=100 ng-change="ctrl.render()" ng-model-onblur />
+                </div>
+                <div class="gf-form">
+                    <label class="gf-form-label width-8">External Target</label>
+                    <input type="text" class="input-small gf-form-input width-12" placeholder="{{ctrl.panelDefaults.dataMapping.extTarget}}" ng-model="ctrl.panel.dataMapping.extTarget" bs-typeahead="editor.getColumnNames" data-min-length=0
+                      data-items=100 ng-change="ctrl.render()" ng-model-onblur />
+                </div>
+            </div>
         </div>
 
         <div class="section gf-form-group">
@@ -85,9 +103,11 @@
             </div>
 
             <div class="gf-form-inline">
-                
                 <label class="gf-form-label width-16">Handle Timings as Sums<info-popover mode="right-normal">If this setting is active, the timings provided by the mapped response time columns are considered as a continually increasing sum of response times. When deactivated, it is considered that the timings provided by columns are the actual average response times.</info-popover></label>
                 <gf-form-switch class="gf-form" checked="ctrl.panel.sdgSettings.sumTimings" on-change="ctrl.forceRender()"></gf-form-switch>
+
+                <label class="gf-form-label width-8">Max. Volume</label>
+                <input type="text" class="input-small gf-form-input width-10" placeholder="{{ctrl.panelDefaults.sdgSettings.maxVolume}}" ng-model="ctrl.panel.sdgSettings.maxVolume" ng-change="ctrl.forceRender()" ng-model-onblur />
             </div>
         </div>
 
