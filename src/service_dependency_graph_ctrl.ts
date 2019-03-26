@@ -37,6 +37,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			showConnectionStats: true,
 			layout: 'ltrTree',
 			maxVolume: 10000,
+			filterEmptyConnections: true,
 			externalIcons: [
 				{
 					type:'web',

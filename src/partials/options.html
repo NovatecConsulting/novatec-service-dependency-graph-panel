@@ -109,6 +109,12 @@
                 <label class="gf-form-label width-8">Max. Volume</label>
                 <input type="text" class="input-small gf-form-input width-10" placeholder="{{ctrl.panelDefaults.sdgSettings.maxVolume}}" ng-model="ctrl.panel.sdgSettings.maxVolume" ng-change="ctrl.forceRender()" ng-model-onblur />
             </div>
+
+            <div class="gf-form-inline">
+                <label class="gf-form-label width-16">Filter Empty Connections<info-popover mode="right-normal">When enabled, the graph will only show connections which has at least one metric.</info-popover></label>
+                <gf-form-switch class="gf-form" checked="ctrl.panel.sdgSettings.filterEmptyConnections" on-change="ctrl.forceRender()"></gf-form-switch>
+
+            </div>
         </div>
 
         <div class="section gf-form-group">

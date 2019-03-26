@@ -165,8 +165,8 @@ class GraphGenerator {
 			.uniq()
 			.filter()
 			.map(target => {
-				var sample = _.find(this.data.data, {
-					target: target
+				var sample = _.find(this.data.data, d => {
+					return d.target === target || d.source === target;
 				});
 
 				var callCount = _.defaultTo(

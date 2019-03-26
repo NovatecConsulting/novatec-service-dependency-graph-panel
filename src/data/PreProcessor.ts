@@ -10,6 +10,7 @@ class PreProcessor {
 	}
 
 	processData(inputData) {
+		var that = this;
 		// check for table types
 
 		var connectionTables = _.filter(inputData, table => {
@@ -34,7 +35,20 @@ class PreProcessor {
 					return _.merge(result, next);
 				}, {});
 			})
-			.filter(o => _.has(o, 'data.rate') || _.has(o, 'data.rate_out'))
+			.filter(o => {
+				if (!that.controller.panel.sdgSettings.filterEmptyConnections) {
+					return true;
+				}
+
+				const metrics = ['res_time_sum', 'rate', 'err_rate', 'res_time_sum_out', 'rate_out', 'err_rate_out', 'rate_ext', 'res_time_sum_ext'];
+				for (var i=0; i<metrics.length; i++) {
+					if ( _.has(o, 'data.' + metrics[i]) ) {
+						return true;
+					}
+				}
+
+				return false;
+			})
 			.value();
 
 		var columns = _(connectionTables)
