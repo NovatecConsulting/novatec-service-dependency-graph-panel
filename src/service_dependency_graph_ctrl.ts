@@ -23,6 +23,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			errorRateOutgoingColumn: "error-rate-out",
 			responseTimeExternalColumn: "response-time-external",
 			requestRateExternalColumn: "request-rate-external",
+
+			extOrigin: 'external_origin',
+			extTarget: 'external_target',
+			type: 'type'
 		},
 		sdgStyle: {
 			healthyColor: 'rgb(87, 148, 242)',
@@ -32,6 +36,8 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			sumTimings: false,
 			showConnectionStats: true,
 			layout: 'ltrTree',
+			maxVolume: 10000,
+			filterEmptyConnections: true,
 			externalIcons: [
 				{
 					type:'web',
@@ -213,8 +219,9 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			this.vizceral.updateData(graph);
 
 			var nodeNames = _.map(graph.nodes, node => node.name);
+			const nodesAreEqual = _.isEqual(_.sortBy(nodeNames), _.sortBy(this.currentGraphNodes));
 
-			if (!_.isEqual(this.currentGraphNodes, nodeNames)) {
+			if (!nodesAreEqual) {
 				this.currentGraphNodes = nodeNames;
 				if (this.vizceral.currentGraph) {
 					this.vizceral.currentGraph.layout.cache = [];

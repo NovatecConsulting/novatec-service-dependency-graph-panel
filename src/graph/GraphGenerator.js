@@ -23,7 +23,7 @@ class GraphGenerator {
 			layout: this.panelCtrl.panel.sdgSettings.layout,
 			metadata: {},
 			class: "normal",
-			maxVolume: 10000,
+			maxVolume: this.panelCtrl.panel.sdgSettings.maxVolume,
 			connections: connections,
 			layoutOptions: {
 				noRankPromotion: true,
@@ -39,7 +39,18 @@ class GraphGenerator {
 		var that = this;
 
 		var nodes = _(this.data.data)
-			.flatMap(d => [d.source, d.target])
+			.flatMap(d => {
+				// filter external
+				if (_.has(d, 'data.external')) {
+					if (d.data.external === 'source') {
+						return [d.target];
+					} else {
+						return [d.source];
+					}
+				} else {
+					return [d.source, d.target];
+				}
+			})
 			.uniq()
 			.filter()
 			.map(nodeName => {
@@ -81,27 +92,27 @@ class GraphGenerator {
 				var aggregationType = this.getTemplateVariable('aggregationType');
 				var componentMapping = _.filter(this.data.componentMapping, c => c[aggregationType] == nodeName);
 
-				// TODO cleanup
-				var centerData = {};
-				if (aggregationType == 'app') {
-					centerData.value = _(componentMapping)
-						.map(c => c.service)
-						.uniq()
-						.value()
-						.length;
-					centerData.text = 'Service' + (centerData.value > 1 ? 's' : '');
-				}
-				else if (aggregationType == 'service') {
-					centerData.value = _(componentMapping)
-						.map(c => c.node)
-						.uniq()
-						.value()
-						.length;
-					centerData.text = 'Instance' + (centerData.value > 1 ? 's' : '');
-				}
-				else {
-					centerData = null
-				}
+				// // TODO cleanup
+				// var centerData = {};
+				// if (aggregationType == 'app') {
+				// 	centerData.value = _(componentMapping)
+				// 		.map(c => c.service)
+				// 		.uniq()
+				// 		.value()
+				// 		.length;
+				// 	centerData.text = 'Service' + (centerData.value > 1 ? 's' : '');
+				// }
+				// else if (aggregationType == 'service') {
+				// 	centerData.value = _(componentMapping)
+				// 		.map(c => c.node)
+				// 		.uniq()
+				// 		.value()
+				// 		.length;
+				// 	centerData.text = 'Instance' + (centerData.value > 1 ? 's' : '');
+				// }
+				// else {
+				// 	centerData = null
+				// }
 
 				return {
 					name: nodeName,
@@ -117,7 +128,7 @@ class GraphGenerator {
 					metadata: {
 						componentMapping: componentMapping,
 						aggregation: aggregationType,
-						centerData: centerData
+						// centerData: centerData
 					},
 					nodeView: 'focused'
 				};
@@ -138,29 +149,47 @@ class GraphGenerator {
 			})
 			.value();
 
-		var externalNodes = _(this.data.external.components)
-			.map(c => c.target)
+		var externalNodes = _(this.data.data)
+			.map(d => {
+				// filter external
+				if (_.has(d, 'data.external')) {
+					if (d.data.external === 'source') {
+						return d.source;
+					} else {
+						return d.target;
+					}
+				} else {
+					return null;
+				}
+			})
 			.uniq()
+			.filter()
 			.map(target => {
-				var sample = _.find(this.data.external.components, {
-					target: target
+				var sample = _.find(this.data.data, d => {
+					return d.target === target || d.source === target;
 				});
 
-				var callCount = _(this.data.external.components)
-					.filter({
-						target: target
-					})
-					.map(o => o.data.rate_ext)
-					.sum();
+				var callCount = _.defaultTo(
+						_(this.data.data)
+						.filter({
+							target: target
+						})
+						.map(o => o.data.rate_out)
+						.sum()
+					, 0);
 
-				var responseTimeSum = _(this.data.external.components)
-					.filter({
-						target: target
-					})
-					.map(o => o.data.res_time_sum_ext)
-					.sum();
+				var responseTime = _.defaultTo(
+					_(this.data.data)
+						.filter({
+							target: target
+						})
+						.map(o => o.data.res_time_sum_out)
+						.sum()
+					, -1);
 
-				var responseTime = responseTimeSum / callCount;
+				if (this.panelCtrl.panel.sdgSettings.sumTimings && responseTime >= 0) {
+					responseTime = responseTime / callCount;
+				}
 
 				return {
 					name: target,
@@ -193,10 +222,19 @@ class GraphGenerator {
 				var requestRate;
 
 				if (obj.data) {
-					connectionTime = _.defaultTo((obj.data.res_time_sum_out / obj.data.rate_out) - (obj.data.res_time_sum / obj.data.rate), -1);
-
 					errorRate = _.defaultTo(obj.data.err_rate_out, -1);
-					requestRate = _.defaultTo(obj.data.rate, -1);
+
+					if (obj.data.external && obj.data.external === "target") {
+						requestRate = _.defaultTo(obj.data.rate_out, -1);
+					} else {
+						requestRate = _.defaultTo(obj.data.rate, -1);
+					}
+
+					if (this.panelCtrl.panel.sdgSettings.sumTimings && requestRate >= 0) {
+						connectionTime = _.defaultTo((obj.data.res_time_sum_out / obj.data.rate_out) - (obj.data.res_time_sum / obj.data.rate), -1);
+					} else {
+						connectionTime = _.defaultTo(obj.data.res_time_sum_out - obj.data.res_time_sum, -1);
+					}
 				}
 
 				return {
@@ -234,18 +272,7 @@ class GraphGenerator {
 			})
 			.value();
 
-		var externalConnections = _.map(this.data.external.components, obj => {
-			return {
-				source: obj.source,
-				target: obj.target,
-				metrics: {
-					normal: obj.data.rate_ext
-				},
-				updated: Date.now()
-			};
-		});
-
-		var allConnections = _.concat(connections, entryConnections, externalConnections);
+		var allConnections = _.concat(connections, entryConnections);
 
 		_.each(allConnections, c => {
 			if (!_.has(c, 'metadata')) {
