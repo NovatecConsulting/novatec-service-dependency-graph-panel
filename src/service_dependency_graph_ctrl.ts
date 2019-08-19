@@ -21,8 +21,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			responseTimeOutgoingColumn: "response-time-out",
 			requestRateOutgoingColumn: "request-rate-out",
 			errorRateOutgoingColumn: "error-rate-out",
-			responseTimeExternalColumn: "response-time-external",
-			requestRateExternalColumn: "request-rate-external",
 
 			extOrigin: 'external_origin',
 			extTarget: 'external_target',

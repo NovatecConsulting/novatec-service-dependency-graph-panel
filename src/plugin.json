@@ -9,7 +9,7 @@
       "url": "https://www.novatec-gmbh.de/"
     },
     "keywords": [
-      "clock",
+      "service-dependency-graph",
       "panel"
     ],
     "logos": {
@@ -32,7 +32,7 @@
         "path": "img/screenshot-showcase.png"
       }
     ],
-    "version": "0.0.1",
+    "version": "0.3",
     "updated": "2019-03-20"
   },
   "dependencies": {

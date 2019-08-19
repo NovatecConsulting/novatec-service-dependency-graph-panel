@@ -142,8 +142,6 @@ class PreProcessor {
 		nameLookup[Utils.getConfig(this.controller, 'requestRateOutgoingColumn')] = 'rate_out';
 		nameLookup[Utils.getConfig(this.controller, 'errorRateOutgoingColumn')] = 'err_rate_out';
 
-		nameLookup[Utils.getConfig(this.controller, 'requestRateExternalColumn')] = 'rate_ext';
-		nameLookup[Utils.getConfig(this.controller, 'responseTimeExternalColumn')] = 'res_time_sum_ext';
 		nameLookup[Utils.getConfig(this.controller, 'extOrigin')] = 'ext_origin';
 		nameLookup[Utils.getConfig(this.controller, 'extTarget')] = 'ext_target';
 		nameLookup[Utils.getConfig(this.controller, 'type')] = 'type';
@@ -156,7 +154,7 @@ class PreProcessor {
 			return 'target';
 		} else if (name === aggregationType) {
 		
-			if (_.find(table.columns, {text: "origin_service"})) {
+			if (_.find(table.columns, {text: sourcePrefix + aggregationType})) {
 				// incoming
 				return 'target';
 			} else {

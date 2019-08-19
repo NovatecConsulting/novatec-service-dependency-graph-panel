@@ -89,6 +89,11 @@ class GraphGenerator {
 				var healthyPct = 1.0 / (requestCount + errorCount) * requestCount;
 				var errorPct = 1.0 / (requestCount + errorCount) * errorCount;
 
+				if (!healthyPct || !errorPct) {
+					healthyPct = 1.0;
+					errorPct = 0.0;
+				}
+
 				var aggregationType = this.getTemplateVariable('aggregationType');
 				var componentMapping = _.filter(this.data.componentMapping, c => c[aggregationType] == nodeName);
 
@@ -128,7 +133,7 @@ class GraphGenerator {
 					metadata: {
 						componentMapping: componentMapping,
 						aggregation: aggregationType,
-						// centerData: centerData
+						centerData: null
 					},
 					nodeView: 'focused'
 				};
@@ -227,7 +232,7 @@ class GraphGenerator {
 					if (obj.data.external && obj.data.external === "target") {
 						requestRate = _.defaultTo(obj.data.rate_out, -1);
 					} else {
-						requestRate = _.defaultTo(obj.data.rate, -1);
+						requestRate = _.defaultTo(obj.data.rate || obj.data.rate_out, -1);
 					}
 
 					if (this.panelCtrl.panel.sdgSettings.sumTimings && requestRate >= 0) {

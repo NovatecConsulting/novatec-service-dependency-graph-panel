@@ -51,9 +51,3 @@ This plugin is using a modified version of the Vizeral library, thus you have to
 1. Run inside the repository `npm link`
 1. Build it: `npm run build` (or `npm run dev` for development)
 1. Go to the flowmap-plugin directory and execute `npm link vizceral`
-
-#### Changelog
-
-##### v0.0.1
-
-- Initial release
