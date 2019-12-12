@@ -49,5 +49,6 @@ This plugin is using a modified version of the Vizeral library, thus you have to
 1. Clone the Vizceral fork: `git clone https://github.com/NovatecConsulting/vizceral.git`
 1. Checkout the `flowmap` branch: `git checkout -b flowmap`
 1. Run inside the repository `npm link`
+1. Install webpack: `yarn add webpack`
 1. Build it: `npm run build` (or `npm run dev` for development)
 1. Go to the flowmap-plugin directory and execute `npm link vizceral`
