@@ -1,37 +1,33 @@
-import _ from 'lodash';
+import _, { sortBy } from 'lodash';
+import { ServiceDependencyGraphCtrl } from './service_dependency_graph_ctrl';
 
 export class OptionsCtrl {
 	panel: any;
-	panelCtrl: any;
+	controller: ServiceDependencyGraphCtrl;
 	colorModes: any;
 
 	/** @ngInject */
 	constructor($scope) {
 		$scope.editor = this;
 
-		this.panelCtrl = $scope.ctrl;
-		this.panel = this.panelCtrl.panel;
+		this.controller = $scope.ctrl;
+		this.panel = this.controller.panel;
 
 		this.render = this.render.bind(this);
 		this.getColumnNames = this.getColumnNames.bind(this);
 		this.getPrefixCandidates = this.getPrefixCandidates.bind(this);
-		this.getColumnNamesExternal = this.getColumnNamesExternal.bind(this);
 		this.addExternalMapping = this.addExternalMapping.bind(this);
 		this.removeExternalMapping = this.removeExternalMapping.bind(this);
 	}
 
 	addExternalMapping() {
-		this.panel.sdgSettings.externalIcons.push({type: 'my-type', icon: 'default'});
-		this.panelCtrl.render();
+		this.panel.settings.externalIcons.push({ type: 'my-type', icon: 'default' });
+		this.controller.render();
 	}
 
 	removeExternalMapping(index) {
-		this.panel.sdgSettings.externalIcons.splice(index, 1);
-		this.panelCtrl.render();
-	}
-
-	getLayoutOptions() {
-		return ['ltrTree', 'ring', 'ringCenter', 'cytoscape'];
+		this.panel.settings.externalIcons.splice(index, 1);
+		this.controller.render();
 	}
 
 	getExternalIconOptions() {
@@ -39,26 +35,22 @@ export class OptionsCtrl {
 	}
 
 	getColumnNames() {
-		if (this.panelCtrl.currentData) {
-			return _.sortBy(this.panelCtrl.currentData.columns);
-		}
-		return [];
-	}
-
-	getColumnNamesExternal() {
-		if (this.panelCtrl.currentData) {
-			return _.sortBy(this.panelCtrl.currentData.external.columns);
+		const { currentData } = this.controller;
+		if (currentData) {
+			return sortBy(currentData.columnNames);
 		}
 		return [];
 	}
 
 	getPrefixCandidates() {
-		var aggregationType = (_.find(this.panelCtrl.dashboard.templating.list, {
+		var aggregationType = (_.find(this.controller.dashboard.templating.list, {
 			name: 'aggregationType'
 		}) as any).current.value;
 
-		if (this.panelCtrl.currentData) {
-			return _(this.panelCtrl.currentData.columns)
+		const { currentData } = this.controller;
+
+		if (currentData) {
+			return _(currentData.columnNames)
 				.filter(element => element.includes(aggregationType))
 				.map(element => element.slice(0, -aggregationType.length))
 				.value();
@@ -67,7 +59,7 @@ export class OptionsCtrl {
 	}
 
 	render() {
-		this.panelCtrl.render();
+		this.controller.render();
 	}
 }
 

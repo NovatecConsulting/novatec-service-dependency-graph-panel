@@ -32,23 +32,6 @@ __Example Data Table:__
 
 ##### How to build it:
 
-1. Clone the repository and `cd` to it
-1. Make sure you have [yarn]( https://yarnpkg.com/) installed
-1. Install the project dependencies: `yarn install --pure-lockfile`
-1. Link the customized Vizceral fork (see below)
-1. Start the "watch" task: `yarn watch`
-1. Mount the built `dist` directory into Grafana's plugin directory. You can also locate the cloned repository there. Grafana will mount the `dist` directory automatically and ignores the `src` one.
-
 To build a production build with minification: `yarn build`
 
-##### Link Vizceral:
-
-This plugin is using a modified version of the Vizeral library, thus you have to link the customized Vizceral version in order to build the plugin!
-
-1. Ensure that NodeJS and NPM is installed
-1. Clone the Vizceral fork: `git clone https://github.com/NovatecConsulting/vizceral.git`
-1. Checkout the `flowmap` branch: `git checkout -b flowmap`
-1. Run inside the repository `npm link`
-1. Install webpack: `yarn add webpack`
-1. Build it: `npm run build` (or `npm run dev` for development)
-1. Go to the flowmap-plugin directory and execute `npm link vizceral`
+Run the following for hot-reloading during development: `yarn watch`
