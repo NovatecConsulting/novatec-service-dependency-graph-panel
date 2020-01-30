@@ -9,8 +9,10 @@
       "url": "https://www.novatec-gmbh.de/"
     },
     "keywords": [
+      "grafana",
+      "plugin",
       "service-dependency-graph",
-      "panel"
+      "topology"
     ],
     "logos": {
       "small": "img/novatec_sdg_panel_logo.svg",
@@ -32,8 +34,8 @@
         "path": "img/screenshot-showcase.png"
       }
     ],
-    "version": "0.3",
-    "updated": "2019-03-20"
+    "version": "2.0",
+    "updated": "2020-01-30"
   },
   "dependencies": {
     "grafanaVersion": "5.x.x",

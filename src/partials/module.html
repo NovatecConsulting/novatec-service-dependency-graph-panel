@@ -1,12 +1,21 @@
 <div class="clock-panel" ng-style="{height: ctrl.height}">
 
+    <div class="sdg-container" ng-show="ctrl.hasAggregationVariable()&&ctrl.validQueryTypes && ctrl.isDataAvailable()"
+        style="width: 100%; height: 100%"></div>
+
     <div class="zoom-button-container">
+        <button class="btn navbar-button" ng-click="ctrl.toggleAnimation()"><i
+                ng-class="{fa: true, 'fa-play-circle': !ctrl.panel.settings.animate, 'fa-pause-circle': ctrl.panel.settings.animate}"></i></button>
+        <button class="btn navbar-button" ng-click="ctrl.runLayout()"><i class="fa fa-sitemap"></i></button>
+        <button class="btn navbar-button" ng-click="ctrl.fit()"><i class="fa fa-dot-circle-o"></i></button>
         <button class="btn navbar-button" ng-click="ctrl.zoom(+1)"><i class="fa fa-plus"></i></button>
         <button class="btn navbar-button" ng-click="ctrl.zoom(-1)"><i class="fa fa-minus"></i></button>
     </div>
 
-    <div class="vizceral" id="nt-sdg-container" ng-show="ctrl.dataAvailable()" style="width: 100%; height: 100%"></div>
-
-    <div class="noData" ng-show="!ctrl.dataAvailable()">No data to show - the query returned no data.</div>
-
+    <div class="noData" ng-show="ctrl.hasAggregationVariable()&&ctrl.validQueryTypes && !ctrl.isDataAvailable()">No data
+        to show - the query returned no data.</div>
+    <div class="noData" ng-show="ctrl.hasAggregationVariable()&&!ctrl.validQueryTypes">Invalid query types - only use
+        queries which returns table data.</div>
+    <div class="noData" ng-show="!ctrl.hasAggregationVariable()">Please provide a 'aggregationType' template variable.
+    </div>
 </div>
