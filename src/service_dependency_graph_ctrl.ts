@@ -7,7 +7,7 @@ import PreProcessor from './processing/pre_processor'
 import GraphGenerator from './processing/graph_generator'
 
 import GraphCanvas from './canvas/graph_canvas';
-import cytoscape, { NodeSingular, EdgeSingular } from 'cytoscape';
+import cytoscape, { NodeSingular, EdgeSingular, EventObject } from 'cytoscape';
 import cola from 'cytoscape-cola';
 import cyCanvas from 'cytoscape-canvas';
 
@@ -85,6 +85,8 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	validQueryTypes: boolean;
 
+	hasSelection: boolean = false;
+
 	/** @ngInject */
 	constructor($scope, $injector) {
 		super($scope, $injector);
@@ -102,7 +104,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	link(scope, element, attrs, controller) {
 		console.log("Linking container DOM element.");
 
-		this.graphContainer = element.find('.sdg-container')[0];
+		this.graphContainer = element.find('.canvas-container')[0];
 	}
 
 	onRefresh() {
@@ -273,6 +275,17 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			// trigger also repainting of the graph canvas overlay
 			that.graphCanvas.repaint(true);
 		});
+
+		this.cy.on('select', 'node', (event) => that.onSelectionChange(event));
+		this.cy.on('unselect', 'node', (event) => that.onSelectionChange(event));
+	}
+
+	onSelectionChange(event: EventObject) {
+		const selection = this.cy.$(':selected');
+
+		this.hasSelection = !selection.empty();
+
+		this.$scope.$apply();
 	}
 
 	onMount() {

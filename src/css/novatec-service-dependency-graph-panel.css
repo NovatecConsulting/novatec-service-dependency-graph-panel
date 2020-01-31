@@ -1,42 +1,27 @@
-.clock-panel {
+.service-dependency-graph-panel {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
 
-.vizceral {
-  display: block;
-  box-sizing: border-box;
+.graph-container {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
-.vizceral .vizceral-notice {
-  display: block;
-  position: absolute;
-  padding: 0 3px;
-  width: 200px;
-  background-color: black;
-  border-left: 2px solid grey;
-  font-size: 11px;
-  color: grey;
+.service-dependency-graph {
+  position: relative;
+  flex-grow: 1;
+  min-width: 0;
 }
 
-.vizceral .vizceral-notice ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.vizceral .vizceral-notice>ul>li {
-  line-height: 12px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-
-.vizceral .vizceral-notice .subtitle {
-  font-weight: 900;
+.canvas-container {
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
 }
 
 .zoom-button-container {
@@ -44,4 +29,15 @@
   top: 0;
   right: 1rem;
   z-index: 99;
+}
+
+.statistics {
+  background-color: red;
+  flex-basis: 0;
+  transition: flex-basis 250ms ease-in-out;
+  overflow: hidden;
+}
+
+.statistics.show {
+  flex-basis: 250px;
 }
