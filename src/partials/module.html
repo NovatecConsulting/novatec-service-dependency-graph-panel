@@ -1,7 +1,6 @@
 <div class="service-dependency-graph-panel" ng-style="{height: ctrl.height}">
 
-    <div class="graph-container"
-        ng-show="ctrl.hasAggregationVariable() && ctrl.validQueryTypes && ctrl.isDataAvailable()">
+    <div class="graph-container" ng-show="!ctrl.getError()">
         <div class="service-dependency-graph">
             <div class="canvas-container"></div>
 
@@ -18,8 +17,6 @@
         <div ng-class="{statistics: true, 'show': ctrl.hasSelection}">stats</div>
     </div>
 
-    <div ng-show="ctrl.hasAggregationVariable() && ctrl.validQueryTypes && !ctrl.isDataAvailable()">No data to show - the query returned no data.</div>
-    <div ng-show="ctrl.hasAggregationVariable() && !ctrl.validQueryTypes">Invalid query types - only use queries which returns table data.</div>
-    <div ng-show="!ctrl.hasAggregationVariable()">Please provide a 'aggregationType' template variable.</div>
+    <div ng-show="ctrl.getError()">{{ctrl.getError()}}</div>
     
 </div>

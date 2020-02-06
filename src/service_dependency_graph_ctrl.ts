@@ -14,6 +14,8 @@ import cyCanvas from 'cytoscape-canvas';
 import layoutOptions from './layout_options';
 import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse } from './types';
 
+import dummyGraph from './dummy_graph';
+
 // Register cytoscape extensions
 cyCanvas(cytoscape);
 cytoscape.use(cola);
@@ -24,6 +26,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	panelDefaults = {
 		settings: <PanelSettings>{
+			showDummyData: false,
 			animate: true,
 			sumTimings: false,
 			showConnectionStats: true,
@@ -300,10 +303,30 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			this._initCytoscape();
 		}
 
-		if (this.isDataAvailable()) {
-			const graph: IGraph = this.graphGenerator.generateGraph((<CurrentData>this.currentData).graph);
-			this._updateGraph(graph);
+		if (this.getSettings().showDummyData) {
+			this._updateGraph(dummyGraph);
+		} else {
+			if (this.isDataAvailable()) {
+				const graph: IGraph = this.graphGenerator.generateGraph((<CurrentData>this.currentData).graph);
+				this._updateGraph(graph);
+			}
 		}
+	}
+
+	getError(): string | null {
+		if (this.getSettings().showDummyData) {
+			return null;
+		}
+		if (!this.hasAggregationVariable()) {
+			return "Please provide a 'aggregationType' template variable.";
+		}
+		if (!this.validQueryTypes) {
+			return "Invalid query types - only use queries which returns table data.";
+		}
+		if (!this.isDataAvailable()) {
+			return "No data to show - the query returned no data.";
+		}
+		return null;
 	}
 
 	runLayout(unlockNodes: boolean = false) {
