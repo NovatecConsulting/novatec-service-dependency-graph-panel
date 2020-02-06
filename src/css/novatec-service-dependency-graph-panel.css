@@ -32,15 +32,15 @@
 }
 
 .statistics {
-  background-color: black;
+  background-color: transparent;
   flex-basis: 0;
   transition: flex-basis 250ms ease-in-out;
-  overflow: hidden;
+  overflow: scroll;
   
 }
 
 .statistics.show {
-  flex-basis: 290px;
+  flex-basis: 300px;
 }
 
 .header--selection{
@@ -59,7 +59,11 @@
   padding-top: 30px;
   padding-bottom: 10px;
 }
-
+.noSending--selection{
+  font-size: 1.2em;
+  display: block;
+  text-align: center;
+}
 .table--selection {
   width: 100%;
 }

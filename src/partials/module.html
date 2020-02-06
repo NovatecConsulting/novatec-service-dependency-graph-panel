@@ -14,38 +14,43 @@
         </div>
 
         <div ng-class="{statistics: true, 'show': ctrl.hasSelection}">
-            <label id="name" class="header--selection">{{ctrl.selectionId}}</label>
-            <label id="receiving" class="secondHeader--selection">Receiving</label>
-            <table class="table--selection">
-                    <tr>
-                        <th class= "table--th--selection">Name</th>
-                        <th class= "table--th--selection">Time</th>
-                        <th class= "table--th--selection">Requests</th>
-                    </tr>
-                    <tr ng-repeat="x in ctrl.receiving">
-                        <td class="table--td--selection">{{x.name}}</td>
-                        <td class="table--td--selection">{{x.responseTime}}</td>
-                        <td class="table--td--selection">{{x.rate}}</td>
-                    </tr>     
-            </table>
-                  
-            <label id="broadcast" class="secondHeader--selection">Transmission</label>
-            <table class= "table--selection">
+            <label class="header--selection">{{ctrl.selectionId}}</label>
+            <label class="secondHeader--selection">Receiving</label>
+            <label class="noSending--selection" ng-show="ctrl.receiving.length==0">No receiving Data</label>
+            <table class="table--selection" ng-show="ctrl.receiving.length>0">
                 <tr>
-                    <th class= "table--th--selection">Name</th>
-                    <th class= "table--th--selection">Time</th>
-                    <th class= "table--th--selection">Requests</th>
+                    <th class="table--th--selection">Name</th>
+                    <th class="table--th--selection">Time</th>
+                    <th class="table--th--selection">Requests</th>
+                    <th class="table--th--selection">Error Rate</th>
                 </tr>
-                <tr ng-repeat="x in ctrl.broadcast">
+                <tr ng-repeat="x in ctrl.receiving">
                     <td class="table--td--selection">{{x.name}}</td>
                     <td class="table--td--selection">{{x.responseTime}}</td>
                     <td class="table--td--selection">{{x.rate}}</td>
-                </tr> 
+                    <td class="table--td--selection">{{x.error}}</td>
+                </tr>
+            </table>
+            <label class="secondHeader--selection">Sending</label>
+            <label class="noSending--selection" ng-show="ctrl.sending.length==0">No sending Data</label>
+            <table class="table--selection" ng-show="ctrl.sending.length>0">
+                <tr>
+                    <th class="table--th--selection">Name</th>
+                    <th class="table--th--selection">Time</th>
+                    <th class="table--th--selection">Requests</th>
+                    <th class="table--th--selection">Error Rate</th>
+                </tr>
+                <tr ng-repeat="x in ctrl.sending">
+                    <td class="table--td--selection">{{x.name}}</td>
+                    <td class="table--td--selection">{{x.responseTime}}</td>
+                    <td class="table--td--selection">{{x.rate}}</td>
+                    <td class="table--td--selection">{{x.error}}</td>
+                </tr>
 
-            </table>    
+            </table>
         </div>
     </div>
 
     <div ng-show="ctrl.getError()">{{ctrl.getError()}}</div>
-    
+
 </div>

@@ -94,7 +94,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	receiving: any[];
 
-	broadcast: any[];
+	sending: any[];
 
 
 
@@ -306,24 +306,53 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	updateStatisticTable() {
 		const selection = this.cy.$(':selected');
-	
+
 		if (selection.length !== 0) {
 			if (selection.length === 1) {
 				this.selectionId = selection[0].data().id;
 				let receiving = [] as any;
-				let broadcast = [] as any;
-				
+				let sending = [] as any;
 				const selectionData = selection.connectedEdges();
 
 				for (let i = 0; i < selectionData.length; i++) {
+
+					let name;
+					let responseTime = selectionData[i].data().metrics.response_time;
+					let rate = Math.floor(selectionData[i].data().metrics.rate)
+					let node;
+					let error;
+					let percentRate;
+					let nodeRequest;
+
 					if (selectionData[i].source().data().id === this.selectionId) {
-						broadcast.push({ "name": selectionData[i].data().target, "responseTime": selectionData[i].data().metrics.response_time + " ms", "rate": Math.floor(selectionData[i].data().metrics.rate) });
+
+						name = selectionData[i].data().target;
+						node = selection.neighborhood().nodes().getElementById(name);
+						error = node.data().metrics.error_rate;
+						nodeRequest = Math.floor(node.data().metrics.rate);
+					
+						if (error != undefined) {
+							percentRate = error / (nodeRequest / 100);
+						} else {
+							percentRate = 0;
+						}
+						sending.push({ name, responseTime: responseTime+"ms", rate, error: Math.floor(percentRate)+"%" });
 					} else {
-						receiving.push({ "name": selectionData[i].data().source, "responseTime": selectionData[i].data().metrics.response_time + " ms", "rate": Math.floor(selectionData[i].data().metrics.rate) });
+						name = selectionData[i].data().source;
+						node = selection.neighborhood().nodes().getElementById(name);
+						error = node.data().metrics.error_rate;
+						nodeRequest = Math.floor(node.data().metrics.rate);
+
+						if (error != undefined) {
+							percentRate = error / (nodeRequest / 100);
+						} else {
+							percentRate = 0;
+						}
+						receiving.push({ name, responseTime: responseTime+"ms", rate, error: Math.floor(percentRate)+"%"});
 					}
 				}
 				this.receiving = receiving;
-				this.broadcast = broadcast;
+				this.sending = sending;
 			} else {
 				this.hasSelection = false;
 			}
