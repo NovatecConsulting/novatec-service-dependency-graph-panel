@@ -32,12 +32,50 @@
 }
 
 .statistics {
-  background-color: red;
+  background-color: black;
   flex-basis: 0;
   transition: flex-basis 250ms ease-in-out;
   overflow: hidden;
+  
 }
 
 .statistics.show {
-  flex-basis: 250px;
+  flex-basis: 290px;
+}
+
+.header--selection{
+  font-size: 1.7em;
+  display: block;
+  text-align: center;
+  padding-top: 15px;
+  border-bottom: 1px solid white;
+}
+
+.secondHeader--selection{
+
+  font-size: 1.5em;
+  display: block;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
+.table--selection {
+  width: 100%;
+}
+
+.table--th--selection {
+  padding-left: 5px;
+}
+
+.table--td--selection {
+  padding-bottom: 5px;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 1px solid white;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 10em;
 }

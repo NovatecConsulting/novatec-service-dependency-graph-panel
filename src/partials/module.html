@@ -1,5 +1,4 @@
 <div class="service-dependency-graph-panel" ng-style="{height: ctrl.height}">
-
     <div class="graph-container" ng-show="!ctrl.getError()">
         <div class="service-dependency-graph">
             <div class="canvas-container"></div>
@@ -14,7 +13,37 @@
             </div>
         </div>
 
-        <div ng-class="{statistics: true, 'show': ctrl.hasSelection}">stats</div>
+        <div ng-class="{statistics: true, 'show': ctrl.hasSelection}">
+            <label id="name" class="header--selection">{{ctrl.selectionId}}</label>
+            <label id="receiving" class="secondHeader--selection">Receiving</label>
+            <table class="table--selection">
+                    <tr>
+                        <th class= "table--th--selection">Name</th>
+                        <th class= "table--th--selection">Time</th>
+                        <th class= "table--th--selection">Requests</th>
+                    </tr>
+                    <tr ng-repeat="x in ctrl.receiving">
+                        <td class="table--td--selection">{{x.name}}</td>
+                        <td class="table--td--selection">{{x.responseTime}}</td>
+                        <td class="table--td--selection">{{x.rate}}</td>
+                    </tr>     
+            </table>
+                  
+            <label id="broadcast" class="secondHeader--selection">Transmission</label>
+            <table class= "table--selection">
+                <tr>
+                    <th class= "table--th--selection">Name</th>
+                    <th class= "table--th--selection">Time</th>
+                    <th class= "table--th--selection">Requests</th>
+                </tr>
+                <tr ng-repeat="x in ctrl.broadcast">
+                    <td class="table--td--selection">{{x.name}}</td>
+                    <td class="table--td--selection">{{x.responseTime}}</td>
+                    <td class="table--td--selection">{{x.rate}}</td>
+                </tr> 
+
+            </table>    
+        </div>
     </div>
 
     <div ng-show="ctrl.getError()">{{ctrl.getError()}}</div>

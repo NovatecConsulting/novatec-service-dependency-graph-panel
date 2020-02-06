@@ -28,7 +28,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		settings: <PanelSettings>{
 			showDummyData: false,
 			animate: true,
-			sumTimings: false,
+			sumTimings: true,
 			showConnectionStats: true,
 			filterEmptyConnections: true,
 			externalIcons: [
@@ -90,11 +90,21 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	hasSelection: boolean = false;
 
+	selectionId: string;
+
+	receiving: any[];
+
+	broadcast: any[];
+
+
+
 	/** @ngInject */
 	constructor($scope, $injector) {
 		super($scope, $injector);
 
 		_.defaultsDeep(this.panel, this.panelDefaults);
+
+		$scope.name = "api-gateway2";
 
 		this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
 		this.events.on('component-did-mount', this.onMount.bind(this));
@@ -287,8 +297,37 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		const selection = this.cy.$(':selected');
 
 		this.hasSelection = !selection.empty();
+		if (this.hasSelection) {
 
+			this.updateStatisticTable();
+		}
 		this.$scope.$apply();
+	}
+
+	updateStatisticTable() {
+		const selection = this.cy.$(':selected');
+	
+		if (selection.length !== 0) {
+			if (selection.length === 1) {
+				this.selectionId = selection[0].data().id;
+				let receiving = [] as any;
+				let broadcast = [] as any;
+				
+				const selectionData = selection.connectedEdges();
+
+				for (let i = 0; i < selectionData.length; i++) {
+					if (selectionData[i].source().data().id === this.selectionId) {
+						broadcast.push({ "name": selectionData[i].data().target, "responseTime": selectionData[i].data().metrics.response_time + " ms", "rate": Math.floor(selectionData[i].data().metrics.rate) });
+					} else {
+						receiving.push({ "name": selectionData[i].data().source, "responseTime": selectionData[i].data().metrics.response_time + " ms", "rate": Math.floor(selectionData[i].data().metrics.rate) });
+					}
+				}
+				this.receiving = receiving;
+				this.broadcast = broadcast;
+			} else {
+				this.hasSelection = false;
+			}
+		}
 	}
 
 	onMount() {
@@ -305,10 +344,12 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 		if (this.getSettings().showDummyData) {
 			this._updateGraph(dummyGraph);
+			this.updateStatisticTable();
 		} else {
 			if (this.isDataAvailable()) {
 				const graph: IGraph = this.graphGenerator.generateGraph((<CurrentData>this.currentData).graph);
 				this._updateGraph(graph);
+				this.updateStatisticTable();
 			}
 		}
 	}
