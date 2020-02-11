@@ -51,6 +51,11 @@
   border-bottom: 1px solid white;
 }
 
+.openLink--selection{
+  background: transparent;
+  border: none;
+}
+
 .secondHeader--selection{
 
   font-size: 1.5em;

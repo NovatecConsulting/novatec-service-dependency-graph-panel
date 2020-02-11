@@ -14,7 +14,9 @@
         </div>
 
         <div ng-class="{statistics: true, 'show': ctrl.hasSelection}">
-            <label class="header--selection">{{ctrl.selectionId}}</label>
+            <label class="header--selection">{{ctrl.selectionId}}
+                <button class="openLink--selection" ng-click="ctrl.openTraceView()"> -> </button>
+            </label>
             <label class="secondHeader--selection">Receiving</label>
             <label class="noSending--selection" ng-show="ctrl.receiving.length==0">No receiving Data</label>
             <table class="table--selection" ng-show="ctrl.receiving.length>0">

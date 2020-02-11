@@ -58,6 +58,10 @@ export class OptionsCtrl {
 		return [];
 	}
 
+	getTraceBackend() {
+		return ['Zipkin', 'Jaeger'];
+	}
+	
 	render() {
 		this.controller.render();
 	}

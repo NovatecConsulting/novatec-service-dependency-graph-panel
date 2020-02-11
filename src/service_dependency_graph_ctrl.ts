@@ -68,7 +68,19 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				extOrigin: 'external_origin',
 				extTarget: 'external_target',
 				type: 'type'
-			}
+			},
+			traceBackendInformation: [
+				{
+					name: 'Zipkin',
+					link: "http://localhost:9411/zipkin/?serviceName="
+				},
+				{
+					name: 'Jaeger',
+					link: "http://localhost:16686/search?service="
+				}
+			],
+
+
 		}
 	};
 
@@ -96,6 +108,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	sending: any[];
 
+	actualBackendLink: string;
 
 
 	/** @ngInject */
@@ -104,7 +117,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 		_.defaultsDeep(this.panel, this.panelDefaults);
 
-		$scope.name = "api-gateway2";
+		this.actualBackendLink = "http://localhost:9411/zipkin/?serviceName=";
 
 		this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
 		this.events.on('component-did-mount', this.onMount.bind(this));
@@ -330,13 +343,13 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 						node = selection.neighborhood().nodes().getElementById(name);
 						error = node.data().metrics.error_rate;
 						nodeRequest = Math.floor(node.data().metrics.rate);
-					
+
 						if (error != undefined) {
 							percentRate = error / (nodeRequest / 100);
 						} else {
 							percentRate = 0;
 						}
-						sending.push({ name, responseTime: responseTime+"ms", rate, error: Math.floor(percentRate)+"%" });
+						sending.push({ name, responseTime: responseTime + "ms", rate, error: Math.floor(percentRate) + "%" });
 					} else {
 						name = selectionData[i].data().source;
 						node = selection.neighborhood().nodes().getElementById(name);
@@ -348,7 +361,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 						} else {
 							percentRate = 0;
 						}
-						receiving.push({ name, responseTime: responseTime+"ms", rate, error: Math.floor(percentRate)+"%"});
+						receiving.push({ name, responseTime: responseTime + "ms", rate, error: Math.floor(percentRate) + "%" });
 					}
 				}
 				this.receiving = receiving;
@@ -501,5 +514,19 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	getSettings(): PanelSettings {
 		return this.panel.settings;
+	}
+
+	openTraceView() {
+		var win = window.open(this.actualBackendLink + this.selectionId, '_blank');
+		win!.focus();
+	}
+
+	changeBackendLink(selectedBackend) {
+	
+		for (let i = 0; i < this.panel.settings.traceBackendInformation.length; i++) {
+			if (this.panel.settings.traceBackendInformation[i].name === selectedBackend) {
+				this.actualBackendLink = this.panel.settings.traceBackendInformation[i].link;
+			}
+		}
 	}
 }
