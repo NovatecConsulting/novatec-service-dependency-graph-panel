@@ -69,18 +69,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				extTarget: 'external_target',
 				type: 'type'
 			},
-			traceBackendInformation: [
-				{
-					name: 'Zipkin',
-					link: "http://localhost:9411/zipkin/?serviceName="
-				},
-				{
-					name: 'Jaeger',
-					link: "http://localhost:16686/search?service="
-				}
-			],
-
-
+			actualLink: "",
 		}
 	};
 
@@ -108,15 +97,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	sending: TableContent[];
 
-	actualBackendLink: string;
-
-
 	/** @ngInject */
 	constructor($scope, $injector) {
 		super($scope, $injector);
 
 		_.defaultsDeep(this.panel, this.panelDefaults);
-		this.actualBackendLink = "http://localhost:9411/zipkin/?serviceName=";
 		this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
 		this.events.on('component-did-mount', this.onMount.bind(this));
 		this.events.on('refresh', this.onRefresh.bind(this));
@@ -318,7 +303,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	updateStatisticTable() {
 		const selection = this.cy.$(':selected');
-		
+
 		if (selection.length === 1) {
 			this.selectionId = selection[0].id();
 			const receiving: TableContent[] = [];
@@ -512,16 +497,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	}
 
 	openTraceView() {
-		var win = window.open(this.actualBackendLink + this.selectionId, '_blank');
-		win!.focus();
-	}
 
-	changeBackendLink(selectedBackend) {
-	
-		for (let i = 0; i < this.panel.settings.traceBackendInformation.length; i++) {
-			if (this.panel.settings.traceBackendInformation[i].name === selectedBackend) {
-				this.actualBackendLink = this.panel.settings.traceBackendInformation[i].link;
-			}
-		}
+		let actualLink = this.panel.settings.actualLink;
+		actualLink = actualLink.replace('{}', this.selectionId);
+
+		const win = window.open(actualLink, '_blank');
+		win!.focus();
 	}
 }

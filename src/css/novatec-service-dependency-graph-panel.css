@@ -108,3 +108,10 @@
   white-space: nowrap;
   max-width: 6rem;
 }
+
+.test{
+
+  height: 2rem;
+  width: 2rem;
+  padding-bottom: 0.5rem;
+}

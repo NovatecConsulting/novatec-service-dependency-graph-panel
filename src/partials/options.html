@@ -194,15 +194,10 @@
 
         <div class="section gf-form-group">
             <h5 class="section-heading">Trace Backend</h5>
-
-                <select class="input-small gf-form-input width-10"
-                    ng-model="ctrl.panel.settings.traceBackendInformation[0].name"
-                    ng-change="ctrl.changeBackendLink(ctrl.panel.settings.traceBackendInformation[0].name)">
-                    <option ng-repeat="variable in editor.getTraceBackend()" value="{{variable}}">
-                        {{variable}}</option>
-                </select>
-        </div>
-
+                <input type="text" class="input-small gf-form-input width-20"
+                    placeholder="Backend URL"
+                    ng-model="ctrl.panel.settings.actualLink" bs-typeahead="editor.getTraceBackend"
+                    data-min-length=0 data-items=100 ng-change="ctrl.render()" ng-model-onblur />
 
     </div>
 </div>

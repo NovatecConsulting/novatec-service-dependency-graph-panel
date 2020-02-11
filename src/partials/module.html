@@ -12,9 +12,12 @@
                 <button class="btn navbar-button" ng-click="ctrl.zoom(-1)"><i class="fa fa-minus"></i></button>
             </div>
         </div>
-        <div ng-class="{statistics: true, 'show': ctrl.showStatistics">
+        <div ng-class="{statistics: true, 'show': ctrl.showStatistics}">
             <label class="header--selection">{{ctrl.selectionId}}
-                <button class="openLink--selection" ng-click="ctrl.openTraceView()"> -> </button>
+                <button class="openLink--selection" ng-show="ctrl.panel.settings.actualLink.length > 0"
+                     ng-click="ctrl.openTraceView()" ng-disabled="ctrl.panel.settings.actualLink.length === 0">
+                    <img class="test" src="public/plugins/novatec-service-dependency-graph-panel/img/Link.png">
+                </button>
             </label>
             <label class="secondHeader--selection">Receiving</label>
             <label class="noSending--selection" ng-show="ctrl.receiving.length == 0">No receiving Data</label>
@@ -25,11 +28,11 @@
                     <th class="table--th--selectionSmall">Requests</th>
                     <th class="table--th--selectionSmall">Error Rate</th>
                 </tr>
-                <tr ng-repeat="x in ctrl.receiving">
-                    <td class="table--td--selection">{{x.name}}</td>
-                    <td class="table--td--selectionSmall">{{x.responseTime}}</td>
-                    <td class="table--td--selectionSmall">{{x.rate}}</td>
-                    <td class="table--td--selectionSmall">{{x.error}}</td>
+                <tr ng-repeat="node in ctrl.receiving">
+                    <td class="table--td--selection">{{node.name}}</td>
+                    <td class="table--td--selectionSmall">{{node.responseTime}}</td>
+                    <td class="table--td--selectionSmall">{{node.rate}}</td>
+                    <td class="table--td--selectionSmall">{{node.error}}</td>
                 </tr>
             </table>
             <label class="secondHeader--selection">Sending</label>

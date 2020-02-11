@@ -42,6 +42,11 @@ export class OptionsCtrl {
 		return [];
 	}
 
+	getTraceBackend(){
+
+		return ["http://localhost:9411/zipkin/?serviceName=","http://localhost:16686/search?service="]
+	}
+
 	getPrefixCandidates() {
 		var aggregationType = (_.find(this.controller.dashboard.templating.list, {
 			name: 'aggregationType'
@@ -56,10 +61,6 @@ export class OptionsCtrl {
 				.value();
 		}
 		return [];
-	}
-
-	getTraceBackend() {
-		return ['Zipkin', 'Jaeger'];
 	}
 	
 	render() {
