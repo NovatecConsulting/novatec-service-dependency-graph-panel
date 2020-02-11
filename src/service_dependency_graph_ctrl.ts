@@ -7,12 +7,12 @@ import PreProcessor from './processing/pre_processor'
 import GraphGenerator from './processing/graph_generator'
 
 import GraphCanvas from './canvas/graph_canvas';
-import cytoscape, { NodeSingular, EdgeSingular, EventObject } from 'cytoscape';
+import cytoscape, { NodeSingular, EdgeSingular, EventObject, EdgeCollection } from 'cytoscape';
 import cola from 'cytoscape-cola';
 import cyCanvas from 'cytoscape-canvas';
 
 import layoutOptions from './layout_options';
-import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse } from './types';
+import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse, TableContent, IGraphMetrics } from './types';
 
 import dummyGraph from './dummy_graph';
 
@@ -100,13 +100,13 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	validQueryTypes: boolean;
 
-	hasSelection: boolean = false;
+	showStatistics: boolean = false;
 
 	selectionId: string;
 
-	receiving: any[];
+	receiving: TableContent[];
 
-	sending: any[];
+	sending: TableContent[];
 
 	actualBackendLink: string;
 
@@ -116,9 +116,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		super($scope, $injector);
 
 		_.defaultsDeep(this.panel, this.panelDefaults);
-
 		this.actualBackendLink = "http://localhost:9411/zipkin/?serviceName=";
-
 		this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
 		this.events.on('component-did-mount', this.onMount.bind(this));
 		this.events.on('refresh', this.onRefresh.bind(this));
@@ -309,67 +307,64 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	onSelectionChange(event: EventObject) {
 		const selection = this.cy.$(':selected');
 
-		this.hasSelection = !selection.empty();
-		if (this.hasSelection) {
-
+		if(selection.length ===1){
+			this.showStatistics = true;
 			this.updateStatisticTable();
+		}else{
+			this.showStatistics = false;
 		}
 		this.$scope.$apply();
 	}
 
 	updateStatisticTable() {
 		const selection = this.cy.$(':selected');
+		
+		if (selection.length === 1) {
+			this.selectionId = selection[0].id();
+			const receiving: TableContent[] = [];
+			const sending: TableContent[] = [];
+			const edges: EdgeCollection = selection.connectedEdges();
 
-		if (selection.length !== 0) {
-			if (selection.length === 1) {
-				this.selectionId = selection[0].data().id;
-				let receiving = [] as any;
-				let sending = [] as any;
-				const selectionData = selection.connectedEdges();
+			for (let i = 0; i < edges.length; i++) {
 
-				for (let i = 0; i < selectionData.length; i++) {
+				const actualEdge: EdgeSingular = edges[i];
+				const metrics: IGraphMetrics = actualEdge.data('metrics');
+				const { response_time } = metrics;
+				let { rate } = metrics
+				let percentRate: number;
+				let sendingCheck: boolean = false;
+				let node: NodeSingular;
 
-					let name;
-					let responseTime = selectionData[i].data().metrics.response_time;
-					let rate = Math.floor(selectionData[i].data().metrics.rate)
-					let node;
-					let error;
-					let percentRate;
-					let nodeRequest;
-
-					if (selectionData[i].source().data().id === this.selectionId) {
-
-						name = selectionData[i].data().target;
-						node = selection.neighborhood().nodes().getElementById(name);
-						error = node.data().metrics.error_rate;
-						nodeRequest = Math.floor(node.data().metrics.rate);
-
-						if (error != undefined) {
-							percentRate = error / (nodeRequest / 100);
-						} else {
-							percentRate = 0;
-						}
-						sending.push({ name, responseTime: responseTime + "ms", rate, error: Math.floor(percentRate) + "%" });
-					} else {
-						name = selectionData[i].data().source;
-						node = selection.neighborhood().nodes().getElementById(name);
-						error = node.data().metrics.error_rate;
-						nodeRequest = Math.floor(node.data().metrics.rate);
-
-						if (error != undefined) {
-							percentRate = error / (nodeRequest / 100);
-						} else {
-							percentRate = 0;
-						}
-						receiving.push({ name, responseTime: responseTime + "ms", rate, error: Math.floor(percentRate) + "%" });
-					}
+				if (actualEdge.source().data().id === this.selectionId) {
+					node = actualEdge.target();
+					sendingCheck = true;
 				}
-				this.receiving = receiving;
-				this.sending = sending;
-			} else {
-				this.hasSelection = false;
+				else {
+					node = actualEdge.source()
+				}
+
+				const nodeMetrics = node.data('metrics');
+				const error: number = nodeMetrics.error_rate;
+				const nodeRequest: number = Math.floor(nodeMetrics.rate);
+				
+				if (error != undefined) {
+					percentRate = error / (nodeRequest / 100);
+				} else {
+					percentRate = 0;
+				}
+				if (rate != undefined) {
+					rate = Math.floor(rate);
+				}
+				if (sendingCheck) {
+					sending.push({ name: node.id(), responseTime: response_time + "ms", rate, error: Math.floor(percentRate) + "%" });
+				} else {
+					receiving.push({ name: node.id(), responseTime: response_time + "ms", rate, error: Math.floor(percentRate) + "%" });
+
+				}
 			}
-		}
+			this.receiving = receiving;
+			this.sending = sending;
+		} 
 	}
 
 	onMount() {
