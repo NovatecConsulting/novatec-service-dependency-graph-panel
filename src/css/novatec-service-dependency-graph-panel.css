@@ -32,15 +32,15 @@
 }
 
 .statistics {
-  background-color: transparent;
   flex-basis: 0;
   transition: flex-basis 250ms ease-in-out;
-  overflow: scroll;
+  overflow-y: scroll;
   
 }
 
 .statistics.show {
-  flex-basis: 300px;
+  flex-basis: 30rem;
+  
 }
 
 .header--selection{
@@ -70,6 +70,7 @@
 
 .table--th--selection {
   padding-left: 5px;
+  width: 12rem;
 }
 
 .table--td--selection {
@@ -78,8 +79,27 @@
   padding-left: 5px;
   padding-right: 5px;
   border: 1px solid white;
-
+  width: 12rem;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 10em;
+  white-space: nowrap;
+  max-width: 12rem;
+}
+
+.table--th--selectionSmall {
+  padding-left: 5px;
+  width: 6rem;
+}
+
+.table--td--selectionSmall {
+  padding-bottom: 5px;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 1px solid white;
+  width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 6rem;
 }

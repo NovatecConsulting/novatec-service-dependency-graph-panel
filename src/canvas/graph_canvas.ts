@@ -251,8 +251,7 @@ export default class CanvasDrawer {
 
         ctx.fillStyle = 'white';
         ctx.fill();
-        ctx.restore();
-        
+        ctx.restore();    
     }
 
     _drawEdge(ctx: CanvasRenderingContext2D, edge: cytoscape.EdgeSingular, now: number) {
