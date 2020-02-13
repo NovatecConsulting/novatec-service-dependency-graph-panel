@@ -103,3 +103,17 @@
   white-space: nowrap;
   max-width: 6rem;
 }
+
+.header--nodeStatistics {
+  font-size: 1.5em;
+  display: block;
+  text-align: center;
+  padding-top: 30px;
+
+}
+
+.block--nodeStatistics {  
+  display: block;
+  text-align: center;
+  padding-top: 1rem;
+}

@@ -96,6 +96,12 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	sending: TableContent[];
 
+	selfRequest: number | string | undefined;
+
+	selfErrors: number | string | undefined;
+
+	selfAvgRespTime: number | string | undefined;
+
 
 
 	/** @ngInject */
@@ -294,10 +300,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	onSelectionChange(event: EventObject) {
 		const selection = this.cy.$(':selected');
 
-		if(selection.length ===1){
+		if (selection.length === 1) {
 			this.showStatistics = true;
 			this.updateStatisticTable();
-		}else{
+		} else {
 			this.showStatistics = false;
 		}
 		this.$scope.$apply();
@@ -312,13 +318,31 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			const sending: TableContent[] = [];
 			const edges: EdgeCollection = selection.connectedEdges();
 
+			const selfMetrics = selection.nodes()[0].data('metrics');
+
+			if (selfMetrics.rate != undefined) {
+				this.selfRequest = Math.floor(selfMetrics.rate);
+			}else{
+				this.selfRequest = undefined;
+			}
+			if (selfMetrics.error_rate != undefined) {
+				this.selfErrors = Math.floor(selfMetrics.error_rate);
+			}else{
+				this.selfErrors = undefined
+			}
+			if (selfMetrics.response_time != undefined) {
+				this.selfAvgRespTime = Math.floor(selfMetrics.response_time);
+			}else{
+				this.selfAvgRespTime = undefined;
+			}
+
 			for (let i = 0; i < edges.length; i++) {
 
 				const actualEdge: EdgeSingular = edges[i];
 				const metrics: IGraphMetrics = actualEdge.data('metrics');
-				let  response_time: number | string | undefined  = metrics.response_time;
-				let rate: number | string | undefined  = metrics.rate
-				let percentRate:  string;
+				let response_time: number | string | undefined = metrics.response_time;
+				let rate: number | string | undefined = metrics.rate
+				let percentRate: string;
 				let sendingCheck: boolean = false;
 				let node: NodeSingular;
 
@@ -333,34 +357,34 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				const nodeMetrics = node.data('metrics');
 				const error: number = nodeMetrics.error_rate;
 				const nodeRequest: number = Math.floor(nodeMetrics.rate);
-				
+
 				if (error != undefined) {
-					percentRate = Math.floor(error / (nodeRequest / 100))+"%";
-					
+					percentRate = Math.floor(error / (nodeRequest / 100)) + "%";
+
 				} else {
 					percentRate = "-";
 				}
 				if (rate != undefined) {
 					rate = Math.floor(rate);
-				}else{
+				} else {
 					rate = "-"
 				}
-				if(response_time != undefined){
+				if (response_time != undefined) {
 
-					response_time = Math.floor(response_time)+"ms";
-				}else {
+					response_time = Math.floor(response_time) + "ms";
+				} else {
 					response_time = "-";
 				}
 
 				if (sendingCheck) {
-					sending.push({ name: node.id(), responseTime: response_time, rate: rate, error: percentRate  });
+					sending.push({ name: node.id(), responseTime: response_time, rate: rate, error: percentRate });
 				} else {
-					receiving.push({ name: node.id(), responseTime: response_time, rate: rate, error: percentRate  });
+					receiving.push({ name: node.id(), responseTime: response_time, rate: rate, error: percentRate });
 				}
 			}
 			this.receiving = receiving;
 			this.sending = sending;
-		} 
+		}
 	}
 
 	onMount() {

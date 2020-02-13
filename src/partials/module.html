@@ -15,6 +15,12 @@
 
         <div ng-class="{statistics: true, 'show': ctrl.showStatistics}">
             <label class="header--selection">{{ctrl.selectionId}}</label>
+            <label class="header--nodeStatistics">Node Statistics</label>
+            <div class="block--nodeStatistics">
+                <label ng-show="ctrl.selfRequest != undefined">Request: {{ctrl.selfRequest}}</label>
+                <label ng-show="ctrl.selfErrors != undefined">Errors: {{ctrl.selfErrors}}</label>
+                <label ng-show="ctrl.selfAvgRespTime != undefined">Avg. Resp. Time: {{ctrl.selfAvgRespTime}}</label>
+            </div>
             <label class="secondHeader--selection">Receiving</label>
             <label class="noSending--selection" ng-show="ctrl.receiving.length == 0">No receiving Data</label>
             <table class="table--selection" ng-show="ctrl.receiving.length > 0">
