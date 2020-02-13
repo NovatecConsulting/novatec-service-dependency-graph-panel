@@ -1,21 +1,56 @@
-<div class="clock-panel" ng-style="{height: ctrl.height}">
+<div class="service-dependency-graph-panel" ng-style="{height: ctrl.height}">
+    <div class="graph-container" ng-show="!ctrl.getError()">
+        <div class="service-dependency-graph">
+            <div class="canvas-container"></div>
 
-    <div class="sdg-container" ng-show="ctrl.hasAggregationVariable()&&ctrl.validQueryTypes && ctrl.isDataAvailable()"
-        style="width: 100%; height: 100%"></div>
+            <div class="zoom-button-container">
+                <button class="btn navbar-button" ng-click="ctrl.toggleAnimation()"><i
+                        ng-class="{fa: true, 'fa-play-circle': !ctrl.panel.settings.animate, 'fa-pause-circle': ctrl.panel.settings.animate}"></i></button>
+                <button class="btn navbar-button" ng-click="ctrl.runLayout()"><i class="fa fa-sitemap"></i></button>
+                <button class="btn navbar-button" ng-click="ctrl.fit()"><i class="fa fa-dot-circle-o"></i></button>
+                <button class="btn navbar-button" ng-click="ctrl.zoom(+1)"><i class="fa fa-plus"></i></button>
+                <button class="btn navbar-button" ng-click="ctrl.zoom(-1)"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
 
-    <div class="zoom-button-container">
-        <button class="btn navbar-button" ng-click="ctrl.toggleAnimation()"><i
-                ng-class="{fa: true, 'fa-play-circle': !ctrl.panel.settings.animate, 'fa-pause-circle': ctrl.panel.settings.animate}"></i></button>
-        <button class="btn navbar-button" ng-click="ctrl.runLayout()"><i class="fa fa-sitemap"></i></button>
-        <button class="btn navbar-button" ng-click="ctrl.fit()"><i class="fa fa-dot-circle-o"></i></button>
-        <button class="btn navbar-button" ng-click="ctrl.zoom(+1)"><i class="fa fa-plus"></i></button>
-        <button class="btn navbar-button" ng-click="ctrl.zoom(-1)"><i class="fa fa-minus"></i></button>
+        <div ng-class="{statistics: true, 'show': ctrl.showStatistics}">
+            <label class="header--selection">{{ctrl.selectionId}}</label>
+            <label class="secondHeader--selection">Receiving</label>
+            <label class="noSending--selection" ng-show="ctrl.receiving.length == 0">No receiving Data</label>
+            <table class="table--selection" ng-show="ctrl.receiving.length > 0">
+                <tr>
+                    <th class="table--th--selection">Name</th>
+                    <th class="table--th--selection table--th--selectionSmall">Time</th>
+                    <th class="table--th--selection table--th--selectionSmall">Requests</th>
+                    <th class="table--th--selection table--th--selectionSmall">Error Rate</th>
+                </tr>
+                <tr ng-repeat="node in ctrl.receiving">
+                    <td class="table--td--selection">{{node.name}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.responseTime}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.rate}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.error}}</td>
+                </tr>
+            </table>
+            <label class="secondHeader--selection">Sending</label>
+            <label class="noSending--selection" ng-show="ctrl.sending.length == 0">No sending Data</label>
+            <table class="table--selection" ng-show="ctrl.sending.length>0">
+                <tr>
+                    <th class="table--th--selection">Name</th>
+                    <th class="table--th--selection table--th--selectionSmall">Time</th>
+                    <th class="table--th--selection table--th--selectionSmall">Requests</th>
+                    <th class="table--th--selection table--th--selectionSmall">Error Rate</th>
+                </tr>
+                <tr ng-repeat="node in ctrl.sending">
+                    <td class="table--td--selection">{{node.name}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.responseTime}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.rate}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.error}}</td>
+                </tr>
+
+            </table>
+        </div>
     </div>
 
-    <div class="noData" ng-show="ctrl.hasAggregationVariable()&&ctrl.validQueryTypes && !ctrl.isDataAvailable()">No data
-        to show - the query returned no data.</div>
-    <div class="noData" ng-show="ctrl.hasAggregationVariable()&&!ctrl.validQueryTypes">Invalid query types - only use
-        queries which returns table data.</div>
-    <div class="noData" ng-show="!ctrl.hasAggregationVariable()">Please provide a 'aggregationType' template variable.
-    </div>
+    <div ng-show="ctrl.getError()">{{ctrl.getError()}}</div>
+
 </div>

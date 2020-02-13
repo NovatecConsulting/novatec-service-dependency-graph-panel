@@ -251,7 +251,7 @@ export default class CanvasDrawer {
 
         ctx.fillStyle = 'white';
         ctx.fill();
-        ctx.restore();
+        ctx.restore();    
     }
 
     _drawEdge(ctx: CanvasRenderingContext2D, edge: cytoscape.EdgeSingular, now: number) {
@@ -465,14 +465,13 @@ export default class CanvasDrawer {
             const requestCount = _.defaultTo(metrics.rate, 1);
             const errorCount = _.defaultTo(metrics.error_rate, 0);
 
-            const totalCount = requestCount + errorCount;
-            var healthyPct;
-            if (totalCount <= 0) {
-                healthyPct = 1.0;
+            var errorPct;
+            if (errorCount <= 0) {
+                errorPct = 0.0;
             } else {
-                healthyPct = 1.0 / totalCount * requestCount;
+                errorPct = 1.0 / requestCount * errorCount;
             }
-            const errorPct = 1.0 - healthyPct;
+            const healthyPct = 1.0 - errorPct;
 
             // drawing the donut
             this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, 0, healthyPct])
