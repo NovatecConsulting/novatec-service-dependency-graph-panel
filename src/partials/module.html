@@ -20,15 +20,15 @@
             <table class="table--selection" ng-show="ctrl.receiving.length > 0">
                 <tr>
                     <th class="table--th--selection">Name</th>
-                    <th class="table--th--selectionSmall">Time</th>
-                    <th class="table--th--selectionSmall">Requests</th>
-                    <th class="table--th--selectionSmall">Error Rate</th>
+                    <th class="table--th--selection table--th--selectionSmall">Time</th>
+                    <th class="table--th--selection table--th--selectionSmall">Requests</th>
+                    <th class="table--th--selection table--th--selectionSmall">Error Rate</th>
                 </tr>
                 <tr ng-repeat="node in ctrl.receiving">
                     <td class="table--td--selection">{{node.name}}</td>
-                    <td class="table--td--selectionSmall">{{node.responseTime}}</td>
-                    <td class="table--td--selectionSmall">{{node.rate}}</td>
-                    <td class="table--td--selectionSmall">{{node.error}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.responseTime}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.rate}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.error}}</td>
                 </tr>
             </table>
             <label class="secondHeader--selection">Sending</label>
@@ -36,15 +36,15 @@
             <table class="table--selection" ng-show="ctrl.sending.length>0">
                 <tr>
                     <th class="table--th--selection">Name</th>
-                    <th class="table--th--selectionSmall">Time</th>
-                    <th class="table--th--selectionSmall">Requests</th>
-                    <th class="table--th--selectionSmall">Error Rate</th>
+                    <th class="table--th--selection table--th--selectionSmall">Time</th>
+                    <th class="table--th--selection table--th--selectionSmall">Requests</th>
+                    <th class="table--th--selection table--th--selectionSmall">Error Rate</th>
                 </tr>
                 <tr ng-repeat="node in ctrl.sending">
                     <td class="table--td--selection">{{node.name}}</td>
-                    <td class="table--td--selectionSmall">{{node.responseTime}}</td>
-                    <td class="table--td--selectionSmall">{{node.rate}}</td>
-                    <td class="table--td--selectionSmall">{{node.error}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.responseTime}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.rate}}</td>
+                    <td class="table--td--selection table--td--selectionSmall">{{node.error}}</td>
                 </tr>
 
             </table>
