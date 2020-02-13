@@ -138,6 +138,6 @@ export interface CyCanvas {
 export interface TableContent {
     name: string;
     responseTime: string;
-    rate: number | undefined;
+    rate: number | string | undefined;
     error:  string;
 }

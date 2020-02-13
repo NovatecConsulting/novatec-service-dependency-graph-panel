@@ -316,9 +316,9 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 				const actualEdge: EdgeSingular = edges[i];
 				const metrics: IGraphMetrics = actualEdge.data('metrics');
-				const { response_time } = metrics;
-				let { rate } = metrics
-				let percentRate: number;
+				let  response_time: number | string | undefined  = metrics.response_time;
+				let rate: number | string | undefined  = metrics.rate
+				let percentRate:  string;
 				let sendingCheck: boolean = false;
 				let node: NodeSingular;
 
@@ -335,17 +335,27 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				const nodeRequest: number = Math.floor(nodeMetrics.rate);
 				
 				if (error != undefined) {
-					percentRate = error / (nodeRequest / 100);
+					percentRate = Math.floor(error / (nodeRequest / 100))+"%";
+					
 				} else {
-					percentRate = 0;
+					percentRate = "-";
 				}
 				if (rate != undefined) {
 					rate = Math.floor(rate);
+				}else{
+					rate = "-"
 				}
+				if(response_time != undefined){
+
+					response_time = Math.floor(response_time)+"ms";
+				}else {
+					response_time = "-";
+				}
+
 				if (sendingCheck) {
-					sending.push({ name: node.id(), responseTime: response_time + "ms", rate, error: Math.floor(percentRate) + "%" });
+					sending.push({ name: node.id(), responseTime: response_time, rate: rate, error: percentRate  });
 				} else {
-					receiving.push({ name: node.id(), responseTime: response_time + "ms", rate, error: Math.floor(percentRate) + "%" });
+					receiving.push({ name: node.id(), responseTime: response_time, rate: rate, error: percentRate  });
 				}
 			}
 			this.receiving = receiving;
