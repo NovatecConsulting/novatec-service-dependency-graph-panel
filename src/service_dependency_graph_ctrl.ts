@@ -317,7 +317,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				const actualEdge: EdgeSingular = edges[i];
 				const metrics: IGraphMetrics = actualEdge.data('metrics');
 				let { response_time, rate } = metrics;
-				let sendingCheck: boolean = actualEdge.source().data().id === this.selectionId;
+				let sendingCheck: boolean = actualEdge.source().id() === this.selectionId;
 				let node: NodeSingular;
 
 				if (sendingCheck) {
