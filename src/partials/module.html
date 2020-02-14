@@ -15,12 +15,23 @@
 
         <div ng-class="{statistics: true, 'show': ctrl.showStatistics}">
             <div class="header--selection">{{ctrl.selectionId}}</div>
-            <label class="header--nodeStatistics">Node Statistics</label>
-            <div class="block--nodeStatistics">
-                <label ng-show="ctrl.selfRequest != undefined">Request: {{ctrl.selfRequest}}</label>
-                <label ng-show="ctrl.selfErrors != undefined">Errors: {{ctrl.selfErrors}}</label>
-                <label ng-show="ctrl.selfAvgRespTime != undefined">Avg. Resp. Time: {{ctrl.selfAvgRespTime}}</label>
-            </div>
+            <div class="secondHeader--selection">Node Statistics</div>
+
+            <table class="table-node-selection">
+                <tr ng-show= "ctrl.selfRequest != undefined">
+                    <td class="table--node--selection table-node--left--selection">Request</td>
+                    <td class="table--node--selection table-node--right--selection">{{ctrl.selfRequest}}</td>
+                </tr>
+                <tr ng-show= "ctrl.selfErrors != undefined">
+                    <td class="table--node--selection table-node--left--selection">Errors</td>
+                    <td class="table--node--selection table-node--right--selection">{{ctrl.selfErrors}}</td>
+                </tr>
+                <tr ng-show= "ctrl.selfAvgRespTime != undefined">
+                    <td class="table--node--selection table-node--left--selection">Avg. Resp. Time</td>
+                    <td class="table--node--selection table-node--right--selection">{{ctrl.selfAvgRespTime}}</td>
+                </tr>
+            </table>
+
             <div class="secondHeader--selection">Receiving</div>
             <div class="no-data--selection" ng-show="ctrl.receiving.length == 0">No receiving Data</div>
             <table class="table--selection" ng-show="ctrl.receiving.length > 0">

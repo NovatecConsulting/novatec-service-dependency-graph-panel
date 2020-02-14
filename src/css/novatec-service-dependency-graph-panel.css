@@ -43,12 +43,35 @@
   padding-left: 0.5%;
 }
 
-.header--selection{
+.header--selection {
   font-size: 1.25em;
   text-align: center;
   border-bottom: 2px solid #161719;
   font-weight: 500;
   color: rgb(216, 217, 218);
+}
+
+.table-node-selection {
+  margin: 0 auto;
+}
+
+
+.table--node--selection {
+  background-color: #28282a;
+  border-top: 2px solid #161719;
+  border-bottom: 2px solid #161719;
+  
+}
+
+.table-node--left--selection {
+  color: #33b5e5;
+  border-left: 2px solid #161719;
+}
+
+
+.table-node--right--selection {
+  padding-left: 1rem;
+  border-right: 2px solid #161719;
 }
 
 .secondHeader--selection {
