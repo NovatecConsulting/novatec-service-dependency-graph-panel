@@ -7,12 +7,14 @@ import PreProcessor from './processing/pre_processor'
 import GraphGenerator from './processing/graph_generator'
 
 import GraphCanvas from './canvas/graph_canvas';
-import cytoscape, { NodeSingular, EdgeSingular } from 'cytoscape';
+import cytoscape, { NodeSingular, EdgeSingular, EventObject, EdgeCollection } from 'cytoscape';
 import cola from 'cytoscape-cola';
 import cyCanvas from 'cytoscape-canvas';
 
 import layoutOptions from './layout_options';
-import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse } from './types';
+import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse, TableContent, IGraphMetrics } from './types';
+
+import dummyGraph from './dummy_graph';
 
 // Register cytoscape extensions
 cyCanvas(cytoscape);
@@ -24,8 +26,9 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	panelDefaults = {
 		settings: <PanelSettings>{
+			showDummyData: false,
 			animate: true,
-			sumTimings: false,
+			sumTimings: true,
 			showConnectionStats: true,
 			filterEmptyConnections: true,
 			externalIcons: [
@@ -85,6 +88,16 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	validQueryTypes: boolean;
 
+	showStatistics: boolean = false;
+
+	selectionId: string;
+
+	receiving: TableContent[];
+
+	sending: TableContent[];
+
+
+
 	/** @ngInject */
 	constructor($scope, $injector) {
 		super($scope, $injector);
@@ -102,7 +115,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	link(scope, element, attrs, controller) {
 		console.log("Linking container DOM element.");
 
-		this.graphContainer = element.find('.sdg-container')[0];
+		this.graphContainer = element.find('.canvas-container')[0];
 	}
 
 	onRefresh() {
@@ -273,6 +286,72 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			// trigger also repainting of the graph canvas overlay
 			that.graphCanvas.repaint(true);
 		});
+
+		this.cy.on('select', 'node', (event) => that.onSelectionChange(event));
+		this.cy.on('unselect', 'node', (event) => that.onSelectionChange(event));
+	}
+
+	onSelectionChange(event: EventObject) {
+		const selection = this.cy.$(':selected');
+
+		if (selection.length === 1) {
+			this.showStatistics = true;
+			this.updateStatisticTable();
+		} else {
+			this.showStatistics = false;
+		}
+		this.$scope.$apply();
+	}
+
+	updateStatisticTable() {
+		const selection = this.cy.$(':selected');
+
+		if (selection.length === 1) {
+			this.selectionId = selection[0].id();
+			const receiving: TableContent[] = [];
+			const sending: TableContent[] = [];
+			const edges: EdgeCollection = selection.connectedEdges();
+
+			for (let i = 0; i < edges.length; i++) {
+
+				const actualEdge: EdgeSingular = edges[i];
+				const metrics: IGraphMetrics = actualEdge.data('metrics');
+				let { response_time, rate } = metrics;
+				let sendingCheck: boolean = actualEdge.source().id() === this.selectionId;
+				let node: NodeSingular;
+
+				if (sendingCheck) {
+					node = actualEdge.target();
+				}
+				else {
+					node = actualEdge.source()
+				}
+
+				const nodeMetrics = node.data('metrics');
+				const error: number = nodeMetrics.error_rate;
+				const nodeRequest: number = Math.floor(nodeMetrics.rate);
+				let sendingObject: TableContent = { name: node.id(), responseTime: "-", rate: "-", error: "-" };
+
+				if (error != undefined) {
+					sendingObject.error = Math.floor(error / (nodeRequest / 100)) + "%";
+				}
+				if (rate != undefined) {
+					sendingObject.rate = Math.floor(rate).toString();
+				}
+				if (response_time != undefined) {
+
+					sendingObject.responseTime = Math.floor(response_time) + "ms";
+				}
+
+				if (sendingCheck) {
+					sending.push(sendingObject);
+				} else {
+					receiving.push(sendingObject);
+				}
+			}
+			this.receiving = receiving;
+			this.sending = sending;
+		}
 	}
 
 	onMount() {
@@ -287,10 +366,32 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			this._initCytoscape();
 		}
 
-		if (this.isDataAvailable()) {
-			const graph: IGraph = this.graphGenerator.generateGraph((<CurrentData>this.currentData).graph);
-			this._updateGraph(graph);
+		if (this.getSettings().showDummyData) {
+			this._updateGraph(dummyGraph);
+			this.updateStatisticTable();
+		} else {
+			if (this.isDataAvailable()) {
+				const graph: IGraph = this.graphGenerator.generateGraph((<CurrentData>this.currentData).graph);
+				this._updateGraph(graph);
+				this.updateStatisticTable();
+			}
 		}
+	}
+
+	getError(): string | null {
+		if (this.getSettings().showDummyData) {
+			return null;
+		}
+		if (!this.hasAggregationVariable()) {
+			return "Please provide a 'aggregationType' template variable.";
+		}
+		if (!this.validQueryTypes) {
+			return "Invalid query types - only use queries which returns table data.";
+		}
+		if (!this.isDataAvailable()) {
+			return "No data to show - the query returned no data.";
+		}
+		return null;
 	}
 
 	runLayout(unlockNodes: boolean = false) {

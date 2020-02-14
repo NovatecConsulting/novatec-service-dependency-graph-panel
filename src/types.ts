@@ -7,6 +7,7 @@ export interface PanelSettings {
     showConnectionStats: boolean;
     externalIcons: IconResource[];
     dataMapping: DataMapping;
+    showDummyData: boolean;
 };
 
 export interface DataMapping {
@@ -133,3 +134,10 @@ export interface CyCanvas {
     resetTransform: (CanvasRenderingContext2D) => void;
     setTransform: (CanvasRenderingContext2D) => void;
 };
+
+export interface TableContent {
+    name: string;
+    responseTime: string;
+    rate:  string;
+    error:  string;
+}
