@@ -292,10 +292,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	onSelectionChange(event: EventObject) {
 		const selection = this.cy.$(':selected');
 
-		if(selection.length ===1){
+		if (selection.length === 1) {
 			this.showStatistics = true;
 			this.updateStatisticTable();
-		}else{
+		} else {
 			this.showStatistics = false;
 		}
 		this.$scope.$apply();
@@ -314,15 +314,13 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 				const actualEdge: EdgeSingular = edges[i];
 				const metrics: IGraphMetrics = actualEdge.data('metrics');
-				const { response_time } = metrics;
-				let { rate } = metrics
-				let percentRate: number;
-				let sendingCheck: boolean = false;
+
+				let { response_time, rate } = metrics;
+				let sendingCheck: boolean = actualEdge.source().id() === this.selectionId;
 				let node: NodeSingular;
 
-				if (actualEdge.source().data().id === this.selectionId) {
+				if (sendingCheck) {
 					node = actualEdge.target();
-					sendingCheck = true;
 				}
 				else {
 					node = actualEdge.source()
@@ -331,25 +329,30 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				const nodeMetrics = node.data('metrics');
 				const error: number = nodeMetrics.error_rate;
 				const nodeRequest: number = Math.floor(nodeMetrics.rate);
-				
+
+				let sendingObject: TableContent = { name: node.id(), responseTime: "-", rate: "-", error: "-" };
+
 				if (error != undefined) {
-					percentRate = error / (nodeRequest / 100);
-				} else {
-					percentRate = 0;
+					sendingObject.error = Math.floor(error / (nodeRequest / 100)) + "%";
 				}
 				if (rate != undefined) {
-					rate = Math.floor(rate);
+					sendingObject.rate = Math.floor(rate).toString();
 				}
-				if (sendingCheck) {
-					sending.push({ name: node.id(), responseTime: response_time + "ms", rate, error: Math.floor(percentRate) + "%" });
-				} else {
-					receiving.push({ name: node.id(), responseTime: response_time + "ms", rate, error: Math.floor(percentRate) + "%" });
+				if (response_time != undefined) {
 
+					sendingObject.responseTime = Math.floor(response_time) + "ms";
+				}
+
+				if (sendingCheck) {
+					sending.push(sendingObject);
+				} else {
+					receiving.push(sendingObject);
 				}
 			}
 			this.receiving = receiving;
 			this.sending = sending;
-		} 
+		}
+
 	}
 
 	onMount() {

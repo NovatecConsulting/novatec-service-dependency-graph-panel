@@ -40,15 +40,55 @@
 
 .statistics.show {
   flex-basis: 30rem;
-  
+  padding-left: 0.5%;
 }
 
 .header--selection{
-  font-size: 1.7em;
+  font-size: 1.25em;
+  text-align: center;
+  border-bottom: 2px solid #161719;
+  font-weight: 500;
+  color: rgb(216, 217, 218);
+}
+
+.secondHeader--selection {
+  font-size: 1.2em;
+  text-align: center;
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+.no-data--selection{
+  font-size: 1.2em;
   display: block;
   text-align: center;
-  padding-top: 15px;
-  border-bottom: 1px solid white;
+}
+.table--selection {
+  width: 99%;
+  table-layout: fixed;
+}
+
+.table--selection th, .table--selection td {
+  padding: 3px 5px;
+}
+
+.table--selection tr {
+  border-bottom: 2px solid #161719;
+}
+
+.table--td--selection {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table--th--selectionSmall {
+  width: 5.5rem;
+}
+
+.table--selection--head {
+  background-color: #28282a;
+  border-top: 2px solid #161719;
+  color: #33b5e5;
 }
 
 .openLink--selection{
@@ -56,60 +96,7 @@
   border: none;
 }
 
-.secondHeader--selection{
-
-  font-size: 1.5em;
-  display: block;
-  text-align: center;
-  padding-top: 30px;
-  padding-bottom: 10px;
-}
-.noSending--selection{
-  font-size: 1.2em;
-  display: block;
-  text-align: center;
-}
-.table--selection {
-  width: 100%;
-}
-
-.table--th--selection {
-  padding-left: 5px;
-  width: 12rem;
-}
-
-.table--td--selection {
-  padding-bottom: 5px;
-  padding-top: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border: 1px solid white;
-  width: 12rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 12rem;
-}
-
-.table--th--selectionSmall {
-  padding-left: 5px;
-  width: 6rem;
-}
-
-.table--td--selectionSmall {
-  padding-bottom: 5px;
-  padding-top: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border: 1px solid white;
-  width: 6rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 6rem;
-}
-
-.test{
+.send-image--selection{
 
   height: 2rem;
   width: 2rem;
