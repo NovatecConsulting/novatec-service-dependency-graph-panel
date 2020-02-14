@@ -340,15 +340,12 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 				const actualEdge: EdgeSingular = edges[i];
 				const metrics: IGraphMetrics = actualEdge.data('metrics');
-				let response_time: number | string | undefined = metrics.response_time;
-				let rate: number | string | undefined = metrics.rate
-				let percentRate: string;
-				let sendingCheck: boolean = false;
+				let { response_time, rate } = metrics;
+				let sendingCheck: boolean = actualEdge.source().id() === this.selectionId;
 				let node: NodeSingular;
 
-				if (actualEdge.source().data().id === this.selectionId) {
+				if (sendingCheck) {
 					node = actualEdge.target();
-					sendingCheck = true;
 				}
 				else {
 					node = actualEdge.source()
@@ -358,28 +355,23 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				const error: number = nodeMetrics.error_rate;
 				const nodeRequest: number = Math.floor(nodeMetrics.rate);
 
-				if (error != undefined) {
-					percentRate = Math.floor(error / (nodeRequest / 100)) + "%";
+				let sendingObject: TableContent = { name: node.id(), responseTime: "-", rate: "-", error: "-" };
 
-				} else {
-					percentRate = "-";
+				if (error != undefined) {
+					sendingObject.error = Math.floor(error / (nodeRequest / 100)) + "%";
 				}
 				if (rate != undefined) {
-					rate = Math.floor(rate);
-				} else {
-					rate = "-"
+					sendingObject.rate = Math.floor(rate).toString();
 				}
 				if (response_time != undefined) {
 
-					response_time = Math.floor(response_time) + "ms";
-				} else {
-					response_time = "-";
+					sendingObject.responseTime = Math.floor(response_time) + "ms";
 				}
 
 				if (sendingCheck) {
-					sending.push({ name: node.id(), responseTime: response_time, rate: rate, error: percentRate });
+					sending.push(sendingObject);
 				} else {
-					receiving.push({ name: node.id(), responseTime: response_time, rate: rate, error: percentRate });
+					receiving.push(sendingObject);
 				}
 			}
 			this.receiving = receiving;
