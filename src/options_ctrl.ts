@@ -44,7 +44,8 @@ export class OptionsCtrl {
 
 	getTraceBackend() {
 
-		return ["http://localhost:9411/zipkin/?serviceName={}", "http://localhost:9411/zipkin/?serviceName={}&lookback=custom&startTs=[[__from]]", "http://localhost:16686/search?service={}"]
+		return ["http://localhost:9411/zipkin/?serviceName={}", "http://localhost:9411/zipkin/?serviceName={}&lookback=custom&startTs=[[__from]]&endTs=[[__to]]", "http://localhost:16686/search?service={}&end=[[__to]]&limit=20&lookback=custom&start=[[__from]]"
+		]
 	}
 
 	getPrefixCandidates() {

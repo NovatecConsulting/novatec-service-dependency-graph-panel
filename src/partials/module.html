@@ -16,8 +16,8 @@
 
         <div ng-class="{statistics: true, 'show': ctrl.showStatistics}">
             <div class="header--selection">{{ctrl.selectionId}}
-                <a target="_blank" ng-href="{{ctrl.panel.settings.changeDrillDownLink}}"
-                    ng-show="ctrl.panel.settings.drillDownLink.length > 0">
+                <a target="_blank" ng-href="{{ctrl.resolvedDrillDownLink}}"
+                    ng-show="ctrl.resolvedDrillDownLink && ctrl.resolvedDrillDownLink.length > 0 && ctrl.currentType === 'INTERNAL'">
                     <i class="fa fa-paper-plane-o"></i>
                 </a>
             </div>

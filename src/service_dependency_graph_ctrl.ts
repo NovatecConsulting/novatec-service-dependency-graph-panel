@@ -70,7 +70,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				type: 'type'
 			},
 			drillDownLink: "",
-			changeDrillDownLink: "",
 		}
 	};
 
@@ -97,6 +96,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	receiving: TableContent[];
 
 	sending: TableContent[];
+
+	resolvedDrillDownLink: string;
+
+	currentType: string;
 
 	/** @ngInject */
 	constructor($scope, $injector) {
@@ -306,7 +309,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		const selection = this.cy.$(':selected');
 
 		if (selection.length === 1) {
-			this.selectionId = selection[0].id();
+			const currentNode: NodeSingular = selection[0];
+			this.selectionId = currentNode.id();
+			this.currentType = currentNode.data('type');
+			console.log(this.currentType);
+			console.log(currentNode.data('type'));
 			const receiving: TableContent[] = [];
 			const sending: TableContent[] = [];
 			const edges: EdgeCollection = selection.connectedEdges();
@@ -504,9 +511,8 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	}
 
 	generateDrillDownLink() {
-
-		let drillDownLink = this.panel.settings.drillDownLink;
-		let changeDrillDownLink = drillDownLink.replace('{}', this.selectionId);
-		this.panel.settings.changeDrillDownLink = this.templateSrv.replace(changeDrillDownLink);
+		const { drillDownLink } = this.getSettings();
+		const link = drillDownLink.replace('{}', this.selectionId);
+		this.resolvedDrillDownLink = this.templateSrv.replace(link);
 	}
 }
