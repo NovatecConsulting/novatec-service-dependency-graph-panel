@@ -42,6 +42,12 @@ export class OptionsCtrl {
 		return [];
 	}
 
+	getTraceBackend() {
+
+		return ["http://localhost:9411/zipkin/?serviceName={}", "http://localhost:9411/zipkin/?serviceName={}&lookback=custom&startTs=[[__from]]&endTs=[[__to]]", "http://localhost:16686/search?service={}&end=[[__to]]&limit=20&lookback=custom&start=[[__from]]"
+		]
+	}
+
 	getPrefixCandidates() {
 		var aggregationType = (_.find(this.controller.dashboard.templating.list, {
 			name: 'aggregationType'

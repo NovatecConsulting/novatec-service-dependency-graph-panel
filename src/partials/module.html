@@ -13,8 +13,14 @@
             </div>
         </div>
 
+
         <div ng-class="{statistics: true, 'show': ctrl.showStatistics}">
-            <div class="header--selection">{{ctrl.selectionId}}</div>
+            <div class="header--selection">{{ctrl.selectionId}}
+                <a target="_blank" ng-href="{{ctrl.resolvedDrillDownLink}}"
+                    ng-show="ctrl.resolvedDrillDownLink && ctrl.resolvedDrillDownLink.length > 0 && ctrl.currentType === 'INTERNAL'">
+                    <i class="fa fa-paper-plane-o"></i>
+                </a>
+            </div>
             <div class="secondHeader--selection">Receiving</div>
             <div class="no-data--selection" ng-show="ctrl.receiving.length == 0">No receiving Data</div>
             <table class="table--selection" ng-show="ctrl.receiving.length > 0">
@@ -51,7 +57,6 @@
             </table>
         </div>
     </div>
-
     <div ng-show="ctrl.getError()">{{ctrl.getError()}}</div>
 
 </div>

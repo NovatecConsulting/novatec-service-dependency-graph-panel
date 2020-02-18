@@ -68,7 +68,8 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				extOrigin: 'external_origin',
 				extTarget: 'external_target',
 				type: 'type'
-			}
+			},
+			drillDownLink: "",
 		}
 	};
 
@@ -96,14 +97,15 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	sending: TableContent[];
 
+	resolvedDrillDownLink: string;
 
+	currentType: string;
 
 	/** @ngInject */
 	constructor($scope, $injector) {
 		super($scope, $injector);
 
 		_.defaultsDeep(this.panel, this.panelDefaults);
-
 		this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
 		this.events.on('component-did-mount', this.onMount.bind(this));
 		this.events.on('refresh', this.onRefresh.bind(this));
@@ -307,7 +309,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		const selection = this.cy.$(':selected');
 
 		if (selection.length === 1) {
-			this.selectionId = selection[0].id();
+			const currentNode: NodeSingular = selection[0];
+			this.selectionId = currentNode.id();
+			this.currentType = currentNode.data('type');
+			console.log(this.currentType);
+			console.log(currentNode.data('type'));
 			const receiving: TableContent[] = [];
 			const sending: TableContent[] = [];
 			const edges: EdgeCollection = selection.connectedEdges();
@@ -316,6 +322,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 				const actualEdge: EdgeSingular = edges[i];
 				const metrics: IGraphMetrics = actualEdge.data('metrics');
+
 				let { response_time, rate } = metrics;
 				let sendingCheck: boolean = actualEdge.source().id() === this.selectionId;
 				let node: NodeSingular;
@@ -330,6 +337,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				const nodeMetrics = node.data('metrics');
 				const error: number = nodeMetrics.error_rate;
 				const nodeRequest: number = Math.floor(nodeMetrics.rate);
+
 				let sendingObject: TableContent = { name: node.id(), responseTime: "-", rate: "-", error: "-" };
 
 				if (error != undefined) {
@@ -351,7 +359,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			}
 			this.receiving = receiving;
 			this.sending = sending;
+
+			this.generateDrillDownLink();
 		}
+
 	}
 
 	onMount() {
@@ -361,6 +372,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	onRender(payload) {
 		console.log("render");
+
 
 		if (!this.cy) {
 			this._initCytoscape();
@@ -496,5 +508,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	getSettings(): PanelSettings {
 		return this.panel.settings;
+	}
+
+	generateDrillDownLink() {
+		const { drillDownLink } = this.getSettings();
+		const link = drillDownLink.replace('{}', this.selectionId);
+		this.resolvedDrillDownLink = this.templateSrv.replace(link);
 	}
 }
