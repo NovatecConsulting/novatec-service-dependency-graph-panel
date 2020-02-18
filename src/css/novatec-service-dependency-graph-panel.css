@@ -57,11 +57,13 @@
   padding-top: 1.5rem;
   padding-bottom: 0.5rem;
 }
+
 .no-data--selection{
   font-size: 1.2em;
   display: block;
   text-align: center;
 }
+
 .table--selection {
   width: 99%;
   table-layout: fixed;
@@ -91,14 +93,4 @@
   color: #33b5e5;
 }
 
-.openLink--selection{
-  background: transparent;
-  border: none;
-}
 
-.send-image--selection{
-
-  height: 2rem;
-  width: 2rem;
-  padding-bottom: 0.5rem;
-}

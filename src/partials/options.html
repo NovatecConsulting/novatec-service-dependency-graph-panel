@@ -141,67 +141,62 @@
                 <gf-form-switch class="gf-form" label="Show Dummy Data" label-class="width-16"
                     checked="ctrl.panel.settings.showDummyData" on-change="ctrl.render()"></gf-form-switch>
             </div>
-            
-            <div class="gf-form-inline">
-                <gf-form-switch class="gf-form" label="Show Dummy Data" label-class="width-16" checked="ctrl.panel.settings.showDummyData" on-change="ctrl.render()"></gf-form-switch>
-            </div>
-        </div>
+            <div class="section gf-form-group">
+                <h5 class="section-heading">Appearance</h5>
 
-        <div class="section gf-form-group">
-            <h5 class="section-heading">Appearance</h5>
+                <div class="gf-form-inline">
+                    <label class="gf-form-label width-8">Healthy Color</label>
+                    <span class="gf-form-label">
+                        <spectrum-picker ng-model="ctrl.panel.settings.style.healthyColor" ng-change="ctrl.render()">
+                        </spectrum-picker>
+                    </span>
 
-            <div class="gf-form-inline">
-                <label class="gf-form-label width-8">Healthy Color</label>
-                <span class="gf-form-label">
-                    <spectrum-picker ng-model="ctrl.panel.settings.style.healthyColor" ng-change="ctrl.render()">
-                    </spectrum-picker>
-                </span>
-
-                <label class="gf-form-label width-8">Danger Color</label>
-                <span class="gf-form-label">
-                    <spectrum-picker ng-model="ctrl.panel.settings.style.dangerColor" ng-change="ctrl.render()">
-                    </spectrum-picker>
-                </span>
-            </div>
-        </div>
-
-        <div class="section gf-form-group">
-            <h5 class="section-heading">External Service Icon Mapping</h5>
-
-            <div class="gf-form-inline">
-                <div class="gf-form">
-                    <label class="gf-form-label width-10">Target Type</label>
-                    <label class="gf-form-label width-10">Icon</label>
+                    <label class="gf-form-label width-8">Danger Color</label>
+                    <span class="gf-form-label">
+                        <spectrum-picker ng-model="ctrl.panel.settings.style.dangerColor" ng-change="ctrl.render()">
+                        </spectrum-picker>
+                    </span>
                 </div>
             </div>
 
-            <div class="gf-form-inline" ng-repeat="(index, mapping) in ctrl.panel.settings.externalIcons">
-                <div class="gf-form">
-                    <input type="text" class="input-small gf-form-input width-10"
-                        ng-model="ctrl.panel.settings.externalIcons[index].name" ng-change="ctrl.render()"
-                        ng-model-onblur />
+            <div class="section gf-form-group">
+                <h5 class="section-heading">External Service Icon Mapping</h5>
 
-                    <select class="input-small gf-form-input width-10"
-                        ng-model="ctrl.panel.settings.externalIcons[index].filename" ng-change="ctrl.render()">
-                        <option ng-repeat="variable in editor.getExternalIconOptions()" value="{{variable}}">
-                            {{variable}}</option>
-                    </select>
-
-                    <a class="gf-form-label tight-form-func" ng-click="editor.removeExternalMapping(index)"><i
-                            class="fa fa-trash"></i></a>
+                <div class="gf-form-inline">
+                    <div class="gf-form">
+                        <label class="gf-form-label width-10">Target Type</label>
+                        <label class="gf-form-label width-10">Icon</label>
+                    </div>
                 </div>
+
+                <div class="gf-form-inline" ng-repeat="(index, mapping) in ctrl.panel.settings.externalIcons">
+                    <div class="gf-form">
+                        <input type="text" class="input-small gf-form-input width-10"
+                            ng-model="ctrl.panel.settings.externalIcons[index].name" ng-change="ctrl.render()"
+                            ng-model-onblur />
+
+                        <select class="input-small gf-form-input width-10"
+                            ng-model="ctrl.panel.settings.externalIcons[index].filename" ng-change="ctrl.render()">
+                            <option ng-repeat="variable in editor.getExternalIconOptions()" value="{{variable}}">
+                                {{variable}}</option>
+                        </select>
+
+                        <a class="gf-form-label tight-form-func" ng-click="editor.removeExternalMapping(index)"><i
+                                class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+
+                <button class="btn navbar-button navbar-button--primary" ng-click="editor.addExternalMapping()">Add
+                    External
+                    Service Icon Mapping</button>
             </div>
 
-            <button class="btn navbar-button navbar-button--primary" ng-click="editor.addExternalMapping()">Add External
-                Service Icon Mapping</button>
+            <div class="section gf-form-group">
+                <h5 class="section-heading">Trace Backend</h5>
+                <input type="text" class="input-small gf-form-input width-20" placeholder="Backend URL"
+                    ng-model="ctrl.panel.settings.drillDownLink" bs-typeahead="editor.getTraceBackend" data-min-length=0
+                    data-items=100 ng-change="ctrl.render()" ng-model-onblur />
+
+            </div>
         </div>
-
-        <div class="section gf-form-group">
-            <h5 class="section-heading">Trace Backend</h5>
-                <input type="text" class="input-small gf-form-input width-20"
-                    placeholder="Backend URL"
-                    ng-model="ctrl.panel.settings.actualLink" bs-typeahead="editor.getTraceBackend"
-                    data-min-length=0 data-items=100 ng-change="ctrl.render()" ng-model-onblur />
-
     </div>
-</div>

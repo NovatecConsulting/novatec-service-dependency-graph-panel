@@ -42,9 +42,9 @@ export class OptionsCtrl {
 		return [];
 	}
 
-	getTraceBackend(){
+	getTraceBackend() {
 
-		return ["http://localhost:9411/zipkin/?serviceName=","http://localhost:16686/search?service="]
+		return ["http://localhost:9411/zipkin/?serviceName={}", "http://localhost:9411/zipkin/?serviceName={}&lookback=custom&startTs=[[__from]]", "http://localhost:16686/search?service={}"]
 	}
 
 	getPrefixCandidates() {
@@ -62,7 +62,7 @@ export class OptionsCtrl {
 		}
 		return [];
 	}
-	
+
 	render() {
 		this.controller.render();
 	}

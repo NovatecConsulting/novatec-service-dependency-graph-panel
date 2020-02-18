@@ -16,10 +16,10 @@
 
         <div ng-class="{statistics: true, 'show': ctrl.showStatistics}">
             <div class="header--selection">{{ctrl.selectionId}}
-                <button class="openLink--selection" ng-show="ctrl.panel.settings.actualLink.length > 0"
-                    ng-click="ctrl.openTraceView()" ng-disabled="ctrl.panel.settings.actualLink.length === 0">
-                   <img class="send-image--selection" src="public/plugins/novatec-service-dependency-graph-panel/img/Link.png">
-               </button>
+                <a target="_blank" ng-href="{{ctrl.panel.settings.changeDrillDownLink}}"
+                    ng-show="ctrl.panel.settings.drillDownLink.length > 0">
+                    <i class="fa fa-paper-plane-o"></i>
+                </a>
             </div>
             <div class="secondHeader--selection">Receiving</div>
             <div class="no-data--selection" ng-show="ctrl.receiving.length == 0">No receiving Data</div>

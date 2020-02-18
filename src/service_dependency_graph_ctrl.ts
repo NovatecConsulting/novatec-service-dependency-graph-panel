@@ -69,7 +69,8 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				extTarget: 'external_target',
 				type: 'type'
 			},
-			actualLink: "",
+			drillDownLink: "",
+			changeDrillDownLink: "",
 		}
 	};
 
@@ -351,6 +352,8 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			}
 			this.receiving = receiving;
 			this.sending = sending;
+
+			this.generateDrillDownLink();
 		}
 
 	}
@@ -362,6 +365,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	onRender(payload) {
 		console.log("render");
+
 
 		if (!this.cy) {
 			this._initCytoscape();
@@ -499,12 +503,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		return this.panel.settings;
 	}
 
-	openTraceView() {
+	generateDrillDownLink() {
 
-		let actualLink = this.panel.settings.actualLink;
-		actualLink = actualLink.replace('{}', this.selectionId);
-
-		const win = window.open(actualLink, '_blank');
-		win!.focus();
+		let drillDownLink = this.panel.settings.drillDownLink;
+		let changeDrillDownLink = drillDownLink.replace('{}', this.selectionId);
+		this.panel.settings.changeDrillDownLink = this.templateSrv.replace(changeDrillDownLink);
 	}
 }
