@@ -49,6 +49,20 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 					filename: 'http'
 				}
 			],
+			internalIcons: [
+				{
+					name: 'api',
+					filename: 'ocelot'
+				},
+				{
+					name: 'vets',
+					filename: 'elefant'
+				},
+				{
+					name: 'cust',
+					filename: 'affe'
+				}
+			],
 			style: {
 				healthyColor: 'rgb(87, 148, 242)',
 				dangerColor: 'rgb(184, 36, 36)'
@@ -312,8 +326,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			const currentNode: NodeSingular = selection[0];
 			this.selectionId = currentNode.id();
 			this.currentType = currentNode.data('type');
-			console.log(this.currentType);
-			console.log(currentNode.data('type'));
 			const receiving: TableContent[] = [];
 			const sending: TableContent[] = [];
 			const edges: EdgeCollection = selection.connectedEdges();
@@ -481,24 +493,32 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		return variable.current.value;
 	}
 
-	getAssetUrl(assetName: string) {
+	getAssetUrl(assetName: string, internal: boolean) {
 		var baseUrl = 'public/plugins/' + this.panel.type;
-		return baseUrl + '/assets/' + assetName;
+		if (!internal) {
+			return baseUrl + '/assets/' + assetName;
+		} else {
+			return baseUrl + '/assets/' + assetName;
+		}
 	}
 
-	getTypeSymbol(type) {
-		if (!type) {
-			return this.getAssetUrl('default.png');
-		}
+	getTypeSymbol(type, internal: boolean) {
 
-		const { externalIcons } = this.getSettings();
+		if (!internal) {
+			if (!type) {
+				return this.getAssetUrl('default.png', false);
+			}
 
-		const icon = find(externalIcons, icon => icon.name.toLowerCase() === type.toLowerCase());
-
-		if (icon !== undefined) {
-			return this.getAssetUrl(icon.filename + '.png');
+			const { externalIcons } = this.getSettings();
+			const icon = find(externalIcons, icon => icon.name.toLowerCase() === type.toLowerCase());
+			if (icon !== undefined) {
+				return this.getAssetUrl(icon.filename + '.png', false);
+			} else {
+				return this.getAssetUrl('default.png', false);
+			}
 		} else {
-			return this.getAssetUrl('default.png');
+
+			return this.getAssetUrl(type, true);
 		}
 	}
 

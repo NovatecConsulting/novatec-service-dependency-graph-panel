@@ -24,6 +24,7 @@
     "@types/jest": "^23.3.9",
     "@types/lodash": "^4.14.118",
     "@types/moment": "^2.13.0",
+    "@types/node": "^13.7.2",
     "babel": "~6.5.1",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",

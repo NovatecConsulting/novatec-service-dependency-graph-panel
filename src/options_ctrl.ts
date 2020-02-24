@@ -1,6 +1,10 @@
 import _, { sortBy } from 'lodash';
 import { ServiceDependencyGraphCtrl } from './service_dependency_graph_ctrl';
 
+const options = require("./internalIconOptions.json");
+
+
+
 export class OptionsCtrl {
 	panel: any;
 	controller: ServiceDependencyGraphCtrl;
@@ -25,13 +29,33 @@ export class OptionsCtrl {
 		this.controller.render();
 	}
 
+	addInternalMapping() {
+		this.panel.settings.internalIcons.push({ type: 'my-type', icon: 'default' });
+		this.controller.render();
+	}
+
 	removeExternalMapping(index) {
 		this.panel.settings.externalIcons.splice(index, 1);
 		this.controller.render();
 	}
 
+	removeInternalMapping(index) {
+		this.panel.settings.internalIcons.splice(index, 1);
+		this.controller.render();
+	}
+
 	getExternalIconOptions() {
 		return ['default', 'message', 'database', 'http', 'web', 'balancer'];
+	}
+
+	getInternalIconOptions() {
+		
+		let filename: string [] =[]; 
+
+		options.forEach(function(obj){
+			filename.push(obj.filename);
+		})
+		return filename;
 	}
 
 	getColumnNames() {

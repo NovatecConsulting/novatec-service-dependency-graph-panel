@@ -6,6 +6,7 @@ export interface PanelSettings {
     showDebugInformation: boolean;
     showConnectionStats: boolean;
     externalIcons: IconResource[];
+    internalIcons: IconResource[];
     dataMapping: DataMapping;
     showDummyData: boolean;
     drillDownLink: string;

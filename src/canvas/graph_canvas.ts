@@ -3,6 +3,8 @@ import { ServiceDependencyGraphCtrl } from '../service_dependency_graph_ctrl';
 import ParticleEngine from './particle_engine';
 import { CyCanvas, IGraphMetrics, Particle, EGraphNodeType, Particles } from '../types';
 
+const options = require("../internalIconOptions.json");
+
 export default class CanvasDrawer {
 
     readonly colors = {
@@ -15,6 +17,8 @@ export default class CanvasDrawer {
     };
 
     readonly donutRadius: number = 15;
+
+    test: boolean;
 
     controller: ServiceDependencyGraphCtrl;
 
@@ -47,6 +51,7 @@ export default class CanvasDrawer {
     lastRenderTime: number = 0;
 
     constructor(ctrl: ServiceDependencyGraphCtrl, cy: cytoscape.Core, cyCanvas: CyCanvas) {
+        this.test = true;
         this.cytoscape = cy;
         this.cyCanvas = cyCanvas;
         this.controller = ctrl;
@@ -96,9 +101,9 @@ export default class CanvasDrawer {
         }
     }
 
-    _getImageAsset(assetName) {
+    _getImageAsset(assetName, internal: boolean) {
         if (!_.has(this.imageAssets, assetName)) {
-            const assetUrl = this.controller.getTypeSymbol(assetName);
+            const assetUrl = this.controller.getTypeSymbol(assetName, internal);
             this._loadImage(assetUrl, assetName);
         }
 
@@ -251,7 +256,7 @@ export default class CanvasDrawer {
 
         ctx.fillStyle = 'white';
         ctx.fill();
-        ctx.restore();    
+        ctx.restore();
     }
 
     _drawEdge(ctx: CanvasRenderingContext2D, edge: cytoscape.EdgeSingular, now: number) {
@@ -473,6 +478,8 @@ export default class CanvasDrawer {
             }
             const healthyPct = 1.0 - errorPct;
 
+            // this._drawInternalService(ctx, node);
+
             // drawing the donut
             this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, 0, healthyPct])
         } else {
@@ -533,7 +540,8 @@ export default class CanvasDrawer {
 
         const nodeType = node.data('external_type');
 
-        const image = this._getImageAsset(nodeType);
+
+        const image = this._getImageAsset(nodeType, false);
         if (image != null) {
             ctx.drawImage(image, cX - size / 2, cY - size / 2, size, size);
         }
@@ -585,6 +593,7 @@ export default class CanvasDrawer {
         ctx.fillStyle = 'white';
         ctx.fill();
 
+
         const { healthyColor, dangerColor } = this.controller.getSettings().style;
         const colors = [dangerColor, this.colors.status.warning, healthyColor];
         for (let i = 0; i < percentages.length; i++) {
@@ -603,13 +612,46 @@ export default class CanvasDrawer {
         ctx.arc(cX, cY, radius - width - strokeWidth, 0, 2 * Math.PI, false);
         if (node.selected()) {
             ctx.fillStyle = 'white';
+            ctx.fill();
         } else {
             ctx.fillStyle = this.colors.background;
+            ctx.fill();
         }
-        ctx.fill();
+
+        const image = this._getCorrectImage(ctx, node);
+        if (image != null) {
+            ctx.drawImage(image, cX - 12 / 2, cY - 12 / 2, 12, 12);
+        }
+        // ctx.fill();
         // ctx.clip();
         // ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         // ctx.restore();
+    }
+
+    _getCorrectImage(ctx, node: cytoscape.NodeSingular) {
+
+        const internalIcons = this.controller.getSettings().internalIcons;
+        const nodeId = node.data('id');
+
+        for (let i = 0; i < internalIcons.length; i++) {
+
+            let regExp = new RegExp(internalIcons[i].name, 'i');
+            // search the node
+            if (nodeId.match(regExp)) {
+
+                // search the picture
+                for (let j = 0; j < options.length; j++) {
+                    if (options[j].filename === internalIcons[i].filename) {
+                        console.log(options[j].icon);
+
+                        const image = this._getImageAsset(options[j].icon, true);
+                        return image;
+                    }
+                }
+
+            }
+        }
+        return null;
     }
 
     _drawArc(ctx: CanvasRenderingContext2D, currentArc, cX, cY, radius, percent, color) {
