@@ -585,6 +585,7 @@ export default class CanvasDrawer {
     _drawDonut(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, radius, width, strokeWidth, percentages) {
         const cX = node.position().x;
         const cY = node.position().y;
+        const size = 12;
 
         let currentArc = -Math.PI / 2; // offset
 
@@ -618,9 +619,9 @@ export default class CanvasDrawer {
             ctx.fill();
         }
 
-        const image = this._getCorrectImage(ctx, node);
+        const image = this._getCorrectImage(node);
         if (image != null) {
-            ctx.drawImage(image, cX - 12 / 2, cY - 12 / 2, 12, 12);
+            ctx.drawImage(image, cX - size / 2, cY - size / 2, size, size);
         }
         // ctx.fill();
         // ctx.clip();
@@ -628,7 +629,7 @@ export default class CanvasDrawer {
         // ctx.restore();
     }
 
-    _getCorrectImage(ctx, node: cytoscape.NodeSingular) {
+    _getCorrectImage(node: cytoscape.NodeSingular) {
 
         const internalIcons = this.controller.getSettings().internalIcons;
         const nodeId = node.data('id');
@@ -648,7 +649,6 @@ export default class CanvasDrawer {
                         return image;
                     }
                 }
-
             }
         }
         return null;
