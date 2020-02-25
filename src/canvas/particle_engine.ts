@@ -12,7 +12,7 @@ export default class ParticleEngine {
 
     // spawnInterval: number | null ;
 
-    spawnInterval: any;
+     spawnInterval: any;
 
     constructor(canvasDrawer: CanvasDrawer) {
         this.drawer = canvasDrawer;

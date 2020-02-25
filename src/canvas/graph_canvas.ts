@@ -632,7 +632,7 @@ export default class CanvasDrawer {
     _getCorrectImage(node: cytoscape.NodeSingular) {
 
         const internalIcons = this.controller.getSettings().internalIcons;
-        const nodeId = node.data('id');
+        const nodeId = node.id();
 
         for (let i = 0; i < internalIcons.length; i++) {
 
@@ -643,8 +643,6 @@ export default class CanvasDrawer {
                 // search the picture
                 for (let j = 0; j < options.length; j++) {
                     if (options[j].filename === internalIcons[i].filename) {
-                        console.log(options[j].icon);
-
                         const image = this._getImageAsset(options[j].icon, true);
                         return image;
                     }
