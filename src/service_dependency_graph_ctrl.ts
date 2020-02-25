@@ -320,8 +320,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			const currentNode: NodeSingular = selection[0];
 			this.selectionId = currentNode.id();
 			this.currentType = currentNode.data('type');
-			console.log(this.currentType);
-			console.log(currentNode.data('type'));
 			const receiving: TableContent[] = [];
 			const sending: TableContent[] = [];
 			const edges: EdgeCollection = selection.connectedEdges();
