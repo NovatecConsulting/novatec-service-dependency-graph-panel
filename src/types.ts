@@ -8,6 +8,7 @@ export interface PanelSettings {
     externalIcons: IconResource[];
     dataMapping: DataMapping;
     showDummyData: boolean;
+    drillDownLink: string;
 };
 
 export interface DataMapping {

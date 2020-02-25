@@ -80,11 +80,13 @@
   padding-top: 1.5rem;
   padding-bottom: 0.5rem;
 }
+
 .no-data--selection{
   font-size: 1.2em;
   display: block;
   text-align: center;
 }
+
 .table--selection {
   width: 99%;
   table-layout: fixed;
@@ -113,3 +115,5 @@
   border-top: 2px solid #161719;
   color: #33b5e5;
 }
+
+
