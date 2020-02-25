@@ -41,7 +41,7 @@ module.exports = {
       { from: '../LICENSE', to: '.' },
       { from: 'partials/*', to: '.' },
       { from: 'img/*', to: '.' },
-      { from: 'assets/*', to: '.' },
+      { from: 'assets/**', to: '.' },
     ]),
   ],
   resolve: {

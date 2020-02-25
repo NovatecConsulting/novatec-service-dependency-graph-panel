@@ -498,7 +498,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		if (!internal) {
 			return baseUrl + '/assets/' + assetName;
 		} else {
-			return baseUrl + '/assets/' + assetName;
+			return baseUrl + '/assets/internal/' + assetName;
 		}
 	}
 
