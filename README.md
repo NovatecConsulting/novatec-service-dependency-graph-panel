@@ -2,14 +2,6 @@
 
 ![Service Dependency Graph Showcase](src/img/screenshot-showcase.png)
 
-### How to use it
-
-##### Interaction
-
-You can move a node by dragging it. You can also move the whole service dependency graph (SDG) by dragging its background.
-
-You can zoom in and out of the SDG by using the mouse wheel while the SHIFT key is pressed.
-
 ##### Data Model
 
 The data model is not final, yet.
@@ -23,10 +15,11 @@ The table must be structured as follows:
 
 __Example Data Table:__
 
-| origin_component | target_component | my_value |
+| origin_component | target_component | my_value | another_value |
 |---|---|---|
-| comp_a | comp_b | 200 |
-| comp_b | comp_c | 100 |
+| comp_a | comp_b | 200 | |
+| comp_a | comp_b | | 200 |
+| comp_b | comp_c | 100 | |
 
 ### Development
 
