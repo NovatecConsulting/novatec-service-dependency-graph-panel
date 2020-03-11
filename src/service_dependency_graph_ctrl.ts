@@ -12,7 +12,7 @@ import cola from 'cytoscape-cola';
 import cyCanvas from 'cytoscape-canvas';
 
 import layoutOptions from './layout_options';
-import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse, TableContent, IGraphMetrics } from './types';
+import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse, TableContent, IGraphMetrics, ISelectionStatistics } from './types';
 
 import dummyGraph from './dummy_graph';
 
@@ -100,6 +100,8 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	resolvedDrillDownLink: string;
 
 	currentType: string;
+
+	selectionStatistics: ISelectionStatistics;
 
 	/** @ngInject */
 	constructor($scope, $injector) {
@@ -312,11 +314,23 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			const currentNode: NodeSingular = selection[0];
 			this.selectionId = currentNode.id();
 			this.currentType = currentNode.data('type');
-			console.log(this.currentType);
-			console.log(currentNode.data('type'));
 			const receiving: TableContent[] = [];
 			const sending: TableContent[] = [];
 			const edges: EdgeCollection = selection.connectedEdges();
+
+			const metrics = selection.nodes()[0].data('metrics');
+
+			this.selectionStatistics = {};
+
+			if (metrics.rate != undefined) {
+				this.selectionStatistics.requests = Math.floor(metrics.rate);
+			}
+			if (metrics.error_rate != undefined) {
+				this.selectionStatistics.errors = Math.floor(metrics.error_rate);
+			}
+			if (metrics.response_time != undefined) {
+				this.selectionStatistics.responseTime = Math.floor(metrics.response_time);
+			}
 
 			for (let i = 0; i < edges.length; i++) {
 
@@ -362,17 +376,15 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 			this.generateDrillDownLink();
 		}
-
 	}
 
 	onMount() {
-		console.log("mount");
+		// console.log("mount");
 		this.render();
 	}
 
 	onRender(payload) {
-		console.log("render");
-
+		// console.log("render");
 
 		if (!this.cy) {
 			this._initCytoscape();

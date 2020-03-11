@@ -139,6 +139,12 @@ export interface CyCanvas {
 export interface TableContent {
     name: string;
     responseTime: string;
-    rate:  string;
-    error:  string;
-}
+    rate: string;
+    error: string;
+};
+
+export interface ISelectionStatistics {
+    requests?: number;
+    errors?: number;
+    responseTime?: number;
+};

@@ -43,7 +43,7 @@
   padding-left: 0.5%;
 }
 
-.header--selection{
+.header--selection {
   font-size: 1.25em;
   text-align: center;
   border-bottom: 2px solid #161719;
@@ -59,8 +59,7 @@
 }
 
 .no-data--selection{
-  font-size: 1.2em;
-  display: block;
+  color: #888888;
   text-align: center;
 }
 
@@ -85,6 +84,10 @@
 
 .table--th--selectionSmall {
   width: 5.5rem;
+}
+
+.table--th--selectionMedium {
+  width: 8rem;
 }
 
 .table--selection--head {
