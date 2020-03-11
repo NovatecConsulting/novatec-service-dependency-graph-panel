@@ -50,7 +50,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.js|\.tsx?$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
@@ -58,17 +58,6 @@ module.exports = {
             presets: ['@babel/preset-env']
           }
         }
-      },
-      {
-        test: /\.tsx?$/,
-        loaders: [
-          {
-            loader: 'babel-loader',
-            options: { presets: ['env'] },
-          },
-          'ts-loader',
-        ],
-        exclude: /(node_modules)/,
       },
       {
         test: /\.css$/,

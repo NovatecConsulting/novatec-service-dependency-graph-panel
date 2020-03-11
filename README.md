@@ -16,7 +16,7 @@ The table must be structured as follows:
 __Example Data Table:__
 
 | origin_component | target_component | my_value | another_value |
-|---|---|---|
+|---|---|---|---|
 | comp_a | comp_b | 200 | |
 | comp_a | comp_b | | 200 |
 | comp_b | comp_c | 100 | |
