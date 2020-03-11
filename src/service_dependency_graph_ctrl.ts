@@ -12,7 +12,7 @@ import cola from 'cytoscape-cola';
 import cyCanvas from 'cytoscape-canvas';
 
 import layoutOptions from './layout_options';
-import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse, TableContent, IGraphMetrics } from './types';
+import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse, TableContent, IGraphMetrics, ISelectionStatistics } from './types';
 
 import dummyGraph from './dummy_graph';
 
@@ -97,17 +97,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	sending: TableContent[];
 
-	selfRequest: number | string | undefined;
-
-	selfErrors: number | string | undefined;
-
-	selfAvgRespTime: number | string | undefined;
-
-
 	resolvedDrillDownLink: string;
 
-
 	currentType: string;
+
+	selectionStatistics: ISelectionStatistics;
 
 	/** @ngInject */
 	constructor($scope, $injector) {
@@ -324,22 +318,18 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			const sending: TableContent[] = [];
 			const edges: EdgeCollection = selection.connectedEdges();
 
-			const selfMetrics = selection.nodes()[0].data('metrics');
+			const metrics = selection.nodes()[0].data('metrics');
 
-			if (selfMetrics.rate != undefined) {
-				this.selfRequest = Math.floor(selfMetrics.rate);
-			}else{
-				this.selfRequest = undefined;
+			this.selectionStatistics = {};
+
+			if (metrics.rate != undefined) {
+				this.selectionStatistics.requests = Math.floor(metrics.rate);
 			}
-			if (selfMetrics.error_rate != undefined) {
-				this.selfErrors = Math.floor(selfMetrics.error_rate);
-			}else{
-				this.selfErrors = undefined
+			if (metrics.error_rate != undefined) {
+				this.selectionStatistics.errors = Math.floor(metrics.error_rate);
 			}
-			if (selfMetrics.response_time != undefined) {
-				this.selfAvgRespTime = Math.floor(selfMetrics.response_time);
-			}else{
-				this.selfAvgRespTime = undefined;
+			if (metrics.response_time != undefined) {
+				this.selectionStatistics.responseTime = Math.floor(metrics.response_time);
 			}
 
 			for (let i = 0; i < edges.length; i++) {
@@ -386,17 +376,15 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 			this.generateDrillDownLink();
 		}
-
 	}
 
 	onMount() {
-		console.log("mount");
+		// console.log("mount");
 		this.render();
 	}
 
 	onRender(payload) {
-		console.log("render");
-
+		// console.log("render");
 
 		if (!this.cy) {
 			this._initCytoscape();

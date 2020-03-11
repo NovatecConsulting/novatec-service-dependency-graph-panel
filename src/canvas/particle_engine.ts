@@ -10,10 +10,8 @@ export default class ParticleEngine {
 
     minSpawnPropability: number = 0.01;
 
-    // spawnInterval: number | null;
-
-    spawnInterval: any;
-
+    spawnInterval: number | null;
+    
     constructor(canvasDrawer: CanvasDrawer) {
         this.drawer = canvasDrawer;
     }

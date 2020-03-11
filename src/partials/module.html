@@ -20,24 +20,33 @@
                     <i class="fa fa-paper-plane-o"></i>
                 </a>
             </div>
-            <div class="secondHeader--selection">Node Statistics</div>
-
-            <table class="table-node-selection">
-                <tr ng-show="ctrl.selfRequest != undefined">
-                    <td class="table--node--selection table-node--left--selection">Request</td>
-                    <td class="table--node--selection table-node--right--selection">{{ctrl.selfRequest}}</td>
+            
+            <div class="secondHeader--selection">Statistics</div>
+            <table class="table--selection">
+                <tr class="table--selection--head">
+                    <th>Name</th>
+                    <th class="table--th--selectionMedium">Value</th>
                 </tr>
-                <tr ng-show="ctrl.selfErrors != undefined">
-                    <td class="table--node--selection table-node--left--selection">Errors</td>
-                    <td class="table--node--selection table-node--right--selection">{{ctrl.selfErrors}}</td>
+                <tr ng-show="ctrl.selectionStatistics.requests">
+                    <td class="table--td--selection">Request</td>
+                    <td class="table--td--selection">{{ctrl.selectionStatistics.requests}}</td>
                 </tr>
-                <tr ng-show="ctrl.selfAvgRespTime != undefined">
-                    <td class="table--node--selection table-node--left--selection">Avg. Resp. Time</td>
-                    <td class="table--node--selection table-node--right--selection">{{ctrl.selfAvgRespTime}}</td>
+                <tr ng-show="ctrl.selectionStatistics.errors">
+                    <td class="table--td--selection">Errors</td>
+                    <td class="table--td--selection">{{ctrl.selectionStatistics.errors}}</td>
+                </tr>
+                <tr ng-show="ctrl.selectionStatistics.requests && ctrl.selectionStatistics.errors">
+                    <td class="table--td--selection">Error Rate</td>
+                    <td class="table--td--selection">{{ (100 / ctrl.selectionStatistics.requests * ctrl.selectionStatistics.errors) | number:1 }}%</td>
+                </tr>
+                <tr ng-show="ctrl.selectionStatistics.responseTime">
+                    <td class="table--td--selection">Avg. Response Time</td>
+                    <td class="table--td--selection">{{ctrl.selectionStatistics.responseTime}}ms</td>
                 </tr>
             </table>
-            <div class="secondHeader--selection">Receiving</div>
-            <div class="no-data--selection" ng-show="ctrl.receiving.length == 0">No receiving Data</div>
+
+            <div class="secondHeader--selection">Incoming Statistics</div>
+            <div class="no-data--selection" ng-show="ctrl.receiving.length == 0">No incoming statistics available.</div>
             <table class="table--selection" ng-show="ctrl.receiving.length > 0">
                 <tr class="table--selection--head">
                     <th>Name</th>
@@ -53,8 +62,8 @@
                 </tr>
             </table>
 
-            <div class="secondHeader--selection">Sending</div>
-            <div class="no-data--selection" ng-show="ctrl.sending.length == 0">No sending Data</div>
+            <div class="secondHeader--selection">Outgoing Statistics</div>
+            <div class="no-data--selection" ng-show="ctrl.sending.length == 0">No outgoing statistics available.</div>
             <table class="table--selection" ng-show="ctrl.sending.length>0">
                 <tr class="table--selection--head">
                     <th>Name</th>
