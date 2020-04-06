@@ -96,9 +96,15 @@ export default class CanvasDrawer {
         }
     }
 
-    _getImageAsset(assetName) {
+    _getImageAsset(assetName, isThreshold: boolean) {
         if (!_.has(this.imageAssets, assetName)) {
-            const assetUrl = this.controller.getTypeSymbol(assetName);
+            let assetUrl
+            if (isThreshold) {
+                assetUrl = this.controller.getTypeSymbol(assetName, true);
+            } else {
+                assetUrl = this.controller.getTypeSymbol(assetName, false);
+            }
+
             this._loadImage(assetUrl, assetName);
         }
 
@@ -109,6 +115,7 @@ export default class CanvasDrawer {
         }
     }
 
+
     _getAsset(assetUrl, assetName) {
         if (!_.has(this.imageAssets, assetName)) {
             this._loadImage(assetUrl, assetName);
@@ -117,6 +124,7 @@ export default class CanvasDrawer {
         if (this._isImageLoaded(assetName)) {
             return <HTMLImageElement>this.imageAssets[assetName].image;
         } else {
+            console.log("fail");
             return null;
         }
     }
@@ -251,7 +259,7 @@ export default class CanvasDrawer {
 
         ctx.fillStyle = 'white';
         ctx.fill();
-        ctx.restore();    
+        ctx.restore();
     }
 
     _drawEdge(ctx: CanvasRenderingContext2D, edge: cytoscape.EdgeSingular, now: number) {
@@ -492,6 +500,7 @@ export default class CanvasDrawer {
         const requestCount = _.get(metrics, 'rate', -1);
         const errorCount = _.get(metrics, 'error_rate', -1);
         const responseTime = _.get(metrics, 'response_time', -1);
+        const threshold = _.get(metrics, 'threshold', -1);
 
         if (requestCount >= 0) {
             lines.push('Requests: ' + Math.floor(requestCount));
@@ -501,6 +510,13 @@ export default class CanvasDrawer {
         }
         if (responseTime >= 0) {
             lines.push('Avg. Resp. Time: ' + Math.floor(responseTime) + ' ms');
+        }
+        if (threshold >= 0) {
+            if (threshold > responseTime) {
+                this._drawThreshold(ctx, node, true);
+            } else {
+                this._drawThreshold(ctx, node, false);
+            }
         }
 
         const pos = node.position();
@@ -513,6 +529,43 @@ export default class CanvasDrawer {
         for (let i = 0; i < lines.length; i++) {
             ctx.fillText(lines[i], cX, cY + i * fontSize);
         }
+    }
+
+    _drawThreshold(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, selection: boolean) {
+
+
+
+        const pos = node.position();
+        const cX = pos.x - 14;
+        const cY = pos.y + 13;
+        const size = 7;
+        let image;
+        ctx.beginPath();
+
+        if (selection) {
+            this._drawIconBackground(ctx, node, "green");
+            image = this._getImageAsset("check1", true);
+        }
+        else {
+            this._drawIconBackground(ctx, node, "red");
+            image = this._getImageAsset("close1", true);
+        }
+
+        if (image != null) {
+            ctx.drawImage(image, cX - size / 2, cY - size / 2, size, size);
+        }
+    }
+
+    _drawIconBackground(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, color: string) {
+
+        const pos = node.position();
+        const cX = pos.x - 14;
+        const cY = pos.y + 13;
+
+        ctx.beginPath();
+        ctx.arc(cX, cY, 5, 0, 2 * Math.PI, false);
+        ctx.fillStyle = color;
+        ctx.fill();
     }
 
     _drawExternalService(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
@@ -533,7 +586,7 @@ export default class CanvasDrawer {
 
         const nodeType = node.data('external_type');
 
-        const image = this._getImageAsset(nodeType);
+        const image = this._getImageAsset(nodeType, false);
         if (image != null) {
             ctx.drawImage(image, cX - size / 2, cY - size / 2, size, size);
         }
@@ -575,6 +628,11 @@ export default class CanvasDrawer {
     }
 
     _drawDonut(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, radius, width, strokeWidth, percentages) {
+
+        const metrics = node.data('metrics');
+        const responseTime = _.get(metrics, 'response_time', -1);
+        const threshold = _.get(metrics, 'threshold', -1);
+
         const cX = node.position().x;
         const cY = node.position().y;
 
@@ -582,7 +640,17 @@ export default class CanvasDrawer {
 
         ctx.beginPath();
         ctx.arc(cX, cY, radius + strokeWidth, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'white';
+        if (threshold >= 0) {
+            if (threshold >= responseTime) {
+                ctx.fillStyle = 'green';
+            } else {
+                ctx.fillStyle = ' red';
+            }
+
+        } else {
+            ctx.fillStyle = 'white';
+        }
+
         ctx.fill();
 
         const { healthyColor, dangerColor } = this.controller.getSettings().style;

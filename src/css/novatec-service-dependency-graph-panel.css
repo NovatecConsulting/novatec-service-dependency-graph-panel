@@ -76,11 +76,20 @@
   border-bottom: 2px solid #161719;
 }
 
-.table--td--selection {
+.table--td--selection, .thresholdGood, .thresholdProblem {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.thresholdProblem {
+  color:red;
+}
+
+.thresholdGood {
+  color: green;
+}
+
 
 .table--th--selectionSmall {
   width: 5.5rem;

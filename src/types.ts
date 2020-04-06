@@ -106,6 +106,7 @@ export interface IGraphMetrics {
     error_rate?: number;
     response_time?: number;
     success_rate?: number;
+    threshold?: number;
 };
 
 export enum EGraphNodeType {
@@ -147,4 +148,5 @@ export interface ISelectionStatistics {
     requests?: number;
     errors?: number;
     responseTime?: number;
+    threshold?: number;
 };

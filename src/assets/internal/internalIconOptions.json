@@ -1,0 +1,18 @@
+[
+    { 
+        "filename": "ocelot",
+        "icon": "ocelot.png"
+    },
+    {
+        "filename": "zebra",
+        "icon": "zebra.png"
+    },
+    {
+        "filename": "elefant",
+        "icon": "elefant.png"
+    },
+    {
+        "filename": "affe",
+        "icon": "affe.png"
+    }
+]

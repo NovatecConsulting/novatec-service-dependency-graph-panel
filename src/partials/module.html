@@ -43,6 +43,11 @@
                     <td class="table--td--selection">Avg. Response Time</td>
                     <td class="table--td--selection">{{ctrl.selectionStatistics.responseTime}}ms</td>
                 </tr>
+                <tr ng-show="ctrl.selectionStatistics.threshold">
+                    <td class="table--td--selection">Health Status</td>
+                    <td ng-show="ctrl.selectionStatistics.threshold >= ctrl.selectionStatistics.responseTime" class="thresholdGood">Good ({{ctrl.selectionStatistics.threshold}}ms)</td>
+                    <td ng-show= "ctrl.selectionStatistics.threshold < ctrl.selectionStatistics.responseTime" class="thresholdProblem">Problem ({{ctrl.selectionStatistics.threshold}}ms)</td>
+                </tr>
             </table>
 
             <div class="secondHeader--selection">Incoming Statistics</div>

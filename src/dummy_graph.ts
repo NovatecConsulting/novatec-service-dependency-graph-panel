@@ -17,7 +17,8 @@ const graph: IGraph = {
             metrics: {
                 rate: 125,
                 error_rate: 100,
-                response_time: 24
+                response_time: 24,
+                threshold: 20
             }
         },
         {
@@ -26,7 +27,8 @@ const graph: IGraph = {
             metrics: {
                 rate: 225,
                 error_rate: 5,
-                response_time: 25
+                response_time: 25,
+                threshold: 30
             }
         },
         {

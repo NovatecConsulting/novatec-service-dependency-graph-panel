@@ -330,6 +330,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			}
 			if (metrics.response_time != undefined) {
 				this.selectionStatistics.responseTime = Math.floor(metrics.response_time);
+
+				if(metrics.threshold != undefined) {
+					this.selectionStatistics.threshold = Math.floor(metrics.threshold);
+				}
 			}
 
 			for (let i = 0; i < edges.length; i++) {
@@ -493,27 +497,40 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		return variable.current.value;
 	}
 
-	getAssetUrl(assetName: string) {
+	getAssetUrl(assetName: string, isThreshold: boolean) {
+
 		var baseUrl = 'public/plugins/' + this.panel.type;
+		if(isThreshold){
+			return baseUrl +'/assets/baseline/' +assetName;
+		}
 		return baseUrl + '/assets/' + assetName;
 	}
 
-	getTypeSymbol(type) {
-		if (!type) {
-			return this.getAssetUrl('default.png');
+
+	getTypeSymbol(type, isThreshold: boolean) {
+
+		if(isThreshold){
+			return this.getAssetUrl(type+ '.png', true)
 		}
+		else{
 
-		const { externalIcons } = this.getSettings();
+			if (!type) {
+				return this.getAssetUrl('default.png', false);
+			}
+	
+			const { externalIcons } = this.getSettings();
+	
+			const icon = find(externalIcons, icon => icon.name.toLowerCase() === type.toLowerCase());
+	
+			if (icon !== undefined) {
+				return this.getAssetUrl(icon.filename + '.png', false);
+			} else {
+				return this.getAssetUrl('default.png', false);
+			}
 
-		const icon = find(externalIcons, icon => icon.name.toLowerCase() === type.toLowerCase());
-
-		if (icon !== undefined) {
-			return this.getAssetUrl(icon.filename + '.png');
-		} else {
-			return this.getAssetUrl('default.png');
 		}
+	
 	}
-
 	getDataMapping(): DataMapping {
 		return this.getSettings().dataMapping;
 	}
