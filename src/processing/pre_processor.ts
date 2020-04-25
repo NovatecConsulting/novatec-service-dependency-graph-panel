@@ -1,7 +1,7 @@
 import _, { map, flattenDeep, has, groupBy, values, reduce, merge, forOwn, keys } from 'lodash';
 import Utils from '../util/Utils';
 import { ServiceDependencyGraphCtrl } from '../service_dependency_graph_ctrl';
-import { QueryResponse, GraphDataElement, GraphDataType, CurrentData } from '../types';
+import { QueryResponse, GraphDataElement, GraphDataType, CurrentData, DataElement } from '../types';
 
 class PreProcessor {
 
@@ -39,7 +39,10 @@ class PreProcessor {
 		const sourceColumn = sourceComponentPrefix + aggregationSuffix;
 		const targetColumn = targetComponentPrefix + aggregationSuffix;
 
-		const result = map(data, dataObject => {
+		// let dataInternalExternal: any[];
+		// dataInternalExternal = [];
+
+		let result = map(data, dataObject => {
 			const source = has(dataObject, sourceColumn);
 			const target = has(dataObject, targetColumn);
 			const extSource = has(dataObject, externalSource);
@@ -47,16 +50,28 @@ class PreProcessor {
 
 			let trueCount = [source, target, extSource, extTarget].filter(e => e).length;
 
-			if (trueCount > 1) {
-				console.error("soruce-target conflict for data element", dataObject);
-				return;
-			}
-
 			const result: GraphDataElement = {
 				target: "",
 				data: dataObject,
 				type: GraphDataType.INTERNAL
 			};
+
+			if (trueCount > 1) {
+
+				if (target && extTarget) {
+					result.source = dataObject[aggregationSuffix];
+					result.target = dataObject[externalTarget];
+					result.type = GraphDataType.EXTERNAL_OUT;
+					return result;
+				}
+				else if (source && extTarget) {
+					result.source = dataObject[aggregationSuffix];
+					result.target = dataObject[externalTarget];
+					result.type = GraphDataType.EXTERNAL_OUT;
+					return result
+				}
+				return null;
+			}
 
 			if (trueCount == 0) {
 				result.target = dataObject[aggregationSuffix];
@@ -87,8 +102,46 @@ class PreProcessor {
 			return result;
 		});
 
+		/*
+		if (dataInternalExternal.length > 0) {
+			let resultInternalExternal: GraphDataElement[];
+
+			for (let i = 0; i < dataInternalExternal.length; i++) {
+
+				resultInternalExternal = this._transformInternalExternal(dataInternalExternal[i], aggregationSuffix, externalTarget, targetColumn)
+				result.push(resultInternalExternal[0]);
+				result.push(resultInternalExternal[1]);
+			}
+		}
+
+		*/
 		const filteredResult: GraphDataElement[] = result.filter((element): element is GraphDataElement => element !== null);
 		return filteredResult;
+	}
+
+	_transformInternalExternal(dataObject: DataElement, aggregationSuffix: string, externalTarget: string, targetColumn: string) {
+
+		let result1: GraphDataElement = {
+			target: "",
+			data: dataObject,
+			type: GraphDataType.INTERNAL
+		};
+
+		let result2: GraphDataElement = {
+			target: "",
+			data: dataObject,
+			type: GraphDataType.INTERNAL
+		};
+
+		result1.target = dataObject[externalTarget];
+		result1.source = dataObject[aggregationSuffix];
+		result1.type = GraphDataType.EXTERNAL_OUT;
+
+		result2.source = dataObject[externalTarget];
+		result2.target = dataObject[targetColumn];
+		result2.type = GraphDataType.INTERNAL;
+
+		return [result1, result2];
 	}
 
 	_mergeGraphData(data: GraphDataElement[]): GraphDataElement[] {
