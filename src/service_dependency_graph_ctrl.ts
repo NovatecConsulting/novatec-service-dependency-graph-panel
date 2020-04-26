@@ -469,6 +469,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	}
 
 	onDataReceived(receivedData: QueryResponse[]) {
+
+		// falls dummy daten
+		console.log("test");
+
 		this.validQueryTypes = this.hasOnlyTableQueries(receivedData);
 
 		if (this.hasAggregationVariable() && this.validQueryTypes) {
