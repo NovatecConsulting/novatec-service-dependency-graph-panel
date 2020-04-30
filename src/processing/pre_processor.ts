@@ -1,7 +1,7 @@
 import _, { map, flattenDeep, has, groupBy, values, reduce, merge, forOwn, keys } from 'lodash';
 import Utils from '../util/Utils';
 import { ServiceDependencyGraphCtrl } from '../service_dependency_graph_ctrl';
-import { QueryResponse, GraphDataElement, GraphDataType, CurrentData, DataElement } from '../types';
+import { QueryResponse, GraphDataElement, GraphDataType, CurrentData } from '../types';
 
 class PreProcessor {
 
@@ -43,8 +43,8 @@ class PreProcessor {
 		// dataInternalExternal = [];
 
 		let result = map(data, dataObject => {
-			const source = has(dataObject, sourceColumn);
-			const target = has(dataObject, targetColumn);
+			let source = has(dataObject, sourceColumn);
+			let target = has(dataObject, targetColumn);
 			const extSource = has(dataObject, externalSource);
 			const extTarget = has(dataObject, externalTarget);
 
@@ -58,19 +58,19 @@ class PreProcessor {
 
 			if (trueCount > 1) {
 
-				if (target && extTarget) {
-					result.source = dataObject[aggregationSuffix];
-					result.target = dataObject[externalTarget];
-					result.type = GraphDataType.EXTERNAL_OUT;
-					return result;
+
+				if (target && extTarget) {	
+					target = false;
+					
 				}
-				else if (source && extTarget) {
-					result.source = dataObject[aggregationSuffix];
-					result.target = dataObject[externalTarget];
-					result.type = GraphDataType.EXTERNAL_OUT;
-					return result
+				else if (source && extSource) {
+					source = false;
+
+	
+				}else{
+					return null;
 				}
-				return null;
+				
 			}
 
 			if (trueCount == 0) {
@@ -102,46 +102,8 @@ class PreProcessor {
 			return result;
 		});
 
-		/*
-		if (dataInternalExternal.length > 0) {
-			let resultInternalExternal: GraphDataElement[];
-
-			for (let i = 0; i < dataInternalExternal.length; i++) {
-
-				resultInternalExternal = this._transformInternalExternal(dataInternalExternal[i], aggregationSuffix, externalTarget, targetColumn)
-				result.push(resultInternalExternal[0]);
-				result.push(resultInternalExternal[1]);
-			}
-		}
-
-		*/
 		const filteredResult: GraphDataElement[] = result.filter((element): element is GraphDataElement => element !== null);
 		return filteredResult;
-	}
-
-	_transformInternalExternal(dataObject: DataElement, aggregationSuffix: string, externalTarget: string, targetColumn: string) {
-
-		let result1: GraphDataElement = {
-			target: "",
-			data: dataObject,
-			type: GraphDataType.INTERNAL
-		};
-
-		let result2: GraphDataElement = {
-			target: "",
-			data: dataObject,
-			type: GraphDataType.INTERNAL
-		};
-
-		result1.target = dataObject[externalTarget];
-		result1.source = dataObject[aggregationSuffix];
-		result1.type = GraphDataType.EXTERNAL_OUT;
-
-		result2.source = dataObject[externalTarget];
-		result2.target = dataObject[targetColumn];
-		result2.type = GraphDataType.INTERNAL;
-
-		return [result1, result2];
 	}
 
 	_mergeGraphData(data: GraphDataElement[]): GraphDataElement[] {
