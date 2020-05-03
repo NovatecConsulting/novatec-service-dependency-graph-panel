@@ -38,12 +38,14 @@ export interface IconResource {
 }
 
 export interface QueryResponseColumn {
-    type: string;
+    type?: string;
     text: string;
 };
 
 export interface QueryResponse {
     columns: QueryResponseColumn[];
+    refId?: string;
+    meta?: string;
     rows: any[];
 };
 

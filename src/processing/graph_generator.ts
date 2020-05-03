@@ -109,10 +109,12 @@ class GraphGenerator {
 			metrics
 		};
 
-		const { rate_out, error_rate_out, response_time_out } = dataElement.data;
+		const { rate_out, rate_in, error_rate_out, response_time_out } = dataElement.data;
 
 		if (!isUndefined(rate_out)) {
 			metrics.rate = rate_out;
+		} else if (!isUndefined(rate_in)) {
+			metrics.rate = rate_in;
 		}
 		if (!isUndefined(error_rate_out)) {
 			metrics.error_rate = error_rate_out;
@@ -120,6 +122,7 @@ class GraphGenerator {
 		if (!isUndefined(response_time_out)) {
 			metrics.response_time = response_time_out;
 		}
+
 
 		return edge;
 	}
