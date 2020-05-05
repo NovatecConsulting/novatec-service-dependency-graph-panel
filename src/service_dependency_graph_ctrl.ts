@@ -14,8 +14,7 @@ import cyCanvas from 'cytoscape-canvas';
 import layoutOptions from './layout_options';
 import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse, TableContent, IGraphMetrics, ISelectionStatistics } from './types';
 
-import dummyGraph from './dummy_graph';
-import dummyRowData from "./dummy_graph2";
+import dummyRowData from "./dummy_graph";
 
 // Register cytoscape extensions
 cyCanvas(cytoscape);
@@ -110,8 +109,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	constructor($scope, $injector) {
 		super($scope, $injector);
 
-		const graphData2 = this.preProcessor.processData(dummyRowData);
-		this.currentDummyData = graphData2;
+		const dummyGraphData = this.preProcessor.processData(dummyRowData);
+		this.currentDummyData = dummyGraphData;
+		console.log('dummy graph raw data: ', dummyRowData);
+		console.log('dummy graph graph data: ', dummyGraphData);
 
 		_.defaultsDeep(this.panel, this.panelDefaults);
 		this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
@@ -397,9 +398,8 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		}
 
 		if (this.getSettings().showDummyData) {
-			const graph2: IGraph = this.graphGenerator.generateGraph((<CurrentData>this.currentDummyData).graph);
-			// this._updateGraph(dummyGraph);
-			this._updateGraph(graph2);
+			const dummyGraph: IGraph = this.graphGenerator.generateGraph((<CurrentData>this.currentDummyData).graph);
+			this._updateGraph(dummyGraph);
 			this.updateStatisticTable();
 		} else {
 			if (this.isDataAvailable()) {
