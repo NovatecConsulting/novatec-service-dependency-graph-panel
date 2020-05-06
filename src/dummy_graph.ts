@@ -137,6 +137,21 @@ const rowData: QueryResponse[] = [
             [0, "vets-service", "http", "visits-service", "", 150],
             [0, "visits-service", "http", "discovery-server", "", 10],
         ]
+    },
+
+    {
+        columns: [
+            { type: "time", text: "Time" },
+            { text: "service" },
+            { text: "threshold" }
+        ],
+        refId: undefined,
+        meta: undefined,
+        rows: [
+            [0,  "api-gateway", 2], 
+            [0,  "discovery-server",  40]
+           
+        ]
     }
 ]
 

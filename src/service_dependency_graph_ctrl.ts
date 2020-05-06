@@ -114,9 +114,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		console.log('dummy graph raw data: ', dummyRowData);
 		console.log('dummy graph graph data: ', dummyGraphData);
 
-		console.log('dummy_graph raw data: ', dummyRowData);
-		console.log('dummy_graph graph data: ', graphData2);
-
 		_.defaultsDeep(this.panel, this.panelDefaults);
 		this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
 		this.events.on('component-did-mount', this.onMount.bind(this));
