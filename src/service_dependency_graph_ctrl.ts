@@ -112,6 +112,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 		const graphData2 = this.preProcessor.processData(dummyRowData);
 		this.currentDummyData = graphData2;
+		console.log("Hello World");
+		console.log(graphData2);
+
+		console.log('dummy_graph raw data: ', dummyRowData);
+		console.log('dummy_graph graph data: ', graphData2);
 
 		_.defaultsDeep(this.panel, this.panelDefaults);
 		this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
@@ -325,7 +330,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			const edges: EdgeCollection = selection.connectedEdges();
 
 			const metrics = selection.nodes()[0].data('metrics');
-
 			this.selectionStatistics = {};
 
 			if (metrics.rate != undefined) {
@@ -402,13 +406,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 		if (this.getSettings().showDummyData) {
 			const graph2: IGraph = this.graphGenerator.generateGraph((<CurrentData>this.currentDummyData).graph);
-			// this._updateGraph(dummyGraph);
 			this._updateGraph(graph2);
 			this.updateStatisticTable();
 		} else {
 			if (this.isDataAvailable()) {
 				const graph: IGraph = this.graphGenerator.generateGraph((<CurrentData>this.currentData).graph);
-				console.log(graph);
 				this._updateGraph(graph);
 				this.updateStatisticTable();
 			}

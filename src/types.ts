@@ -82,6 +82,7 @@ export interface DataElement {
     error_rate_in?: number;
     error_rate_out?: number;
     type?: string;
+    threshold?: number;
 };
 
 export enum GraphDataType {

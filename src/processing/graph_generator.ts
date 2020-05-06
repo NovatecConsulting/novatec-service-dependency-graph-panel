@@ -12,6 +12,7 @@ class GraphGenerator {
 	}
 
 	_createNode(dataElements: GraphDataElement[]): IGraphNode | undefined {
+
 		if (!dataElements || dataElements.length <= 0) {
 			return undefined;
 		}
@@ -36,10 +37,12 @@ class GraphGenerator {
 			metrics.rate = sum(map(dataElements, element => element.data.rate_in));
 			metrics.error_rate = sum(map(dataElements, element => element.data.error_rate_in));
 			metrics.response_time = aggregationFunction(map(dataElements, element => element.data.response_time_in));
+			metrics.threshold = sum(map(dataElements, element => element.data.threshold));
 		} else {
 			metrics.rate = sum(map(dataElements, element => element.data.rate_out));
 			metrics.error_rate = sum(map(dataElements, element => element.data.error_rate_out));
 			metrics.response_time = aggregationFunction(map(dataElements, element => element.data.response_time_out));
+			metrics.threshold = sum(map(dataElements, element => element.data.threshold));
 
 			const externalType = _(dataElements)
 				.map(element => element.data.type)
@@ -123,7 +126,6 @@ class GraphGenerator {
 			metrics.response_time = response_time_out;
 		}
 
-
 		return edge;
 	}
 
@@ -146,7 +148,8 @@ class GraphGenerator {
 				return defaultTo(dataElement.data.rate_in, 0) > 0
 					|| defaultTo(dataElement.data.rate_out, 0) > 0
 					|| defaultTo(dataElement.data.error_rate_in, 0) > 0
-					|| defaultTo(dataElement.data.error_rate_out, 0) > 0;
+					|| defaultTo(dataElement.data.error_rate_out, 0) > 0
+					|| defaultTo(dataElement.data.threshold, 0) > 0;
 			});
 		} else {
 			return data;

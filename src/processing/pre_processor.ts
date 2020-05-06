@@ -59,18 +59,18 @@ class PreProcessor {
 			if (trueCount > 1) {
 
 
-				if (target && extTarget) {	
+				if (target && extTarget) {
 					target = false;
-					
+
 				}
 				else if (source && extSource) {
 					source = false;
 
-	
-				}else{
+
+				} else {
 					return null;
 				}
-				
+
 			}
 
 			if (trueCount == 0) {
@@ -141,6 +141,9 @@ class PreProcessor {
 		columnMapping[Utils.getConfig(this.controller, 'errorRateOutgoingColumn')] = 'error_rate_out';
 		columnMapping[Utils.getConfig(this.controller, 'type')] = 'type';
 
+		columnMapping["threshold"] = "threshold";
+		// console.log(columnMapping);
+
 		const cleanedData = map(data, dataElement => {
 			const cleanedMetaData = this._cleanMetaData(columnMapping, dataElement.data);
 
@@ -166,6 +169,7 @@ class PreProcessor {
 	}
 
 	processData(inputData: QueryResponse[]): CurrentData {
+
 		const objectTables = this._transformTables(inputData);
 
 		const flattenData = flattenDeep(objectTables);
@@ -173,8 +177,8 @@ class PreProcessor {
 		const graphElements = this._transformObjects(flattenData);
 
 		const mergedData = this._mergeGraphData(graphElements);
-		const columnNames = this._extractColumnNames(mergedData);
 
+		const columnNames = this._extractColumnNames(mergedData);
 		const cleanData = this._cleanData(mergedData);
 
 		console.groupCollapsed('Data transformation log');
