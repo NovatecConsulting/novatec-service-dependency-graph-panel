@@ -135,7 +135,13 @@ class GraphGenerator {
 			metrics.error_rate = error_rate_out;
 		}
 		if (!isUndefined(response_time_out)) {
-			metrics.response_time = response_time_out;
+			const { sumTimings } = this.controller.getSettings();
+
+			if (sumTimings && metrics.rate) {
+				metrics.response_time = response_time_out / metrics.rate;
+			} else {
+				metrics.response_time = response_time_out;
+			}
 		}
 
 
