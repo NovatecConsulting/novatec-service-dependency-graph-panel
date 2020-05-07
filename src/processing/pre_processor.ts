@@ -40,16 +40,22 @@ class PreProcessor {
 		const targetColumn = targetComponentPrefix + aggregationSuffix;
 
 		const result = map(data, dataObject => {
-			const source = has(dataObject, sourceColumn);
-			const target = has(dataObject, targetColumn);
+			let source = has(dataObject, sourceColumn);
+			let target = has(dataObject, targetColumn);
 			const extSource = has(dataObject, externalSource);
 			const extTarget = has(dataObject, externalTarget);
 
 			let trueCount = [source, target, extSource, extTarget].filter(e => e).length;
 
 			if (trueCount > 1) {
-				console.error("soruce-target conflict for data element", dataObject);
-				return;
+				if (target && extTarget) {
+					target = false;
+				} else if (source && extSource) {
+					source = false;
+				} else {
+					console.error("soruce-target conflict for data element", dataObject);
+					return;
+				}
 			}
 
 			const result: GraphDataElement = {

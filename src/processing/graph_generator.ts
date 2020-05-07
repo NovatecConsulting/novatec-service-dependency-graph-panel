@@ -1,4 +1,4 @@
-import _, { groupBy, filter, map, sum, some, isUndefined, uniq, difference, flatMap, concat, mean, defaultTo } from 'lodash';
+import _, { groupBy, filter, map, sum, some, isUndefined, uniq, difference, flatMap, concat, mean, defaultTo, find } from 'lodash';
 import { isPresent } from '../util/Utils';
 import { ServiceDependencyGraphCtrl } from '../service_dependency_graph_ctrl';
 import { GraphDataElement, IGraph, IGraphEdge, IGraphMetrics, IGraphNode, EGraphNodeType, GraphDataType } from '../types';
@@ -72,9 +72,24 @@ class GraphGenerator {
 		const expectedNodeNames = uniq(flatMap(data, dataElement => [dataElement.source, dataElement.target])).filter(isPresent);
 		const missingNodeNames = difference(expectedNodeNames, existingNodeNames);
 
-		const missingNodes = map(missingNodeNames, name => <IGraphNode>{
-			name,
-			type: EGraphNodeType.INTERNAL
+		const missingNodes = map(missingNodeNames, name => {
+			let nodeType: EGraphNodeType;
+
+			// derive node type
+			let elementSrc = find(data, { source: name });
+			let elementTrgt = find(data, { target: name });
+			if (elementSrc && elementSrc.type == GraphDataType.EXTERNAL_IN) {
+				nodeType = EGraphNodeType.EXTERNAL;
+			} else if (elementTrgt && elementTrgt.type == GraphDataType.EXTERNAL_OUT) {
+				nodeType = EGraphNodeType.EXTERNAL;
+			} else {
+				nodeType = EGraphNodeType.INTERNAL;
+			}
+
+			return <IGraphNode>{
+				name,
+				type: nodeType
+			};
 		});
 
 		return missingNodes;
@@ -109,10 +124,12 @@ class GraphGenerator {
 			metrics
 		};
 
-		const { rate_out, error_rate_out, response_time_out } = dataElement.data;
+		const { rate_out, rate_in, error_rate_out, response_time_out } = dataElement.data;
 
 		if (!isUndefined(rate_out)) {
 			metrics.rate = rate_out;
+		} else if (!isUndefined(rate_in)) {
+			metrics.rate = rate_in;
 		}
 		if (!isUndefined(error_rate_out)) {
 			metrics.error_rate = error_rate_out;
@@ -120,6 +137,7 @@ class GraphGenerator {
 		if (!isUndefined(response_time_out)) {
 			metrics.response_time = response_time_out;
 		}
+
 
 		return edge;
 	}
@@ -142,8 +160,8 @@ class GraphGenerator {
 			return filter(data, dataElement => {
 				return defaultTo(dataElement.data.rate_in, 0) > 0
 					|| defaultTo(dataElement.data.rate_out, 0) > 0
-					|| defaultTo(dataElement.data.error_rate_in, 0) > 0
-					|| defaultTo(dataElement.data.error_rate_out, 0) > 0;
+					|| defaultTo(dataElement.data.error_rate_in, -1) >= 0
+					|| defaultTo(dataElement.data.error_rate_out, -1) >= 0;
 			});
 		} else {
 			return data;
