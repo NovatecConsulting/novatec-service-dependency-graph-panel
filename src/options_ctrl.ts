@@ -31,7 +31,7 @@ export class OptionsCtrl {
 	}
 
 	getExternalIconOptions() {
-		return ['default', 'message', 'database', 'http', 'web', 'balancer'];
+		return ['default', 'message', 'database', 'http', 'web', 'balancer', 'ldap', 'mainframe', 'smtp'];
 	}
 
 	getColumnNames() {
