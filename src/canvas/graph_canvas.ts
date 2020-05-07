@@ -302,7 +302,7 @@ export default class CanvasDrawer {
         if (requestCount >= 0 && errorCount >= 0) {
             const range = 255;
 
-            const factor = errorCount / (requestCount + errorCount);
+            const factor = errorCount / requestCount;
             const color = Math.min(255, base + range * Math.log2(factor + 1));
 
             ctx.strokeStyle = 'rgb(' + color + ',' + base + ',' + base + ')';

@@ -39,16 +39,24 @@ class PreProcessor {
 		const sourceColumn = sourceComponentPrefix + aggregationSuffix;
 		const targetColumn = targetComponentPrefix + aggregationSuffix;
 
-		// let dataInternalExternal: any[];
-		// dataInternalExternal = [];
-
-		let result = map(data, dataObject => {
+		const result = map(data, dataObject => {
 			let source = has(dataObject, sourceColumn);
 			let target = has(dataObject, targetColumn);
 			const extSource = has(dataObject, externalSource);
 			const extTarget = has(dataObject, externalTarget);
 
 			let trueCount = [source, target, extSource, extTarget].filter(e => e).length;
+
+			if (trueCount > 1) {
+				if (target && extTarget) {
+					target = false;
+				} else if (source && extSource) {
+					source = false;
+				} else {
+					console.error("soruce-target conflict for data element", dataObject);
+					return;
+				}
+			}
 
 			const result: GraphDataElement = {
 				target: "",
@@ -121,10 +129,9 @@ class PreProcessor {
 	_cleanMetaData(columnMapping: any, metaData: any) {
 		const result = {};
 
-		forOwn(metaData, (value, key) => {
-			if (has(columnMapping, key)) {
-				const targetKey = columnMapping[key];
-				result[targetKey] = metaData[key];
+		forOwn(columnMapping, (value, key) => {
+			if (has(metaData, value)) {
+				result[key] = metaData[value];
 			}
 		});
 
@@ -133,13 +140,13 @@ class PreProcessor {
 
 	_cleanData(data: GraphDataElement[]): GraphDataElement[] {
 		const columnMapping = {};
-		columnMapping[Utils.getConfig(this.controller, 'responseTimeColumn')] = 'response_time_in';
-		columnMapping[Utils.getConfig(this.controller, 'requestRateColumn')] = 'rate_in';
-		columnMapping[Utils.getConfig(this.controller, 'errorRateColumn')] = 'error_rate_in';
-		columnMapping[Utils.getConfig(this.controller, 'responseTimeOutgoingColumn')] = 'response_time_out';
-		columnMapping[Utils.getConfig(this.controller, 'requestRateOutgoingColumn')] = 'rate_out';
-		columnMapping[Utils.getConfig(this.controller, 'errorRateOutgoingColumn')] = 'error_rate_out';
-		columnMapping[Utils.getConfig(this.controller, 'type')] = 'type';
+		columnMapping['response_time_in'] = Utils.getConfig(this.controller, 'responseTimeColumn');
+		columnMapping['rate_in'] = Utils.getConfig(this.controller, 'requestRateColumn');
+		columnMapping['error_rate_in'] = Utils.getConfig(this.controller, 'errorRateColumn');
+		columnMapping['response_time_out'] = Utils.getConfig(this.controller, 'responseTimeOutgoingColumn');
+		columnMapping['rate_out'] = Utils.getConfig(this.controller, 'requestRateOutgoingColumn');
+		columnMapping['error_rate_out'] = Utils.getConfig(this.controller, 'errorRateOutgoingColumn');
+		columnMapping['type'] = Utils.getConfig(this.controller, 'type');
 
 		columnMapping["threshold"] = "threshold";
 		// console.log(columnMapping);
