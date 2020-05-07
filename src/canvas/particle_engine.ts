@@ -49,7 +49,7 @@ export default class ParticleEngine {
 
             let errorRate;
             if (rate >= 0 && error_rate >= 0) {
-                errorRate = error_rate / (rate + error_rate);
+                errorRate = error_rate / rate;
             } else {
                 errorRate = 0;
             }
