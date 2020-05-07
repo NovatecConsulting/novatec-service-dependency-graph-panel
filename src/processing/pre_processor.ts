@@ -112,10 +112,9 @@ class PreProcessor {
 	_cleanMetaData(columnMapping: any, metaData: any) {
 		const result = {};
 
-		forOwn(metaData, (value, key) => {
-			if (has(columnMapping, key)) {
-				const targetKey = columnMapping[key];
-				result[targetKey] = metaData[key];
+		forOwn(columnMapping, (value, key) => {
+			if (has(metaData, value)) {
+				result[key] = metaData[value];
 			}
 		});
 
@@ -124,13 +123,13 @@ class PreProcessor {
 
 	_cleanData(data: GraphDataElement[]): GraphDataElement[] {
 		const columnMapping = {};
-		columnMapping[Utils.getConfig(this.controller, 'responseTimeColumn')] = 'response_time_in';
-		columnMapping[Utils.getConfig(this.controller, 'requestRateColumn')] = 'rate_in';
-		columnMapping[Utils.getConfig(this.controller, 'errorRateColumn')] = 'error_rate_in';
-		columnMapping[Utils.getConfig(this.controller, 'responseTimeOutgoingColumn')] = 'response_time_out';
-		columnMapping[Utils.getConfig(this.controller, 'requestRateOutgoingColumn')] = 'rate_out';
-		columnMapping[Utils.getConfig(this.controller, 'errorRateOutgoingColumn')] = 'error_rate_out';
-		columnMapping[Utils.getConfig(this.controller, 'type')] = 'type';
+		columnMapping['response_time_in'] = Utils.getConfig(this.controller, 'responseTimeColumn');
+		columnMapping['rate_in'] = Utils.getConfig(this.controller, 'requestRateColumn');
+		columnMapping['error_rate_in'] = Utils.getConfig(this.controller, 'errorRateColumn');
+		columnMapping['response_time_out'] = Utils.getConfig(this.controller, 'responseTimeOutgoingColumn');
+		columnMapping['rate_out'] = Utils.getConfig(this.controller, 'requestRateOutgoingColumn');
+		columnMapping['error_rate_out'] = Utils.getConfig(this.controller, 'errorRateOutgoingColumn');
+		columnMapping['type'] = Utils.getConfig(this.controller, 'type');
 
 		const cleanedData = map(data, dataElement => {
 			const cleanedMetaData = this._cleanMetaData(columnMapping, dataElement.data);

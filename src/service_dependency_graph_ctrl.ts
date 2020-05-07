@@ -318,26 +318,29 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			const sending: TableContent[] = [];
 			const edges: EdgeCollection = selection.connectedEdges();
 
-			const metrics = selection.nodes()[0].data('metrics');
+			const metrics: IGraphMetrics = selection.nodes()[0].data('metrics');
+			const requestCount = _.defaultTo(metrics.rate, -1);
+			const errorCount = _.defaultTo(metrics.error_rate, -1);
+			const duration = _.defaultTo(metrics.response_time, -1);
 
 			this.selectionStatistics = {};
 
-			if (metrics.rate != undefined) {
-				this.selectionStatistics.requests = Math.floor(metrics.rate);
+			if (requestCount >= 0) {
+				this.selectionStatistics.requests = Math.floor(requestCount);
 			}
-			if (metrics.error_rate != undefined) {
-				this.selectionStatistics.errors = Math.floor(metrics.error_rate);
+			if (errorCount >= 0) {
+				this.selectionStatistics.errors = Math.floor(errorCount);
 			}
-			if (metrics.response_time != undefined) {
-				this.selectionStatistics.responseTime = Math.floor(metrics.response_time);
+			if (duration >= 0) {
+				this.selectionStatistics.responseTime = Math.floor(duration);
 			}
 
 			for (let i = 0; i < edges.length; i++) {
 
 				const actualEdge: EdgeSingular = edges[i];
-				const metrics: IGraphMetrics = actualEdge.data('metrics');
+				const edgeMetrics: IGraphMetrics = actualEdge.data('metrics');
 
-				let { response_time, rate } = metrics;
+				let { response_time, rate } = edgeMetrics;
 				let sendingCheck: boolean = actualEdge.source().id() === this.selectionId;
 				let node: NodeSingular;
 
@@ -348,20 +351,19 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 					node = actualEdge.source()
 				}
 
-				const nodeMetrics = node.data('metrics');
-				const error: number = nodeMetrics.error_rate;
-				const nodeRequest: number = Math.floor(nodeMetrics.rate);
+				const nodeMetrics: IGraphMetrics = node.data('metrics');
+				const nodeRequestCount = _.defaultTo(nodeMetrics.rate, -1);
+        		const nodeErrorCount = _.defaultTo(nodeMetrics.error_rate, -1);
 
 				let sendingObject: TableContent = { name: node.id(), responseTime: "-", rate: "-", error: "-" };
 
-				if (error != undefined) {
-					sendingObject.error = Math.floor(error / (nodeRequest / 100)) + "%";
+				if (nodeErrorCount >= 0 && nodeRequestCount >= 0) {
+					sendingObject.error = Math.floor(nodeErrorCount / (nodeRequestCount / 100)) + "%";
 				}
 				if (rate != undefined) {
 					sendingObject.rate = Math.floor(rate).toString();
 				}
 				if (response_time != undefined) {
-
 					sendingObject.responseTime = Math.floor(response_time) + "ms";
 				}
 
