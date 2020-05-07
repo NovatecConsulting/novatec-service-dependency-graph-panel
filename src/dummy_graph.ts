@@ -1,6 +1,6 @@
 import { QueryResponse } from "./types";
 
-const rowData: QueryResponse[] = [
+const data: QueryResponse[] = [
     {
         columns: [
             { type: "time", text: "Time" },
@@ -24,7 +24,7 @@ const rowData: QueryResponse[] = [
             [0, "", "customers-service", "http", "discovery-server", 20],
             [0, "", "vets-service", "http", "discovery-server", 20],
             [0, "", "visits-service", "http", "discovery-server", 20],
-            [0, "MyService", "vets-service", "http", "visits-service", 300]
+            [0, "tcp://localhost:61616", "vets-service", "jms", "visits-service", 300]
         ]
     },
 
@@ -49,7 +49,7 @@ const rowData: QueryResponse[] = [
             [0, "http", "config-server", "github.com", "", 0],
             [0, "http", "customers-service", "", "discovery-server", 20],
             [0, "http", "vets-service", "", "discovery-server", 20],
-            [0, "http", "vets-service", "MyService", "visits-service", 300],
+            [0, "jms", "vets-service", "tcp://localhost:61616", "visits-service", 300],
             [0, "http", "visits-service", "", "discovery-server", 20],
             [0, "jdbc", "customers-service", "jdbc:hsqldb:mem:testdb", "", 1847],
             [0, "jdbc", "vets-service", "jdbc:hsqldb:mem:testdb", "", 441],
@@ -119,25 +119,36 @@ const rowData: QueryResponse[] = [
             { text: "protocol" },
             { text: "service" },
             { text: "target_external" },
-            { text: "error" }
+            { text: "error_in" }
         ],
         refId: undefined,
         meta: undefined,
         rows: [
-            [0, "", "http", "api-gateway", "", 254.5],
-            [0, "", "http", "config-server", "", 0],
-            [0, "", "http", "discovery-server", "", 0],
-            [0, "api-gateway", "http", "api-gateway", "", 49.5],
-            [0, "api-gateway", "http", "customers-service", "", 173.5],
-            [0, "api-gateway", "http", "discovery-server", "", 10],
-            [0, "api-gateway", "http", "vets-service", "", 31.5],
-            [0, "api-gateway", "http", "visits-service", "", 49.5],
-            [0, "customers-service", "http", "discovery-server", "", 10],
-            [0, "vets-service", "http", "discovery-server", "", 10],
-            [0, "vets-service", "http", "visits-service", "", 150],
-            [0, "visits-service", "http", "discovery-server", "", 10],
+            [0, "", "http", "api-gateway", "", 14],
+            [0, "", "http", "discovery-server", "", 20],
+            [0, "", "http", "customers-service", "", 20],
+            [0, "", "http", "vets-service", "", 0]
+        ]
+    },
+
+    {
+        columns: [
+            { type: "time", text: "Time" },
+            { text: "origin_service" },
+            { text: "protocol" },
+            { text: "service" },
+            { text: "target_external" },
+            { text: "error_out" }
+        ],
+        refId: undefined,
+        meta: undefined,
+        rows: [
+            [0, "api-gateway", "http", "customers-service", "", 14],
+            [0, "api-gateway", "http", "vets-service", "", 0],
+            [0, "api-gateway", "http", "visits-service", "", 0],
+            [0, "customers-service", "http", "discovery-server", "", 20]
         ]
     }
 ]
 
-export default rowData;
+export default data;

@@ -39,10 +39,7 @@ class PreProcessor {
 		const sourceColumn = sourceComponentPrefix + aggregationSuffix;
 		const targetColumn = targetComponentPrefix + aggregationSuffix;
 
-		// let dataInternalExternal: any[];
-		// dataInternalExternal = [];
-
-		let result = map(data, dataObject => {
+		const result = map(data, dataObject => {
 			let source = has(dataObject, sourceColumn);
 			let target = has(dataObject, targetColumn);
 			const extSource = has(dataObject, externalSource);
@@ -50,28 +47,22 @@ class PreProcessor {
 
 			let trueCount = [source, target, extSource, extTarget].filter(e => e).length;
 
+			if (trueCount > 1) {
+				if (target && extTarget) {
+					target = false;
+				} else if (source && extSource) {
+					source = false;
+				} else {
+					console.error("soruce-target conflict for data element", dataObject);
+					return;
+				}
+			}
+
 			const result: GraphDataElement = {
 				target: "",
 				data: dataObject,
 				type: GraphDataType.INTERNAL
 			};
-
-			if (trueCount > 1) {
-
-
-				if (target && extTarget) {	
-					target = false;
-					
-				}
-				else if (source && extSource) {
-					source = false;
-
-	
-				}else{
-					return null;
-				}
-				
-			}
 
 			if (trueCount == 0) {
 				result.target = dataObject[aggregationSuffix];
