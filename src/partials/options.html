@@ -171,11 +171,11 @@
                 <div class="gf-form-inline" ng-repeat="(index, mapping) in ctrl.panel.settings.externalIcons">
                     <div class="gf-form">
                         <input type="text" class="input-small gf-form-input width-10"
-                            ng-model="ctrl.panel.settings.externalIcons[index].name" ng-change="ctrl.render()"
+                            ng-model="ctrl.panel.settings.externalIcons[index].name" ng-change="editor.render()"
                             ng-model-onblur />
 
                         <select class="input-small gf-form-input width-10"
-                            ng-model="ctrl.panel.settings.externalIcons[index].filename" ng-change="ctrl.render()">
+                            ng-model="ctrl.panel.settings.externalIcons[index].filename" ng-change="editor.render()">
                             <option ng-repeat="variable in editor.getExternalIconOptions()" value="{{variable}}">
                                 {{variable}}</option>
                         </select>

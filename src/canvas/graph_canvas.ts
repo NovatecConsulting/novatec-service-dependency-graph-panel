@@ -66,6 +66,10 @@ export default class CanvasDrawer {
         this.offscreenContext = <CanvasRenderingContext2D>this.offscreenCanvas.getContext('2d');
     }
 
+    resetAssets() {
+        this.imageAssets = {};
+    }
+
     _loadImage(imageUrl: string, assetName: string) {
         const that = this;
 
