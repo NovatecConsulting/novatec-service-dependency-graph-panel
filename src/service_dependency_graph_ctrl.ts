@@ -322,6 +322,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			const requestCount = _.defaultTo(metrics.rate, -1);
 			const errorCount = _.defaultTo(metrics.error_rate, -1);
 			const duration = _.defaultTo(metrics.response_time, -1);
+			const threshold = _.defaultTo(metrics.threshold, -1);
 
 			this.selectionStatistics = {};
 
@@ -333,6 +334,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			}
 			if (duration >= 0) {
 				this.selectionStatistics.responseTime = Math.floor(duration);
+
+				if (threshold >= 0) {
+					this.selectionStatistics.threshold = Math.floor(threshold);
+					this.selectionStatistics.thresholdViolation = duration > threshold;
+				}
 			}
 
 			for (let i = 0; i < edges.length; i++) {
@@ -353,7 +359,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 				const nodeMetrics: IGraphMetrics = node.data('metrics');
 				const nodeRequestCount = _.defaultTo(nodeMetrics.rate, -1);
-        		const nodeErrorCount = _.defaultTo(nodeMetrics.error_rate, -1);
+				const nodeErrorCount = _.defaultTo(nodeMetrics.error_rate, -1);
 
 				let sendingObject: TableContent = { name: node.id(), responseTime: "-", rate: "-", error: "-" };
 
@@ -498,9 +504,13 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		return baseUrl + '/assets/' + assetName;
 	}
 
-	getTypeSymbol(type) {
+	getTypeSymbol(type, resolveName = true) {
 		if (!type) {
 			return this.getAssetUrl('default.png');
+		}
+
+		if (!resolveName) {
+			return this.getAssetUrl(type);
 		}
 
 		const { externalIcons } = this.getSettings();

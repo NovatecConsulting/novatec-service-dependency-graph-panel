@@ -82,6 +82,7 @@ export interface DataElement {
     error_rate_in?: number;
     error_rate_out?: number;
     type?: string;
+    threshold?: number;
 };
 
 export enum GraphDataType {
@@ -108,6 +109,7 @@ export interface IGraphMetrics {
     error_rate?: number;
     response_time?: number;
     success_rate?: number;
+    threshold?: number;
 };
 
 export enum EGraphNodeType {
@@ -149,4 +151,6 @@ export interface ISelectionStatistics {
     requests?: number;
     errors?: number;
     responseTime?: number;
+    threshold?: number;
+    thresholdViolation?: boolean;
 };

@@ -82,6 +82,14 @@
   white-space: nowrap;
 }
 
+.threshold--bad {
+  color:red;
+}
+
+.threshold--good {
+  color: green;
+}
+
 .table--th--selectionSmall {
   width: 5.5rem;
 }

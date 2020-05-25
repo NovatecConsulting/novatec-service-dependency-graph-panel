@@ -100,9 +100,9 @@ export default class CanvasDrawer {
         }
     }
 
-    _getImageAsset(assetName) {
+    _getImageAsset(assetName, resolveName = true) {
         if (!_.has(this.imageAssets, assetName)) {
-            const assetUrl = this.controller.getTypeSymbol(assetName);
+            const assetUrl = this.controller.getTypeSymbol(assetName, resolveName);
             this._loadImage(assetUrl, assetName);
         }
 
@@ -466,6 +466,8 @@ export default class CanvasDrawer {
         if (type === EGraphNodeType.INTERNAL) {
             const requestCount = _.defaultTo(metrics.rate, 1);
             const errorCount = _.defaultTo(metrics.error_rate, 0);
+            const responseTime = _.defaultTo(metrics.response_time, -1);
+            const threshold = _.defaultTo(metrics.threshold, -1);
 
             var errorPct;
             if (errorCount <= 0) {
@@ -477,6 +479,12 @@ export default class CanvasDrawer {
 
             // drawing the donut
             this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, 0, healthyPct])
+
+            // drawing the baseline status
+            if (responseTime >= 0 && threshold >= 0) {
+                const thresholdViolation = threshold < responseTime;
+                this._drawThreshold(ctx, node, thresholdViolation);
+            }
         } else {
             this._drawExternalService(ctx, node);
         }
@@ -490,10 +498,10 @@ export default class CanvasDrawer {
     _drawNodeStatistics(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
         const lines: string[] = [];
 
-        const metrics = node.data('metrics');
-        const requestCount = _.get(metrics, 'rate', -1);
-        const errorCount = _.get(metrics, 'error_rate', -1);
-        const responseTime = _.get(metrics, 'response_time', -1);
+        const metrics: IGraphMetrics = node.data('metrics');
+        const requestCount = _.defaultTo(metrics.rate, -1);
+        const errorCount = _.defaultTo(metrics.error_rate, -1);
+        const responseTime = _.defaultTo(metrics.response_time, -1);
 
         if (requestCount >= 0) {
             lines.push('Requests: ' + Math.floor(requestCount));
@@ -516,6 +524,26 @@ export default class CanvasDrawer {
             ctx.fillText(lines[i], cX, cY + i * fontSize);
         }
     }
+
+    _drawThreshold(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, violation: boolean) {
+        const pos = node.position();
+        const cX = pos.x - 13;
+        const cY = pos.y + 10;
+        const size = 6;
+        const iconSize = size + 2;
+
+        ctx.beginPath();
+        ctx.arc(cX, cY, size, 0, 2 * Math.PI, false);
+        ctx.fillStyle = violation ? "#b82424" : "green";
+        ctx.fill();
+
+        const image = this._getImageAsset(violation ? "baseline_bad.png" : "baseline_good.png", false);
+
+        if (image != null) {
+            ctx.drawImage(image, cX - iconSize / 2, cY - iconSize / 2, iconSize, iconSize);
+        }
+    }
+
 
     _drawExternalService(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
         const pos = node.position();
@@ -577,6 +605,11 @@ export default class CanvasDrawer {
     }
 
     _drawDonut(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, radius, width, strokeWidth, percentages) {
+
+        // const metrics = node.data('metrics');
+        // const responseTime = _.get(metrics, 'response_time', -1);
+        // const threshold = _.get(metrics, 'threshold', -1);
+
         const cX = node.position().x;
         const cY = node.position().y;
 
@@ -584,7 +617,17 @@ export default class CanvasDrawer {
 
         ctx.beginPath();
         ctx.arc(cX, cY, radius + strokeWidth, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'white';
+        // if (threshold >= 0) {
+        //     if (threshold >= responseTime) {
+        //         ctx.fillStyle = 'green';
+        //     } else {
+        //         ctx.fillStyle = ' red';
+        //     }
+
+        // } else {
+            ctx.fillStyle = 'white';
+        // }
+
         ctx.fill();
 
         const { healthyColor, dangerColor } = this.controller.getSettings().style;
