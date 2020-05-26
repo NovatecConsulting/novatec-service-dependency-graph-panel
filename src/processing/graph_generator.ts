@@ -78,21 +78,25 @@ class GraphGenerator {
 
 		const missingNodes = map(missingNodeNames, name => {
 			let nodeType: EGraphNodeType;
+			let external_type: string | undefined;
 
 			// derive node type
 			let elementSrc = find(data, { source: name });
 			let elementTrgt = find(data, { target: name });
 			if (elementSrc && elementSrc.type == GraphDataType.EXTERNAL_IN) {
 				nodeType = EGraphNodeType.EXTERNAL;
+				external_type = elementSrc.data.type;
 			} else if (elementTrgt && elementTrgt.type == GraphDataType.EXTERNAL_OUT) {
 				nodeType = EGraphNodeType.EXTERNAL;
+				external_type = elementTrgt.data.type
 			} else {
 				nodeType = EGraphNodeType.INTERNAL;
 			}
 
 			return <IGraphNode>{
 				name,
-				type: nodeType
+				type: nodeType,
+				external_type: external_type
 			};
 		});
 
