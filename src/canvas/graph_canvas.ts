@@ -493,7 +493,6 @@ export default class CanvasDrawer {
                 const thresholdViolation = threshold < responseTime;
 
                 this._drawThresholdStroke(ctx, node, thresholdViolation, 15, 0.5);
-                this._drawThreshold(ctx, node, thresholdViolation);
             }
         } else {
             this._drawExternalService(ctx, node);
@@ -535,47 +534,33 @@ export default class CanvasDrawer {
         }
     }
 
-    _drawThreshold(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, violation: boolean) {
-        const pos = node.position();
-        const cX = pos.x - 13;
-        const cY = pos.y + 10;
-        const size = 6;
-        const iconSize = size + 2;
-
-        ctx.beginPath();
-        ctx.arc(cX, cY, size, 0, 2 * Math.PI, false);
-        ctx.fillStyle = violation ? "#b82424" : "green";
-        ctx.fill();
-
-        const image = this._getImageAsset(violation ? "baseline_bad.png" : "baseline_good.png", false);
-
-        if (image != null) {
-            ctx.drawImage(image, cX - iconSize / 2, cY - iconSize / 2, iconSize, iconSize);
-        }        
-    }
-
-    _drawThresholdStroke(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, violation: boolean, radius: number, strokeWidth: number) {
+    _drawThresholdStroke(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, violation: boolean, radius: number, baseStrokeWidth: number) {
         const pos = node.position();
         const cX = pos.x;
         const cY = pos.y;
 
+        const strokeWidth = baseStrokeWidth * 2 * (violation ? 1.5 : 1);
+        const offset = strokeWidth * 0.2;
+
         ctx.beginPath();
-        ctx.arc(cX, cY, radius + strokeWidth * 2, 0, 2 * Math.PI, false);
+        ctx.arc(cX, cY, radius + strokeWidth - offset, 0, 2 * Math.PI, false);
         ctx.closePath();
         ctx.setLineDash([]);
-        ctx.lineWidth = strokeWidth * 2;
+        ctx.lineWidth = strokeWidth * 1;
         ctx.strokeStyle = 'white';
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.arc(cX, cY, radius + strokeWidth * 2, 0, 2 * Math.PI, false);
+        ctx.arc(cX, cY, radius + strokeWidth - offset, 0, 2 * Math.PI, false);
         ctx.closePath();
 
-        ctx.setLineDash([5, 4]);
-        if (this.controller.panel.settings.animate) {
-            ctx.lineDashOffset = this.dashAnimationOffset;
+        ctx.setLineDash([6, 4]);
+        if (violation && this.controller.panel.settings.animate) {
+           ctx.lineDashOffset = this.dashAnimationOffset;
+        } else {
+            ctx.lineDashOffset = 0;
         }
-        ctx.lineWidth = strokeWidth * 2;
+        ctx.lineWidth = strokeWidth;
         ctx.strokeStyle = violation ? 'red' : 'green';
 
         ctx.stroke();
