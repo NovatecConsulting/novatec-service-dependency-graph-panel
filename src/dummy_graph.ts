@@ -24,7 +24,9 @@ const data: QueryResponse[] = [
             [0, "", "customers-service", "http", "discovery-server", 20],
             [0, "", "vets-service", "http", "discovery-server", 20],
             [0, "", "visits-service", "http", "discovery-server", 20],
-            [0, "tcp://localhost:61616", "vets-service", "jms", "visits-service", 300]
+            [0, "tcp://localhost:61616", "vets-service", "jms", "visits-service", 300],
+            [0, "myTest", "", "http", "api-gateway", 200]
+
         ]
     },
 
@@ -53,7 +55,7 @@ const data: QueryResponse[] = [
             [0, "http", "visits-service", "", "discovery-server", 20],
             [0, "jdbc", "customers-service", "jdbc:hsqldb:mem:testdb", "", 1847],
             [0, "jdbc", "vets-service", "jdbc:hsqldb:mem:testdb", "", 441],
-            [0, "jdbc", "visits-service", "jdbc:hsqldb:mem:testdb", "", 100]
+            [0, "jdbc", "visits-service", "jdbc:hsqldb:mem:testdb", "", 100],
         ]
     },
 
