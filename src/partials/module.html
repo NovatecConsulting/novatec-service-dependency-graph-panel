@@ -41,7 +41,12 @@
                 </tr>
                 <tr ng-show="ctrl.selectionStatistics.responseTime >= 0">
                     <td class="table--td--selection">Avg. Response Time</td>
-                    <td class="table--td--selection">{{ctrl.selectionStatistics.responseTime}}ms</td>
+                    <td class="table--td--selection">{{ctrl.selectionStatistics.responseTime}} ms</td>
+                </tr>
+                <tr ng-show="ctrl.panel.settings.showBaselines && ctrl.selectionStatistics.threshold">
+                    <td class="table--td--selection">Response Time Health (Upper Baseline)</td>
+                    <td class="table--td--selection threshold--good" ng-show="!ctrl.selectionStatistics.thresholdViolation">Good (&lt;= {{ctrl.selectionStatistics.threshold}}ms)</td>
+                    <td class="table--td--selection threshold--bad" ng-show="ctrl.selectionStatistics.thresholdViolation">Bad (> {{ctrl.selectionStatistics.threshold}}ms)</td>
                 </tr>
             </table>
 

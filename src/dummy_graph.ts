@@ -24,7 +24,8 @@ const data: QueryResponse[] = [
             [0, "", "customers-service", "http", "discovery-server", 20],
             [0, "", "vets-service", "http", "discovery-server", 20],
             [0, "", "visits-service", "http", "discovery-server", 20],
-            [0, "tcp://localhost:61616", "vets-service", "jms", "visits-service", 300]
+            [0, "tcp://localhost:61616", "vets-service", "jms", "visits-service", 300],
+            [0, "tcp://10.10.10.10:61616", "", "jms", "api-gateway", 100]
         ]
     },
 
@@ -69,7 +70,7 @@ const data: QueryResponse[] = [
         refId: undefined,
         meta: undefined,
         rows: [
-            [0, "", "http", "api-gateway", "", 4514.008427999986],
+            [0, "", "http", "api-gateway", "", 45140.008427999986],
             [0, "", "http", "config-server", "", 0],
             [0, "", "http", "discovery-server", "", 0],
             [0, "api-gateway", "http", "api-gateway", "", 1511.9842349999872],
@@ -148,7 +149,22 @@ const data: QueryResponse[] = [
             [0, "api-gateway", "http", "visits-service", "", 0],
             [0, "customers-service", "http", "discovery-server", "", 20]
         ]
+    },
+
+    {
+        columns: [
+            { type: "time", text: "Time" },
+            { text: "service" },
+            { text: "threshold" }
+        ],
+        refId: undefined,
+        meta: undefined,
+        rows: [
+            [0, "api-gateway", 40.40604300000001],
+            [0, "customers-service", 10]
+        ]
     }
+
 ]
 
 export default data;

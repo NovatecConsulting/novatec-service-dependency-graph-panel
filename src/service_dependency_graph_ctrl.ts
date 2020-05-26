@@ -54,6 +54,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				dangerColor: 'rgb(184, 36, 36)'
 			},
 			showDebugInformation: false,
+			showBaselines: false,
 			dataMapping: {
 				sourceComponentPrefix: "origin_",
 				targetComponentPrefix: "target_",
@@ -67,7 +68,9 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 				extOrigin: 'external_origin',
 				extTarget: 'external_target',
-				type: 'type'
+				type: 'type',
+
+				baselineRtUpper: 'threshold'
 			},
 			drillDownLink: "",
 		}
@@ -322,6 +325,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			const requestCount = _.defaultTo(metrics.rate, -1);
 			const errorCount = _.defaultTo(metrics.error_rate, -1);
 			const duration = _.defaultTo(metrics.response_time, -1);
+			const threshold = _.defaultTo(metrics.threshold, -1);
 
 			this.selectionStatistics = {};
 
@@ -333,6 +337,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			}
 			if (duration >= 0) {
 				this.selectionStatistics.responseTime = Math.floor(duration);
+
+				if (threshold >= 0) {
+					this.selectionStatistics.threshold = Math.floor(threshold);
+					this.selectionStatistics.thresholdViolation = duration > threshold;
+				}
 			}
 
 			for (let i = 0; i < edges.length; i++) {
@@ -353,7 +362,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 				const nodeMetrics: IGraphMetrics = node.data('metrics');
 				const nodeRequestCount = _.defaultTo(nodeMetrics.rate, -1);
-        		const nodeErrorCount = _.defaultTo(nodeMetrics.error_rate, -1);
+				const nodeErrorCount = _.defaultTo(nodeMetrics.error_rate, -1);
 
 				let sendingObject: TableContent = { name: node.id(), responseTime: "-", rate: "-", error: "-" };
 
@@ -381,8 +390,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	}
 
 	onMount() {
-		// console.log("mount");
-		this.render();
+		if (this.getSettings().showDummyData) {
+			this.updateDummyData();
+		} else {
+			this.render();
+		}
 	}
 
 	onRender(payload) {
@@ -464,18 +476,28 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	}
 
 	onDataReceived(receivedData: QueryResponse[]) {
-		// use dummy data if enabled
-		if (this.getSettings().showDummyData) {
-			receivedData = dummyData;
-		}
+		// only if dummy data is not enabled
+		if (!this.getSettings().showDummyData) {
+			this.processQueryData(receivedData);
+		}		
+	}
 
-		this.validQueryTypes = this.hasOnlyTableQueries(receivedData);
+	updateDummyData() {
+		if (this.getSettings().showDummyData) {
+			this.processQueryData(dummyData);
+		} else {
+			this.currentData = undefined;
+		}
+	}
+
+	processQueryData(data: QueryResponse[]) {
+		this.validQueryTypes = this.hasOnlyTableQueries(data);
 
 		if (this.hasAggregationVariable() && this.validQueryTypes) {
-			const graphData = this.preProcessor.processData(receivedData);
+			const graphData = this.preProcessor.processData(data);
 
 			console.groupCollapsed('Processed received data');
-			console.log('raw data: ', receivedData);
+			console.log('raw data: ', data);
 			console.log('graph data: ', graphData);
 			console.groupEnd();
 
@@ -498,9 +520,13 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		return baseUrl + '/assets/' + assetName;
 	}
 
-	getTypeSymbol(type) {
+	getTypeSymbol(type, resolveName = true) {
 		if (!type) {
 			return this.getAssetUrl('default.png');
+		}
+
+		if (!resolveName) {
+			return this.getAssetUrl(type);
 		}
 
 		const { externalIcons } = this.getSettings();

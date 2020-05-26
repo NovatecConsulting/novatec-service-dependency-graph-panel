@@ -82,6 +82,14 @@
   white-space: nowrap;
 }
 
+.threshold--bad {
+  color:#f2495c;
+}
+
+.threshold--good {
+  color: #73bf69;
+}
+
 .table--th--selectionSmall {
   width: 5.5rem;
 }

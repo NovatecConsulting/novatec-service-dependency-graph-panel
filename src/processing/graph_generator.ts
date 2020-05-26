@@ -12,6 +12,7 @@ class GraphGenerator {
 	}
 
 	_createNode(dataElements: GraphDataElement[]): IGraphNode | undefined {
+
 		if (!dataElements || dataElements.length <= 0) {
 			return undefined;
 		}
@@ -49,6 +50,9 @@ class GraphGenerator {
 				node.external_type = externalType[0];
 			}
 		}
+
+		// metrics which are same for internal and external nodes
+		metrics.threshold = mean(map(dataElements, element => element.data.threshold));
 
 		if (sumMetrics) {
 			const requestCount = defaultTo(metrics.rate, 0) + defaultTo(metrics.error_rate, 0);

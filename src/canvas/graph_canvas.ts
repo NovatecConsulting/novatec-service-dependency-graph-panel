@@ -46,6 +46,8 @@ export default class CanvasDrawer {
 
     lastRenderTime: number = 0;
 
+    dashAnimationOffset: number = 0;
+
     constructor(ctrl: ServiceDependencyGraphCtrl, cy: cytoscape.Core, cyCanvas: CyCanvas) {
         this.cytoscape = cy;
         this.cyCanvas = cyCanvas;
@@ -100,9 +102,9 @@ export default class CanvasDrawer {
         }
     }
 
-    _getImageAsset(assetName) {
+    _getImageAsset(assetName, resolveName = true) {
         if (!_.has(this.imageAssets, assetName)) {
-            const assetUrl = this.controller.getTypeSymbol(assetName);
+            const assetUrl = this.controller.getTypeSymbol(assetName, resolveName);
             this._loadImage(assetUrl, assetName);
         }
 
@@ -209,8 +211,12 @@ export default class CanvasDrawer {
             this._drawDebugInformation();
         }
 
-        if (offscreenCanvas.width > 0 && offscreenCanvas.height > 0)
+        if (offscreenCanvas.width > 0 && offscreenCanvas.height > 0) {
             ctx.drawImage(offscreenCanvas, 0, 0);
+        }
+
+        // baseline animation
+        this.dashAnimationOffset = (Date.now() % 60000) / 250;
     }
 
     _setTransformation(ctx: CanvasRenderingContext2D) {
@@ -387,7 +393,8 @@ export default class CanvasDrawer {
             index--;
         }
 
-        ctx.fillStyle = 'red';
+        const dangerColor = this.controller.getSettings().style.dangerColor;
+        ctx.fillStyle = dangerColor;
         ctx.fill();
     }
 
@@ -466,6 +473,8 @@ export default class CanvasDrawer {
         if (type === EGraphNodeType.INTERNAL) {
             const requestCount = _.defaultTo(metrics.rate, 1);
             const errorCount = _.defaultTo(metrics.error_rate, 0);
+            const responseTime = _.defaultTo(metrics.response_time, -1);
+            const threshold = _.defaultTo(metrics.threshold, -1);
 
             var errorPct;
             if (errorCount <= 0) {
@@ -477,6 +486,14 @@ export default class CanvasDrawer {
 
             // drawing the donut
             this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, 0, healthyPct])
+
+            // drawing the baseline status
+            const showBaselines = this.controller.getSettings().showBaselines;
+            if (showBaselines && responseTime >= 0 && threshold >= 0) {
+                const thresholdViolation = threshold < responseTime;
+
+                this._drawThresholdStroke(ctx, node, thresholdViolation, 15, 0.5);
+            }
         } else {
             this._drawExternalService(ctx, node);
         }
@@ -490,10 +507,10 @@ export default class CanvasDrawer {
     _drawNodeStatistics(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
         const lines: string[] = [];
 
-        const metrics = node.data('metrics');
-        const requestCount = _.get(metrics, 'rate', -1);
-        const errorCount = _.get(metrics, 'error_rate', -1);
-        const responseTime = _.get(metrics, 'response_time', -1);
+        const metrics: IGraphMetrics = node.data('metrics');
+        const requestCount = _.defaultTo(metrics.rate, -1);
+        const errorCount = _.defaultTo(metrics.error_rate, -1);
+        const responseTime = _.defaultTo(metrics.response_time, -1);
 
         if (requestCount >= 0) {
             lines.push('Requests: ' + Math.floor(requestCount));
@@ -515,6 +532,38 @@ export default class CanvasDrawer {
         for (let i = 0; i < lines.length; i++) {
             ctx.fillText(lines[i], cX, cY + i * fontSize);
         }
+    }
+
+    _drawThresholdStroke(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, violation: boolean, radius: number, baseStrokeWidth: number) {
+        const pos = node.position();
+        const cX = pos.x;
+        const cY = pos.y;
+
+        const strokeWidth = baseStrokeWidth * 2 * (violation ? 1.5 : 1);
+        const offset = strokeWidth * 0.2;
+
+        ctx.beginPath();
+        ctx.arc(cX, cY, radius + strokeWidth - offset, 0, 2 * Math.PI, false);
+        ctx.closePath();
+        ctx.setLineDash([]);
+        ctx.lineWidth = strokeWidth * 1;
+        ctx.strokeStyle = 'white';
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(cX, cY, radius + strokeWidth - offset, 0, 2 * Math.PI, false);
+        ctx.closePath();
+
+        ctx.setLineDash([10, 2]);
+        if (violation && this.controller.panel.settings.animate) {
+        ctx.lineDashOffset = this.dashAnimationOffset;
+        } else {
+            ctx.lineDashOffset = 0;
+        }
+        ctx.lineWidth = strokeWidth;
+        ctx.strokeStyle = violation ? 'rgb(184, 36, 36)' : '#37872d';
+
+        ctx.stroke();
     }
 
     _drawExternalService(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
@@ -584,8 +633,9 @@ export default class CanvasDrawer {
 
         ctx.beginPath();
         ctx.arc(cX, cY, radius + strokeWidth, 0, 2 * Math.PI, false);
+        ctx.closePath();
         ctx.fillStyle = 'white';
-        ctx.fill();
+        ctx.fill();   
 
         const { healthyColor, dangerColor } = this.controller.getSettings().style;
         const colors = [dangerColor, this.colors.status.warning, healthyColor];
@@ -600,7 +650,6 @@ export default class CanvasDrawer {
         ctx.fill();
 
         // // cut out an inner-circle == donut
-        //ctx.save();
         ctx.beginPath();
         ctx.arc(cX, cY, radius - width - strokeWidth, 0, 2 * Math.PI, false);
         if (node.selected()) {
@@ -609,9 +658,6 @@ export default class CanvasDrawer {
             ctx.fillStyle = this.colors.background;
         }
         ctx.fill();
-        // ctx.clip();
-        // ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        // ctx.restore();
     }
 
     _drawArc(ctx: CanvasRenderingContext2D, currentArc, cX, cY, radius, percent, color) {
