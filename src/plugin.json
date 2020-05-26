@@ -34,8 +34,8 @@
         "path": "img/screenshot-showcase.png"
       }
     ],
-    "version": "2.1",
-    "updated": "2020-05-07"
+    "version": "2.2.0",
+    "updated": "2020-05-26"
   },
   "dependencies": {
     "grafanaVersion": "5.x.x",
