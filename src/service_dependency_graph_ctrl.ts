@@ -347,10 +347,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			for (let i = 0; i < edges.length; i++) {
 
 				const actualEdge: EdgeSingular = edges[i];
-				const edgeMetrics: IGraphMetrics = actualEdge.data('metrics');
-
-				let { response_time, rate } = edgeMetrics;
-				let sendingCheck: boolean = actualEdge.source().id() === this.selectionId;
+				const sendingCheck: boolean = actualEdge.source().id() === this.selectionId;
 				let node: NodeSingular;
 
 				if (sendingCheck) {
@@ -360,20 +357,24 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 					node = actualEdge.source()
 				}
 
-				const nodeMetrics: IGraphMetrics = node.data('metrics');
-				const nodeRequestCount = _.defaultTo(nodeMetrics.rate, -1);
-				const nodeErrorCount = _.defaultTo(nodeMetrics.error_rate, -1);
+				const sendingObject: TableContent = {
+					name: node.id(),
+					responseTime: "-",
+					rate: "-",
+					error: "-"
+				};
 
-				let sendingObject: TableContent = { name: node.id(), responseTime: "-", rate: "-", error: "-" };
+				const edgeMetrics: IGraphMetrics = actualEdge.data('metrics');
+				const { response_time, rate, error_rate } = edgeMetrics;
 
-				if (nodeErrorCount >= 0 && nodeRequestCount >= 0) {
-					sendingObject.error = Math.floor(nodeErrorCount / (nodeRequestCount / 100)) + "%";
-				}
 				if (rate != undefined) {
 					sendingObject.rate = Math.floor(rate).toString();
 				}
 				if (response_time != undefined) {
-					sendingObject.responseTime = Math.floor(response_time) + "ms";
+					sendingObject.responseTime = Math.floor(response_time) + " ms";
+				}
+				if (error_rate != undefined && rate != undefined) {
+					sendingObject.error = Math.floor(error_rate / (rate / 100)) + "%";
 				}
 
 				if (sendingCheck) {
@@ -479,7 +480,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		// only if dummy data is not enabled
 		if (!this.getSettings().showDummyData) {
 			this.processQueryData(receivedData);
-		}		
+		}
 	}
 
 	updateDummyData() {
