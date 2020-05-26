@@ -387,7 +387,8 @@ export default class CanvasDrawer {
             index--;
         }
 
-        ctx.fillStyle = 'red';
+        const dangerColor = this.controller.getSettings().style.dangerColor;
+        ctx.fillStyle = dangerColor;
         ctx.fill();
     }
 
@@ -481,7 +482,8 @@ export default class CanvasDrawer {
             this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, 0, healthyPct])
 
             // drawing the baseline status
-            if (responseTime >= 0 && threshold >= 0) {
+            const showBaselines = this.controller.getSettings().showBaselines;
+            if (showBaselines && responseTime >= 0 && threshold >= 0) {
                 const thresholdViolation = threshold < responseTime;
                 this._drawThreshold(ctx, node, thresholdViolation);
             }

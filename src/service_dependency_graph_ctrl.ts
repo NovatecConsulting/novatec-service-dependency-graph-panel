@@ -54,6 +54,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				dangerColor: 'rgb(184, 36, 36)'
 			},
 			showDebugInformation: false,
+			showBaselines: false,
 			dataMapping: {
 				sourceComponentPrefix: "origin_",
 				targetComponentPrefix: "target_",
@@ -67,7 +68,9 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 				extOrigin: 'external_origin',
 				extTarget: 'external_target',
-				type: 'type'
+				type: 'type',
+
+				baselineRtUpper: 'threshold'
 			},
 			drillDownLink: "",
 		}

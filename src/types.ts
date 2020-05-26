@@ -9,6 +9,7 @@ export interface PanelSettings {
     dataMapping: DataMapping;
     showDummyData: boolean;
     drillDownLink: string;
+    showBaselines: boolean;
 };
 
 export interface DataMapping {
@@ -25,6 +26,8 @@ export interface DataMapping {
     extOrigin: string;
     extTarget: string;
     type: string;
+
+    baselineRtUpper: string;
 };
 
 export interface PanelStyleSettings {

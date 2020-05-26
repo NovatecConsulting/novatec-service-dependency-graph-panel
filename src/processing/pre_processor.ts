@@ -130,7 +130,7 @@ class PreProcessor {
 		columnMapping['rate_out'] = Utils.getConfig(this.controller, 'requestRateOutgoingColumn');
 		columnMapping['error_rate_out'] = Utils.getConfig(this.controller, 'errorRateOutgoingColumn');
 		columnMapping['type'] = Utils.getConfig(this.controller, 'type');
-		columnMapping["threshold"] = "threshold"; //TODO configuration
+		columnMapping["threshold"] = Utils.getConfig(this.controller, 'baselineRtUpper');
 
 		const cleanedData = map(data, dataElement => {
 			const cleanedMetaData = this._cleanMetaData(columnMapping, dataElement.data);
