@@ -83,11 +83,11 @@
 }
 
 .threshold--bad {
-  color:red;
+  color:#f2495c;
 }
 
 .threshold--good {
-  color: green;
+  color: #73bf69;
 }
 
 .table--th--selectionSmall {

@@ -390,8 +390,11 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	}
 
 	onMount() {
-		// console.log("mount");
-		this.render();
+		if (this.getSettings().showDummyData) {
+			this.updateDummyData();
+		} else {
+			this.render();
+		}
 	}
 
 	onRender(payload) {
@@ -473,18 +476,28 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 	}
 
 	onDataReceived(receivedData: QueryResponse[]) {
-		// use dummy data if enabled
-		if (this.getSettings().showDummyData) {
-			receivedData = dummyData;
-		}
+		// only if dummy data is not enabled
+		if (!this.getSettings().showDummyData) {
+			this.processQueryData(receivedData);
+		}		
+	}
 
-		this.validQueryTypes = this.hasOnlyTableQueries(receivedData);
+	updateDummyData() {
+		if (this.getSettings().showDummyData) {
+			this.processQueryData(dummyData);
+		} else {
+			this.currentData = undefined;
+		}
+	}
+
+	processQueryData(data: QueryResponse[]) {
+		this.validQueryTypes = this.hasOnlyTableQueries(data);
 
 		if (this.hasAggregationVariable() && this.validQueryTypes) {
-			const graphData = this.preProcessor.processData(receivedData);
+			const graphData = this.preProcessor.processData(data);
 
 			console.groupCollapsed('Processed received data');
-			console.log('raw data: ', receivedData);
+			console.log('raw data: ', data);
 			console.log('graph data: ', graphData);
 			console.groupEnd();
 

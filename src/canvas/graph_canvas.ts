@@ -554,14 +554,14 @@ export default class CanvasDrawer {
         ctx.arc(cX, cY, radius + strokeWidth - offset, 0, 2 * Math.PI, false);
         ctx.closePath();
 
-        ctx.setLineDash([6, 4]);
+        ctx.setLineDash([10, 2]);
         if (violation && this.controller.panel.settings.animate) {
-           ctx.lineDashOffset = this.dashAnimationOffset;
+        ctx.lineDashOffset = this.dashAnimationOffset;
         } else {
             ctx.lineDashOffset = 0;
         }
         ctx.lineWidth = strokeWidth;
-        ctx.strokeStyle = violation ? 'red' : 'green';
+        ctx.strokeStyle = violation ? 'rgb(184, 36, 36)' : '#37872d';
 
         ctx.stroke();
     }
@@ -650,7 +650,6 @@ export default class CanvasDrawer {
         ctx.fill();
 
         // // cut out an inner-circle == donut
-        //ctx.save();
         ctx.beginPath();
         ctx.arc(cX, cY, radius - width - strokeWidth, 0, 2 * Math.PI, false);
         if (node.selected()) {
@@ -659,9 +658,6 @@ export default class CanvasDrawer {
             ctx.fillStyle = this.colors.background;
         }
         ctx.fill();
-        // ctx.clip();
-        // ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        // ctx.restore();
     }
 
     _drawArc(ctx: CanvasRenderingContext2D, currentArc, cX, cY, radius, percent, color) {
