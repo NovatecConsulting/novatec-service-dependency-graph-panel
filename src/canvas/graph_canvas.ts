@@ -471,28 +471,38 @@ export default class CanvasDrawer {
         const metrics: IGraphMetrics = node.data('metrics');
 
         if (type === EGraphNodeType.INTERNAL) {
-            const requestCount = _.defaultTo(metrics.rate, 1);
+            const requestCount = _.defaultTo(metrics.rate, -1);
             const errorCount = _.defaultTo(metrics.error_rate, 0);
             const responseTime = _.defaultTo(metrics.response_time, -1);
             const threshold = _.defaultTo(metrics.threshold, -1);
 
+            var unknownPct;
             var errorPct;
-            if (errorCount <= 0) {
-                errorPct = 0.0;
+            var healthyPct;
+
+            if (requestCount < 0) {
+                healthyPct = 0;
+                errorPct = 0;
+                unknownPct = 1;
             } else {
-                errorPct = 1.0 / requestCount * errorCount;
+                if (errorCount <= 0) {
+                    errorPct = 0.0;
+                } else {
+                    errorPct = 1.0 / requestCount * errorCount;
+                }
+                healthyPct = 1.0 - errorPct;
+                unknownPct = 0;
             }
-            const healthyPct = 1.0 - errorPct;
 
             // drawing the donut
-            this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, 0, healthyPct])
+            this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct])
 
             // drawing the baseline status
             const showBaselines = this.controller.getSettings().showBaselines;
             if (showBaselines && responseTime >= 0 && threshold >= 0) {
                 const thresholdViolation = threshold < responseTime;
 
-                this._drawThresholdStroke(ctx, node, thresholdViolation, 15, 0.5);
+                this._drawThresholdStroke(ctx, node, thresholdViolation, 15, 5, 0.5);
             }
         } else {
             this._drawExternalService(ctx, node);
@@ -534,7 +544,7 @@ export default class CanvasDrawer {
         }
     }
 
-    _drawThresholdStroke(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, violation: boolean, radius: number, baseStrokeWidth: number) {
+    _drawThresholdStroke(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, violation: boolean, radius: number, width: number, baseStrokeWidth: number) {
         const pos = node.position();
         const cX = pos.x;
         const cY = pos.y;
@@ -556,7 +566,7 @@ export default class CanvasDrawer {
 
         ctx.setLineDash([10, 2]);
         if (violation && this.controller.panel.settings.animate) {
-        ctx.lineDashOffset = this.dashAnimationOffset;
+            ctx.lineDashOffset = this.dashAnimationOffset;
         } else {
             ctx.lineDashOffset = 0;
         }
@@ -564,6 +574,13 @@ export default class CanvasDrawer {
         ctx.strokeStyle = violation ? 'rgb(184, 36, 36)' : '#37872d';
 
         ctx.stroke();
+
+        // inner
+        ctx.beginPath();
+        ctx.arc(cX, cY, radius - width - baseStrokeWidth, 0, 2 * Math.PI, false);
+        ctx.closePath();
+        ctx.fillStyle = violation ? 'rgb(184, 36, 36)' : '#37872d';
+        ctx.fill();
     }
 
     _drawExternalService(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
@@ -607,7 +624,17 @@ export default class CanvasDrawer {
         const xPos = pos.x - labelWidth / 2;
         const yPos = pos.y + node.height() * 0.8;
 
-        ctx.fillStyle = this.colors.default;
+        const showBaselines = this.controller.getSettings().showBaselines;
+        const metrics: IGraphMetrics = node.data('metrics');
+        const responseTime = _.defaultTo(metrics.response_time, -1);
+        const threshold = _.defaultTo(metrics.threshold, -1);
+        
+        if (!showBaselines || threshold < 0 || responseTime < 0 || responseTime <= threshold) {
+            ctx.fillStyle = this.colors.default;
+        } else {
+            ctx.fillStyle = '#FF7383';
+        }
+
         ctx.fillRect(xPos - labelPadding, yPos - 6 - labelPadding, labelWidth + 2 * labelPadding, 6 + 2 * labelPadding);
 
         ctx.fillStyle = this.colors.background;
@@ -635,10 +662,10 @@ export default class CanvasDrawer {
         ctx.arc(cX, cY, radius + strokeWidth, 0, 2 * Math.PI, false);
         ctx.closePath();
         ctx.fillStyle = 'white';
-        ctx.fill();   
+        ctx.fill();
 
-        const { healthyColor, dangerColor } = this.controller.getSettings().style;
-        const colors = [dangerColor, this.colors.status.warning, healthyColor];
+        const { healthyColor, dangerColor, unknownColor } = this.controller.getSettings().style;
+        const colors = [dangerColor, unknownColor, healthyColor];
         for (let i = 0; i < percentages.length; i++) {
             let arc = this._drawArc(ctx, currentArc, cX, cY, radius, percentages[i], colors[i]);
             currentArc += arc;

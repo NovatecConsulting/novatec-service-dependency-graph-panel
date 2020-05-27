@@ -167,10 +167,20 @@
                     <spectrum-picker ng-model="ctrl.panel.settings.style.healthyColor" ng-change="ctrl.render()">
                     </spectrum-picker>
                 </span>
+            </div>
 
+            <div class="gf-form-inline">
                 <label class="gf-form-label width-8">Danger Color</label>
                 <span class="gf-form-label">
                     <spectrum-picker ng-model="ctrl.panel.settings.style.dangerColor" ng-change="ctrl.render()">
+                    </spectrum-picker>
+                </span>
+            </div>
+
+            <div class="gf-form-inline">
+                <label class="gf-form-label width-8">No Data Color</label>
+                <span class="gf-form-label">
+                    <spectrum-picker ng-model="ctrl.panel.settings.style.unknownColor" ng-change="ctrl.render()">
                     </spectrum-picker>
                 </span>
             </div>

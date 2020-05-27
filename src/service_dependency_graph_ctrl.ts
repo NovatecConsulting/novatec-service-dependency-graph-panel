@@ -51,7 +51,8 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			],
 			style: {
 				healthyColor: 'rgb(87, 148, 242)',
-				dangerColor: 'rgb(184, 36, 36)'
+				dangerColor: 'rgb(184, 36, 36)',
+				unknownColor: 'rgb(123, 123, 138)'
 			},
 			showDebugInformation: false,
 			showBaselines: false,

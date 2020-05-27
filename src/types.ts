@@ -33,6 +33,7 @@ export interface DataMapping {
 export interface PanelStyleSettings {
     healthyColor: string;
     dangerColor: string;
+    unknownColor: string;
 }
 
 export interface IconResource {
