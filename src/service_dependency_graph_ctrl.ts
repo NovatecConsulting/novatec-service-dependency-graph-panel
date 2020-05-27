@@ -127,6 +127,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	onRefresh() {
 		console.log("refresh");
+
+		if (this.getSettings().showDummyData) {
+			this.updateDummyData();
+		} 
 	}
 
 	onInitEditMode() {

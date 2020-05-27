@@ -1,4 +1,4 @@
-import _, { groupBy, filter, map, sum, some, isUndefined, uniq, difference, flatMap, concat, mean, defaultTo, find } from 'lodash';
+import _, { groupBy, filter, map, sum, some, isUndefined, uniq, difference, flatMap, concat, mean, defaultTo, find, size } from 'lodash';
 import { isPresent } from '../util/Utils';
 import { ServiceDependencyGraphCtrl } from '../service_dependency_graph_ctrl';
 import { GraphDataElement, IGraph, IGraphEdge, IGraphMetrics, IGraphNode, EGraphNodeType, GraphDataType } from '../types';
@@ -36,11 +36,19 @@ class GraphGenerator {
 		if (internalNode) {
 			metrics.rate = sum(map(dataElements, element => element.data.rate_in));
 			metrics.error_rate = sum(map(dataElements, element => element.data.error_rate_in));
-			metrics.response_time = aggregationFunction(map(dataElements, element => element.data.response_time_in));
+
+			const response_timings = map(dataElements, element => element.data.response_time_in).filter(isPresent);
+			if (response_timings.length > 0) {
+				metrics.response_time = aggregationFunction(response_timings);
+			}
 		} else {
 			metrics.rate = sum(map(dataElements, element => element.data.rate_out));
 			metrics.error_rate = sum(map(dataElements, element => element.data.error_rate_out));
-			metrics.response_time = aggregationFunction(map(dataElements, element => element.data.response_time_out));
+
+			const response_timings = map(dataElements, element => element.data.response_time_out).filter(isPresent);
+			if (response_timings.length > 0) {
+				metrics.response_time = aggregationFunction(response_timings);
+			}
 
 			const externalType = _(dataElements)
 				.map(element => element.data.type)
@@ -52,12 +60,16 @@ class GraphGenerator {
 		}
 
 		// metrics which are same for internal and external nodes
-		metrics.threshold = mean(map(dataElements, element => element.data.threshold));
+		metrics.threshold = _(dataElements)
+			.map(element => element.data.threshold)
+			.filter()
+			.mean();
 
 		if (sumMetrics) {
 			const requestCount = defaultTo(metrics.rate, 0) + defaultTo(metrics.error_rate, 0);
-			if (requestCount > 0) {
-				metrics.response_time = metrics.response_time / requestCount;
+			const response_time = defaultTo(metrics.response_time, -1);
+			if (requestCount > 0 && response_time >= 0) {
+				metrics.response_time = response_time / requestCount;
 			}
 		}
 
@@ -167,40 +179,64 @@ class GraphGenerator {
 		return edges.filter(isPresent);
 	}
 
-	_filterData(data: GraphDataElement[]): GraphDataElement[] {
+	_filterData(graph: IGraph): IGraph {
 		const { filterEmptyConnections: filterData } = this.controller.getSettings();
 
 		if (filterData) {
-			return filter(data, dataElement => {
-				return defaultTo(dataElement.data.rate_in, 0) > 0
-					|| defaultTo(dataElement.data.rate_out, 0) > 0
-					|| defaultTo(dataElement.data.error_rate_in, -1) >= 0
-					|| defaultTo(dataElement.data.error_rate_out, -1) >= 0;
+			const filteredGraph: IGraph = {
+				nodes: [],
+				edges: []
+			};
+
+			// filter empty connections
+			filteredGraph.edges = filter(graph.edges, edge => size(edge.metrics) > 0);
+
+			filteredGraph.nodes = filter(graph.nodes, node => {
+				const name = node.name;
+
+				// don't filter connected elements
+				if (some(graph.edges, { 'source': name }) || some(graph.edges, { 'target': name })) {
+					return true;
+				}
+
+				const metrics = node.metrics;
+				if (!metrics) {
+					return false; // no metrics
+				}
+
+				// only if rate, error rate or response time is available
+				return defaultTo(metrics.rate, -1) >= 0
+					|| defaultTo(metrics.error_rate, -1) >= 0
+					|| defaultTo(metrics.response_time, -1) >= 0;
 			});
+
+			return filteredGraph;
 		} else {
-			return data;
+			return graph;
 		}
 	}
 
 	generateGraph(graphData: GraphDataElement[]): IGraph {
-		const filteredData = this._filterData(graphData);
+		//const filteredData = this._filterData(graphData);
 
-		const nodes = this._createNodes(filteredData);
-		const edges = this._createEdges(filteredData);
-
-		console.groupCollapsed('Graph generated');
-		console.log('Input data:', graphData);
-		console.log('Filtered data:', filteredData);
-		console.log('Nodes:', nodes);
-		console.log('Edges:', edges);
-		console.groupEnd();
+		const nodes = this._createNodes(graphData);
+		const edges = this._createEdges(graphData);
 
 		const graph: IGraph = {
 			nodes,
 			edges
 		};
 
-		return graph;
+		const filteredGraph = this._filterData(graph);
+
+		console.groupCollapsed('Graph generated');
+		console.log('Input data:', graphData);
+		console.log('Nodes:', nodes);
+		console.log('Edges:', edges);
+		console.log('Filtered graph', filteredGraph);
+		console.groupEnd();
+
+		return filteredGraph;
 	}
 }
 
