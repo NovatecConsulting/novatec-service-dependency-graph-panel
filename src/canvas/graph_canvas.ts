@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { ServiceDependencyGraphCtrl } from '../service_dependency_graph_ctrl';
 import ParticleEngine from './particle_engine';
 import { CyCanvas, IGraphMetrics, Particle, EGraphNodeType, Particles } from '../types';
+import humanFormat from 'human-format';
 
 export default class CanvasDrawer {
 
@@ -48,6 +49,8 @@ export default class CanvasDrawer {
 
     dashAnimationOffset: number = 0;
 
+    timeScale: any;
+
     constructor(ctrl: ServiceDependencyGraphCtrl, cy: cytoscape.Core, cyCanvas: CyCanvas) {
         this.cytoscape = cy;
         this.cyCanvas = cyCanvas;
@@ -66,6 +69,12 @@ export default class CanvasDrawer {
 
         this.offscreenCanvas = document.createElement('canvas');
         this.offscreenContext = <CanvasRenderingContext2D>this.offscreenCanvas.getContext('2d');
+
+        this.timeScale = new humanFormat.Scale({
+            ms: 1,
+            s: 1000,
+            min: 60000
+        });
     }
 
     resetAssets() {
@@ -326,13 +335,16 @@ export default class CanvasDrawer {
         const errorCount = _.defaultTo(metrics.error_rate, -1);
 
         if (duration >= 0) {
-            statistics.push(Math.floor(duration) + ' ms');
+            const decimals = duration >= 1000 ? 1 : 0;
+            statistics.push(humanFormat(duration, { scale: this.timeScale, decimals }));
         }
         if (requestCount >= 0) {
-            statistics.push(Math.floor(requestCount) + ' Requests');
+            const decimals = requestCount >= 1000 ? 1 : 0;
+            statistics.push(humanFormat(requestCount) + ' Requests');
         }
         if (errorCount >= 0) {
-            statistics.push(Math.floor(errorCount) + ' Errors');
+            const decimals = errorCount >= 1000 ? 1 : 0;
+            statistics.push(humanFormat(errorCount) + ' Errors');
         }
 
         if (statistics.length > 0) {
@@ -523,13 +535,16 @@ export default class CanvasDrawer {
         const responseTime = _.defaultTo(metrics.response_time, -1);
 
         if (requestCount >= 0) {
-            lines.push('Requests: ' + Math.floor(requestCount));
+            const decimals = requestCount >= 1000 ? 1 : 0;
+            lines.push('Requests: ' + humanFormat(requestCount, { decimals }));
         }
         if (errorCount >= 0) {
-            lines.push('Errors: ' + Math.floor(errorCount));
+            const decimals = errorCount >= 1000 ? 1 : 0;
+            lines.push('Errors: ' + humanFormat(errorCount, { decimals }));
         }
         if (responseTime >= 0) {
-            lines.push('Avg. Resp. Time: ' + Math.floor(responseTime) + ' ms');
+            const decimals = responseTime >= 1000 ? 1 : 0;
+            lines.push('Avg. Resp. Time: ' + humanFormat(responseTime, { scale: this.timeScale, decimals }));
         }
 
         const pos = node.position();
@@ -628,7 +643,7 @@ export default class CanvasDrawer {
         const metrics: IGraphMetrics = node.data('metrics');
         const responseTime = _.defaultTo(metrics.response_time, -1);
         const threshold = _.defaultTo(metrics.threshold, -1);
-        
+
         if (!showBaselines || threshold < 0 || responseTime < 0 || responseTime <= threshold) {
             ctx.fillStyle = this.colors.default;
         } else {

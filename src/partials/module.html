@@ -60,7 +60,7 @@
                     <th class="table--th--selectionSmall">Error Rate</th>
                 </tr>
                 <tr ng-repeat="node in ctrl.receiving">
-                    <td class="table--td--selection">{{node.name}}</td>
+                    <td class="table--td--selection" title="{{node.name}}">{{node.name}}</td>
                     <td class="table--td--selection">{{node.responseTime}}</td>
                     <td class="table--td--selection">{{node.rate}}</td>
                     <td class="table--td--selection">{{node.error}}</td>
@@ -77,7 +77,7 @@
                     <th class="table--th--selectionSmall">Error Rate</th>
                 </tr>
                 <tr ng-repeat="node in ctrl.sending">
-                    <td class="table--td--selection">{{node.name}}</td>
+                    <td class="table--td--selection" title="{{node.name}}">{{node.name}}</td>
                     <td class="table--td--selection">{{node.responseTime}}</td>
                     <td class="table--td--selection">{{node.rate}}</td>
                     <td class="table--td--selection">{{node.error}}</td>
