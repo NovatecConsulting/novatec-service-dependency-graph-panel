@@ -1,0 +1,91 @@
+<div class="service-dependency-graph-panel" ng-style="{height: ctrl.height}">
+    <div class="graph-container" ng-show="!ctrl.getError()">
+        <div class="service-dependency-graph">
+            <div class="canvas-container"></div>
+
+            <div class="zoom-button-container">
+                <button class="btn navbar-button" ng-click="ctrl.toggleAnimation()"><i
+                        ng-class="{fa: true, 'fa-play-circle': !ctrl.panel.settings.animate, 'fa-pause-circle': ctrl.panel.settings.animate}"></i></button>
+                <button class="btn navbar-button" ng-click="ctrl.runLayout()"><i class="fa fa-sitemap"></i></button>
+                <button class="btn navbar-button" ng-click="ctrl.fit()"><i class="fa fa-dot-circle-o"></i></button>
+                <button class="btn navbar-button" ng-click="ctrl.zoom(+1)"><i class="fa fa-plus"></i></button>
+                <button class="btn navbar-button" ng-click="ctrl.zoom(-1)"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div ng-class="{statistics: true, 'show': ctrl.showStatistics}">
+
+            <div class="header--selection">{{ctrl.selectionId}}
+                <a target="_blank" ng-href="{{ctrl.resolvedDrillDownLink}}"
+                    ng-show="ctrl.resolvedDrillDownLink && ctrl.resolvedDrillDownLink.length > 0 && ctrl.currentType === 'INTERNAL'">
+                    <i class="fa fa-paper-plane-o"></i>
+                </a>
+            </div>
+            
+            <div class="secondHeader--selection">Statistics</div>
+            <table class="table--selection">
+                <tr class="table--selection--head">
+                    <th>Name</th>
+                    <th class="table--th--selectionMedium">Value</th>
+                </tr>
+                <tr ng-show="ctrl.selectionStatistics.requests >= 0">
+                    <td class="table--td--selection">Requests</td>
+                    <td class="table--td--selection">{{ctrl.selectionStatistics.requests}}</td>
+                </tr>
+                <tr ng-show="ctrl.selectionStatistics.errors >= 0">
+                    <td class="table--td--selection">Errors</td>
+                    <td class="table--td--selection">{{ctrl.selectionStatistics.errors}}</td>
+                </tr>
+                <tr ng-show="ctrl.selectionStatistics.requests >= 0 && ctrl.selectionStatistics.errors >= 0">
+                    <td class="table--td--selection">Error Rate</td>
+                    <td class="table--td--selection">{{ (100 / ctrl.selectionStatistics.requests * ctrl.selectionStatistics.errors) | number:1 }}%</td>
+                </tr>
+                <tr ng-show="ctrl.selectionStatistics.responseTime >= 0">
+                    <td class="table--td--selection">Avg. Response Time</td>
+                    <td class="table--td--selection">{{ctrl.selectionStatistics.responseTime}} ms</td>
+                </tr>
+                <tr ng-show="ctrl.panel.settings.showBaselines && ctrl.selectionStatistics.threshold">
+                    <td class="table--td--selection">Response Time Health (Upper Baseline)</td>
+                    <td class="table--td--selection threshold--good" ng-show="!ctrl.selectionStatistics.thresholdViolation">Good (&lt;= {{ctrl.selectionStatistics.threshold}}ms)</td>
+                    <td class="table--td--selection threshold--bad" ng-show="ctrl.selectionStatistics.thresholdViolation">Bad (> {{ctrl.selectionStatistics.threshold}}ms)</td>
+                </tr>
+            </table>
+
+            <div class="secondHeader--selection">Incoming Statistics</div>
+            <div class="no-data--selection" ng-show="ctrl.receiving.length == 0">No incoming statistics available.</div>
+            <table class="table--selection" ng-show="ctrl.receiving.length > 0">
+                <tr class="table--selection--head">
+                    <th>Name</th>
+                    <th class="table--th--selectionSmall">Time</th>
+                    <th class="table--th--selectionSmall">Requests</th>
+                    <th class="table--th--selectionSmall">Error Rate</th>
+                </tr>
+                <tr ng-repeat="node in ctrl.receiving">
+                    <td class="table--td--selection" title="{{node.name}}">{{node.name}}</td>
+                    <td class="table--td--selection">{{node.responseTime}}</td>
+                    <td class="table--td--selection">{{node.rate}}</td>
+                    <td class="table--td--selection">{{node.error}}</td>
+                </tr>
+            </table>
+
+            <div class="secondHeader--selection">Outgoing Statistics</div>
+            <div class="no-data--selection" ng-show="ctrl.sending.length == 0">No outgoing statistics available.</div>
+            <table class="table--selection" ng-show="ctrl.sending.length>0">
+                <tr class="table--selection--head">
+                    <th>Name</th>
+                    <th class="table--th--selectionSmall">Time</th>
+                    <th class="table--th--selectionSmall">Requests</th>
+                    <th class="table--th--selectionSmall">Error Rate</th>
+                </tr>
+                <tr ng-repeat="node in ctrl.sending">
+                    <td class="table--td--selection" title="{{node.name}}">{{node.name}}</td>
+                    <td class="table--td--selection">{{node.responseTime}}</td>
+                    <td class="table--td--selection">{{node.rate}}</td>
+                    <td class="table--td--selection">{{node.error}}</td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div ng-show="ctrl.getError()">{{ctrl.getError()}}</div>
+
+</div>

@@ -1,0 +1,44 @@
+{
+  "type": "panel",
+  "name": "Service Dependency Graph",
+  "id": "novatec-service-dependency-graph-panel",
+  "info": {
+    "description": "Service Dependency Graph panel for Grafana",
+    "author": {
+      "name": "Novatec Consulting GmbH",
+      "url": "https://www.novatec-gmbh.de/"
+    },
+    "keywords": [
+      "grafana",
+      "plugin",
+      "service-dependency-graph",
+      "topology"
+    ],
+    "logos": {
+      "small": "img/novatec_sdg_panel_logo.svg",
+      "large": "img/novatec_sdg_panel_logo.svg"
+    },
+    "links": [
+      {
+        "name": "Project site",
+        "url": "https://github.com/NovatecConsulting/novatec-service-dependency-graph-panel.git"
+      },
+      {
+        "name": "Apache License",
+        "url": "https://github.com/NovatecConsulting/grafana-service-dependency-graph-panel/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [
+      {
+        "name": "Showcase",
+        "path": "img/screenshot-showcase.png"
+      }
+    ],
+    "version": "2.3.0",
+    "updated": "2020-05-27"
+  },
+  "dependencies": {
+    "grafanaVersion": "5.x.x",
+    "plugins": []
+  }
+}
