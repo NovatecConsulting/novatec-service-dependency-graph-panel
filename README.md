@@ -1,6 +1,7 @@
 ## Novatec Service Dependency Graph Panel
 
 ![Service Dependency Graph Showcase](src/img/screenshot-showcase.png)
+![Service Dependency Graph In Action](src/img/service-dependency-graph-panel.gif)
 
 ##### Data Model
 
