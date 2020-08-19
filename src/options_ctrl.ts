@@ -78,7 +78,7 @@ export function optionsTab($q, uiSegmentSrv) {
 	return {
 		restrict: 'E',
 		scope: true,
-		templateUrl: 'public/plugins/novatec-service-dependency-graph-panel/partials/options.html',
+		templateUrl: 'public/plugins/novatec-sdg-panel/partials/options.html',
 		controller: OptionsCtrl,
 	};
 }
