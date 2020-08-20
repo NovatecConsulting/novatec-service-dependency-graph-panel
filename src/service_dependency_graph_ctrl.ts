@@ -423,7 +423,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			return "Please provide a 'aggregationType' template variable.";
 		}
 		if (!this.validQueryTypes) {
-			return "Invalid query types - only use queries which returns table data.";
+			return "Invalid query types - only use queries which return table data.";
 		}
 		if (!this.isDataAvailable()) {
 			return "No data to show - the query returned no data.";
