@@ -1,6 +1,6 @@
 ## Novatec Service Dependency Graph Panel
 
-![Service Dependency Graph In Action](https://raw.githubusercontent.com/NovatecConsulting/novatec-service-dependency-graph-panel/master/src/img/service-dependency-graph-panel.gif)
+![Service Dependency Graph In Action](https://novatecconsulting.github.io/novatec-service-dependency-graph-panel/images/service-dependency-graph-panel.gif)
 
 The Service Dependency Graph Panel by [Novatec](https://www.novatec-gmbh.de/en/) provides you with many features such as monitoring 
 your latencies, errors and requests of your desired service. This interactive panel for [Grafana](https://grafana.com/) will help you
