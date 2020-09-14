@@ -1,6 +1,6 @@
 {
   "name": "novatec-service-dependency-graph-panel",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "Service Dependency Graph panel for Grafana",
   "main": "src/module.js",
   "scripts": {
