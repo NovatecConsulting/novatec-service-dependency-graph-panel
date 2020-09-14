@@ -116,6 +116,37 @@ Now, the panel's `Data Mappings` option `Response Time Column` is set to `resp_t
 
 ___
 
+### Service Icons
+
+The service dependency graph plugin allows you to display your own symbols in the drawn nodes.
+For this purpose the option 'Service Icon Mapping' can be used.
+Here you can specify an assignment of icons to certain name patterns.
+All nodes that match the specified pattern (regular expression) will get the icon.
+
+![Custom service icons in the graph.](https://raw.githubusercontent.com/NovatecConsulting/novatec-service-dependency-graph-panel/master/src/img/service-icons.png)
+
+##### Example
+
+A sample assignment is included by default: `Pattern: java // Icon: java`.
+This means that all nodes which have `java` in their name get the `java` icon.
+
+#### Custom Service Icons
+
+You can add custom icons, by putting them into the plugin's `/assets/service_icons/` directory.
+The file type **has to be `PNG`** and the icon itself and **has to be square**.
+In order to be able to use the icon, its name (without its ending) has to be put into the array contained in the `icon_index.json` file located in the `/assets/service_icons/` directory.
+
+##### Example
+
+If the `icon_index.json` has the following content:
+
+```
+["java", "star_trek"]
+```
+
+it is assumed that the files `java.png` and `star_trek.png` is existing in the `/assets/service_icons/` directory.
+___
+
 ### Found a bug? Have a question? Wanting to contribute?
 
 Feel free to open up an issue. We will take care of you and provide as much help as needed. Any suggestions/contributions are being very much appreciated.

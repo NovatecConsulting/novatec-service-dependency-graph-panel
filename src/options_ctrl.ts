@@ -6,6 +6,8 @@ export class OptionsCtrl {
 	controller: ServiceDependencyGraphCtrl;
 	colorModes: any;
 
+	serviceIcons: string[] = [];
+
 	/** @ngInject */
 	constructor($scope) {
 		$scope.editor = this;
@@ -18,10 +20,21 @@ export class OptionsCtrl {
 		this.getPrefixCandidates = this.getPrefixCandidates.bind(this);
 		this.addExternalMapping = this.addExternalMapping.bind(this);
 		this.removeExternalMapping = this.removeExternalMapping.bind(this);
+
+		fetch(this.controller.getAssetUrl('service_icons/icon_index.json'))
+			.then(response => response.json())
+			.then(data => {
+				data.sort();
+				this.serviceIcons = data;
+			})
+			.catch(() => {
+				console.error('Could not load service icons mapping index. Please verify the "icon_index.json" in the plugin\'s asset directory.');
+			});
+
 	}
 
 	addExternalMapping() {
-		this.panel.settings.externalIcons.push({ type: 'my-type', icon: 'default' });
+		this.panel.settings.externalIcons.push({ name: 'my-type', filename: 'default' });
 		this.controller.render();
 	}
 
@@ -32,6 +45,20 @@ export class OptionsCtrl {
 
 	getExternalIconOptions() {
 		return ['default', 'message', 'database', 'http', 'web', 'balancer', 'ldap', 'mainframe', 'smtp', 'ftp'];
+	}
+
+	addServiceMapping() {
+		this.panel.settings.serviceIcons.push({ pattern: 'my-type', filename: 'default' });
+		this.controller.render();
+	}
+
+	removeServiceMapping(index) {
+		this.panel.settings.serviceIcons.splice(index, 1);
+		this.controller.render();
+	}
+
+	getServiceIconOptions() {
+		return this.serviceIcons;
 	}
 
 	getColumnNames() {

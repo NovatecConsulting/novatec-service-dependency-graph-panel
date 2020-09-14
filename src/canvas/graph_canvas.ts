@@ -124,8 +124,9 @@ export default class CanvasDrawer {
         }
     }
 
-    _getAsset(assetUrl, assetName) {
+    _getAsset(assetName, relativeUrl) {
         if (!_.has(this.imageAssets, assetName)) {
+            const assetUrl = this.controller.getAssetUrl(relativeUrl);
             this._loadImage(assetUrl, assetName);
         }
 
@@ -340,11 +341,11 @@ export default class CanvasDrawer {
         }
         if (requestCount >= 0) {
             const decimals = requestCount >= 1000 ? 1 : 0;
-            statistics.push(humanFormat(requestCount) + ' Requests');
+            statistics.push(humanFormat(requestCount, { decimals }) + ' Requests');
         }
         if (errorCount >= 0) {
             const decimals = errorCount >= 1000 ? 1 : 0;
-            statistics.push(humanFormat(errorCount) + ' Errors');
+            statistics.push(humanFormat(errorCount, { decimals }) + ' Errors');
         }
 
         if (statistics.length > 0) {
@@ -509,6 +510,8 @@ export default class CanvasDrawer {
             // drawing the donut
             this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct])
 
+            this._drawServiceIcon(ctx, node);
+
             // drawing the baseline status
             const showBaselines = this.controller.getSettings().showBaselines;
             if (showBaselines && responseTime >= 0 && threshold >= 0) {
@@ -523,6 +526,31 @@ export default class CanvasDrawer {
         // draw statistics
         if (cy.zoom() > 1) {
             this._drawNodeStatistics(ctx, node);
+        }
+    }
+
+    _drawServiceIcon(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
+        const nodeId: string = node.id();
+
+        const iconMappings = this.controller.panel.settings.serviceIcons;
+
+        const mapping = _.find(iconMappings, ({ pattern }) => {
+            try {
+                return new RegExp(pattern).test(nodeId);
+            } catch (error) {
+                return false;
+            }
+        });
+
+        if (mapping) {
+            const image = this._getAsset(mapping.filename, 'service_icons/' + mapping.filename + '.png');
+            if (image != null) {
+                const cX = node.position().x;
+                const cY = node.position().y;
+                const iconSize = 16;
+
+                ctx.drawImage(image, cX - iconSize / 2, cY - iconSize / 2, iconSize, iconSize);
+            }
         }
     }
 
