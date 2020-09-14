@@ -187,6 +187,36 @@
         </div>
 
         <div class="section gf-form-group">
+            <h5 class="section-heading">Service Icon Mapping</h5>
+
+            <div class="gf-form-inline">
+                <div class="gf-form">
+                    <label class="gf-form-label width-10">Target Name (RegEx)</label>
+                    <label class="gf-form-label width-10">Icon</label>
+                </div>
+            </div>
+
+            <div class="gf-form-inline" ng-repeat="(index, mapping) in ctrl.panel.settings.serviceIcons">
+                <div class="gf-form">
+                    <input type="text" class="input-small gf-form-input width-10"
+                        ng-model="ctrl.panel.settings.serviceIcons[index].pattern" ng-change="editor.render()"
+                        ng-model-onblur />
+
+                    <select class="input-small gf-form-input width-10"
+                        ng-model="ctrl.panel.settings.serviceIcons[index].filename" ng-change="editor.render()">
+                        <option ng-repeat="variable in editor.getServiceIconOptions()" value="{{variable}}">
+                            {{variable}}</option>
+                    </select>
+
+                    <a class="gf-form-label tight-form-func" ng-click="editor.removeServiceMapping(index)"><i
+                            class="fa fa-trash"></i></a>
+                </div>
+            </div>
+
+            <button class="btn navbar-button navbar-button--primary" ng-click="editor.addServiceMapping()">Add Service Icon Mapping</button>
+        </div>
+
+        <div class="section gf-form-group">
             <h5 class="section-heading">External Service Icon Mapping</h5>
 
             <div class="gf-form-inline">

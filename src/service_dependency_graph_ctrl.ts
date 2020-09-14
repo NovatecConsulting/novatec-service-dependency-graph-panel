@@ -31,6 +31,16 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 			sumTimings: true,
 			showConnectionStats: true,
 			filterEmptyConnections: true,
+			serviceIcons: [
+				{
+					pattern: 'java',
+					filename: 'java'
+				},
+				{
+					pattern: 'spok|star trek',
+					filename: 'star_trek'
+				},
+			],
 			externalIcons: [
 				{
 					name: 'web',
