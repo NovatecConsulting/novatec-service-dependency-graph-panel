@@ -245,48 +245,31 @@ export default class CanvasDrawer {
         const edges = this.cytoscape.edges().toArray();
         const hasSelection = this.selectionNeighborhood.size() > 0;
 
-        // transparent edges
-        if (hasSelection) {
-            ctx.globalAlpha = 0.25;
+        const transparentEdges = edges.filter(edge => hasSelection && !this.selectionNeighborhood.has(edge));
+        const opaqueEdges = edges.filter(edge => !hasSelection || this.selectionNeighborhood.has(edge));
 
-            for (let i = 0; i < edges.length; i++) {
-                const edge = edges[i];
-
-                if (!this.selectionNeighborhood.has(edge)) {
-                    this._drawEdge(ctx, edge, now);
-                }
-            }
-        }
-
-        // visible edges
+        ctx.globalAlpha = 0.25;
+        this._drawEdges(ctx, transparentEdges, now)
         ctx.globalAlpha = 1;
-
-        for (let i = 0; i < edges.length; i++) {
-            const edge = edges[i];
-
-            if (!hasSelection || this.selectionNeighborhood.has(edge)) {
-                this._drawEdge(ctx, edge, now);
-            }
-        }
-
+        this._drawEdges(ctx, opaqueEdges, now)
         ctx.restore();
     }
 
-    _drawEdge(ctx: CanvasRenderingContext2D, edge: cytoscape.EdgeSingular, now: number) {
+    _drawEdges(ctx: CanvasRenderingContext2D, edges: Array<cytoscape.EdgeSingular>, now: number) {
         const cy = this.cytoscape;
-        const sourcePoint = edge.sourceEndpoint();
-        const targetPoint = edge.targetEndpoint();
 
-        // draw edge line
-        this._drawEdgeLine(ctx, edge, sourcePoint, targetPoint);
-
-        // draw particles
-        this._drawEdgeParticles(ctx, edge, sourcePoint, targetPoint, now);
-
-        // draw label
+        for(const edge of edges) {
+            const sourcePoint = edge.sourceEndpoint();
+            const targetPoint = edge.targetEndpoint();
+            this._drawEdgeLine(ctx, edge, sourcePoint, targetPoint);
+            this._drawEdgeParticles(ctx, edge, sourcePoint, targetPoint, now);
+        }
+        
         const { showConnectionStats } = this.controller.getSettings();
         if (showConnectionStats && cy.zoom() > 1) {
-            this._drawEdgeLabel(ctx, edge);
+            for(const edge of edges) {
+                this._drawEdgeLabel(ctx, edge);
+            }
         }
     }
 
