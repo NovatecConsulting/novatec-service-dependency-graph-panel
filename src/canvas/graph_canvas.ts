@@ -493,8 +493,6 @@ export default class CanvasDrawer {
             // drawing the donut
             this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct])
 
-            this._drawServiceIcon(ctx, node);
-
             // drawing the baseline status
             const showBaselines = this.controller.getSettings().showBaselines;
             if (showBaselines && responseTime >= 0 && threshold >= 0) {
@@ -502,6 +500,9 @@ export default class CanvasDrawer {
 
                 this._drawThresholdStroke(ctx, node, thresholdViolation, 15, 5, 0.5);
             }
+
+            this._drawServiceIcon(ctx, node);
+            
         } else {
             this._drawExternalService(ctx, node);
         }
