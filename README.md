@@ -149,6 +149,20 @@ If the `icon_index.json` has the following content:
 it is assumed that the files `java.png` and `star_trek.png` is existing in the `/assets/service_icons/` directory.
 ___
 
+### Tracing Drilldown
+
+The service dependency graph plugin allows you to specify a backend URL for each drawn node.
+For this purpose the option 'Tracing Drilldown' can be used.
+Here you can specify a backend URL. An open and closed curly bracket `{}` is the placeholder for the selected node.
+Each node will get an arrow icon in the details view. This icon is a link to your backend, specified in the options.
+The curly brackets `{}` will be replaced with the selected node.
+
+#### Example
+
+`http://{}/my/awesome/path` will end up to `http://customers-service/my/awesome/path` when you select the `customers-service`.
+
+___
+
 ### Found a bug? Have a question? Wanting to contribute?
 
 Feel free to open up an issue. We will take care of you and provide as much help as needed. Any suggestions/contributions are being very much appreciated.
