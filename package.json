@@ -43,7 +43,7 @@
     "cytoscape-canvas": "^3.0.1",
     "cytoscape-cola": "^2.3.1",
     "human-format": "^0.10.1",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "moment": "^2.25.3",
     "typescript": "^3.1.6"
   },
