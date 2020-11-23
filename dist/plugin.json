@@ -1,0 +1,36 @@
+{
+  "type": "panel",
+  "name": "my-test-plugin",
+  "id": "help-my-test-plugin",
+  "info": {
+    "description": "Help me!",
+    "author": {
+      "name": "mbrill-nt",
+      "url": ""
+    },
+    "keywords": [
+      "hi"
+    ],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/simple-react-panel"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/grafana/simple-react-panel/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [],
+    "version": "1.0.0",
+    "updated": "2020-11-16"
+  },
+  "dependencies": {
+    "grafanaVersion": "7.0.x",
+    "plugins": []
+  }
+}
