@@ -6,20 +6,26 @@ import { PanelSettings } from '../../types';
 
 interface Props extends StandardEditorProps<string, PanelSettings> {}
 
-function addMapping(context: any, onChange: any) {
+function addMapping(context: any, onChange: any, item: any) {
     context.options.externalIcons.push({ pattern: 'my-type', filename: 'default' })
+    onChange.call(item.path, context.options.externalIcons)
 }
 
-function removeMapping(context: any, index:any, onChange: any) {
+function removeMapping(context: any, index:any, onChange: any, item: any) {
+    console.log(context.options.externalIcons)
     remove(context.options.externalIcons, n => context.options.externalIcons.indexOf(n) == index)
+    console.log(context.options.externalIcons)
+    console.log(index)
+    onChange.call(item.path, context.options.externalIcons)
 }
 
-function setPatternValue(context: any, event: any, index: any, onChange: any) {
+function setPatternValue(context: any, event: any, index: any, onChange: any, item: any) {
     context.options.externalIcons[index].pattern = event.currentTarget.value
+    onChange.call(item.path, context.options.externalIcons)
 }
 
 export const ExternalIconMapping: React.FC<Props> = ({ item, value, onChange, context }) => {
-    if(context.options.externalIcons == undefined) {
+    if(value == undefined) {
         context.options.externalIcons = [{ pattern: 'my-type', filename: 'default' }]
     }
     var componentList = []
@@ -28,23 +34,21 @@ export const ExternalIconMapping: React.FC<Props> = ({ item, value, onChange, co
             <div>
                 <div className="gf-form">
                     <input type="text" className="input-small gf-form-input width-10"
-                        defaultValue = {context.options.externalIcons[index].pattern}
-                        onChange={e => setPatternValue(context, e, index, onChange(context.options.externalIcons))} />
+                        value = {context.options.externalIcons[index].pattern}
+                        onChange={e => setPatternValue(context, e, index, onChange, item)} />
 
                     <select className="input-small gf-form-input width-10"
-                        defaultValue = {context.options.externalIcons[index].fileName}>
+                        value = {context.options.externalIcons[index].fileName}>
                         <option ng-repeat="variable in editor.getServiceIconOptions()" value="{{variable}}">
                         </option>
                     </select>
 
-                    <a className="gf-form-label tight-form-func" onClick = {e => removeMapping(context, index, onChange())}><i
+                    <a className="gf-form-label tight-form-func" onClick = {e => removeMapping(context, index, onChange, item)}><i
                             className="fa fa-trash"></i></a>
                 </div>
             </div>
         )
       }
-    console.log("componentList")
-    console.log(componentList)
     return (
         <div>
             <div className="gf-form-inline">
@@ -56,7 +60,7 @@ export const ExternalIconMapping: React.FC<Props> = ({ item, value, onChange, co
             <div>
                 {componentList}
             </div>
-            <button className="btn navbar-button navbar-button--primary" onClick={e => addMapping(context, onChange(e.currentTarget.value))}>Add External Service Icon Mapping</button>
+            <button className="btn navbar-button navbar-button--primary" onClick={e => addMapping(context, onChange, item)}>Add External Service Icon Mapping</button>
         </div>
     )
 }

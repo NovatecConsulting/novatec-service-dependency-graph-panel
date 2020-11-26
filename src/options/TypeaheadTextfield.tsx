@@ -6,6 +6,7 @@ import { PanelSettings } from '../types';
 
 interface Props extends StandardEditorProps<string, PanelSettings> {}
 
+
 export class TypeaheadTextField extends React.PureComponent<Props> {
 
     renderSuggestion(suggestion:any){
@@ -71,42 +72,3 @@ export class TypeaheadTextField extends React.PureComponent<Props> {
         );
     }
 }
-/*
-import React from 'react';
-import { StandardEditorProps } from '@grafana/data';
-import { PanelSettings } from '../types';
-import Autosuggest from 'react-autosuggest';
-
-interface Props extends StandardEditorProps<string, PanelSettings> {}
-
-export const TypeaheadTextfield: React.FC<Props> = ({ item, value, onChange, context }) => {
-    const test = ["a","b","c"]
-    return (
-        <div className="gf-form">
-            <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
-      />
-        </div>
-    )
-}
-
-function handle(a: any, onChange: any, value: any, context:any, item: any) {
-    console.log(context)
-    console.log(item)
-    console.log(value)
-    console.log(a)
-    onChange.call(a)
-} 
-
-const getSuggestions = (value: string) => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-  
-    return inputLength === 0 ? [] : languages.filter((lang: { name: string; }) =>
-      lang.name.toLowerCase().slice(0, inputLength) === inputValue
-    );*/

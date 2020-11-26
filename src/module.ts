@@ -1,16 +1,16 @@
 import { PanelPlugin } from '@grafana/data';
 import { PanelSettings } from './types';
 import { ServiceDependencyGraphPanel } from './ServiceDependencyGraphPanel';
-import { TypeaheadTextField } from './options/TypeaheadTextfield';
+//import { TypeaheadTextField } from './options/TypeaheadTextfield';
 import { ServiceIconMapping } from 'options/serviceIconMapping/ServiceIconMapping';
-//import { ExternalIconMapping } from 'options/externalIconMapping/ExternalIconMapping';
+import { ExternalIconMapping } from 'options/externalIconMapping/ExternalIconMapping';
 
 export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel).setPanelOptions(
   
   builder => {
   return builder
     //Connection Mapping
-    .addCustomEditor({
+    /*.addCustomEditor({
       path: 'dataMapping.sourceComponentPrefix',
       id: 'sourceComponentPrefix',
       editor: TypeaheadTextField,
@@ -95,7 +95,7 @@ export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel
       name: 'Response Time Baseline (Upper)',
       editor: TypeaheadTextField,
       category: ['Data Mapping'],
-      })
+      })*/
           
     //General Settings
     .addBooleanSwitch({
@@ -152,7 +152,7 @@ export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel
 
     //Service Icon Mapping
     .addCustomEditor({
-      path: 'adws',
+      path: 'serviceIcons',
       id: 'serviceIconMapping',
       editor: ServiceIconMapping,
       name: '',
@@ -160,7 +160,13 @@ export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel
     })
 
     // External Service Icon Mapping
-    
+    .addCustomEditor({
+      path: 'externalIcons',
+      id: 'externalIconMapping',
+      editor: ExternalIconMapping,
+      name: '',
+      category: ['External Icon Mapping'],
+    })
 
     //Tracing Drilldown  
     .addTextInput({
