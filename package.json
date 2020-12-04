@@ -24,20 +24,29 @@
   },
   "devDependencies": {
     "@grafana/data": "^7.0.0",
-    "@grafana/toolkit": "^7.0.0",
+    "@grafana/toolkit": "^7.3.4",
     "@grafana/ui": "^7.0.0",
-    "emotion": "10.0.27"
+    "@types/react-cytoscapejs": "^1.1.2",
+    "emotion": "10.0.27",
+    "sass-loader": "^10.1.0"
   },
   "engines": {
-    "node": ">=12 <13"
+    "node": ">=12"
   },
   "dependencies": {
     "@grafana/runtime": "^7.3.2",
     "@types/react-autosuggest": "^10.0.1",
     "@types/react-bootstrap-typeahead": "^3.4.7",
+    "cytoscape": "^3.14.2",
+    "cytoscape-canvas": "^3.0.1",
+    "cytoscape-cola": "^2.4.0",
+    "human-format": "^0.11.0",
     "react": "^17.0.1",
-    "react-autosuggest": "^10.0.3",
+    "react-autosuggest": "^10.0.4",
     "react-bootstrap-typeahead": "^5.1.2",
-    "react-native": "^0.63.3"
+    "react-cytoscapejs": "^1.2.1",
+    "react-native": "^0.63.3",
+    "typescript": "^4.1.2",
+    "webpack": "^5.9.0"
   }
 }

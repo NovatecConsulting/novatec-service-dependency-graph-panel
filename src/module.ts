@@ -3,12 +3,13 @@ import { PanelSettings } from './types';
 import { ServiceDependencyGraphPanel } from './ServiceDependencyGraphPanel';
 import { TypeaheadTextField } from './options/TypeaheadTextfield';
 import { ServiceIconMapping } from 'options/serviceIconMapping/ServiceIconMapping';
-//import { ExternalIconMapping } from 'options/externalIconMapping/ExternalIconMapping';
+import { ExternalIconMapping } from 'options/externalIconMapping/ExternalIconMapping';
 
 export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel).setPanelOptions(
   
   builder => {
   return builder
+  /*
     //Connection Mapping
     .addCustomEditor({
       path: 'dataMapping.sourceComponentPrefix',
@@ -129,7 +130,7 @@ export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel
       name: 'Show Baselines',
       category: ['General Settings'],
     })
-
+    */
     //Appearance
     .addColorPicker({
       path: 'style.healthyColor',
@@ -152,14 +153,21 @@ export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel
 
     //Service Icon Mapping
     .addCustomEditor({
-      path: 'adws',
+      path: 'serviceIcons',
       id: 'serviceIconMapping',
       editor: ServiceIconMapping,
       name: '',
       category: ['Service Icon Mapping'],
     })
-
+    
     // External Service Icon Mapping
+    .addCustomEditor({
+      path: 'externalIcons',
+      id: 'externalIconMapping',
+      editor: ExternalIconMapping,
+      name: '',
+      category: ['External Icon Mapping'],
+    })
     
 
     //Tracing Drilldown  

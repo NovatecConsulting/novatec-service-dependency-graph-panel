@@ -6,16 +6,24 @@ import { PanelSettings } from '../../types';
 
 interface Props extends StandardEditorProps<string, PanelSettings> {}
 
-function addMapping(context: any, onChange: any) {
+function addMapping(context: any, onChange: any, item: any) {
     context.options.serviceIcons.push({ pattern: 'my-type', filename: 'default' })
+    onChange.call(item.path, context.options.serviceIcons)
 }
 
-function removeMapping(context: any, index:any, onChange: any) {
+function removeMapping(context: any, index:any, onChange: any, item: any) {
     remove(context.options.serviceIcons, n => context.options.serviceIcons.indexOf(n) == index)
+    onChange.call(item.path, context.options.serviceIcons)
 }
 
-function setPatternValue(context: any, event: any, index: any, onChange: any) {
+function setPatternValue(context: any, event: any, index: any, onChange: any, item: any) {
     context.options.serviceIcons[index].pattern = event.currentTarget.value
+    onChange.call(item.path, context.options.serviceIcons)
+}
+
+function setFileNameValue(context: any, event: any, index: any, onChange: any, item: any) {
+    context.options.serviceIcons[index].pattern = event.currentTarget.value
+    onChange.call(item.path, context.options.serviceIcons)
 }
 
 export const ServiceIconMapping: React.FC<Props> = ({ item, value, onChange, context }) => {
@@ -29,16 +37,17 @@ export const ServiceIconMapping: React.FC<Props> = ({ item, value, onChange, con
             <div>
                 <div className="gf-form">
                     <input type="text" className="input-small gf-form-input width-10"
-                        defaultValue = {context.options.serviceIcons[index].pattern}
-                        onChange={e => setPatternValue(context, e, index, onChange(context.options.serviceIcons))} />
+                        value = {context.options.serviceIcons[index].pattern}
+                        onChange={e => setPatternValue(context, e, index, onChange, item)} />
 
                     <select className="input-small gf-form-input width-10"
-                        defaultValue = {context.options.serviceIcons[index].fileName}>
+                        value = {context.options.serviceIcons[index].fileName}
+                        onChange={e => setFileNameValue(context, e, index, onChange, item)}>
                         <option ng-repeat="variable in editor.getServiceIconOptions()" value="{{variable}}">
                         </option>
                     </select>
 
-                    <a className="gf-form-label tight-form-func" onClick = {e => removeMapping(context, index, onChange())}><i
+                    <a className="gf-form-label tight-form-func" onClick = {() => removeMapping(context, index, onChange, item)}><i
                             className="fa fa-trash"></i></a>
                 </div>
             </div>
@@ -55,7 +64,7 @@ export const ServiceIconMapping: React.FC<Props> = ({ item, value, onChange, con
             <div>
                 {componentList}
             </div>
-            <button className="btn navbar-button navbar-button--primary" onClick={e => addMapping(context, onChange())}>Add Service Icon Mapping</button>
+            <button className="btn navbar-button navbar-button--primary" onClick={() => addMapping(context, onChange, item)}>Add Service Icon Mapping</button>
         </div>
     )
 }
