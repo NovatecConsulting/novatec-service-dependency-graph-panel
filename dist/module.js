@@ -33019,6 +33019,360 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
+/***/ "../node_modules/human-format/index.js":
+/*!*********************************************!*\
+  !*** ../node_modules/human-format/index.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// UMD: https://github.com/umdjs/umd/blob/master/returnExports.js
+(function (root, factory) {
+  /* global define: false */
+  if (true) {
+    // AMD. Register as an anonymous module.
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+  } else {}
+}(this, function () {
+  'use strict'
+
+  // =================================================================
+
+  function assign (dst, src) {
+    var i, n, prop
+    for (i = 1, n = arguments.length; i < n; ++i) {
+      src = arguments[i]
+      if (src != null) {
+        for (prop in src) {
+          if (has(src, prop)) {
+            dst[prop] = src[prop]
+          }
+        }
+      }
+    }
+    return dst
+  }
+
+  function compareLongestFirst (a, b) {
+    return b.length - a.length
+  }
+
+  function compareSmallestFactorFirst (a, b) {
+    return a.factor - b.factor
+  }
+
+  // https://www.npmjs.org/package/escape-regexp
+  function escapeRegexp (str) {
+    return str.replace(/([.*+?=^!:${}()|[\]/\\])/g, '\\$1')
+  }
+
+  function forEach (arr, iterator) {
+    var i, n
+    for (i = 0, n = arr.length; i < n; ++i) {
+      iterator(arr[i], i)
+    }
+  }
+
+  function forOwn (obj, iterator) {
+    var prop
+    for (prop in obj) {
+      if (has(obj, prop)) {
+        iterator(obj[prop], prop)
+      }
+    }
+  }
+
+  var has = (function (hasOwnProperty) {
+    return function has (obj, prop) {
+      return obj != null && hasOwnProperty.call(obj, prop)
+    }
+  })(Object.prototype.hasOwnProperty)
+
+  function resolve (container, entry) {
+    while (typeof entry === 'string') {
+      entry = container[entry]
+    }
+    return entry
+  }
+
+  // =================================================================
+
+  function Scale (prefixes) {
+    this._prefixes = prefixes
+
+    var escapedPrefixes = []
+    var list = []
+    forOwn(prefixes, function (factor, prefix) {
+      escapedPrefixes.push(escapeRegexp(prefix))
+
+      list.push({
+        factor: factor,
+        prefix: prefix
+      })
+    })
+
+    // Adds lower cased prefixes for case insensitive fallback.
+    var lcPrefixes = this._lcPrefixes = {}
+    forOwn(prefixes, function (factor, prefix) {
+      var lcPrefix = prefix.toLowerCase()
+      if (!has(prefixes, lcPrefix)) {
+        lcPrefixes[lcPrefix] = prefix
+      }
+    })
+
+    list.sort(compareSmallestFactorFirst)
+    this._list = list
+
+    escapedPrefixes.sort(compareLongestFirst)
+    this._regexp = new RegExp(
+      '^\\s*(-)?\\s*(\\d+(?:\\.\\d+)?)\\s*(' +
+      escapedPrefixes.join('|') +
+      ')\\s*(.*)\\s*?$',
+      'i'
+    )
+  }
+
+  Scale.create = function Scale$create (prefixesList, base, initExp) {
+    var prefixes = {}
+    if (initExp === undefined) {
+      initExp = 0
+    }
+    forEach(prefixesList, function (prefix, i) {
+      prefixes[prefix] = Math.pow(base, i + initExp)
+    })
+
+    return new Scale(prefixes)
+  }
+
+  // Binary search to find the greatest index which has a value <=.
+  Scale.prototype.findPrefix = function Scale$findPrefix (value) {
+    var list = this._list
+    var low = 0
+    var high = list.length - 1
+
+    var mid, current
+    while (low !== high) {
+      mid = (low + high + 1) >> 1
+      current = list[mid].factor
+
+      if (current > value) {
+        high = mid - 1
+      } else {
+        low = mid
+      }
+    }
+
+    return list[low]
+  }
+
+  Scale.prototype.parse = function Scale$parse (str, strict) {
+    var matches = str.match(this._regexp)
+
+    if (matches === null) {
+      return
+    }
+
+    var prefix = matches[3]
+    var factor
+
+    if (has(this._prefixes, prefix)) {
+      factor = this._prefixes[prefix]
+    } else if (
+      !strict &&
+      (prefix = prefix.toLowerCase(), has(this._lcPrefixes, prefix))
+    ) {
+      prefix = this._lcPrefixes[prefix]
+      factor = this._prefixes[prefix]
+    } else {
+      return
+    }
+
+    var value = +matches[2]
+    if (matches[1] !== undefined) {
+      value = -value
+    }
+
+    return {
+      factor: factor,
+      prefix: prefix,
+      unit: matches[4],
+      value: value
+    }
+  }
+
+  // =================================================================
+
+  var scales = {
+    // https://en.wikipedia.org/wiki/Binary_prefix
+    binary: Scale.create(
+      ',Ki,Mi,Gi,Ti,Pi,Ei,Zi,Yi'.split(','),
+      1024
+    ),
+
+    // https://en.wikipedia.org/wiki/Metric_prefix
+    //
+    // Not all prefixes are present, only those which are multiple of
+    // 1000, because humans usually prefer to see close numbers using
+    // the same unit to ease the comparison.
+    SI: Scale.create(
+      'y,z,a,f,p,n,µ,m,,k,M,G,T,P,E,Z,Y'.split(','),
+      1000, -8
+    )
+  }
+
+  var defaults = {
+    // Decimal digits for formatting.
+    decimals: 2,
+
+    // separator to use between value and units
+    separator: ' ',
+
+    // Unit to use for formatting.
+    unit: ''
+  }
+  var rawDefaults = {
+    scale: 'SI',
+
+    // Strict mode prevents parsing of incorrectly cased prefixes.
+    strict: false
+  }
+
+  function humanFormat (value, opts) {
+    opts = assign({}, defaults, opts)
+
+    var info = humanFormat$raw(value, opts)
+    value = String(info.value)
+    var suffix = info.prefix + opts.unit
+    return suffix === '' ? value : value + opts.separator + suffix
+  }
+
+  var humanFormat$bytes$opts = { scale: 'binary', unit: 'B' }
+  function humanFormat$bytes (value, opts) {
+    return humanFormat(
+      value,
+      opts === undefined
+        ? humanFormat$bytes$opts
+        : assign({}, humanFormat$bytes$opts, opts)
+    )
+  }
+
+  function humanFormat$parse (str, opts) {
+    var info = humanFormat$parse$raw(str, opts)
+
+    return info.value * info.factor
+  }
+
+  function humanFormat$parse$raw (str, opts) {
+    if (typeof str !== 'string') {
+      throw new TypeError('str must be a string')
+    }
+
+    // Merge default options.
+    opts = assign({}, rawDefaults, opts)
+
+    // Get current scale.
+    var scale = resolve(scales, opts.scale)
+    if (scale === undefined) {
+      throw new Error('missing scale')
+    }
+
+    // TODO: the unit should be checked: it might be absent but it
+    // should not differ from the one expected.
+    //
+    // TODO: if multiple units are specified, at least must match and
+    // the returned value should be: { value: <value>, unit: matchedUnit }
+
+    var info = scale.parse(str, opts.strict)
+    if (info === undefined) {
+      throw new Error('cannot parse str')
+    }
+
+    return info
+  }
+
+  function humanFormat$raw (value, opts) {
+    // Zero is a special case, it never has any prefix.
+    if (value === 0) {
+      return {
+        value: 0,
+        prefix: ''
+      }
+    } else if (value < 0) {
+      var result = humanFormat$raw(-value, opts)
+      result.value = -result.value
+      return result
+    }
+
+    if (typeof value !== 'number' || Number.isNaN(value)) {
+      throw new TypeError('value must be a number')
+    }
+
+    // Merge default options.
+    opts = assign({}, rawDefaults, opts)
+
+    // Get current scale.
+    var scale = resolve(scales, opts.scale)
+    if (scale === undefined) {
+      throw new Error('missing scale')
+    }
+
+    var power
+    var decimals = opts.decimals
+    if (decimals !== undefined) {
+      power = Math.pow(10, decimals)
+    }
+
+    var prefix = opts.prefix
+    var factor
+    if (prefix !== undefined) {
+      if (!has(scale._prefixes, prefix)) {
+        throw new Error('invalid prefix')
+      }
+
+      factor = scale._prefixes[prefix]
+    } else {
+      var _ref = scale.findPrefix(value)
+      if (power !== undefined) {
+        do {
+          factor = _ref.factor
+
+          // factor is usually >> power, therefore it's better to
+          // divide factor by power than the other way to limit
+          // numerical error
+          var r = factor / power
+
+          value = Math.round(value / r) * r
+        } while ((_ref = scale.findPrefix(value)).factor !== factor)
+      } else {
+        factor = _ref.factor
+      }
+
+      prefix = _ref.prefix
+    }
+
+    return {
+      prefix: prefix,
+      value: power === undefined
+        ? value / factor
+        : Math.round(value * power / factor) / power
+    }
+  }
+
+  humanFormat.bytes = humanFormat$bytes
+  humanFormat.parse = humanFormat$parse
+  humanFormat$parse.raw = humanFormat$parse$raw
+  humanFormat.raw = humanFormat$raw
+  humanFormat.Scale = Scale
+
+  return humanFormat
+}))
+
+
+/***/ }),
+
 /***/ "../node_modules/lodash.debounce/index.js":
 /*!************************************************!*\
   !*** ../node_modules/lodash.debounce/index.js ***!
@@ -39913,18 +40267,20 @@ exports.removeOverlapInOneDimension = removeOverlapInOneDimension;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ServiceDependencyGraphPanel", function() { return ServiceDependencyGraphPanel; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
-/* harmony import */ var cytoscape__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cytoscape */ "../node_modules/cytoscape/dist/cytoscape.cjs.js");
-/* harmony import */ var cytoscape__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(cytoscape__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var cytoscape_canvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cytoscape-canvas */ "../node_modules/cytoscape-canvas/dist/cytoscape-canvas.js");
-/* harmony import */ var cytoscape_canvas__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(cytoscape_canvas__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! cytoscape-cola */ "../node_modules/cytoscape-cola/cytoscape-cola.js");
-/* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(cytoscape_cola__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-dom */ "react-dom");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_cytoscapejs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-cytoscapejs */ "../node_modules/react-cytoscapejs/dist/react-cytoscape.js");
-/* harmony import */ var react_cytoscapejs__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_cytoscapejs__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var canvas_graph_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! canvas/graph_canvas */ "./canvas/graph_canvas.ts");
+/* harmony import */ var cytoscape__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cytoscape */ "../node_modules/cytoscape/dist/cytoscape.cjs.js");
+/* harmony import */ var cytoscape__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cytoscape__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! cytoscape-canvas */ "../node_modules/cytoscape-canvas/dist/cytoscape-canvas.js");
+/* harmony import */ var cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! cytoscape-cola */ "../node_modules/cytoscape-cola/cytoscape-cola.js");
+/* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(cytoscape_cola__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_cytoscapejs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-cytoscapejs */ "../node_modules/react-cytoscapejs/dist/react-cytoscape.js");
+/* harmony import */ var react_cytoscapejs__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_cytoscapejs__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -39934,8 +40290,8 @@ __webpack_require__.r(__webpack_exports__);
 
  //import {Core} from 'cytoscape';
 
-cytoscape_canvas__WEBPACK_IMPORTED_MODULE_3___default()(cytoscape__WEBPACK_IMPORTED_MODULE_1___default.a);
-cytoscape__WEBPACK_IMPORTED_MODULE_1___default.a.use(cytoscape_cola__WEBPACK_IMPORTED_MODULE_4___default.a);
+cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4___default()(cytoscape__WEBPACK_IMPORTED_MODULE_2___default.a);
+cytoscape__WEBPACK_IMPORTED_MODULE_2___default.a.use(cytoscape_cola__WEBPACK_IMPORTED_MODULE_5___default.a);
 
 var ServiceDependencyGraphPanel =
 /** @class */
@@ -39946,7 +40302,7 @@ function (_super) {
     var _this = _super.call(this, props) || this;
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
-    _this.ref = react__WEBPACK_IMPORTED_MODULE_2___default.a.createRef();
+    _this.ref = react__WEBPACK_IMPORTED_MODULE_3___default.a.createRef();
     return _this;
   }
 
@@ -39968,7 +40324,7 @@ function (_super) {
     console.log("this.ref");
     console.log(this.ref);
 
-    var _cy = cytoscape__WEBPACK_IMPORTED_MODULE_1___default()({
+    var _cy = cytoscape__WEBPACK_IMPORTED_MODULE_2___default()({
       // TODO: Use a ref here!
       container: this.ref,
       layout: {
@@ -40027,14 +40383,12 @@ function (_super) {
     _cy.ready(function () {
       return console.log("READY!!!");
     });
-    /*const drawer = new CanvasDrawer(this.props.controller,cy , cyCanvas(
-      {
+
+    var drawer = new canvas_graph_canvas__WEBPACK_IMPORTED_MODULE_1__["default"](this.props.controller, _cy, cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4___default()({
       zIndex: 1,
-      pixelRatio: "auto",
-    }));*/
-
-
-    react_dom__WEBPACK_IMPORTED_MODULE_5___default.a.createPortal(react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_cytoscapejs__WEBPACK_IMPORTED_MODULE_6___default.a, {
+      pixelRatio: "auto"
+    }));
+    react_dom__WEBPACK_IMPORTED_MODULE_6___default.a.createPortal(react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(react_cytoscapejs__WEBPACK_IMPORTED_MODULE_7___default.a, {
       elements: this.state.elements,
       cy: function cy() {
         return _cy;
@@ -40051,50 +40405,50 @@ function (_super) {
     var _this = this;
 
     console.log("render!");
-    return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+    return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "graph-container",
       "ng-show": "!ctrl.getError()"
-    }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "canvas-container",
       ref: function ref(_ref) {
         return _this.ref = _ref;
       }
-    }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+    }), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "zoom-button-container"
-    }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("button", {
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
       className: "btn navbar-button",
       "ng-click": "ctrl.toggleAnimation()"
-    }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("i", {
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       "ng-class": "{fa: true, 'fa-play-circle': !ctrl.panel.settings.animate, 'fa-pause-circle': ctrl.panel.settings.animate}"
-    })), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("button", {
+    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
       className: "btn navbar-button",
       "ng-click": "ctrl.runLayout()"
-    }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("i", {
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: "fa fa-sitemap"
-    })), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("button", {
+    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
       className: "btn navbar-button",
       "ng-click": "ctrl.fit()"
-    }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("i", {
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: "fa fa-dot-circle-o"
-    })), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("button", {
+    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
       className: "btn navbar-button",
       onClick: function onClick() {
         return _this.zoom(+1);
       }
-    }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("i", {
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: "fa fa-plus"
-    })), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("button", {
+    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
       className: "btn navbar-button",
       onClick: function onClick() {
         return _this.zoom(-1);
       }
-    }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("i", {
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: "fa fa-minus"
     }))));
   };
 
   return ServiceDependencyGraphPanel;
-}(react__WEBPACK_IMPORTED_MODULE_2__["PureComponent"]);
+}(react__WEBPACK_IMPORTED_MODULE_3__["PureComponent"]);
 
 
 
@@ -40242,6 +40596,910 @@ function (_super) {
     );
   }
 }*/
+
+/***/ }),
+
+/***/ "./canvas/graph_canvas.ts":
+/*!********************************!*\
+  !*** ./canvas/graph_canvas.ts ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _particle_engine__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./particle_engine */ "./canvas/particle_engine.ts");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../types */ "./types.tsx");
+/* harmony import */ var human_format__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! human-format */ "../node_modules/human-format/index.js");
+/* harmony import */ var human_format__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(human_format__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+
+var CanvasDrawer =
+/** @class */
+function () {
+  function CanvasDrawer(ctrl, cy, cyCanvas) {
+    this.colors = {
+      "default": '#bad5ed',
+      background: '#212121',
+      edge: '#505050',
+      status: {
+        warning: 'orange'
+      }
+    };
+    this.donutRadius = 15;
+    this.frameCounter = 0;
+    this.fpsCounter = 0;
+    this.imageAssets = {};
+    this.lastRenderTime = 0;
+    this.dashAnimationOffset = 0;
+    this.cytoscape = cy;
+    this.cyCanvas = cyCanvas;
+    this.controller = ctrl;
+    this.particleEngine = new _particle_engine__WEBPACK_IMPORTED_MODULE_2__["default"](this);
+    this.pixelRatio = window.devicePixelRatio || 1;
+    this.canvas = cyCanvas.getCanvas();
+    var ctx = this.canvas.getContext("2d");
+
+    if (ctx) {
+      this.context = ctx;
+    } else {
+      console.error("Could not get 2d canvas context.");
+    }
+
+    this.offscreenCanvas = document.createElement('canvas');
+    this.offscreenContext = this.offscreenCanvas.getContext('2d');
+    this.timeScale = new human_format__WEBPACK_IMPORTED_MODULE_4___default.a.Scale({
+      ms: 1,
+      s: 1000,
+      min: 60000
+    });
+  }
+
+  CanvasDrawer.prototype.resetAssets = function () {
+    this.imageAssets = {};
+  };
+
+  CanvasDrawer.prototype._loadImage = function (imageUrl, assetName) {
+    var that = this;
+
+    var loadImage = function loadImage(url, asset) {
+      var image = new Image();
+      that.imageAssets[asset] = {
+        image: image,
+        loaded: false
+      };
+      return new Promise(function (resolve, reject) {
+        image.onload = function () {
+          return resolve(asset);
+        };
+
+        image.onerror = function () {
+          return reject(new Error("load " + url + " fail"));
+        };
+
+        image.src = url;
+      });
+    };
+
+    loadImage(imageUrl, assetName).then(function (asset) {
+      that.imageAssets[asset].loaded = true;
+    });
+  };
+
+  CanvasDrawer.prototype._isImageLoaded = function (assetName) {
+    if (lodash__WEBPACK_IMPORTED_MODULE_1___default.a.has(this.imageAssets, assetName) && this.imageAssets[assetName].loaded) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  CanvasDrawer.prototype._getImageAsset = function (assetName, resolveName) {
+    if (resolveName === void 0) {
+      resolveName = true;
+    }
+
+    if (!lodash__WEBPACK_IMPORTED_MODULE_1___default.a.has(this.imageAssets, assetName)) {
+      var assetUrl = this.controller.getTypeSymbol(assetName, resolveName);
+
+      this._loadImage(assetUrl, assetName);
+    }
+
+    if (this._isImageLoaded(assetName)) {
+      return this.imageAssets[assetName].image;
+    } else {
+      return null;
+    }
+  };
+
+  CanvasDrawer.prototype._getAsset = function (assetName, relativeUrl) {
+    if (!lodash__WEBPACK_IMPORTED_MODULE_1___default.a.has(this.imageAssets, assetName)) {
+      var assetUrl = this.controller.getAssetUrl(relativeUrl);
+
+      this._loadImage(assetUrl, assetName);
+    }
+
+    if (this._isImageLoaded(assetName)) {
+      return this.imageAssets[assetName].image;
+    } else {
+      return null;
+    }
+  };
+
+  CanvasDrawer.prototype.start = function () {
+    console.log("Starting graph logic");
+    var that = this;
+
+    var repaintWrapper = function repaintWrapper() {
+      that.repaint();
+      window.requestAnimationFrame(repaintWrapper);
+    };
+
+    window.requestAnimationFrame(repaintWrapper);
+    setInterval(function () {
+      that.fpsCounter = that.frameCounter;
+      that.frameCounter = 0;
+    }, 1000);
+  };
+
+  CanvasDrawer.prototype.startAnimation = function () {
+    this.particleEngine.start();
+  };
+
+  CanvasDrawer.prototype.stopAnimation = function () {
+    this.particleEngine.stop();
+  };
+
+  CanvasDrawer.prototype._skipFrame = function () {
+    var now = Date.now();
+    var elapsedTime = now - this.lastRenderTime;
+
+    if (this.particleEngine.count() > 0) {
+      return false;
+    }
+
+    if (!this.controller.panel.settings.animate && elapsedTime < 1000) {
+      return true;
+    }
+
+    return false;
+  };
+
+  CanvasDrawer.prototype.repaint = function (forceRepaint) {
+    var _this = this;
+
+    if (forceRepaint === void 0) {
+      forceRepaint = false;
+    }
+
+    if (!forceRepaint && this._skipFrame()) {
+      return;
+    }
+
+    this.lastRenderTime = Date.now();
+    var ctx = this.context;
+    var cyCanvas = this.cyCanvas;
+    var offscreenCanvas = this.offscreenCanvas;
+    var offscreenContext = this.offscreenContext;
+    offscreenCanvas.width = this.canvas.width;
+    offscreenCanvas.height = this.canvas.height; // offscreen rendering
+
+    this._setTransformation(offscreenContext);
+
+    this.selectionNeighborhood = this.cytoscape.collection();
+    var selection = this.cytoscape.$(':selected');
+    selection.forEach(function (element) {
+      _this.selectionNeighborhood.merge(element);
+
+      if (element.isNode()) {
+        var neighborhood = element.neighborhood();
+
+        _this.selectionNeighborhood.merge(neighborhood);
+      } else {
+        var source = element.source();
+        var target = element.target();
+
+        _this.selectionNeighborhood.merge(source);
+
+        _this.selectionNeighborhood.merge(target);
+      }
+    });
+
+    this._drawEdgeAnimation(offscreenContext);
+
+    this._drawNodes(offscreenContext); // static element rendering
+    // cyCanvas.resetTransform(ctx);
+
+
+    cyCanvas.clear(ctx);
+
+    if (this.controller.getSettings().showDebugInformation) {
+      this._drawDebugInformation();
+    }
+
+    if (offscreenCanvas.width > 0 && offscreenCanvas.height > 0) {
+      ctx.drawImage(offscreenCanvas, 0, 0);
+    } // baseline animation
+
+
+    this.dashAnimationOffset = Date.now() % 60000 / 250;
+  };
+
+  CanvasDrawer.prototype._setTransformation = function (ctx) {
+    var pan = this.cytoscape.pan();
+    var zoom = this.cytoscape.zoom();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.translate(pan.x * this.pixelRatio, pan.y * this.pixelRatio);
+    ctx.scale(zoom * this.pixelRatio, zoom * this.pixelRatio);
+  };
+
+  CanvasDrawer.prototype._drawEdgeAnimation = function (ctx) {
+    var _this = this;
+
+    var now = Date.now();
+    ctx.save();
+    var edges = this.cytoscape.edges().toArray();
+    var hasSelection = this.selectionNeighborhood.size() > 0;
+    var transparentEdges = edges.filter(function (edge) {
+      return hasSelection && !_this.selectionNeighborhood.has(edge);
+    });
+    var opaqueEdges = edges.filter(function (edge) {
+      return !hasSelection || _this.selectionNeighborhood.has(edge);
+    });
+    ctx.globalAlpha = 0.25;
+
+    this._drawEdges(ctx, transparentEdges, now);
+
+    ctx.globalAlpha = 1;
+
+    this._drawEdges(ctx, opaqueEdges, now);
+
+    ctx.restore();
+  };
+
+  CanvasDrawer.prototype._drawEdges = function (ctx, edges, now) {
+    var e_1, _a, e_2, _b;
+
+    var cy = this.cytoscape;
+
+    try {
+      for (var edges_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(edges), edges_1_1 = edges_1.next(); !edges_1_1.done; edges_1_1 = edges_1.next()) {
+        var edge = edges_1_1.value;
+        var sourcePoint = edge.sourceEndpoint();
+        var targetPoint = edge.targetEndpoint();
+
+        this._drawEdgeLine(ctx, edge, sourcePoint, targetPoint);
+
+        this._drawEdgeParticles(ctx, edge, sourcePoint, targetPoint, now);
+      }
+    } catch (e_1_1) {
+      e_1 = {
+        error: e_1_1
+      };
+    } finally {
+      try {
+        if (edges_1_1 && !edges_1_1.done && (_a = edges_1["return"])) _a.call(edges_1);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
+    }
+
+    var showConnectionStats = this.controller.getSettings().showConnectionStats;
+
+    if (showConnectionStats && cy.zoom() > 1) {
+      try {
+        for (var edges_2 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(edges), edges_2_1 = edges_2.next(); !edges_2_1.done; edges_2_1 = edges_2.next()) {
+          var edge = edges_2_1.value;
+
+          this._drawEdgeLabel(ctx, edge);
+        }
+      } catch (e_2_1) {
+        e_2 = {
+          error: e_2_1
+        };
+      } finally {
+        try {
+          if (edges_2_1 && !edges_2_1.done && (_b = edges_2["return"])) _b.call(edges_2);
+        } finally {
+          if (e_2) throw e_2.error;
+        }
+      }
+    }
+  };
+
+  CanvasDrawer.prototype._drawEdgeLine = function (ctx, edge, sourcePoint, targetPoint) {
+    ctx.beginPath();
+    ctx.moveTo(sourcePoint.x, sourcePoint.y);
+    ctx.lineTo(targetPoint.x, targetPoint.y);
+    var metrics = edge.data('metrics');
+
+    var requestCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.get(metrics, 'normal', -1);
+
+    var errorCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.get(metrics, 'danger', -1);
+
+    var base;
+
+    if (!this.selectionNeighborhood.empty() && this.selectionNeighborhood.has(edge)) {
+      ctx.lineWidth = 3;
+      base = 140;
+    } else {
+      ctx.lineWidth = 1;
+      base = 80;
+    }
+
+    if (requestCount >= 0 && errorCount >= 0) {
+      var range = 255;
+      var factor = errorCount / requestCount;
+      var color = Math.min(255, base + range * Math.log2(factor + 1));
+      ctx.strokeStyle = 'rgb(' + color + ',' + base + ',' + base + ')';
+    } else {
+      ctx.strokeStyle = 'rgb(' + base + ',' + base + ',' + base + ')';
+    }
+
+    ctx.stroke();
+  };
+
+  CanvasDrawer.prototype._drawEdgeLabel = function (ctx, edge) {
+    var midpoint = edge.midpoint();
+    var xMid = midpoint.x;
+    var yMid = midpoint.y;
+    var statistics = [];
+    var metrics = edge.data('metrics');
+
+    var duration = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.response_time, -1);
+
+    var requestCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.rate, -1);
+
+    var errorCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.error_rate, -1);
+
+    if (duration >= 0) {
+      var decimals = duration >= 1000 ? 1 : 0;
+      statistics.push(human_format__WEBPACK_IMPORTED_MODULE_4___default()(duration, {
+        scale: this.timeScale,
+        decimals: decimals
+      }));
+    }
+
+    if (requestCount >= 0) {
+      var decimals = requestCount >= 1000 ? 1 : 0;
+      statistics.push(human_format__WEBPACK_IMPORTED_MODULE_4___default()(requestCount, {
+        decimals: decimals
+      }) + ' Requests');
+    }
+
+    if (errorCount >= 0) {
+      var decimals = errorCount >= 1000 ? 1 : 0;
+      statistics.push(human_format__WEBPACK_IMPORTED_MODULE_4___default()(errorCount, {
+        decimals: decimals
+      }) + ' Errors');
+    }
+
+    if (statistics.length > 0) {
+      var edgeLabel = statistics.join(', ');
+
+      this._drawLabel(ctx, edgeLabel, xMid, yMid);
+    }
+  };
+
+  CanvasDrawer.prototype._drawEdgeParticles = function (ctx, edge, sourcePoint, targetPoint, now) {
+    var particles = edge.data('particles');
+
+    if (particles === undefined) {
+      return;
+    }
+
+    var xVector = targetPoint.x - sourcePoint.x;
+    var yVector = targetPoint.y - sourcePoint.y;
+    var angle = Math.atan2(yVector, xVector);
+    var xDirection = Math.cos(angle);
+    var yDirection = Math.sin(angle);
+    var xMinLimit = Math.min(sourcePoint.x, targetPoint.x);
+    var xMaxLimit = Math.max(sourcePoint.x, targetPoint.x);
+    var yMinLimit = Math.min(sourcePoint.y, targetPoint.y);
+    var yMaxLimit = Math.max(sourcePoint.y, targetPoint.y);
+    var drawContext = {
+      ctx: ctx,
+      now: now,
+      xDirection: xDirection,
+      yDirection: yDirection,
+      xMinLimit: xMinLimit,
+      xMaxLimit: xMaxLimit,
+      yMinLimit: yMinLimit,
+      yMaxLimit: yMaxLimit,
+      sourcePoint: sourcePoint
+    }; // normal particles
+
+    ctx.beginPath();
+    var index = particles.normal.length - 1;
+
+    while (index >= 0) {
+      this._drawParticle(drawContext, particles.normal, index);
+
+      index--;
+    }
+
+    ctx.fillStyle = '#d1e2f2';
+    ctx.fill(); // danger particles
+
+    ctx.beginPath();
+    index = particles.danger.length - 1;
+
+    while (index >= 0) {
+      this._drawParticle(drawContext, particles.danger, index);
+
+      index--;
+    }
+
+    var dangerColor = this.controller.getSettings().style.dangerColor;
+    ctx.fillStyle = dangerColor;
+    ctx.fill();
+  };
+
+  CanvasDrawer.prototype._drawLabel = function (ctx, label, cX, cY) {
+    var labelPadding = 1;
+    ctx.font = '6px Arial';
+    var labelWidth = ctx.measureText(label).width;
+    var xPos = cX - labelWidth / 2;
+    var yPos = cY + 3;
+    ctx.fillStyle = this.colors["default"];
+    ctx.fillRect(xPos - labelPadding, yPos - 6 - labelPadding, labelWidth + 2 * labelPadding, 6 + 2 * labelPadding);
+    ctx.fillStyle = this.colors.background;
+    ctx.fillText(label, xPos, yPos);
+  };
+
+  CanvasDrawer.prototype._drawParticle = function (drawCtx, particles, index) {
+    var ctx = drawCtx.ctx,
+        now = drawCtx.now,
+        xDirection = drawCtx.xDirection,
+        yDirection = drawCtx.yDirection,
+        xMinLimit = drawCtx.xMinLimit,
+        xMaxLimit = drawCtx.xMaxLimit,
+        yMinLimit = drawCtx.yMinLimit,
+        yMaxLimit = drawCtx.yMaxLimit,
+        sourcePoint = drawCtx.sourcePoint;
+    var particle = particles[index];
+    var timeDelta = now - particle.startTime;
+    var xPos = sourcePoint.x + xDirection * timeDelta * particle.velocity;
+    var yPos = sourcePoint.y + yDirection * timeDelta * particle.velocity;
+
+    if (xPos > xMaxLimit || xPos < xMinLimit || yPos > yMaxLimit || yPos < yMinLimit) {
+      // remove particle
+      particles.splice(index, 1);
+    } else {
+      // draw particle
+      ctx.moveTo(xPos, yPos);
+      ctx.arc(xPos, yPos, 1, 0, 2 * Math.PI, false);
+    }
+  };
+
+  CanvasDrawer.prototype._drawNodes = function (ctx) {
+    var that = this;
+    var cy = this.cytoscape; // Draw model elements
+
+    var nodes = cy.nodes().toArray();
+
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+
+      if (that.selectionNeighborhood.empty() || that.selectionNeighborhood.has(node)) {
+        ctx.globalAlpha = 1;
+      } else {
+        ctx.globalAlpha = 0.25;
+      } // draw the node
+
+
+      that._drawNode(ctx, node); // drawing the node label in case we are not zoomed out
+
+
+      if (cy.zoom() > 1) {
+        that._drawNodeLabel(ctx, node);
+      }
+    }
+  };
+
+  CanvasDrawer.prototype._drawNode = function (ctx, node) {
+    var cy = this.cytoscape;
+    var type = node.data('type');
+    var metrics = node.data('metrics');
+
+    if (type === _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL) {
+      var requestCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.rate, -1);
+
+      var errorCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.error_rate, 0);
+
+      var responseTime = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.response_time, -1);
+
+      var threshold = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.threshold, -1);
+
+      var unknownPct;
+      var errorPct;
+      var healthyPct;
+
+      if (requestCount < 0) {
+        healthyPct = 0;
+        errorPct = 0;
+        unknownPct = 1;
+      } else {
+        if (errorCount <= 0) {
+          errorPct = 0.0;
+        } else {
+          errorPct = 1.0 / requestCount * errorCount;
+        }
+
+        healthyPct = 1.0 - errorPct;
+        unknownPct = 0;
+      } // drawing the donut
+
+
+      this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct]); // drawing the baseline status
+
+
+      var showBaselines = this.controller.getSettings().showBaselines;
+
+      if (showBaselines && responseTime >= 0 && threshold >= 0) {
+        var thresholdViolation = threshold < responseTime;
+
+        this._drawThresholdStroke(ctx, node, thresholdViolation, 15, 5, 0.5);
+      }
+
+      this._drawServiceIcon(ctx, node);
+    } else {
+      this._drawExternalService(ctx, node);
+    } // draw statistics
+
+
+    if (cy.zoom() > 1) {
+      this._drawNodeStatistics(ctx, node);
+    }
+  };
+
+  CanvasDrawer.prototype._drawServiceIcon = function (ctx, node) {
+    var nodeId = node.id();
+    var iconMappings = this.controller.panel.settings.serviceIcons;
+
+    var mapping = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.find(iconMappings, function (_a) {
+      var pattern = _a.pattern;
+
+      try {
+        return new RegExp(pattern).test(nodeId);
+      } catch (error) {
+        return false;
+      }
+    });
+
+    if (mapping) {
+      var image = this._getAsset(mapping.filename, 'service_icons/' + mapping.filename + '.png');
+
+      if (image != null) {
+        var cX = node.position().x;
+        var cY = node.position().y;
+        var iconSize = 16;
+        ctx.drawImage(image, cX - iconSize / 2, cY - iconSize / 2, iconSize, iconSize);
+      }
+    }
+  };
+
+  CanvasDrawer.prototype._drawNodeStatistics = function (ctx, node) {
+    var lines = [];
+    var metrics = node.data('metrics');
+
+    var requestCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.rate, -1);
+
+    var errorCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.error_rate, -1);
+
+    var responseTime = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.response_time, -1);
+
+    if (requestCount >= 0) {
+      var decimals = requestCount >= 1000 ? 1 : 0;
+      lines.push('Requests: ' + human_format__WEBPACK_IMPORTED_MODULE_4___default()(requestCount, {
+        decimals: decimals
+      }));
+    }
+
+    if (errorCount >= 0) {
+      var decimals = errorCount >= 1000 ? 1 : 0;
+      lines.push('Errors: ' + human_format__WEBPACK_IMPORTED_MODULE_4___default()(errorCount, {
+        decimals: decimals
+      }));
+    }
+
+    if (responseTime >= 0) {
+      var decimals = responseTime >= 1000 ? 1 : 0;
+      lines.push('Avg. Resp. Time: ' + human_format__WEBPACK_IMPORTED_MODULE_4___default()(responseTime, {
+        scale: this.timeScale,
+        decimals: decimals
+      }));
+    }
+
+    var pos = node.position();
+    var fontSize = 6;
+    var cX = pos.x + this.donutRadius * 1.25;
+    var cY = pos.y + fontSize / 2 - fontSize / 2 * (lines.length - 1);
+    ctx.font = '6px Arial';
+    ctx.fillStyle = this.colors["default"];
+
+    for (var i = 0; i < lines.length; i++) {
+      ctx.fillText(lines[i], cX, cY + i * fontSize);
+    }
+  };
+
+  CanvasDrawer.prototype._drawThresholdStroke = function (ctx, node, violation, radius, width, baseStrokeWidth) {
+    var pos = node.position();
+    var cX = pos.x;
+    var cY = pos.y;
+    var strokeWidth = baseStrokeWidth * 2 * (violation ? 1.5 : 1);
+    var offset = strokeWidth * 0.2;
+    ctx.beginPath();
+    ctx.arc(cX, cY, radius + strokeWidth - offset, 0, 2 * Math.PI, false);
+    ctx.closePath();
+    ctx.setLineDash([]);
+    ctx.lineWidth = strokeWidth * 1;
+    ctx.strokeStyle = 'white';
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cX, cY, radius + strokeWidth - offset, 0, 2 * Math.PI, false);
+    ctx.closePath();
+    ctx.setLineDash([10, 2]);
+
+    if (violation && this.controller.panel.settings.animate) {
+      ctx.lineDashOffset = this.dashAnimationOffset;
+    } else {
+      ctx.lineDashOffset = 0;
+    }
+
+    ctx.lineWidth = strokeWidth;
+    ctx.strokeStyle = violation ? 'rgb(184, 36, 36)' : '#37872d';
+    ctx.stroke(); // inner
+
+    ctx.beginPath();
+    ctx.arc(cX, cY, radius - width - baseStrokeWidth, 0, 2 * Math.PI, false);
+    ctx.closePath();
+    ctx.fillStyle = violation ? 'rgb(184, 36, 36)' : '#37872d';
+    ctx.fill();
+  };
+
+  CanvasDrawer.prototype._drawExternalService = function (ctx, node) {
+    var pos = node.position();
+    var cX = pos.x;
+    var cY = pos.y;
+    var size = 12;
+    ctx.beginPath();
+    ctx.arc(cX, cY, 12, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'white';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cX, cY, 11.5, 0, 2 * Math.PI, false);
+    ctx.fillStyle = this.colors.background;
+    ctx.fill();
+    var nodeType = node.data('external_type');
+
+    var image = this._getImageAsset(nodeType);
+
+    if (image != null) {
+      ctx.drawImage(image, cX - size / 2, cY - size / 2, size, size);
+    }
+  };
+
+  CanvasDrawer.prototype._drawNodeLabel = function (ctx, node) {
+    var pos = node.position();
+    var label = node.id();
+    var labelPadding = 1;
+
+    if (this.selectionNeighborhood.empty() || !this.selectionNeighborhood.has(node)) {
+      if (label.length > 20) {
+        label = label.substr(0, 7) + '...' + label.slice(-7);
+      }
+    }
+
+    ctx.font = '6px Arial';
+    var labelWidth = ctx.measureText(label).width;
+    var xPos = pos.x - labelWidth / 2;
+    var yPos = pos.y + node.height() * 0.8;
+    var showBaselines = this.controller.getSettings().showBaselines;
+    var metrics = node.data('metrics');
+
+    var responseTime = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.response_time, -1);
+
+    var threshold = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.threshold, -1);
+
+    if (!showBaselines || threshold < 0 || responseTime < 0 || responseTime <= threshold) {
+      ctx.fillStyle = this.colors["default"];
+    } else {
+      ctx.fillStyle = '#FF7383';
+    }
+
+    ctx.fillRect(xPos - labelPadding, yPos - 6 - labelPadding, labelWidth + 2 * labelPadding, 6 + 2 * labelPadding);
+    ctx.fillStyle = this.colors.background;
+    ctx.fillText(label, xPos, yPos);
+  };
+
+  CanvasDrawer.prototype._drawDebugInformation = function () {
+    var ctx = this.context;
+    this.frameCounter++;
+    ctx.font = '12px monospace';
+    ctx.fillStyle = 'white';
+    ctx.fillText("Frames per Second: " + this.fpsCounter, 10, 12);
+    ctx.fillText("Particles: " + this.particleEngine.count(), 10, 24);
+  };
+
+  CanvasDrawer.prototype._drawDonut = function (ctx, node, radius, width, strokeWidth, percentages) {
+    var cX = node.position().x;
+    var cY = node.position().y;
+    var currentArc = -Math.PI / 2; // offset
+
+    ctx.beginPath();
+    ctx.arc(cX, cY, radius + strokeWidth, 0, 2 * Math.PI, false);
+    ctx.closePath();
+    ctx.fillStyle = 'white';
+    ctx.fill();
+    var _a = this.controller.getSettings().style,
+        healthyColor = _a.healthyColor,
+        dangerColor = _a.dangerColor,
+        unknownColor = _a.unknownColor;
+    var colors = [dangerColor, unknownColor, healthyColor];
+
+    for (var i = 0; i < percentages.length; i++) {
+      var arc = this._drawArc(ctx, currentArc, cX, cY, radius, percentages[i], colors[i]);
+
+      currentArc += arc;
+    }
+
+    ctx.beginPath();
+    ctx.arc(cX, cY, radius - width, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'white';
+    ctx.fill(); // // cut out an inner-circle == donut
+
+    ctx.beginPath();
+    ctx.arc(cX, cY, radius - width - strokeWidth, 0, 2 * Math.PI, false);
+
+    if (node.selected()) {
+      ctx.fillStyle = 'white';
+    } else {
+      ctx.fillStyle = this.colors.background;
+    }
+
+    ctx.fill();
+  };
+
+  CanvasDrawer.prototype._drawArc = function (ctx, currentArc, cX, cY, radius, percent, color) {
+    // calc size of our wedge in radians
+    var WedgeInRadians = percent * 360 * Math.PI / 180; // draw the wedge
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(cX, cY);
+    ctx.arc(cX, cY, radius, currentArc, currentArc + WedgeInRadians, false);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.restore(); // sum the size of all wedges so far
+    // We will begin our next wedge at this sum
+
+    return WedgeInRadians;
+  };
+
+  return CanvasDrawer;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (CanvasDrawer);
+;
+
+/***/ }),
+
+/***/ "./canvas/particle_engine.ts":
+/*!***********************************!*\
+  !*** ./canvas/particle_engine.ts ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var ParticleEngine =
+/** @class */
+function () {
+  function ParticleEngine(canvasDrawer) {
+    this.maxVolume = 1000;
+    this.minSpawnPropability = 0.01;
+    this.drawer = canvasDrawer;
+  }
+
+  ParticleEngine.prototype.start = function () {
+    if (!this.spawnInterval) {
+      var that_1 = this;
+      this.spawnInterval = setInterval(function () {
+        return that_1._spawnParticles();
+      }, 100);
+    }
+  };
+
+  ParticleEngine.prototype.stop = function () {
+    if (this.spawnInterval) {
+      clearInterval(this.spawnInterval);
+      this.spawnInterval = null;
+    }
+  };
+
+  ParticleEngine.prototype._spawnParticles = function () {
+    var _this = this;
+
+    var cy = this.drawer.cytoscape;
+    var now = Date.now();
+    cy.edges().forEach(function (edge) {
+      var particles = edge.data('particles');
+      var metrics = edge.data('metrics');
+
+      if (!metrics) {
+        return;
+      }
+
+      var rate = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["defaultTo"])(metrics.rate, 0);
+      var error_rate = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["defaultTo"])(metrics.error_rate, 0);
+      var volume = rate + error_rate;
+      var errorRate;
+
+      if (rate >= 0 && error_rate >= 0) {
+        errorRate = error_rate / rate;
+      } else {
+        errorRate = 0;
+      }
+
+      if (particles === undefined) {
+        particles = {
+          normal: [],
+          danger: []
+        };
+        edge.data('particles', particles);
+      }
+
+      if (metrics && volume > 0) {
+        var spawnPropability = Math.min(volume / _this.maxVolume, 1.0);
+
+        for (var i = 0; i < 5; i++) {
+          if (Math.random() <= spawnPropability + _this.minSpawnPropability) {
+            var particle = {
+              velocity: 0.05 + Math.random() * 0.05,
+              startTime: now
+            };
+
+            if (Math.random() < errorRate) {
+              particles.danger.push(particle);
+            } else {
+              particles.normal.push(particle);
+            }
+          }
+        }
+      }
+    });
+  };
+
+  ParticleEngine.prototype.count = function () {
+    var cy = this.drawer.cytoscape;
+
+    var count = lodash__WEBPACK_IMPORTED_MODULE_0___default()(cy.edges()).map(function (edge) {
+      return edge.data('particles');
+    }).filter().map(function (particleArray) {
+      return particleArray.normal.length + particleArray.danger.length;
+    }).sum();
+
+    return count;
+  };
+
+  return ParticleEngine;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (ParticleEngine);
 
 /***/ }),
 
@@ -40678,6 +41936,54 @@ var ServiceIconMapping = function ServiceIconMapping(_a) {
     }
   }, "Add Service Icon Mapping"));
 };
+
+/***/ }),
+
+/***/ "./types.tsx":
+/*!*******************!*\
+  !*** ./types.tsx ***!
+  \*******************/
+/*! exports provided: GraphDataType, EGraphNodeType */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GraphDataType", function() { return GraphDataType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EGraphNodeType", function() { return EGraphNodeType; });
+;
+;
+;
+;
+;
+;
+;
+var GraphDataType;
+
+(function (GraphDataType) {
+  GraphDataType["SELF"] = "SELF";
+  GraphDataType["INTERNAL"] = "INTERNAL";
+  GraphDataType["EXTERNAL_OUT"] = "EXTERNAL_OUT";
+  GraphDataType["EXTERNAL_IN"] = "EXTERNAL_IN";
+})(GraphDataType || (GraphDataType = {}));
+
+;
+;
+;
+;
+var EGraphNodeType;
+
+(function (EGraphNodeType) {
+  EGraphNodeType["INTERNAL"] = "INTERNAL";
+  EGraphNodeType["EXTERNAL"] = "EXTERNAL";
+})(EGraphNodeType || (EGraphNodeType = {}));
+
+;
+;
+;
+;
+;
+;
+;
 
 /***/ }),
 

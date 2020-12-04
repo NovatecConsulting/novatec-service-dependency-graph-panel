@@ -164,3 +164,10 @@ export interface ISelectionStatistics {
   threshold?: number;
   thresholdViolation?: boolean;
 };
+
+export interface CyCanvas {
+  getCanvas: () => HTMLCanvasElement;
+  clear: (arg0: CanvasRenderingContext2D) => void;
+  resetTransform: (arg0: CanvasRenderingContext2D) => void;
+  setTransform: (arg0: CanvasRenderingContext2D) => void;
+};

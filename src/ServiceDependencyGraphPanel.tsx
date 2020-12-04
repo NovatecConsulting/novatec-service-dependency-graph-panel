@@ -87,11 +87,11 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
         console.log(cy)
         cy.ready( () => console.log("READY!!!"))
     
-        /*const drawer = new CanvasDrawer(this.props.controller,cy , cyCanvas(
+        const drawer = new CanvasDrawer(this.props.controller,cy , cyCanvas(
           {
           zIndex: 1,
           pixelRatio: "auto",
-        }));*/
+        }));
         
         
         ReactDOM.createPortal(<CytoscapeComponent elements={this.state.elements} cy={() => cy}  style= {{height: this.props.height,
