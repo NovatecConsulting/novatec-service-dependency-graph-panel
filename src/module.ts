@@ -1,11 +1,11 @@
 import { PanelPlugin } from '@grafana/data';
 import { PanelSettings } from './types';
-import { ServiceDependencyGraphPanel } from './ServiceDependencyGraphPanel';
+import { ServiceDependencyGraphPanelController } from './ServiceDependencyGraphPanelController';
 import { TypeaheadTextField } from './options/TypeaheadTextfield';
 import { ServiceIconMapping } from 'options/serviceIconMapping/ServiceIconMapping';
 import { ExternalIconMapping } from 'options/externalIconMapping/ExternalIconMapping';
 
-export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel).setPanelOptions(
+export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanelController).setPanelOptions(
   
   builder => {
   return builder
