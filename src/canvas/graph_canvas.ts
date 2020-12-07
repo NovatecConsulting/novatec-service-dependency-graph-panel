@@ -1,8 +1,12 @@
 import _ from 'lodash';
-import { ServiceDependencyGraphCtrl } from '../service_dependency_graph_ctrl';
+import cytoscape from 'cytoscape';
+import cyCanvas from 'cytoscape-canvas';
+import cola from 'cytoscape-cola';
+import { ServiceDependencyGraphPanel } from '../ServiceDependencyGraphPanel';
 import ParticleEngine from './particle_engine';
 import { CyCanvas, IGraphMetrics, Particle, EGraphNodeType, Particles } from '../types';
 import humanFormat from 'human-format';
+
 
 export default class CanvasDrawer {
 
@@ -17,7 +21,7 @@ export default class CanvasDrawer {
 
     readonly donutRadius: number = 15;
 
-    controller: ServiceDependencyGraphCtrl;
+    controller: ServiceDependencyGraphPanel;
 
     cytoscape: cytoscape.Core;
 
@@ -51,7 +55,7 @@ export default class CanvasDrawer {
 
     timeScale: any;
 
-    constructor(ctrl: ServiceDependencyGraphCtrl, cy: cytoscape.Core, cyCanvas: CyCanvas) {
+    constructor(ctrl: ServiceDependencyGraphPanel, cy: cytoscape.Core, cyCanvas: CyCanvas) {
         this.cytoscape = cy;
         this.cyCanvas = cyCanvas;
         this.controller = ctrl;
@@ -75,6 +79,7 @@ export default class CanvasDrawer {
             s: 1000,
             min: 60000
         });
+        this.repaint(true)
     }
 
     resetAssets() {
@@ -113,7 +118,7 @@ export default class CanvasDrawer {
 
     _getImageAsset(assetName, resolveName = true) {
         if (!_.has(this.imageAssets, assetName)) {
-            const assetUrl = this.controller.getTypeSymbol(assetName, resolveName);
+            const assetUrl = "test"//TODO this.controller.getTypeSymbol(assetName, resolveName);
             this._loadImage(assetUrl, assetName);
         }
 
@@ -216,7 +221,6 @@ export default class CanvasDrawer {
         // static element rendering
         // cyCanvas.resetTransform(ctx);
         cyCanvas.clear(ctx);
-
         if (this.controller.getSettings().showDebugInformation) {
             this._drawDebugInformation();
         }
@@ -266,7 +270,7 @@ export default class CanvasDrawer {
         }
         
         const { showConnectionStats } = this.controller.getSettings();
-        if (showConnectionStats && cy.zoom() > 1) {
+        if ( true/*showConnectionStats && cy.zoom() > 1*/) {
             for(const edge of edges) {
                 this._drawEdgeLabel(ctx, edge);
             }
@@ -314,9 +318,9 @@ export default class CanvasDrawer {
         let statistics: string[] = [];
 
         const metrics: IGraphMetrics = edge.data('metrics');
-        const duration = _.defaultTo(metrics.response_time, -1);
-        const requestCount = _.defaultTo(metrics.rate, -1);
-        const errorCount = _.defaultTo(metrics.error_rate, -1);
+        const duration = 1//TODO _.defaultTo(metrics.response_time, -1);
+        const requestCount = 1//TODO _.defaultTo(metrics.rate, -1);
+        const errorCount = 1//TODO _.defaultTo(metrics.error_rate, -1);
 
         if (duration >= 0) {
             const decimals = duration >= 1000 ? 1 : 0;
@@ -331,7 +335,7 @@ export default class CanvasDrawer {
             statistics.push(humanFormat(errorCount, { decimals }) + ' Errors');
         }
 
-        if (statistics.length > 0) {
+        if (   true/*statistics.length > 0*/) {
             const edgeLabel = statistics.join(', ');
             this._drawLabel(ctx, edgeLabel, xMid, yMid);
         }
@@ -443,8 +447,8 @@ export default class CanvasDrawer {
         // Draw model elements
         const nodes = cy.nodes().toArray();
         for (let i = 0; i < nodes.length; i++) {
-            const node = nodes[i];
 
+            const node = nodes[i];
             if (that.selectionNeighborhood.empty() || that.selectionNeighborhood.has(node)) {
                 ctx.globalAlpha = 1;
             } else {
@@ -463,19 +467,18 @@ export default class CanvasDrawer {
 
     _drawNode(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
         const cy = this.cytoscape;
-        const type = node.data('type');
+        const type = EGraphNodeType.INTERNAL//TODO! node.data('type');
         const metrics: IGraphMetrics = node.data('metrics');
 
         if (type === EGraphNodeType.INTERNAL) {
-            const requestCount = _.defaultTo(metrics.rate, -1);
-            const errorCount = _.defaultTo(metrics.error_rate, 0);
-            const responseTime = _.defaultTo(metrics.response_time, -1);
-            const threshold = _.defaultTo(metrics.threshold, -1);
+            const requestCount = 0//TODO_.defaultTo(metrics.rate, -1);
+            const errorCount = 0//TODO _.defaultTo(metrics.error_rate, 0);
+            const responseTime = 0//TODO _.defaultTo(metrics.response_time, -1);
+            const threshold = 0 //TODO_.defaultTo(metrics.threshold, -1);
 
             var unknownPct;
             var errorPct;
             var healthyPct;
-
             if (requestCount < 0) {
                 healthyPct = 0;
                 errorPct = 0;
@@ -501,7 +504,7 @@ export default class CanvasDrawer {
                 this._drawThresholdStroke(ctx, node, thresholdViolation, 15, 5, 0.5);
             }
 
-            this._drawServiceIcon(ctx, node);
+            //TODO this._drawServiceIcon(ctx, node);
             
         } else {
             this._drawExternalService(ctx, node);
@@ -509,7 +512,7 @@ export default class CanvasDrawer {
 
         // draw statistics
         if (cy.zoom() > 1) {
-            this._drawNodeStatistics(ctx, node);
+           //TODO this._drawNodeStatistics(ctx, node);
         }
     }
 
@@ -653,8 +656,8 @@ export default class CanvasDrawer {
 
         const showBaselines = this.controller.getSettings().showBaselines;
         const metrics: IGraphMetrics = node.data('metrics');
-        const responseTime = _.defaultTo(metrics.response_time, -1);
-        const threshold = _.defaultTo(metrics.threshold, -1);
+        const responseTime = 1//TODO_.defaultTo(metrics.response_time, -1);
+        const threshold = 1 //TODO_.defaultTo(metrics.threshold, -1);
 
         if (!showBaselines || threshold < 0 || responseTime < 0 || responseTime <= threshold) {
             ctx.fillStyle = this.colors.default;
@@ -679,10 +682,9 @@ export default class CanvasDrawer {
         ctx.fillText("Particles: " + this.particleEngine.count(), 10, 24);
     }
 
-    _drawDonut(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, radius, width, strokeWidth, percentages) {
+    _drawDonut(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular, radius: any, width: any, strokeWidth: any, percentages: any) {
         const cX = node.position().x;
         const cY = node.position().y;
-
         let currentArc = -Math.PI / 2; // offset
 
         ctx.beginPath();
@@ -691,8 +693,8 @@ export default class CanvasDrawer {
         ctx.fillStyle = 'white';
         ctx.fill();
 
-        const { healthyColor, dangerColor, unknownColor } = this.controller.getSettings().style;
-        const colors = [dangerColor, unknownColor, healthyColor];
+        const { healthyColor, dangerColor, noDataColor } = this.controller.getSettings().style;
+        const colors =  [dangerColor, noDataColor, healthyColor];
         for (let i = 0; i < percentages.length; i++) {
             let arc = this._drawArc(ctx, currentArc, cX, cY, radius, percentages[i], colors[i]);
             currentArc += arc;
@@ -714,7 +716,7 @@ export default class CanvasDrawer {
         ctx.fill();
     }
 
-    _drawArc(ctx: CanvasRenderingContext2D, currentArc, cX, cY, radius, percent, color) {
+    _drawArc(ctx: CanvasRenderingContext2D, currentArc: any, cX: any, cY: any, radius: any, percent: any, color: any) {
         // calc size of our wedge in radians
         var WedgeInRadians = percent * 360 * Math.PI / 180;
         // draw the wedge

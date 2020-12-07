@@ -80,7 +80,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
   
     return (
         <div className="service-dependency-graph-panel" style ={ {height: this.props.height, width: this.props.width}} ref={this.ref} id = "cy">
-            <ServiceDependencyGraphPanel cytoscape={this.cy} elements={ elements } width = { this.state.width } height = { this.state.height } zoom = { 1 }  controller = { this } animate = { false }/>
+            <ServiceDependencyGraphPanel elements={ elements } width = { this.state.width } height = { this.state.height } zoom = { 1 }  controller = { this } animate = { false }/>
         </div>   
         );
       }

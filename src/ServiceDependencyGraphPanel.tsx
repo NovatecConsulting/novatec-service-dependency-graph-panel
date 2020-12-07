@@ -12,8 +12,6 @@ import ReactDOM from 'react-dom';
 import CytoscapeComponent from 'react-cytoscapejs';
 //import {Core} from 'cytoscape';
 
-cyCanvas(cytoscape);
-cytoscape.use(cola);
 
 interface PanelState {
     elements: any, 
@@ -21,9 +19,11 @@ interface PanelState {
     height: number,
     zoom: number,
     animate: boolean,
-    cytoscape: any;
     controller: ServiceDependencyGraphPanelController;
   }
+
+cyCanvas(cytoscape);
+cytoscape.use(cola);
 
 export class ServiceDependencyGraphPanel extends PureComponent<PanelState, PanelState> {
     ref: any;
@@ -45,66 +45,40 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
         this.onLoad()
     }
 
+    getSettings() {
+       return this.state.controller.state.options
+    }
+
     onLoad() {
-        console.log("LOAD!")
-        console.log(this.props.elements)
-        console.log("this.ref")
-        console.log(this.ref)
-        const cy = cytoscape({
-          // TODO: Use a ref here!
-          container: this.ref,
-          layout: {
-              name: 'random',
-            padding: 10,
-            randomize: true
-          },
-          zoom: this.props.zoom,
-          style: [
-            {
-                selector: 'node',
-                style: {
-                  'background-color': '#666',
-                  'label': 'data(id)'
-                }
-              },
-              {
-                selector: 'edge',
-                style: {
-                  'width': 3,
-                  'line-color': '#ccc',
-                  'target-arrow-color': '#ccc',
-                  'target-arrow-shape': 'triangle'
-                }
-              }
-            ], 
-          elements:  this.props.elements
-        });
-        cy.add([
-            { group: 'nodes', data: { id: 'n0' }, position: { x: 373, y: 238 } },
-            { group: 'nodes', data: { id: 'n1' }, position: { x: 273, y: 138 } },
-            { group: 'edges', data: { id: 'e0', source: 'n0', target: 'n1' } }
-          ]);
-        console.log(cy)
-        cy.ready( () => console.log("READY!!!"))
-    
-        const drawer = new CanvasDrawer(this.props.controller,cy , cyCanvas(
-          {
-          zIndex: 1,
-          pixelRatio: "auto",
-        }));
-        
-        
-        ReactDOM.createPortal(<CytoscapeComponent elements={this.state.elements} cy={() => cy}  style= {{height: this.props.height,
-            width: this.props.width}}/>, this.ref)
+      
+      
+      const cy = cytoscape({
+        // TODO: Use a ref here!
+        container: this.ref,
+        zoom: this.props.zoom,
+        elements:  this.props.elements,
+        style: []
+      });
+      cy.add([
+          { group: 'nodes', data: { id: 'n0' }, position: { x: 373, y: 238 } },
+          { group: 'nodes', data: { id: 'n1' }, position: { x: 273, y: 138 } },
+          { group: 'edges', data: { id: 'e0', source: 'n0', target: 'n1' } }
+        ]);
+      
+      var a = new CanvasDrawer(this, cy, cy.cyCanvas({
+        zIndex: 1
+      }))
+      cy.on("render cyCanvas.resize", () => {
+        a.repaint(true)
+       });
       }
 
 
     //zoom = {this.state.zoom} style={ { width: this.props.width, height: this.props.height}}
     render(){
-        console.log("render!")
         return (
             <div className="graph-container" ng-show="!ctrl.getError()">
-                <div className="canvas-container" ref={ ref => this.ref = ref}>
+                <div className="canvas-container" ref={ ref => this.ref = ref} style= {{height: this.props.height, width: this.props.width - 100}}>
                     
                 </div>
                 <div className="zoom-button-container">
