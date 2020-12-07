@@ -1,7 +1,7 @@
 import { PanelPlugin } from '@grafana/data';
 import { PanelSettings } from './types';
 import { ServiceDependencyGraphPanelController } from './ServiceDependencyGraphPanelController';
-import { TypeaheadTextField } from './options/TypeaheadTextfield';
+import { TypeaheadTextField } from './options/TypeAheadTextfield/TypeaheadTextfield';
 import { ServiceIconMapping } from 'options/serviceIconMapping/ServiceIconMapping';
 import { ExternalIconMapping } from 'options/externalIconMapping/ExternalIconMapping';
 
@@ -9,7 +9,7 @@ export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel
   
   builder => {
   return builder
-  /*
+
     //Connection Mapping
     .addCustomEditor({
       path: 'dataMapping.sourceComponentPrefix',
@@ -18,6 +18,7 @@ export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel
       name: 'Source Component Column Prefix',
       category: ['Connection Mapping'],
       })
+    
     .addCustomEditor({
       path: 'dataMapping.targetComponentPrefix',
       id: 'targetComponentPrefix',
@@ -97,7 +98,7 @@ export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel
       editor: TypeaheadTextField,
       category: ['Data Mapping'],
       })
-          
+      
     //General Settings
     .addBooleanSwitch({
       path: 'showConnectionStats',
@@ -130,7 +131,7 @@ export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel
       name: 'Show Baselines',
       category: ['General Settings'],
     })
-    */
+    
     //Appearance
     .addColorPicker({
       path: 'style.healthyColor',

@@ -23,16 +23,16 @@
     "email": "plugins@grafana.com"
   },
   "devDependencies": {
+    "@babel/core": "7.12.9",
+    "@babel/preset-env": "7.12.7",
     "@grafana/data": "^7.0.0",
     "@grafana/toolkit": "^7.3.4",
     "@grafana/ui": "^7.0.0",
     "@types/react-cytoscapejs": "^1.1.2",
+    "babel-loader": "8.2.2",
     "emotion": "10.0.27",
     "sass-loader": "^10.1.0",
-    "@babel/core": "7.12.9",
-    "babel-loader": "8.2.2",
-    "ts-loader": "8.0.11",
-    "@babel/preset-env": "7.12.7"
+    "ts-loader": "8.0.11"
   },
   "engines": {
     "node": ">=12"
@@ -41,6 +41,7 @@
     "@grafana/runtime": "^7.3.2",
     "@types/react-autosuggest": "^10.0.1",
     "@types/react-bootstrap-typeahead": "^3.4.7",
+    "babel-preset-react": "^6.24.1",
     "cytoscape": "^3.14.2",
     "cytoscape-canvas": "^3.0.1",
     "cytoscape-cola": "^2.4.0",
