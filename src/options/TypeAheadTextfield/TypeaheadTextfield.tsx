@@ -25,8 +25,6 @@ export class TypeaheadTextField extends React.PureComponent<Props> {
     }
 
     onChange = (event: any, { newValue, method }: any) => {
-        console.log("CHANGE")
-        console.log(newValue)
         this.setState({
             value: event.currentTarget.value
         })
@@ -35,8 +33,6 @@ export class TypeaheadTextField extends React.PureComponent<Props> {
 
     getSuggestions = (value: any) => {
         var inputValue = "";
-        console.log("console.log(value)")
-        console.log(value)
         if(value !== undefined) {
             inputValue = value.trim().toLowerCase();
         }

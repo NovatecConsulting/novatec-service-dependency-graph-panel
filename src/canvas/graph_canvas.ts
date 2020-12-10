@@ -165,6 +165,7 @@ export default class CanvasDrawer {
 
     stopAnimation() {
         this.particleEngine.stop();
+        this.repaint();
     }
 
     _skipFrame() {
@@ -343,7 +344,7 @@ export default class CanvasDrawer {
 
     _drawEdgeParticles(ctx: CanvasRenderingContext2D, edge: cytoscape.EdgeSingular, sourcePoint: cytoscape.Position, targetPoint: cytoscape.Position, now: number) {
         const particles: Particles = edge.data('particles');
-
+        console.log("draw edge particles")
         if (particles === undefined) {
             return;
         }

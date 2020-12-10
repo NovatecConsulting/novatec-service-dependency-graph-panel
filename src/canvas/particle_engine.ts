@@ -8,7 +8,7 @@ export default class ParticleEngine {
 
     maxVolume: number = 1000;
 
-    minSpawnPropability: number = 0.01;
+    minSpawnPropability: number = 0.005;
 
     spawnInterval: number | null;
     
@@ -19,7 +19,7 @@ export default class ParticleEngine {
     start() {
         if (!this.spawnInterval) {
             const that = this;
-            this.spawnInterval = setInterval(() => that._spawnParticles(), 100);
+            this.spawnInterval = setInterval(() => that._spawnParticles(), 60);
         }
     }
 
@@ -34,17 +34,19 @@ export default class ParticleEngine {
         const cy = this.drawer.cytoscape;
 
         const now = Date.now();
-
+        console.log(cy.edges())
         cy.edges().forEach(edge => {
+            console.log(edge)
             let particles: Particles = edge.data('particles');
             const metrics: IGraphMetrics = edge.data('metrics');
 
-            if (!metrics) {
+            //TODO
+            /*if (!metrics) {
                 return;
-            }
+            }*/
 
-            const rate = defaultTo(metrics.rate, 0);
-            const error_rate = defaultTo(metrics.error_rate, 0);
+            const rate = 100//TODO defaultTo(metrics.rate, 0);
+            const error_rate = 101// TODOdefaultTo(metrics.error_rate, 0);
             const volume = rate + error_rate;
 
             let errorRate;
@@ -61,26 +63,26 @@ export default class ParticleEngine {
                 };
                 edge.data('particles', particles);
             }
-
-            if (metrics && volume > 0) {
+            //TODO ADD metrics && 
+            if (volume > 0) {
                 const spawnPropability = Math.min(volume / this.maxVolume, 1.0);
-
                 for (let i = 0; i < 5; i++) {
                     if (Math.random() <= spawnPropability + this.minSpawnPropability) {
                         const particle: Particle = {
                             velocity: 0.05 + (Math.random() * 0.05),
                             startTime: now
                         };
-
                         if (Math.random() < errorRate) {
                             particles.danger.push(particle);
                         } else {
                             particles.normal.push(particle);
                         }
+                        
                     }
                 }
             }
         });
+        this.drawer.repaint();
     }
 
     count() {

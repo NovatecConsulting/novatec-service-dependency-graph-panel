@@ -2,24 +2,24 @@ import CanvasDrawer from 'canvas/graph_canvas';
 import cytoscape from 'cytoscape';
 import React from 'react';
 import { PureComponent } from 'react';
-//import CytoscapeComponent from 'react-cytoscapejs';
-//import ReactDOM from 'react-dom';
-//import './ServiceDependencyGraphPanel.css';
 import { ServiceDependencyGraphPanelController } from './ServiceDependencyGraphPanelController';
 import cyCanvas from 'cytoscape-canvas';
 import cola from 'cytoscape-cola';
-import ReactDOM from 'react-dom';
-import CytoscapeComponent from 'react-cytoscapejs';
-//import {Core} from 'cytoscape';
+import layoutOptions from './layout_options';
+import { Statistics } from 'Statistics';
 
 
 interface PanelState {
     elements: any, 
     width: number,
     height: number,
-    zoom: number,
-    animate: boolean,
+    zoom: number | undefined,
+    animate: boolean | undefined,
     controller: ServiceDependencyGraphPanelController;
+    cy?: any | undefined,
+    graphCanvas?: any | undefined,
+    animateButton?: string,
+    showStatistics: boolean
   }
 
 cyCanvas(cytoscape);
@@ -29,75 +29,156 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
     ref: any;
     constructor(props: PanelState){
         super(props);
-        this.state = {...props}
+        this.state = {
+            ...props,
+            animateButton: "fa fa-play-circle",
+            showStatistics: false
+        }
         this.ref = React.createRef();
       }
 
-      zoom(zoom: any) {
-        const zoomStep = 0.25 * zoom;
-        const zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
-        this.setState(
-            {zoom: zoomLevel}
-        )
-    }
+      
 
     componentDidMount () {
         this.onLoad()
     }
 
-    getSettings() {
-       return this.state.controller.state.options
+    onLoad() {
+        const cy = cytoscape({
+            container: this.ref,
+            zoom: this.state.zoom,
+            elements:  this.props.elements,
+            style: [],
+            wheelSensitivity: 0.125
+        });
+        
+        var graphCanvas = new CanvasDrawer(this, cy, cy.cyCanvas({
+            zIndex: 1
+        }))
+        cy.on("render cyCanvas.resize", () => {
+            graphCanvas.repaint(true)
+            });
+        cy.on('select', 'node', (event) => this.onSelectionChange(event));
+        cy.on('unselect', 'node', (event) => this.onSelectionChange(event));
+        this.setState({
+            cy: cy,
+            graphCanvas: graphCanvas
+        })
     }
 
-    onLoad() {
-      
-      
-      const cy = cytoscape({
-        // TODO: Use a ref here!
-        container: this.ref,
-        zoom: this.props.zoom,
-        elements:  this.props.elements,
-        style: []
-      });
-      cy.add([
-          { group: 'nodes', data: { id: 'n0' }, position: { x: 373, y: 238 } },
-          { group: 'nodes', data: { id: 'n1' }, position: { x: 273, y: 138 } },
-          { group: 'edges', data: { id: 'e0', source: 'n0', target: 'n1' } }
-        ]);
-      
-      var a = new CanvasDrawer(this, cy, cy.cyCanvas({
-        zIndex: 1
-      }))
-      cy.on("render cyCanvas.resize", () => {
-        a.repaint(true)
-       });
-      }
+    onSelectionChange(event: any) {
+        const selection = this.state.cy.$(':selected');
+
+		if (selection.length === 1) {
+			this.setState({
+                showStatistics: true
+            }) 
+			//this.updateStatisticTable();
+		} else {
+			this.setState({
+                showStatistics: false
+            }) 
+        }
+        console.log(this.state.showStatistics)
+
+	}
 
 
-    //zoom = {this.state.zoom} style={ { width: this.props.width, height: this.props.height}}
+    getSettings() {
+       return this.props.controller.state.options
+    }
+
+    toggleAnimation() {
+        this.props.controller.state.options.animate = !this.state.controller.state.options.animate;
+
+		if (this.state.controller.state.options.animate) {
+            this.state.graphCanvas.startAnimation();
+            this.setState({
+                animateButton: "fa fa-pause-circle"
+            })
+		} else {
+            this.state.graphCanvas.stopAnimation();
+            this.setState({
+                animateButton: "fa fa-play-circle"
+            })
+		}
+    }
+
+    runLayout(unlockNodes: boolean = false) {
+		const that = this;
+
+		const options = {
+			...layoutOptions,
+			stop: function () {
+				if (unlockNodes) {
+					that.unlockNodes();
+				}
+			}
+		};
+
+		this.state.cy.layout(options).run()
+	}
+
+	unlockNodes() {
+		this.state.cy.nodes().forEach(node => {
+			node.unlock();
+		});
+    }
+    
+    fit() {
+		const selection = this.state.graphCanvas.selectionNeighborhood;
+		if (selection && !selection.empty()) {
+			this.state.cy.fit(selection, 30);
+		} else {
+			this.state.cy.fit();
+		}
+	}
+    
+    zoom(zoom: any) {
+        console.log("ZOOM")
+      const zoomStep = 0.25 * zoom;
+      const zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
+      this.setState(
+          {zoom: zoomLevel}
+      )
+      this.state.cy.zoom(zoomLevel);
+    }
+
+    
+
     render(){
         return (
             <div className="graph-container" ng-show="!ctrl.getError()">
-                <div className="canvas-container" ref={ ref => this.ref = ref} style= {{height: this.props.height, width: this.props.width - 100}}>
-                    
-                </div>
-                <div className="zoom-button-container">
-                    <button className="btn navbar-button" ng-click="ctrl.toggleAnimation()">
-                        <i ng-class="{fa: true, 'fa-play-circle': !ctrl.panel.settings.animate, 'fa-pause-circle': ctrl.panel.settings.animate}"></i>
-                    </button>
-                    <button className="btn navbar-button" ng-click="ctrl.runLayout()">
-                        <i className="fa fa-sitemap"></i>
-                    </button>
-                    <button className="btn navbar-button" ng-click="ctrl.fit()">
-                        <i className="fa fa-dot-circle-o"></i>
+                <div className="service-dependency-graph">
+                    <div className="canvas-container" ref={ ref => this.ref = ref} style= {{height: "100%", width: "100%"}}>
+
+                    </div>
+                    <div className="zoom-button-container">
+                        <button className="btn navbar-button" onClick={() => this.toggleAnimation()}>
+                            <i className={this.state.animateButton}></i>
                         </button>
-                    <button className="btn navbar-button" onClick= {() => this.zoom(+1)}>
-                        <i className="fa fa-plus"></i>
-                    </button>
-                    <button className="btn navbar-button" onClick= {() => this.zoom(-1)}>
-                        <i className="fa fa-minus"></i>
-                    </button>
+                        <button className="btn navbar-button" onClick={() => this.runLayout()}>
+                            <i className="fa fa-sitemap"></i>
+                        </button>
+                        <button className="btn navbar-button" onClick={() => this.fit()}>
+                            <i className="fa fa-dot-circle-o"></i>
+                            </button>
+                        <button className="btn navbar-button" onClick={() => this.zoom(+1)}>
+                            <i className="fa fa-plus"></i>
+                        </button>
+                        <button className="btn navbar-button" onClick={() => this.zoom(-1)}>
+                            <i className="fa fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
+                <Statistics show = {this.state.showStatistics} 
+                            selectionId="a"
+                            resolvedDrillDownLink= "http://www.google.de" 
+                            selectionStatistics="c"
+                            node=""
+                            currentType='INTERNAL'
+                            showBaselines = {false}
+                            receiving = ""/>
             </div>
         );
     }

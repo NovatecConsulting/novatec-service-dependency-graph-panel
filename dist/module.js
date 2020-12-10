@@ -86,6 +86,25 @@ define(["@grafana/data","lodash","react"], function(__WEBPACK_EXTERNAL_MODULE__g
 /************************************************************************/
 /******/ ({
 
+/***/ "../../../../../../node_modules/css-loader/index.js?!../node_modules/postcss-loader/src/index.js?!../node_modules/sass-loader/dist/cjs.js!./css/novatec-service-dependency-graph-panel.css":
+/*!******************************************************************************************************************************************************************************************************!*\
+  !*** C:/Users/mbi/Downloads/node_modules/css-loader??ref--8-1!../node_modules/postcss-loader/src??ref--8-2!../node_modules/sass-loader/dist/cjs.js!./css/novatec-service-dependency-graph-panel.css ***!
+  \******************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../../../../../node_modules/css-loader/lib/css-base.js")(true);
+// imports
+
+
+// module
+exports.push([module.i, ".service-dependency-graph-panel {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n.graph-container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: row; }\n\n.service-dependency-graph {\n  position: relative;\n  flex-grow: 1;\n  min-width: 0; }\n\n.canvas-container {\n  width: 100%;\n  height: 100%;\n  overflow: hidden; }\n\n.zoom-button-container {\n  position: absolute;\n  top: 0;\n  right: 1rem;\n  z-index: 99; }\n\n.statistics {\n  flex-basis: 0;\n  transition: flex-basis 250ms ease-in-out;\n  overflow-y: scroll; }\n\n.statistics.show {\n  flex-basis: 30rem;\n  padding-left: 0.5%; }\n\n.header--selection {\n  font-size: 1.25em;\n  text-align: center;\n  border-bottom: 2px solid #161719;\n  font-weight: 500;\n  color: #d8d9da; }\n\n.secondHeader--selection {\n  font-size: 1.2em;\n  text-align: center;\n  padding-top: 1.5rem;\n  padding-bottom: 0.5rem; }\n\n.no-data--selection {\n  color: #888888;\n  text-align: center; }\n\n.table--selection {\n  width: 99%;\n  table-layout: fixed; }\n\n.table--selection th, .table--selection td {\n  padding: 3px 5px; }\n\n.table--selection tr {\n  border-bottom: 2px solid #161719; }\n\n.table--td--selection {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.threshold--bad {\n  color: #f2495c; }\n\n.threshold--good {\n  color: #73bf69; }\n\n.table--th--selectionSmall {\n  width: 5.5rem; }\n\n.table--th--selectionMedium {\n  width: 8rem; }\n\n.table--selection--head {\n  background-color: #28282a;\n  border-top: 2px solid #161719;\n  color: #33b5e5; }\n", "", {"version":3,"sources":["C:/Users/mbi/Downloads/grafana-7.2.0.windows-amd64 (1)/grafana-7.2.0/data/plugins/novatec-service-dependency-graph-panel/src/css/novatec-service-dependency-graph-panel.css"],"names":[],"mappings":"AAAA;EACE,cAAc;EACd,oBAAoB;EACpB,wBAAwB;EACxB,uBAAuB,EAAE;;AAE3B;EACE,YAAY;EACZ,aAAa;EACb,cAAc;EACd,oBAAoB,EAAE;;AAExB;EACE,mBAAmB;EACnB,aAAa;EACb,aAAa,EAAE;;AAEjB;EACE,YAAY;EACZ,aAAa;EACb,iBAAiB,EAAE;;AAErB;EACE,mBAAmB;EACnB,OAAO;EACP,YAAY;EACZ,YAAY,EAAE;;AAEhB;EACE,cAAc;EACd,yCAAyC;EACzC,mBAAmB,EAAE;;AAEvB;EACE,kBAAkB;EAClB,mBAAmB,EAAE;;AAEvB;EACE,kBAAkB;EAClB,mBAAmB;EACnB,iCAAiC;EACjC,iBAAiB;EACjB,eAAe,EAAE;;AAEnB;EACE,iBAAiB;EACjB,mBAAmB;EACnB,oBAAoB;EACpB,uBAAuB,EAAE;;AAE3B;EACE,eAAe;EACf,mBAAmB,EAAE;;AAEvB;EACE,WAAW;EACX,oBAAoB,EAAE;;AAExB;EACE,iBAAiB,EAAE;;AAErB;EACE,iCAAiC,EAAE;;AAErC;EACE,iBAAiB;EACjB,wBAAwB;EACxB,oBAAoB,EAAE;;AAExB;EACE,eAAe,EAAE;;AAEnB;EACE,eAAe,EAAE;;AAEnB;EACE,cAAc,EAAE;;AAElB;EACE,YAAY,EAAE;;AAEhB;EACE,0BAA0B;EAC1B,8BAA8B;EAC9B,eAAe,EAAE","file":"novatec-service-dependency-graph-panel.css","sourcesContent":[".service-dependency-graph-panel {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n.graph-container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: row; }\n\n.service-dependency-graph {\n  position: relative;\n  flex-grow: 1;\n  min-width: 0; }\n\n.canvas-container {\n  width: 100%;\n  height: 100%;\n  overflow: hidden; }\n\n.zoom-button-container {\n  position: absolute;\n  top: 0;\n  right: 1rem;\n  z-index: 99; }\n\n.statistics {\n  flex-basis: 0;\n  transition: flex-basis 250ms ease-in-out;\n  overflow-y: scroll; }\n\n.statistics.show {\n  flex-basis: 30rem;\n  padding-left: 0.5%; }\n\n.header--selection {\n  font-size: 1.25em;\n  text-align: center;\n  border-bottom: 2px solid #161719;\n  font-weight: 500;\n  color: #d8d9da; }\n\n.secondHeader--selection {\n  font-size: 1.2em;\n  text-align: center;\n  padding-top: 1.5rem;\n  padding-bottom: 0.5rem; }\n\n.no-data--selection {\n  color: #888888;\n  text-align: center; }\n\n.table--selection {\n  width: 99%;\n  table-layout: fixed; }\n\n.table--selection th, .table--selection td {\n  padding: 3px 5px; }\n\n.table--selection tr {\n  border-bottom: 2px solid #161719; }\n\n.table--td--selection {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.threshold--bad {\n  color: #f2495c; }\n\n.threshold--good {\n  color: #73bf69; }\n\n.table--th--selectionSmall {\n  width: 5.5rem; }\n\n.table--th--selectionMedium {\n  width: 8rem; }\n\n.table--selection--head {\n  background-color: #28282a;\n  border-top: 2px solid #161719;\n  color: #33b5e5; }\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "../../../../../../node_modules/css-loader/index.js?!../node_modules/postcss-loader/src/index.js?!../node_modules/sass-loader/dist/cjs.js!./options/TypeAheadTextfield/TypeaheadTextfield.css":
 /*!*********************************************************************************************************************************************************************************************************!*\
   !*** C:/Users/mbi/Downloads/node_modules/css-loader??ref--8-1!../node_modules/postcss-loader/src??ref--8-2!../node_modules/sass-loader/dist/cjs.js!./options/TypeAheadTextfield/TypeaheadTextfield.css ***!
@@ -43077,6 +43096,60 @@ exports.removeOverlapInOneDimension = removeOverlapInOneDimension;
 
 /***/ }),
 
+/***/ "./NodeStatistics.tsx":
+/*!****************************!*\
+  !*** ./NodeStatistics.tsx ***!
+  \****************************/
+/*! exports provided: NodeStatistics */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NodeStatistics", function() { return NodeStatistics; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var NodeStatistics = function NodeStatistics(_a) {
+  var nodeList = _a.nodeList,
+      noDataText = _a.noDataText,
+      title = _a.title;
+  var nodeStatistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "no-data--selection"
+  }, noDataText);
+
+  if (nodeList.length > 0) {
+    var recievingNodes = nodeList.map(function (node) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection",
+        title: node.name
+      }, node.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, node.responseTime), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, node.rate), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, node.error));
+    });
+    nodeStatistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+      className: "table--selection"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "table--selection--head"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      className: "table--th--selectionSmall"
+    }, "Time"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      className: "table--th--selectionSmall"
+    }, "Requests"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      className: "table--th--selectionSmall"
+    }, "Error Rate")), recievingNodes);
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "secondHeader--selection"
+  }, title), nodeStatistics);
+};
+
+/***/ }),
+
 /***/ "./ServiceDependencyGraphPanel.tsx":
 /*!*****************************************!*\
   !*** ./ServiceDependencyGraphPanel.tsx ***!
@@ -43097,6 +43170,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! cytoscape-cola */ "../node_modules/cytoscape-cola/cytoscape-cola.js");
 /* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(cytoscape_cola__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _layout_options__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./layout_options */ "./layout_options.ts");
+/* harmony import */ var Statistics__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! Statistics */ "./Statistics.tsx");
+
+
 
 
 
@@ -43115,69 +43192,125 @@ function (_super) {
   function ServiceDependencyGraphPanel(props) {
     var _this = _super.call(this, props) || this;
 
-    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
+    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props), {
+      animateButton: "fa fa-play-circle",
+      showStatistics: false
+    });
     _this.ref = react__WEBPACK_IMPORTED_MODULE_3___default.a.createRef();
     return _this;
   }
-
-  ServiceDependencyGraphPanel.prototype.zoom = function (zoom) {
-    var zoomStep = 0.25 * zoom;
-    var zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
-    this.setState({
-      zoom: zoomLevel
-    });
-  };
 
   ServiceDependencyGraphPanel.prototype.componentDidMount = function () {
     this.onLoad();
   };
 
-  ServiceDependencyGraphPanel.prototype.getSettings = function () {
-    return this.state.controller.state.options;
-  };
-
   ServiceDependencyGraphPanel.prototype.onLoad = function () {
+    var _this = this;
+
     var cy = cytoscape__WEBPACK_IMPORTED_MODULE_2___default()({
-      // TODO: Use a ref here!
       container: this.ref,
-      zoom: this.props.zoom,
+      zoom: this.state.zoom,
       elements: this.props.elements,
-      style: []
+      style: [],
+      wheelSensitivity: 0.125
     });
-    cy.add([{
-      group: 'nodes',
-      data: {
-        id: 'n0'
-      },
-      position: {
-        x: 373,
-        y: 238
-      }
-    }, {
-      group: 'nodes',
-      data: {
-        id: 'n1'
-      },
-      position: {
-        x: 273,
-        y: 138
-      }
-    }, {
-      group: 'edges',
-      data: {
-        id: 'e0',
-        source: 'n0',
-        target: 'n1'
-      }
-    }]);
-    var a = new canvas_graph_canvas__WEBPACK_IMPORTED_MODULE_1__["default"](this, cy, cy.cyCanvas({
+    var graphCanvas = new canvas_graph_canvas__WEBPACK_IMPORTED_MODULE_1__["default"](this, cy, cy.cyCanvas({
       zIndex: 1
     }));
     cy.on("render cyCanvas.resize", function () {
-      a.repaint(true);
+      graphCanvas.repaint(true);
     });
-  }; //zoom = {this.state.zoom} style={ { width: this.props.width, height: this.props.height}}
+    cy.on('select', 'node', function (event) {
+      return _this.onSelectionChange(event);
+    });
+    cy.on('unselect', 'node', function (event) {
+      return _this.onSelectionChange(event);
+    });
+    this.setState({
+      cy: cy,
+      graphCanvas: graphCanvas
+    });
+  };
 
+  ServiceDependencyGraphPanel.prototype.onSelectionChange = function (event) {
+    var selection = this.state.cy.$(':selected');
+
+    if (selection.length === 1) {
+      this.setState({
+        showStatistics: true
+      }); //this.updateStatisticTable();
+    } else {
+      this.setState({
+        showStatistics: false
+      });
+    }
+
+    console.log(this.state.showStatistics);
+  };
+
+  ServiceDependencyGraphPanel.prototype.getSettings = function () {
+    return this.props.controller.state.options;
+  };
+
+  ServiceDependencyGraphPanel.prototype.toggleAnimation = function () {
+    this.props.controller.state.options.animate = !this.state.controller.state.options.animate;
+
+    if (this.state.controller.state.options.animate) {
+      this.state.graphCanvas.startAnimation();
+      this.setState({
+        animateButton: "fa fa-pause-circle"
+      });
+    } else {
+      this.state.graphCanvas.stopAnimation();
+      this.setState({
+        animateButton: "fa fa-play-circle"
+      });
+    }
+  };
+
+  ServiceDependencyGraphPanel.prototype.runLayout = function (unlockNodes) {
+    if (unlockNodes === void 0) {
+      unlockNodes = false;
+    }
+
+    var that = this;
+
+    var options = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, _layout_options__WEBPACK_IMPORTED_MODULE_6__["default"]), {
+      stop: function stop() {
+        if (unlockNodes) {
+          that.unlockNodes();
+        }
+      }
+    });
+
+    this.state.cy.layout(options).run();
+  };
+
+  ServiceDependencyGraphPanel.prototype.unlockNodes = function () {
+    this.state.cy.nodes().forEach(function (node) {
+      node.unlock();
+    });
+  };
+
+  ServiceDependencyGraphPanel.prototype.fit = function () {
+    var selection = this.state.graphCanvas.selectionNeighborhood;
+
+    if (selection && !selection.empty()) {
+      this.state.cy.fit(selection, 30);
+    } else {
+      this.state.cy.fit();
+    }
+  };
+
+  ServiceDependencyGraphPanel.prototype.zoom = function (zoom) {
+    console.log("ZOOM");
+    var zoomStep = 0.25 * zoom;
+    var zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
+    this.setState({
+      zoom: zoomLevel
+    });
+    this.state.cy.zoom(zoomLevel);
+  };
 
   ServiceDependencyGraphPanel.prototype.render = function () {
     var _this = this;
@@ -43186,29 +43319,37 @@ function (_super) {
       className: "graph-container",
       "ng-show": "!ctrl.getError()"
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+      className: "service-dependency-graph"
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "canvas-container",
       ref: function ref(_ref) {
         return _this.ref = _ref;
       },
       style: {
-        height: this.props.height,
-        width: this.props.width - 100
+        height: "100%",
+        width: "100%"
       }
     }), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "zoom-button-container"
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
       className: "btn navbar-button",
-      "ng-click": "ctrl.toggleAnimation()"
+      onClick: function onClick() {
+        return _this.toggleAnimation();
+      }
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
-      "ng-class": "{fa: true, 'fa-play-circle': !ctrl.panel.settings.animate, 'fa-pause-circle': ctrl.panel.settings.animate}"
+      className: this.state.animateButton
     })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
       className: "btn navbar-button",
-      "ng-click": "ctrl.runLayout()"
+      onClick: function onClick() {
+        return _this.runLayout();
+      }
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: "fa fa-sitemap"
     })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
       className: "btn navbar-button",
-      "ng-click": "ctrl.fit()"
+      onClick: function onClick() {
+        return _this.fit();
+      }
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: "fa fa-dot-circle-o"
     })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
@@ -43225,7 +43366,16 @@ function (_super) {
       }
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: "fa fa-minus"
-    }))));
+    })))), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(Statistics__WEBPACK_IMPORTED_MODULE_7__["Statistics"], {
+      show: this.state.showStatistics,
+      selectionId: "a",
+      resolvedDrillDownLink: "http://www.google.de",
+      selectionStatistics: "c",
+      node: "",
+      currentType: 'INTERNAL',
+      showBaselines: false,
+      receiving: ""
+    }));
   };
 
   return ServiceDependencyGraphPanel;
@@ -43251,6 +43401,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ServiceDependencyGraphPanel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ServiceDependencyGraphPanel */ "./ServiceDependencyGraphPanel.tsx");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -43267,6 +43420,7 @@ function (_super) {
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
     _this.ref = react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
+    console.log(_this.props.data);
     return _this;
   }
 
@@ -43330,7 +43484,104 @@ function (_super) {
         target: 'two',
         label: 'Edge from Node1 to Node2'
       }
+    }, {
+      data: {
+        id: 'three',
+        label: 'Node 3'
+      },
+      position: {
+        x: 0,
+        y: 0
+      }
+    }, {
+      data: {
+        id: 'four',
+        label: 'Node 4'
+      },
+      position: {
+        x: 100,
+        y: 0
+      }
+    }, {
+      data: {
+        source: 'three',
+        target: 'four',
+        label: 'Edge from Node1 to Node2'
+      }
+    }, {
+      data: {
+        id: 'five',
+        label: 'Node 5'
+      },
+      position: {
+        x: 0,
+        y: 0
+      }
+    }, {
+      data: {
+        id: 'six',
+        label: 'Node 6'
+      },
+      position: {
+        x: 100,
+        y: 0
+      }
+    }, {
+      data: {
+        source: 'five',
+        target: 'six',
+        label: 'Edge from Node1 to Node2'
+      }
+    }, {
+      data: {
+        id: 'seven',
+        label: 'Node 7'
+      },
+      position: {
+        x: 0,
+        y: 0
+      }
+    }, {
+      data: {
+        id: 'eight',
+        label: 'Node 8'
+      },
+      position: {
+        x: 100,
+        y: 0
+      }
+    }, {
+      data: {
+        source: 'seven',
+        target: 'eight',
+        label: 'Edge from Node1 to Node2'
+      }
+    }, {
+      data: {
+        source: 'eight',
+        target: 'one',
+        label: 'Edge from Node1 to Node2'
+      }
+    }, {
+      data: {
+        source: 'five',
+        target: 'four',
+        label: 'Edge from Node1 to Node2'
+      }
+    }, {
+      data: {
+        source: 'three',
+        target: 'six',
+        label: 'Edge from Node1 to Node2'
+      }
+    }, {
+      data: {
+        source: 'six',
+        target: 'three',
+        label: 'Edge from Node1 to Node2'
+      }
     }];
+    console.log(this.props);
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       className: "service-dependency-graph-panel",
       style: {
@@ -43345,7 +43596,8 @@ function (_super) {
       height: this.state.height,
       zoom: 1,
       controller: this,
-      animate: false
+      animate: false,
+      showStatistics: false
     }));
   };
 
@@ -43353,29 +43605,140 @@ function (_super) {
 }(react__WEBPACK_IMPORTED_MODULE_1__["PureComponent"]);
 
 
-/* render() {
-    return (
-      <div className="service-dependency-graph-panel" ng-style="{height: ctrl.height}">
-        <div className="graph-container" ng-show="!ctrl.getError()">
-            <div className="service-dependency-graph">
-                <div className="canvas-container"></div>
 
-                <div className="zoom-button-container">
-                    <button className="btn navbar-button" ng-click="ctrl.toggleAnimation()"><i
-                            ng-className="{fa: true, 'fa-play-circle': !ctrl.panel.settings.animate, 'fa-pause-circle': ctrl.panel.settings.animate}"></i></button>
-                    <button className="btn navbar-button" ng-click="ctrl.runLayout()"><i className="fa fa-sitemap"></i></button>
-                    <button className="btn navbar-button" ng-click="ctrl.fit()"><i className="fa fa-dot-circle-o"></i></button>
-                    <button className="btn navbar-button" ng-click="ctrl.zoom(+1)"><i className="fa fa-plus"></i></button>
-                    <button className="btn navbar-button" ng-click="ctrl.zoom(-1)"><i className="fa fa-minus"></i></button>
-                </div>
-            </div>
-            
-        </div>
-        <div ng-show="ctrl.getError()">{{ctrl.getError()}}</div>
-    </div>
-    );
+/***/ }),
+
+/***/ "./Statistics.tsx":
+/*!************************!*\
+  !*** ./Statistics.tsx ***!
+  \************************/
+/*! exports provided: Statistics */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Statistics", function() { return Statistics; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _NodeStatistics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NodeStatistics */ "./NodeStatistics.tsx");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+var Statistics = function Statistics(_a) {
+  var show = _a.show,
+      selectionId = _a.selectionId,
+      resolvedDrillDownLink = _a.resolvedDrillDownLink,
+      selectionStatistics = _a.selectionStatistics,
+      node = _a.node,
+      currentType = _a.currentType,
+      showBaselines = _a.showBaselines,
+      receiving = _a.receiving;
+  var statistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+  if (show) {
+    console.log("show");
+    var drilldownLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL') {
+      console.log("Drilldown");
+      drilldownLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        target: "_blank",
+        "ng-href": resolvedDrillDownLink
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-paper-plane-o"
+      }));
+    }
+
+    var requests = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (true) {
+      //selectionStatistics.requests >= 0) {
+      console.log("requests");
+      requests = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "Requests"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "selectionStatistics.requests"));
+    }
+
+    var errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (true) {
+      //selectionStatistics.errors >= 0) {
+      console.log("errors");
+      errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "Errors"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "selectionStatistics.errors"));
+    }
+
+    var errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (true) {
+      //selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0){
+      console.log("errorRate");
+      errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        "ng-show": ""
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "Error Rate"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, 50 | 1, "%"));
+    }
+
+    var avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (true) {
+      //selectionStatistics.responseTime >= 0) {
+      console.log("avgResponseTime");
+      avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "Avg. Response Time"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "selectionStatistics.responseTime", " ms"));
+    }
+
+    var baseline = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (false) { var threshold; }
+
+    statistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "header--selection"
+    }, selectionId, drilldownLink), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "secondHeader--selection"
+    }, "Statistics"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+      className: "table--selection"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "table--selection--head"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      className: "table--th--selectionMedium"
+    }, "Value")), requests, errors, errorRate, avgResponseTime, baseline), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NodeStatistics__WEBPACK_IMPORTED_MODULE_1__["NodeStatistics"], {
+      nodeList: [],
+      noDataText: "No incoming statistics available.",
+      title: "Incoming Statistics"
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NodeStatistics__WEBPACK_IMPORTED_MODULE_1__["NodeStatistics"], {
+      nodeList: [],
+      noDataText: "No outgoing statistics available.",
+      title: "Outgoing Statistics"
+    }));
   }
-}*/
+
+  console.log("return");
+  var w = "0%";
+
+  if (show) {
+    w = "40%";
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      width: w
+    }
+  }, statistics);
+};
 
 /***/ }),
 
@@ -43536,6 +43899,7 @@ function () {
 
   CanvasDrawer.prototype.stopAnimation = function () {
     this.particleEngine.stop();
+    this.repaint();
   };
 
   CanvasDrawer.prototype._skipFrame = function () {
@@ -43774,6 +44138,7 @@ function () {
 
   CanvasDrawer.prototype._drawEdgeParticles = function (ctx, edge, sourcePoint, targetPoint, now) {
     var particles = edge.data('particles');
+    console.log("draw edge particles");
 
     if (particles === undefined) {
       return;
@@ -44193,7 +44558,7 @@ var ParticleEngine =
 function () {
   function ParticleEngine(canvasDrawer) {
     this.maxVolume = 1000;
-    this.minSpawnPropability = 0.01;
+    this.minSpawnPropability = 0.005;
     this.drawer = canvasDrawer;
   }
 
@@ -44202,7 +44567,7 @@ function () {
       var that_1 = this;
       this.spawnInterval = setInterval(function () {
         return that_1._spawnParticles();
-      }, 100);
+      }, 60);
     }
   };
 
@@ -44218,16 +44583,20 @@ function () {
 
     var cy = this.drawer.cytoscape;
     var now = Date.now();
+    console.log(cy.edges());
     cy.edges().forEach(function (edge) {
+      console.log(edge);
       var particles = edge.data('particles');
-      var metrics = edge.data('metrics');
+      var metrics = edge.data('metrics'); //TODO
 
-      if (!metrics) {
-        return;
-      }
+      /*if (!metrics) {
+          return;
+      }*/
 
-      var rate = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["defaultTo"])(metrics.rate, 0);
-      var error_rate = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["defaultTo"])(metrics.error_rate, 0);
+      var rate = 100; //TODO defaultTo(metrics.rate, 0);
+
+      var error_rate = 101; // TODOdefaultTo(metrics.error_rate, 0);
+
       var volume = rate + error_rate;
       var errorRate;
 
@@ -44243,9 +44612,10 @@ function () {
           danger: []
         };
         edge.data('particles', particles);
-      }
+      } //TODO ADD metrics && 
 
-      if (metrics && volume > 0) {
+
+      if (volume > 0) {
         var spawnPropability = Math.min(volume / _this.maxVolume, 1.0);
 
         for (var i = 0; i < 5; i++) {
@@ -44264,6 +44634,7 @@ function () {
         }
       }
     });
+    this.drawer.repaint();
   };
 
   ParticleEngine.prototype.count = function () {
@@ -44282,6 +44653,86 @@ function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (ParticleEngine);
+
+/***/ }),
+
+/***/ "./css/novatec-service-dependency-graph-panel.css":
+/*!********************************************************!*\
+  !*** ./css/novatec-service-dependency-graph-panel.css ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader??ref--8-1!../../node_modules/postcss-loader/src??ref--8-2!../../node_modules/sass-loader/dist/cjs.js!./novatec-service-dependency-graph-panel.css */ "../../../../../../node_modules/css-loader/index.js?!../node_modules/postcss-loader/src/index.js?!../node_modules/sass-loader/dist/cjs.js!./css/novatec-service-dependency-graph-panel.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../../../../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./layout_options.ts":
+/*!***************************!*\
+  !*** ./layout_options.ts ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var options = {
+  name: 'cola',
+  animate: true,
+  refresh: 1,
+  maxSimulationTime: 3000,
+  ungrabifyWhileSimulating: false,
+  fit: true,
+  padding: 90,
+  boundingBox: undefined,
+  nodeDimensionsIncludeLabels: false,
+  // layout event callbacks
+  ready: function ready() {},
+  stop: function stop() {},
+  // positioning options
+  randomize: false,
+  avoidOverlap: true,
+  handleDisconnected: true,
+  convergenceThreshold: 0.01,
+  nodeSpacing: function nodeSpacing(node) {
+    return 50;
+  },
+  flow: undefined,
+  alignment: undefined,
+  gapInequalities: undefined,
+  // different methods of specifying edge length
+  // each can be a constant numerical value or a function like `function( edge ){ return 2; }`
+  edgeLength: undefined,
+  edgeSymDiffLength: undefined,
+  edgeJaccardLength: undefined,
+  // iterations of cola algorithm; uses default values on undefined
+  unconstrIter: 50,
+  userConstIter: undefined,
+  allConstIter: undefined,
+  // infinite layout options
+  infinite: false // overrides all other options for a forces-all-the-time mode
+
+};
+/* harmony default export */ __webpack_exports__["default"] = (options);
 
 /***/ }),
 
@@ -44510,8 +44961,6 @@ function (_super) {
     _this.onChange = function (event, _a) {
       var newValue = _a.newValue,
           method = _a.method;
-      console.log("CHANGE");
-      console.log(newValue);
 
       _this.setState({
         value: event.currentTarget.value
@@ -44522,8 +44971,6 @@ function (_super) {
 
     _this.getSuggestions = function (value) {
       var inputValue = "";
-      console.log("console.log(value)");
-      console.log(value);
 
       if (value !== undefined) {
         inputValue = value.trim().toLowerCase();
