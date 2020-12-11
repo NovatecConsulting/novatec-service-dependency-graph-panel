@@ -79,7 +79,6 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
                 showStatistics: false
             }) 
         }
-        console.log(this.state.showStatistics)
 
 	}
 
@@ -106,17 +105,20 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
 
     runLayout(unlockNodes: boolean = false) {
 		const that = this;
-
 		const options = {
-			...layoutOptions,
+            ...layoutOptions,
 			stop: function () {
 				if (unlockNodes) {
 					that.unlockNodes();
-				}
+                }
+                that.setState(
+                    {zoom: that.state.cy.zoom()}
+                )
 			}
-		};
+        };
 
-		this.state.cy.layout(options).run()
+        this.state.cy.layout(options).run()
+        
 	}
 
 	unlockNodes() {
@@ -131,11 +133,13 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
 			this.state.cy.fit(selection, 30);
 		} else {
 			this.state.cy.fit();
-		}
+        }
+        this.setState(
+            {zoom: this.state.cy.zoom()}
+        )
 	}
     
     zoom(zoom: any) {
-        console.log("ZOOM")
       const zoomStep = 0.25 * zoom;
       const zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
       this.setState(
@@ -173,7 +177,7 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
                 </div>
                 <Statistics show = {this.state.showStatistics} 
                             selectionId="a"
-                            resolvedDrillDownLink= "http://www.google.de" 
+                            resolvedDrillDownLink= "" 
                             selectionStatistics="c"
                             node=""
                             currentType='INTERNAL'

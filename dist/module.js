@@ -43244,8 +43244,6 @@ function (_super) {
         showStatistics: false
       });
     }
-
-    console.log(this.state.showStatistics);
   };
 
   ServiceDependencyGraphPanel.prototype.getSettings = function () {
@@ -43280,6 +43278,10 @@ function (_super) {
         if (unlockNodes) {
           that.unlockNodes();
         }
+
+        that.setState({
+          zoom: that.state.cy.zoom()
+        });
       }
     });
 
@@ -43300,10 +43302,13 @@ function (_super) {
     } else {
       this.state.cy.fit();
     }
+
+    this.setState({
+      zoom: this.state.cy.zoom()
+    });
   };
 
   ServiceDependencyGraphPanel.prototype.zoom = function (zoom) {
-    console.log("ZOOM");
     var zoomStep = 0.25 * zoom;
     var zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
     this.setState({
@@ -43369,7 +43374,7 @@ function (_super) {
     })))), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(Statistics__WEBPACK_IMPORTED_MODULE_7__["Statistics"], {
       show: this.state.showStatistics,
       selectionId: "a",
-      resolvedDrillDownLink: "http://www.google.de",
+      resolvedDrillDownLink: "",
       selectionStatistics: "c",
       node: "",
       currentType: 'INTERNAL',
