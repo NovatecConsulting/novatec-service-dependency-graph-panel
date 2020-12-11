@@ -38,11 +38,12 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
     super(props);
     this.state = {...props}
     this.ref = React.createRef();
-    console.log(this.props.data)
   }
 
   getSettings(): PanelSettings {
-    return this.props.options
+    console.log("SETTINGS!!!")
+    console.log(this.state.options)
+    return this.state.options
  }
 
  getAssetUrl(assetName: string) {
@@ -92,7 +93,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
        { data: { source: 'three', target: 'six', label: 'Edge from Node1 to Node2' } },
        { data: { source: 'six', target: 'three', label: 'Edge from Node1 to Node2' } }
     ];
-    console.log(this.props)
+    console.log(this.state)
     return (
         <div className="service-dependency-graph-panel" style ={ {height: this.props.height, width: this.props.width}} ref={this.ref} id = "cy">
             <ServiceDependencyGraphPanel elements={ elements } width = { this.state.width } height = { this.state.height } zoom = { 1 }  controller = { this } animate = { false } showStatistics = {false}/>

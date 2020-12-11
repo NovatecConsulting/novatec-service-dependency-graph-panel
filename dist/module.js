@@ -43425,12 +43425,13 @@ function (_super) {
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
     _this.ref = react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
-    console.log(_this.props.data);
     return _this;
   }
 
   ServiceDependencyGraphPanelController.prototype.getSettings = function () {
-    return this.props.options;
+    console.log("SETTINGS!!!");
+    console.log(this.state.options);
+    return this.state.options;
   };
 
   ServiceDependencyGraphPanelController.prototype.getAssetUrl = function (assetName) {
@@ -43586,7 +43587,7 @@ function (_super) {
         label: 'Edge from Node1 to Node2'
       }
     }];
-    console.log(this.props);
+    console.log(this.state);
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       className: "service-dependency-graph-panel",
       style: {
@@ -44565,8 +44566,10 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 var ParticleEngine =
@@ -44576,22 +44579,64 @@ function () {
     this.maxVolume = 1000;
     this.minSpawnPropability = 0.005;
     this.drawer = canvasDrawer;
+    this.animating = false;
   }
 
   ParticleEngine.prototype.start = function () {
+    this.animating = true;
+
     if (!this.spawnInterval) {
       var that_1 = this;
       this.spawnInterval = setInterval(function () {
-        return that_1._spawnParticles();
-      }, 60);
+        return that_1.animate();
+      }, 50);
     }
   };
 
   ParticleEngine.prototype.stop = function () {
-    if (this.spawnInterval) {
-      clearInterval(this.spawnInterval);
-      this.spawnInterval = null;
+    this.animating = false;
+  };
+
+  ParticleEngine.prototype.animate = function () {
+    var that = this;
+
+    if (!that.animating) {
+      if (!this.hasParticles()) {
+        clearInterval(this.spawnInterval);
+        this.spawnInterval = null;
+      }
+    } else {
+      that._spawnParticles();
     }
+
+    that.drawer.repaint();
+  };
+
+  ParticleEngine.prototype.hasParticles = function () {
+    var e_1, _a;
+
+    try {
+      for (var _b = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.drawer.cytoscape.edges().toArray()), _c = _b.next(); !_c.done; _c = _b.next()) {
+        var edge = _c.value;
+        console.log(edge);
+
+        if (edge.data('particles') !== undefined && (edge.data('particles').normal.length > 0 || edge.data('particles').danger.length > 0)) {
+          return true;
+        }
+      }
+    } catch (e_1_1) {
+      e_1 = {
+        error: e_1_1
+      };
+    } finally {
+      try {
+        if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
+    }
+
+    return false;
   };
 
   ParticleEngine.prototype._spawnParticles = function () {
@@ -44650,13 +44695,12 @@ function () {
         }
       }
     });
-    this.drawer.repaint();
   };
 
   ParticleEngine.prototype.count = function () {
     var cy = this.drawer.cytoscape;
 
-    var count = lodash__WEBPACK_IMPORTED_MODULE_0___default()(cy.edges()).map(function (edge) {
+    var count = lodash__WEBPACK_IMPORTED_MODULE_1___default()(cy.edges()).map(function (edge) {
       return edge.data('particles');
     }).filter().map(function (particleArray) {
       return particleArray.normal.length + particleArray.danger.length;
@@ -44993,9 +45037,6 @@ function (_super) {
       }
 
       var inputLength = inputValue.length;
-      console.log(_this.getColumns().filter(function (column) {
-        return column.toLowerCase().slice(0, inputLength) === inputValue;
-      }));
       return inputLength === 0 ? [] : _this.getColumns().filter(function (column) {
         return column.toLowerCase().slice(0, inputLength) === inputValue;
       });

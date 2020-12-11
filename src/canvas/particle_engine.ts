@@ -11,23 +11,47 @@ export default class ParticleEngine {
     minSpawnPropability: number = 0.005;
 
     spawnInterval: number | null;
+
+    animating: boolean;
     
     constructor(canvasDrawer: CanvasDrawer) {
         this.drawer = canvasDrawer;
+        this.animating = false;
     }
 
     start() {
+        this.animating = true
         if (!this.spawnInterval) {
             const that = this;
-            this.spawnInterval = setInterval(() => that._spawnParticles(), 60);
+            this.spawnInterval = setInterval(() => that.animate(), 50);
         }
     }
 
     stop() {
-        if (this.spawnInterval) {
-            clearInterval(this.spawnInterval);
-            this.spawnInterval = null;
+        this.animating = false
+    }
+
+    animate(){
+        const that = this
+        if(!that.animating) {
+            if(!this.hasParticles()) {
+                clearInterval(this.spawnInterval);
+                this.spawnInterval = null;
+            }
+        } else {
+            that._spawnParticles()
         }
+        that.drawer.repaint();
+    }
+
+    hasParticles(){
+        for(const edge of this.drawer.cytoscape.edges().toArray()) {
+            console.log(edge)
+            if(edge.data('particles') !== undefined &&  (edge.data('particles').normal.length > 0 || edge.data('particles').danger.length > 0)) {
+                return true
+            } 
+        }
+        return false
     }
 
     _spawnParticles() {
@@ -82,7 +106,6 @@ export default class ParticleEngine {
                 }
             }
         });
-        this.drawer.repaint();
     }
 
     count() {

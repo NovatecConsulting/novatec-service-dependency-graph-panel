@@ -224,7 +224,7 @@ export default class CanvasDrawer {
         cyCanvas.clear(ctx);
         if (this.controller.getSettings().showDebugInformation) {
             this._drawDebugInformation();
-        }
+        } 
 
         if (offscreenCanvas.width > 0 && offscreenCanvas.height > 0) {
             ctx.drawImage(offscreenCanvas, 0, 0);

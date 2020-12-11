@@ -37,9 +37,6 @@ export class TypeaheadTextField extends React.PureComponent<Props> {
             inputValue = value.trim().toLowerCase();
         }
         const inputLength = inputValue.length;
-        console.log(this.getColumns().filter((column =>
-            column.toLowerCase().slice(0, inputLength) === inputValue
-        )))
         return inputLength === 0 ? [] : this.getColumns().filter((column =>
             column.toLowerCase().slice(0, inputLength) === inputValue
         ));
