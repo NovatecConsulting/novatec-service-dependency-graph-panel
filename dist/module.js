@@ -43658,8 +43658,7 @@ var Statistics = function Statistics(_a) {
 
     var requests = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
-    if (true) {
-      //selectionStatistics.requests >= 0) {
+    if (selectionStatistics.requests >= 0) {
       console.log("requests");
       requests = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
@@ -43670,8 +43669,7 @@ var Statistics = function Statistics(_a) {
 
     var errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
-    if (true) {
-      //selectionStatistics.errors >= 0) {
+    if (selectionStatistics.errors >= 0) {
       console.log("errors");
       errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
@@ -43682,8 +43680,7 @@ var Statistics = function Statistics(_a) {
 
     var errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
-    if (true) {
-      //selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0){
+    if (selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0) {
       console.log("errorRate");
       errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         "ng-show": ""
@@ -43691,13 +43688,12 @@ var Statistics = function Statistics(_a) {
         className: "table--td--selection"
       }, "Error Rate"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
-      }, 50 | 1, "%"));
+      }, 100 / selectionStatistics.requests * selectionStatistics.errors, "%"));
     }
 
     var avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
-    if (true) {
-      //selectionStatistics.responseTime >= 0) {
+    if (selectionStatistics.responseTime >= 0) {
       console.log("avgResponseTime");
       avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
@@ -43708,7 +43704,22 @@ var Statistics = function Statistics(_a) {
 
     var baseline = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
-    if (false) { var threshold; }
+    if (showBaselines && selectionStatistics.threshold) {
+      console.log("baseline");
+      var threshold = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection threshold--good"
+      }, "Good \"(<= ", selectionStatistics.threshold, "ms)\"");
+
+      if (selectionStatistics.thresholdViolation) {
+        threshold = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "table--td--selection threshold--bad"
+        }, "Bad (", ">", " ", selectionStatistics.threshold, "ms)");
+      }
+
+      baseline = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "Response Time Health (Upper Baseline)"), threshold);
+    }
 
     statistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "header--selection"

@@ -38,7 +38,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
             }
 
             var requests=(<div></div>)
-            if(true){//selectionStatistics.requests >= 0) {
+            if(selectionStatistics.requests >= 0) {
                 console.log("requests")
                 requests = ( 
                     <tr>
@@ -49,7 +49,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
             }
 
             var errors=(<div></div>)
-            if(true){//selectionStatistics.errors >= 0) {
+            if(selectionStatistics.errors >= 0) {
                 console.log("errors")
                 errors = (
                     <tr>
@@ -60,18 +60,18 @@ export const Statistics: React.FC<StatisticsProps> = ({
             }
 
             var errorRate=(<div></div>)
-            if(true){//selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0){
+            if(selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0){
                 console.log("errorRate")
                 errorRate = (
                     <tr ng-show="">
                         <td className="table--td--selection">Error Rate</td>
-                        <td className="table--td--selection">{ /*(100 / selectionStatistics.requests * selectionStatistics.errors)"*/50 | 1 }%</td>
+                        <td className="table--td--selection">{ (100 / selectionStatistics.requests * selectionStatistics.errors) }%</td>
                     </tr>
                 )
             }
 
             var avgResponseTime=(<div></div>)
-            if(true){//selectionStatistics.responseTime >= 0) {
+            if(selectionStatistics.responseTime >= 0) {
                 console.log("avgResponseTime")
                 avgResponseTime = (
                     <tr>
@@ -82,7 +82,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
             }
 
             var baseline=(<div></div>)
-            if (false){ //showBaselines && selectionStatistics.threshold) {
+            if (showBaselines && selectionStatistics.threshold) {
                 console.log("baseline")
                 var threshold = (<td className="table--td--selection threshold--good">Good "(&lt;= {selectionStatistics.threshold}ms)"</td>)
                 if(selectionStatistics.thresholdViolation) {
