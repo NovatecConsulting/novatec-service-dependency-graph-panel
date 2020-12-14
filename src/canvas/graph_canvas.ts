@@ -1,7 +1,5 @@
 import _ from 'lodash';
 import cytoscape from 'cytoscape';
-import cyCanvas from 'cytoscape-canvas';
-import cola from 'cytoscape-cola';
 import { ServiceDependencyGraphPanel } from '../ServiceDependencyGraphPanel';
 import ParticleEngine from './particle_engine';
 import { CyCanvas, IGraphMetrics, Particle, EGraphNodeType, Particles } from '../types';
@@ -613,11 +611,12 @@ export default class CanvasDrawer {
     }
 
     _drawExternalService(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
+        console.log("---------CTX----------")
         const pos = node.position();
         const cX = pos.x;
         const cY = pos.y;
         const size = 12;
-
+        
         ctx.beginPath();
         ctx.arc(cX, cY, 12, 0, 2 * Math.PI, false);
         ctx.fillStyle = 'white';

@@ -43259,7 +43259,17 @@ function (_super) {
       container: this.ref,
       zoom: this.state.zoom,
       elements: this.props.elements,
-      style: [],
+      style: [{
+        "selector": "node",
+        "style": {
+          "background-opacity": 0
+        }
+      }, {
+        "selector": "edge",
+        "style": {
+          "visibility": "hidden"
+        }
+      }],
       wheelSensitivity: 0.125
     });
     var graphCanvas = new canvas_graph_canvas__WEBPACK_IMPORTED_MODULE_1__["default"](this, cy, cy.cyCanvas({
@@ -44452,6 +44462,7 @@ function () {
   };
 
   CanvasDrawer.prototype._drawExternalService = function (ctx, node) {
+    console.log("---------CTX----------");
     var pos = node.position();
     var cX = pos.x;
     var cY = pos.y;

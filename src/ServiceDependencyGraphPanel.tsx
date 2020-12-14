@@ -42,7 +42,20 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
             container: this.ref,
             zoom: this.state.zoom,
             elements:  this.props.elements,
-            style: [],
+            style: [
+				{
+					"selector": "node",
+					"style": {
+						"background-opacity": 0
+					}
+				},
+				{
+					"selector": "edge",
+					"style": {
+						"visibility": "hidden"
+					}
+				}
+			],
             wheelSensitivity: 0.125
         });
         
