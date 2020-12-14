@@ -28,6 +28,7 @@ interface PanelState {
     timeZone: any, 
     title: any, 
     transparent: any
+    options: any
   }
 
 export class ServiceDependencyGraphPanelController extends PureComponent<Props, PanelState> {
@@ -41,52 +42,22 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
   }
 
   getSettings(): PanelSettings {
-    console.log("SETTINGS!!!")
-    console.log(this.state.options)
     return this.state.options
  }
 
- getAssetUrl(assetName: string) {
-     //TODO: Fix this with something like this.panel.type
-    var baseUrl = 'public/plugins/' + 'novatec-service-dependency-graph-panel';
-    return baseUrl + '/assets/' + assetName;
-}
-
- getTypeSymbol(type: any, resolveName = true) {
-    if (!type) {
-        return this.getAssetUrl('default.png');
-    }
-
-    if (!resolveName) {
-        return this.getAssetUrl(type);
-    }
-
-    const { externalIcons } = this.getSettings();
-
-    const icon = find(externalIcons, icon => icon.name.toLowerCase() === type.toLowerCase());
-
-    if (icon !== undefined) {
-        return this.getAssetUrl(icon.filename + '.png');
-    } else {
-        return this.getAssetUrl('default.png');
-    }
-}
-
-
-
   render(){
     const elements = [
-       { data: { id: 'one', label: 'Node 1' }, position: { x: 0, y: 0 } },
-       { data: { id: 'two', label: 'Node 2' }, position: { x: 100, y: 0 } },
+       { data: { id: 'one', label: 'Node 1', type: 'EXTERNAL' }, position: { x: 0, y: 0 } },
+       { data: { id: 'two', label: 'Node 2', type: 'INTERNAL' }, position: { x: 100, y: 0 } },
        { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } },
-       { data: { id: 'three', label: 'Node 3' }, position: { x: 0, y: 0 } },
-       { data: { id: 'four', label: 'Node 4' }, position: { x: 100, y: 0 } },
+       { data: { id: 'three', label: 'Node 3', type: 'EXTERNAL' }, position: { x: 0, y: 0 } },
+       { data: { id: 'four', label: 'Node 4', type: 'EXTERNAL' }, position: { x: 100, y: 0 } },
        { data: { source: 'three', target: 'four', label: 'Edge from Node1 to Node2' } },
-       { data: { id: 'five', label: 'Node 5' }, position: { x: 0, y: 0 } },
-       { data: { id: 'six', label: 'Node 6' }, position: { x: 100, y: 0 } },
+       { data: { id: 'five', label: 'Node 5', type: 'INTERNAL' }, position: { x: 0, y: 0 }},
+       { data: { id: 'six', label: 'Node 6', type: 'INTERNAL' }, position: { x: 100, y: 0 }},
        { data: { source: 'five', target: 'six', label: 'Edge from Node1 to Node2' } },
-       { data: { id: 'seven', label: 'Node 7' }, position: { x: 0, y: 0 } },
-       { data: { id: 'eight', label: 'Node 8' }, position: { x: 100, y: 0 } },
+       { data: { id: 'seven', label: 'Node 7', type: 'INTERNAL' }, position: { x: 0, y: 0 } },
+       { data: { id: 'eight', label: 'Node 8', type: 'INTERNAL' }, position: { x: 100, y: 0 } },
        { data: { source: 'seven', target: 'eight', label: 'Edge from Node1 to Node2' } },
        { data: { source: 'eight', target: 'one', label: 'Edge from Node1 to Node2' } },
        { data: { source: 'five', target: 'four', label: 'Edge from Node1 to Node2' } },
@@ -96,7 +67,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
     console.log(this.state)
     return (
         <div className="service-dependency-graph-panel" style ={ {height: this.props.height, width: this.props.width}} ref={this.ref} id = "cy">
-            <ServiceDependencyGraphPanel elements={ elements } width = { this.state.width } height = { this.state.height } zoom = { 1 }  controller = { this } animate = { false } showStatistics = {false}/>
+            <ServiceDependencyGraphPanel elements={ elements } zoom = { 1 }  controller = { this } animate = { false } showStatistics = {false}/>
         </div>   
         );
       }

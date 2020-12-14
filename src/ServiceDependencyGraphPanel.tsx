@@ -11,8 +11,6 @@ import { Statistics } from 'Statistics';
 
 interface PanelState {
     elements: any, 
-    width: number,
-    height: number,
     zoom: number | undefined,
     animate: boolean | undefined,
     controller: ServiceDependencyGraphPanelController;
@@ -40,10 +38,6 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
       
 
     componentDidMount () {
-        this.onLoad()
-    }
-
-    onLoad() {
         const cy = cytoscape({
             container: this.ref,
             zoom: this.state.zoom,
@@ -73,7 +67,6 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
 			this.setState({
                 showStatistics: true
             }) 
-			//this.updateStatisticTable();
 		} else {
 			this.setState({
                 showStatistics: false
@@ -147,8 +140,6 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
       )
       this.state.cy.zoom(zoomLevel);
     }
-
-    
 
     render(){
         return (

@@ -468,7 +468,7 @@ export default class CanvasDrawer {
 
     _drawNode(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
         const cy = this.cytoscape;
-        const type = EGraphNodeType.INTERNAL//TODO! node.data('type');
+        const type = node.data('type');
         const metrics: IGraphMetrics = node.data('metrics');
 
         if (type === EGraphNodeType.INTERNAL) {

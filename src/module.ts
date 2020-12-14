@@ -102,18 +102,26 @@ export const plugin = new PanelPlugin<PanelSettings>(ServiceDependencyGraphPanel
     //General Settings
     .addBooleanSwitch({
       path: 'showConnectionStats',
-      description: "This is a field you can use!",
       name: 'Show Connection Statistics',
       category: ['General Settings'],
     })
     .addBooleanSwitch({
       path: 'sumTimings',
       name: 'Handle Timings as Sums',
+      description: "If this setting is active, the timings provided" +
+        "by the mapped response time columns are considered as a " +
+        "continually increasing sum of response times. When " +
+        "deactivated, it is considered that the timings provided "+ 
+        "by columns are the actual average response times.",
       category: ['General Settings'],
     })
     .addBooleanSwitch({
       path: 'filterEmptyConnections',
       name: 'Filter Empty Data',
+      description: "If this setting is active, the timings provided by "+
+        "the mapped response time columns are considered as a continually "+
+        "increasing sum of response times. When deactivated, it is considered "+
+        "that the timings provided by columns are the actual average response times.",
       category: ['General Settings'],
     })
     .addBooleanSwitch({

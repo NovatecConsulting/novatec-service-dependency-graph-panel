@@ -8,10 +8,11 @@ import { PanelSettings } from '../../types';
 interface Props extends StandardEditorProps<string, PanelSettings> {}
 
 export class TypeaheadTextField extends React.PureComponent<Props> {
+    
     constructor(props: Props | Readonly<Props>) {
         super(props);
         this.state = {...props};
-      }
+    }
 
     renderSuggestion(suggestion:any){
         return(

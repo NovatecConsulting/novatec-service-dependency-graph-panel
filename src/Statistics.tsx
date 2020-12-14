@@ -119,7 +119,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
                 </div>
             )
         }
-        console.log("return")
+        
         var w = "0%"
         if(show) {
             w = "40%"
