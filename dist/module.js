@@ -43111,7 +43111,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   getAssetUrl: function getAssetUrl(assetName) {
     //TODO: Fix this with something like this.panel.type
-    var baseUrl = 'data/plugins/' + 'novatec-service-dependency-graph-panel';
+    var baseUrl = 'public/plugins/' + 'novatec-sdg-panel';
     return baseUrl + '/assets/' + assetName;
   },
   getTypeSymbol: function getTypeSymbol(type, resolveName) {
@@ -45133,111 +45133,152 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function addMapping(context, onChange, item) {
-  context.options.externalIcons.push({
-    pattern: 'my-type',
-    filename: 'default'
-  });
-  onChange.call(item.path, context.options.externalIcons);
-}
+var ExternalIconMapping =
+/** @class */
+function (_super) {
+  Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(ExternalIconMapping, _super);
 
-function removeMapping(context, index, onChange, item) {
-  Object(lodash__WEBPACK_IMPORTED_MODULE_2__["remove"])(context.options.externalIcons, function (n) {
-    return context.options.externalIcons.indexOf(n) == index;
-  });
-  onChange.call(item.path, context.options.externalIcons);
-}
+  function ExternalIconMapping(props) {
+    var _this = _super.call(this, props) || this;
 
-function setPatternValue(context, event, index, onChange, item) {
-  context.options.externalIcons[index].pattern = event.currentTarget.value;
-  onChange.call(item.path, context.options.externalIcons);
-}
+    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
+    return _this;
+  }
 
-function setFileNameValue(context, event, index, onChange, item) {
-  context.options.serviceIcons[index].pattern = event.currentTarget.value;
-  onChange.call(item.path, context.options.externalIcons);
-}
-
-var ExternalIconMapping = function ExternalIconMapping(_a) {
-  var e_1, _b;
-
-  var item = _a.item,
-      value = _a.value,
-      _onChange = _a.onChange,
-      context = _a.context;
-
-  if (context.options.externalIcons == undefined) {
-    context.options.externalIcons = [{
+  ExternalIconMapping.prototype.addMapping = function () {
+    this.state.context.options.externalIcons.push({
       pattern: 'my-type',
       filename: 'default'
-    }];
-  }
-
-  var componentList = [];
-
-  var _loop_1 = function _loop_1(index) {
-    componentList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "gf-form"
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-      type: "text",
-      className: "input-small gf-form-input width-10",
-      value: context.options.externalIcons[index].pattern,
-      onChange: function onChange(e) {
-        return setPatternValue(context, e, index, _onChange, item);
-      }
-    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
-      className: "input-small gf-form-input width-10",
-      value: context.options.externalIcons[index].fileName,
-      onChange: function onChange(e) {
-        return setFileNameValue(context, e, index, _onChange, item);
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
-      "ng-repeat": "variable in editor.getServiceIconOptions()",
-      value: "{{variable}}"
-    })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-      className: "gf-form-label tight-form-func",
-      onClick: function onClick() {
-        return removeMapping(context, index, _onChange, item);
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-      className: "fa fa-trash"
-    })))));
+    });
+    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
   };
 
-  try {
-    for (var _c = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(context.options.externalIcons.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
-      var _e = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(_d.value, 1),
-          index = _e[0];
+  ExternalIconMapping.prototype.removeMapping = function (index) {
+    var _this = this;
 
-      _loop_1(index);
+    Object(lodash__WEBPACK_IMPORTED_MODULE_2__["remove"])(this.state.context.options.externalIcons, function (n) {
+      return _this.state.context.options.externalIcons.indexOf(n) == index;
+    });
+    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
+  };
+
+  ExternalIconMapping.prototype.setPatternValue = function (event, index) {
+    this.state.context.options.externalIcons[index].pattern = event.currentTarget.value;
+    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
+  };
+
+  ExternalIconMapping.prototype.setFileNameValue = function (event, index) {
+    this.state.context.options.externalIcons[index].filename = event.currentTarget.value;
+    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
+  };
+
+  ExternalIconMapping.prototype.getExternalIcons = function () {
+    return ['default', 'message', 'database', 'http', 'web', 'balancer', 'ldap', 'mainframe', 'smtp', 'ftp'];
+  };
+
+  ExternalIconMapping.prototype.render = function () {
+    var e_1, _a, e_2, _b;
+
+    var _this = this;
+
+    if (!this.state.value || this.state.value === undefined) {
+      this.state.context.options.externalIcons = [{
+        pattern: 'my-type',
+        filename: 'default'
+      }];
     }
-  } catch (e_1_1) {
-    e_1 = {
-      error: e_1_1
-    };
-  } finally {
+
+    var optionsList = [];
+
     try {
-      if (_d && !_d.done && (_b = _c["return"])) _b.call(_c);
+      for (var _c = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.getExternalIcons()), _d = _c.next(); !_d.done; _d = _c.next()) {
+        var image = _d.value;
+        optionsList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+          value: image
+        }, image));
+      }
+    } catch (e_1_1) {
+      e_1 = {
+        error: e_1_1
+      };
     } finally {
-      if (e_1) throw e_1.error;
+      try {
+        if (_d && !_d.done && (_a = _c["return"])) _a.call(_c);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
     }
-  }
 
-  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "gf-form-inline"
-  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "gf-form"
-  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-    className: "gf-form-label width-10"
-  }, "Target Type"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-    className: "gf-form-label width-10"
-  }, "Icon"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, componentList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-    className: "btn navbar-button navbar-button--primary",
-    onClick: function onClick() {
-      return addMapping(context, _onChange, item);
+    console.log(this.state.context.options.externalIcons);
+    var componentList = [];
+
+    var _loop_1 = function _loop_1(index) {
+      componentList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "gf-form"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        className: "input-small gf-form-input width-10",
+        value: this_1.state.context.options.externalIcons[index].pattern,
+        onChange: function onChange(e) {
+          return _this.setPatternValue(e, index);
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        className: "input-small gf-form-input width-10",
+        value: this_1.state.context.options.externalIcons[index].filename,
+        onChange: function onChange(e) {
+          return _this.setFileNameValue(e, index);
+        }
+      }, optionsList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        className: "gf-form-label tight-form-func",
+        onClick: function onClick() {
+          return _this.removeMapping(index);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-trash"
+      })))));
+    };
+
+    var this_1 = this;
+
+    try {
+      for (var _e = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.state.context.options.externalIcons.entries()), _f = _e.next(); !_f.done; _f = _e.next()) {
+        var _g = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(_f.value, 1),
+            index = _g[0];
+
+        _loop_1(index);
+      }
+    } catch (e_2_1) {
+      e_2 = {
+        error: e_2_1
+      };
+    } finally {
+      try {
+        if (_f && !_f.done && (_b = _e["return"])) _b.call(_e);
+      } finally {
+        if (e_2) throw e_2.error;
+      }
     }
-  }, "Add External Service Icon Mapping"));
-};
+
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "gf-form-inline"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "gf-form"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+      className: "gf-form-label width-10"
+    }, "Target Type"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+      className: "gf-form-label width-10"
+    }, "Icon"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, componentList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+      className: "btn navbar-button navbar-button--primary",
+      onClick: function onClick() {
+        return _this.addMapping();
+      }
+    }, "Add External Service Icon Mapping"));
+  };
+
+  return ExternalIconMapping;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.PureComponent);
+
+
 
 /***/ }),
 
@@ -45313,12 +45354,12 @@ function (_super) {
   };
 
   ServiceIconMapping.prototype.setFileNameValue = function (event, index) {
-    this.state.context.options.serviceIcons[index].pattern = event.currentTarget.value;
-    this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
+    this.state.context.options.serviceIcons[index].filename = event.currentTarget.value.toString();
+    this.props.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
   };
 
   ServiceIconMapping.prototype.render = function () {
-    var e_1, _a;
+    var e_1, _a, e_2, _b;
 
     var _this = this;
 
@@ -45327,6 +45368,29 @@ function (_super) {
         pattern: 'my-type',
         filename: 'default'
       }];
+    }
+
+    var optionsList = [];
+
+    if (this.state.serviceIcons !== undefined) {
+      try {
+        for (var _c = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.state.serviceIcons), _d = _c.next(); !_d.done; _d = _c.next()) {
+          var image = _d.value;
+          optionsList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+            value: image
+          }, image));
+        }
+      } catch (e_1_1) {
+        e_1 = {
+          error: e_1_1
+        };
+      } finally {
+        try {
+          if (_d && !_d.done && (_a = _c["return"])) _a.call(_c);
+        } finally {
+          if (e_1) throw e_1.error;
+        }
+      }
     }
 
     var componentList = [];
@@ -45343,14 +45407,11 @@ function (_super) {
         }
       }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
         className: "input-small gf-form-input width-10",
-        value: this_1.state.context.options.serviceIcons[index].fileName,
+        value: this_1.state.context.options.serviceIcons[index].filename,
         onChange: function onChange(e) {
           return _this.setFileNameValue(e, index);
         }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
-        "ng-repeat": "variable in editor.getServiceIconOptions()",
-        value: "{{variable}}"
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+      }, optionsList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         className: "gf-form-label tight-form-func",
         onClick: function onClick() {
           return _this.removeMapping(index);
@@ -45363,21 +45424,21 @@ function (_super) {
     var this_1 = this;
 
     try {
-      for (var _b = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.state.context.options.serviceIcons.entries()), _c = _b.next(); !_c.done; _c = _b.next()) {
-        var _d = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(_c.value, 1),
-            index = _d[0];
+      for (var _e = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.state.context.options.serviceIcons.entries()), _f = _e.next(); !_f.done; _f = _e.next()) {
+        var _g = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(_f.value, 1),
+            index = _g[0];
 
         _loop_1(index);
       }
-    } catch (e_1_1) {
-      e_1 = {
-        error: e_1_1
+    } catch (e_2_1) {
+      e_2 = {
+        error: e_2_1
       };
     } finally {
       try {
-        if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
+        if (_f && !_f.done && (_b = _e["return"])) _b.call(_e);
       } finally {
-        if (e_1) throw e_1.error;
+        if (e_2) throw e_2.error;
       }
     }
 

@@ -4,7 +4,7 @@ export default {
 
     getAssetUrl(assetName: string) {
         //TODO: Fix this with something like this.panel.type
-       var baseUrl = 'data/plugins/' + 'novatec-service-dependency-graph-panel';
+       var baseUrl = 'public/plugins/' + 'novatec-sdg-panel';
        return baseUrl + '/assets/' + assetName;
    },
    

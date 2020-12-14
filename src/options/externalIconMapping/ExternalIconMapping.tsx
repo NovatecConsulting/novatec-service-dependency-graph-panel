@@ -4,66 +4,94 @@ import { StandardEditorProps } from '@grafana/data';
 import { PanelSettings } from '../../types';
 
 
-interface Props extends StandardEditorProps<string, PanelSettings> {}
-
-function addMapping(context: any, onChange: any, item: any) {
-    context.options.externalIcons.push({ pattern: 'my-type', filename: 'default' })
-    onChange.call(item.path, context.options.externalIcons)
+interface Props extends StandardEditorProps<string, PanelSettings> {
+    item: any, 
+    value: any, 
+    onChange: any, 
+    context: any
 }
 
-function removeMapping(context: any, index:any, onChange: any, item: any) {
-    remove(context.options.externalIcons, n => context.options.externalIcons.indexOf(n) == index)
-    onChange.call(item.path, context.options.externalIcons)
-}
 
-function setPatternValue(context: any, event: any, index: any, onChange: any, item: any) {
-    context.options.externalIcons[index].pattern = event.currentTarget.value
-    onChange.call(item.path, context.options.externalIcons)
-}
 
-function setFileNameValue(context: any, event: any, index: any, onChange: any, item: any) {
-    context.options.serviceIcons[index].pattern = event.currentTarget.value
-    onChange.call(item.path, context.options.externalIcons)
-}
+export class ExternalIconMapping extends React.PureComponent<Props>  {
 
-export const ExternalIconMapping: React.FC<Props> = ({ item, value, onChange, context }) => {
-    if(context.options.externalIcons == undefined) {
-        context.options.externalIcons = [{ pattern: 'my-type', filename: 'default' }]
+    constructor(props: Props | Readonly<Props>) {
+        super(props);
+        this.state = {...props};
     }
-    var componentList = []
-    for (const [index] of context.options.externalIcons.entries()) {
-        componentList.push(
-            <div>
-                <div className="gf-form">
-                    <input type="text" className="input-small gf-form-input width-10"
-                        value = {context.options.externalIcons[index].pattern}
-                        onChange={e => setPatternValue(context, e, index, onChange, item)} />
 
-                    <select className="input-small gf-form-input width-10"
-                        value = {context.options.externalIcons[index].fileName}
-                        onChange={e => setFileNameValue(context, e, index, onChange, item)}>
-                        <option ng-repeat="variable in editor.getServiceIconOptions()" value="{{variable}}">
-                        </option>
-                    </select>
+    addMapping() {
+        this.state.context.options.externalIcons.push({ pattern: 'my-type', filename: 'default' })
+        this.state.onChange.call( this.state.item.path,  this.state.context.options.externalIcons)
+    }
+    
+    removeMapping(index:any) {
+        remove( this.state.context.options.externalIcons, n =>  this.state.context.options.externalIcons.indexOf(n) == index)
+        this.state.onChange.call( this.state.item.path,  this.state.context.options.externalIcons)
+    }
+    
+    setPatternValue(event: any, index: any) {
+        this.state.context.options.externalIcons[index].pattern = event.currentTarget.value
+        this.state.onChange.call( this.state.item.path,  this.state.context.options.externalIcons)
+    }
+    
+    setFileNameValue(event: any, index: any) {
+        this.state.context.options.externalIcons[index].filename = event.currentTarget.value
+        this.state.onChange.call(this.state.item.path,  this.state.context.options.externalIcons)
+    }
 
-                    <a className="gf-form-label tight-form-func" onClick = {() => removeMapping(context, index, onChange, item)}><i
-                            className="fa fa-trash"></i></a>
+    getExternalIcons(){
+        return ['default', 'message', 'database', 'http', 'web', 'balancer', 'ldap', 'mainframe', 'smtp', 'ftp'];
+    }
+
+
+    render() {
+        if(!this.state.value || this.state.value === undefined) {
+            this.state.context.options.externalIcons = [{ pattern: 'my-type', filename: 'default' }]
+        }
+        var optionsList: JSX.Element[] = []
+        for(const image of this.getExternalIcons()) {
+            optionsList.push(
+            <option value={image}>
+                {image}
+            </option>
+            )
+        }
+        console.log(this.state.context.options.externalIcons)
+        var componentList: JSX.Element[] = []
+        for (const [index] of this.state.context.options.externalIcons.entries()) {
+            componentList.push(
+                <div>
+                    <div className="gf-form">
+                        <input type="text" className="input-small gf-form-input width-10"
+                            value = {this.state.context.options.externalIcons[index].pattern}
+                            onChange={e => this.setPatternValue(e, index)} />
+
+                        <select className="input-small gf-form-input width-10"
+                            value = {this.state.context.options.externalIcons[index].filename}
+                            onChange={e => this.setFileNameValue(e, index)}>
+                            {optionsList}
+                        </select>
+
+                        <a className="gf-form-label tight-form-func" onClick = {() => this.removeMapping(index)}><i
+                                className="fa fa-trash"></i></a>
+                    </div>
                 </div>
+            )
+        }
+        return (
+            <div>
+                <div className="gf-form-inline">
+                <div className="gf-form">
+                    <label className="gf-form-label width-10">Target Type</label>
+                    <label className="gf-form-label width-10">Icon</label>
+                </div>
+                </div>
+                <div>
+                    {componentList}
+                </div>
+                <button className="btn navbar-button navbar-button--primary" onClick={() => this.addMapping()}>Add External Service Icon Mapping</button>
             </div>
         )
-      }
-    return (
-        <div>
-            <div className="gf-form-inline">
-            <div className="gf-form">
-                <label className="gf-form-label width-10">Target Type</label>
-                <label className="gf-form-label width-10">Icon</label>
-            </div>
-            </div>
-            <div>
-                {componentList}
-            </div>
-            <button className="btn navbar-button navbar-button--primary" onClick={() => addMapping(context, onChange, item)}>Add External Service Icon Mapping</button>
-        </div>
-    )
+    }
 }

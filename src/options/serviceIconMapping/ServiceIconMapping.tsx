@@ -50,8 +50,8 @@ export class ServiceIconMapping extends React.PureComponent<Props>  {
     }
 
     setFileNameValue(event: any, index: any) {
-        this.state.context.options.serviceIcons[index].pattern = event.currentTarget.value
-        this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons)
+        this.state.context.options.serviceIcons[index].filename = event.currentTarget.value.toString()
+        this.props.onChange.call(this.state.item.path, this.state.context.options.serviceIcons)
     }
 
 
@@ -59,8 +59,17 @@ export class ServiceIconMapping extends React.PureComponent<Props>  {
         if(!this.state.value || this.state.value === undefined) {
             this.state.context.options.serviceIcons = [{ pattern: 'my-type', filename: 'default' }]
         }
-        
-        var componentList = []
+        var optionsList: JSX.Element[] = []
+        if(this.state.serviceIcons !== undefined) {
+            for(const image of this.state.serviceIcons) {
+                optionsList.push(
+                <option value={image}>
+                    {image}
+                </option>
+                )
+            }
+        }
+        var componentList: JSX.Element[] = []
         for (const [index] of this.state.context.options.serviceIcons.entries()) {
             componentList.push(
                 <div>
@@ -70,10 +79,9 @@ export class ServiceIconMapping extends React.PureComponent<Props>  {
                             onChange={e => this.setPatternValue(e, index)} />
 
                         <select className="input-small gf-form-input width-10"
-                            value = {this.state.context.options.serviceIcons[index].fileName}
+                            value = {this.state.context.options.serviceIcons[index].filename}
                             onChange={e => this.setFileNameValue(e, index)}>
-                            <option ng-repeat="variable in editor.getServiceIconOptions()" value="{{variable}}">
-                            </option>
+                        {optionsList}
                         </select>
 
                         <a className="gf-form-label tight-form-func" onClick = {() => this.removeMapping(index)}><i
