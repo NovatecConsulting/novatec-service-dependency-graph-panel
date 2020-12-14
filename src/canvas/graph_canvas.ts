@@ -337,7 +337,7 @@ export default class CanvasDrawer {
             statistics.push(humanFormat(errorCount, { decimals }) + ' Errors');
         }
 
-        if (   true/*statistics.length > 0*/) {
+        if ( statistics.length > 0) {
             const edgeLabel = statistics.join(', ');
             this._drawLabel(ctx, edgeLabel, xMid, yMid);
         }
@@ -512,7 +512,7 @@ export default class CanvasDrawer {
 
         // draw statistics
         if (cy.zoom() > 1) {
-           //TODO this._drawNodeStatistics(ctx, node);
+           this._drawNodeStatistics(ctx, node);
         }
     }
 
@@ -544,9 +544,9 @@ export default class CanvasDrawer {
         const lines: string[] = [];
 
         const metrics: IGraphMetrics = node.data('metrics');
-        const requestCount = _.defaultTo(metrics.rate, -1);
-        const errorCount = _.defaultTo(metrics.error_rate, -1);
-        const responseTime = _.defaultTo(metrics.response_time, -1);
+        const requestCount = 5//TODO_.defaultTo(metrics.rate, -1);
+        const errorCount = 6//TODO _.defaultTo(metrics.error_rate, -1);
+        const responseTime = 8//TODO _.defaultTo(metrics.response_time, -1);
 
         if (requestCount >= 0) {
             const decimals = requestCount >= 1000 ? 1 : 0;

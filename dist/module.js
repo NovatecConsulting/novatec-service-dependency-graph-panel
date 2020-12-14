@@ -44167,13 +44167,11 @@ function () {
       }) + ' Errors');
     }
 
-    if (true
-    /*statistics.length > 0*/
-    ) {
-        var edgeLabel = statistics.join(', ');
+    if (statistics.length > 0) {
+      var edgeLabel = statistics.join(', ');
 
-        this._drawLabel(ctx, edgeLabel, xMid, yMid);
-      }
+      this._drawLabel(ctx, edgeLabel, xMid, yMid);
+    }
   };
 
   CanvasDrawer.prototype._drawEdgeParticles = function (ctx, edge, sourcePoint, targetPoint, now) {
@@ -44344,7 +44342,8 @@ function () {
     } // draw statistics
 
 
-    if (cy.zoom() > 1) {//TODO this._drawNodeStatistics(ctx, node);
+    if (cy.zoom() > 1) {
+      this._drawNodeStatistics(ctx, node);
     }
   };
 
@@ -44377,12 +44376,11 @@ function () {
   CanvasDrawer.prototype._drawNodeStatistics = function (ctx, node) {
     var lines = [];
     var metrics = node.data('metrics');
+    var requestCount = 5; //TODO_.defaultTo(metrics.rate, -1);
 
-    var requestCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.rate, -1);
+    var errorCount = 6; //TODO _.defaultTo(metrics.error_rate, -1);
 
-    var errorCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.error_rate, -1);
-
-    var responseTime = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.response_time, -1);
+    var responseTime = 8; //TODO _.defaultTo(metrics.response_time, -1);
 
     if (requestCount >= 0) {
       var decimals = requestCount >= 1000 ? 1 : 0;
