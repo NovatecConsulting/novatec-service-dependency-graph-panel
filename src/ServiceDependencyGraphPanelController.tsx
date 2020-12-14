@@ -3,7 +3,7 @@ import  { PureComponent } from 'react';
 import { PanelProps } from '@grafana/data';
 import { ServiceDependencyGraphPanel } from './ServiceDependencyGraphPanel'
 import _, { find} from 'lodash';
-import { PanelSettings } from './types';
+import { EGraphNodeType, PanelSettings } from './types';
 import cytoscape from 'cytoscape';
 import './css/novatec-service-dependency-graph-panel.css'
 //import cola from 'cytoscape-cola';
@@ -47,17 +47,17 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
 
   render(){
     const elements = [
-       { data: { id: 'one', label: 'Node 1', type: 'EXTERNAL' }, position: { x: 0, y: 0 } },
-       { data: { id: 'two', label: 'Node 2', type: 'INTERNAL' }, position: { x: 100, y: 0 } },
+       { data: { id: 'one', label: 'Node 1', type: EGraphNodeType.EXTERNAL, external_type: "one" }, position: { x: 0, y: 0 } },
+       { data: { id: 'two', label: 'Node 2', type: EGraphNodeType.INTERNAL }, position: { x: 100, y: 0 } },
        { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } },
-       { data: { id: 'three', label: 'Node 3', type: 'EXTERNAL' }, position: { x: 0, y: 0 } },
-       { data: { id: 'four', label: 'Node 4', type: 'EXTERNAL' }, position: { x: 100, y: 0 } },
+       { data: { id: 'three', label: 'Node 3', type: EGraphNodeType.EXTERNAL, external_type: "three" }, position: { x: 0, y: 0 } },
+       { data: { id: 'four', label: 'Node 4', type: EGraphNodeType.INTERNAL }, position: { x: 100, y: 0 } },
        { data: { source: 'three', target: 'four', label: 'Edge from Node1 to Node2' } },
-       { data: { id: 'five', label: 'Node 5', type: 'INTERNAL' }, position: { x: 0, y: 0 }},
-       { data: { id: 'six', label: 'Node 6', type: 'INTERNAL' }, position: { x: 100, y: 0 }},
+       { data: { id: 'five', label: 'Node 5', type: EGraphNodeType.INTERNAL }, position: { x: 0, y: 0 }},
+       { data: { id: 'six', label: 'Node 6', type: EGraphNodeType.INTERNAL }, position: { x: 100, y: 0 }},
        { data: { source: 'five', target: 'six', label: 'Edge from Node1 to Node2' } },
-       { data: { id: 'seven', label: 'Node 7', type: 'INTERNAL' }, position: { x: 0, y: 0 } },
-       { data: { id: 'eight', label: 'Node 8', type: 'INTERNAL' }, position: { x: 100, y: 0 } },
+       { data: { id: 'seven', label: 'Node 7', type: EGraphNodeType.INTERNAL }, position: { x: 0, y: 0 } },
+       { data: { id: 'eight', label: 'Node 8', type: EGraphNodeType.INTERNAL }, position: { x: 100, y: 0 } },
        { data: { source: 'seven', target: 'eight', label: 'Edge from Node1 to Node2' } },
        { data: { source: 'eight', target: 'one', label: 'Edge from Node1 to Node2' } },
        { data: { source: 'five', target: 'four', label: 'Edge from Node1 to Node2' } },

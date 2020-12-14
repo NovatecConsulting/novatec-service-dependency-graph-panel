@@ -43111,13 +43111,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   getAssetUrl: function getAssetUrl(assetName) {
     //TODO: Fix this with something like this.panel.type
-    var baseUrl = 'public/plugins/' + 'novatec-sdg-panel';
+    var baseUrl = 'public/plugins/novatec-sdg-panel';
+    console.log(baseUrl + '/assets/' + assetName);
     return baseUrl + '/assets/' + assetName;
   },
-  getTypeSymbol: function getTypeSymbol(type, resolveName) {
+  getTypeSymbol: function getTypeSymbol(type, externalIcons, resolveName) {
     if (resolveName === void 0) {
       resolveName = true;
     }
+
+    console.log("type");
+    console.log(type);
+    console.log("externalIcons");
+    console.log(externalIcons);
 
     if (!type) {
       return this.getAssetUrl('default.png');
@@ -43127,10 +43133,10 @@ __webpack_require__.r(__webpack_exports__);
       return this.getAssetUrl(type);
     }
 
-    var externalIcons = this.getSettings().externalIcons;
     var icon = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(externalIcons, function (icon) {
-      return icon.name.toLowerCase() === type.toLowerCase();
+      return icon.pattern.toLowerCase() === type.toLowerCase();
     });
+    console.log(icon);
 
     if (icon !== undefined) {
       return this.getAssetUrl(icon.filename + '.png');
@@ -43446,8 +43452,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ServiceDependencyGraphPanel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ServiceDependencyGraphPanel */ "./ServiceDependencyGraphPanel.tsx");
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./types */ "./types.tsx");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -43476,7 +43484,8 @@ function (_super) {
       data: {
         id: 'one',
         label: 'Node 1',
-        type: 'EXTERNAL'
+        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].EXTERNAL,
+        external_type: "one"
       },
       position: {
         x: 0,
@@ -43486,7 +43495,7 @@ function (_super) {
       data: {
         id: 'two',
         label: 'Node 2',
-        type: 'INTERNAL'
+        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 100,
@@ -43502,7 +43511,8 @@ function (_super) {
       data: {
         id: 'three',
         label: 'Node 3',
-        type: 'EXTERNAL'
+        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].EXTERNAL,
+        external_type: "three"
       },
       position: {
         x: 0,
@@ -43512,7 +43522,7 @@ function (_super) {
       data: {
         id: 'four',
         label: 'Node 4',
-        type: 'EXTERNAL'
+        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 100,
@@ -43528,7 +43538,7 @@ function (_super) {
       data: {
         id: 'five',
         label: 'Node 5',
-        type: 'INTERNAL'
+        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 0,
@@ -43538,7 +43548,7 @@ function (_super) {
       data: {
         id: 'six',
         label: 'Node 6',
-        type: 'INTERNAL'
+        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 100,
@@ -43554,7 +43564,7 @@ function (_super) {
       data: {
         id: 'seven',
         label: 'Node 7',
-        type: 'INTERNAL'
+        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 0,
@@ -43564,7 +43574,7 @@ function (_super) {
       data: {
         id: 'eight',
         label: 'Node 8',
-        type: 'INTERNAL'
+        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 100,
@@ -43786,6 +43796,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../types */ "./types.tsx");
 /* harmony import */ var human_format__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! human-format */ "../node_modules/human-format/index.js");
 /* harmony import */ var human_format__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(human_format__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _AssetUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../AssetUtils */ "./AssetUtils.tsx");
+
 
 
 
@@ -43879,7 +43891,7 @@ function () {
     }
 
     if (!lodash__WEBPACK_IMPORTED_MODULE_1___default.a.has(this.imageAssets, assetName)) {
-      var assetUrl = "test"; //TODO this.controller.getTypeSymbol(assetName, resolveName);
+      var assetUrl = _AssetUtils__WEBPACK_IMPORTED_MODULE_5__["default"].getTypeSymbol(assetName, this.controller.getSettings().externalIcons, resolveName);
 
       this._loadImage(assetUrl, assetName);
     }
@@ -43893,7 +43905,7 @@ function () {
 
   CanvasDrawer.prototype._getAsset = function (assetName, relativeUrl) {
     if (!lodash__WEBPACK_IMPORTED_MODULE_1___default.a.has(this.imageAssets, assetName)) {
-      var assetUrl = this.controller.getAssetUrl(relativeUrl);
+      var assetUrl = _AssetUtils__WEBPACK_IMPORTED_MODULE_5__["default"].getAssetUrl(relativeUrl);
 
       this._loadImage(assetUrl, assetName);
     }
@@ -44324,8 +44336,9 @@ function () {
         var thresholdViolation = threshold < responseTime;
 
         this._drawThresholdStroke(ctx, node, thresholdViolation, 15, 5, 0.5);
-      } //TODO this._drawServiceIcon(ctx, node);
+      }
 
+      this._drawServiceIcon(ctx, node);
     } else {
       this._drawExternalService(ctx, node);
     } // draw statistics
@@ -44337,7 +44350,7 @@ function () {
 
   CanvasDrawer.prototype._drawServiceIcon = function (ctx, node) {
     var nodeId = node.id();
-    var iconMappings = this.controller.panel.settings.serviceIcons;
+    var iconMappings = this.controller.getSettings().serviceIcons;
 
     var mapping = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.find(iconMappings, function (_a) {
       var pattern = _a.pattern;

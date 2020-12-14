@@ -6,6 +6,7 @@ import { ServiceDependencyGraphPanel } from '../ServiceDependencyGraphPanel';
 import ParticleEngine from './particle_engine';
 import { CyCanvas, IGraphMetrics, Particle, EGraphNodeType, Particles } from '../types';
 import humanFormat from 'human-format';
+import assetUtils from '../AssetUtils';
 
 
 export default class CanvasDrawer {
@@ -118,7 +119,7 @@ export default class CanvasDrawer {
 
     _getImageAsset(assetName, resolveName = true) {
         if (!_.has(this.imageAssets, assetName)) {
-            const assetUrl = "test"//TODO this.controller.getTypeSymbol(assetName, resolveName);
+            const assetUrl = assetUtils.getTypeSymbol(assetName,this.controller.getSettings().externalIcons, resolveName);
             this._loadImage(assetUrl, assetName);
         }
 
@@ -131,7 +132,7 @@ export default class CanvasDrawer {
 
     _getAsset(assetName, relativeUrl) {
         if (!_.has(this.imageAssets, assetName)) {
-            const assetUrl = this.controller.getAssetUrl(relativeUrl);
+            const assetUrl = assetUtils.getAssetUrl(relativeUrl);
             this._loadImage(assetUrl, assetName);
         }
 
@@ -470,7 +471,6 @@ export default class CanvasDrawer {
         const cy = this.cytoscape;
         const type = node.data('type');
         const metrics: IGraphMetrics = node.data('metrics');
-
         if (type === EGraphNodeType.INTERNAL) {
             const requestCount = 0//TODO_.defaultTo(metrics.rate, -1);
             const errorCount = 0//TODO _.defaultTo(metrics.error_rate, 0);
@@ -504,8 +504,7 @@ export default class CanvasDrawer {
 
                 this._drawThresholdStroke(ctx, node, thresholdViolation, 15, 5, 0.5);
             }
-
-            //TODO this._drawServiceIcon(ctx, node);
+            this._drawServiceIcon(ctx, node);
             
         } else {
             this._drawExternalService(ctx, node);
@@ -519,8 +518,7 @@ export default class CanvasDrawer {
 
     _drawServiceIcon(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
         const nodeId: string = node.id();
-
-        const iconMappings = this.controller.panel.settings.serviceIcons;
+        const iconMappings = this.controller.getSettings().serviceIcons;
 
         const mapping = _.find(iconMappings, ({ pattern }) => {
             try {
