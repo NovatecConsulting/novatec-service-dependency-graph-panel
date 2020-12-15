@@ -1,8 +1,8 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import { StandardEditorProps } from '@grafana/data';
+import { getTemplateSrv } from '@grafana/runtime';
 import './TypeaheadTextfield.css'
-
 import { PanelSettings } from '../../types';
 
 interface Props extends StandardEditorProps<string, PanelSettings> {}

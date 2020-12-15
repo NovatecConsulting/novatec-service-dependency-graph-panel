@@ -5,6 +5,7 @@ import { ServiceDependencyGraph } from './serviceDependencyGraph/ServiceDependen
 import _ from 'lodash';
 import { EGraphNodeType, PanelSettings } from '../types';
 import cytoscape from 'cytoscape';
+import { getTemplateSrv } from '@grafana/runtime';
 import '../css/novatec-service-dependency-graph-panel.css'
 
 
@@ -29,17 +30,29 @@ interface PanelState {
   }
 
 export class ServiceDependencyGraphPanelController extends PureComponent<Props, PanelState> {
+
     cy: cytoscape.Core | undefined
     ref:any
     panel: any;
   constructor(props: Props){
     super(props);
     this.state = {...props}
-    this.ref = React.createRef();
+    this.ref = React.createRef()
+    console.log(this.getAggregationType())
   }
 
   getSettings(): PanelSettings {
     return this.state.options
+ }
+
+ getAggregationType(){
+   const variables: any[] = getTemplateSrv().getVariables()
+   const index = _.findIndex(variables, function(o: any) { return o.id == 'aggregationType'; });
+   if(index > 0) {
+     return variables[index].query
+   }
+   return -1;
+
  }
 
   render(){

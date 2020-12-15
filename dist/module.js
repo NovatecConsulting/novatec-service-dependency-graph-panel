@@ -1,4 +1,4 @@
-define(["@grafana/data","lodash","react"], function(__WEBPACK_EXTERNAL_MODULE__grafana_data__, __WEBPACK_EXTERNAL_MODULE_lodash__, __WEBPACK_EXTERNAL_MODULE_react__) { return /******/ (function(modules) { // webpackBootstrap
+define(["@grafana/data","@grafana/runtime","lodash","react"], function(__WEBPACK_EXTERNAL_MODULE__grafana_data__, __WEBPACK_EXTERNAL_MODULE__grafana_runtime__, __WEBPACK_EXTERNAL_MODULE_lodash__, __WEBPACK_EXTERNAL_MODULE_react__) { return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -43819,9 +43819,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./serviceDependencyGraph/ServiceDependencyGraph */ "./panel/serviceDependencyGraph/ServiceDependencyGraph.tsx");
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../types */ "./types.tsx");
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../types */ "./types.tsx");
+/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @grafana/runtime */ "@grafana/runtime");
+/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_grafana_runtime__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6__);
+
+
 
 
 
@@ -43839,6 +43845,7 @@ function (_super) {
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
     _this.ref = react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
+    console.log(_this.getAggregationType());
     return _this;
   }
 
@@ -43846,12 +43853,26 @@ function (_super) {
     return this.state.options;
   };
 
+  ServiceDependencyGraphPanelController.prototype.getAggregationType = function () {
+    var variables = Object(_grafana_runtime__WEBPACK_IMPORTED_MODULE_5__["getTemplateSrv"])().getVariables();
+
+    var index = lodash__WEBPACK_IMPORTED_MODULE_3___default.a.findIndex(variables, function (o) {
+      return o.id == 'aggregationType';
+    });
+
+    if (index > 0) {
+      return variables[index].query;
+    }
+
+    return -1;
+  };
+
   ServiceDependencyGraphPanelController.prototype.render = function () {
     var elements = [{
       data: {
         id: 'one',
         label: 'Node 1',
-        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].EXTERNAL,
+        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].EXTERNAL,
         external_type: "one"
       },
       position: {
@@ -43862,7 +43883,7 @@ function (_super) {
       data: {
         id: 'two',
         label: 'Node 2',
-        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
+        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 100,
@@ -43878,7 +43899,7 @@ function (_super) {
       data: {
         id: 'three',
         label: 'Node 3',
-        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].EXTERNAL,
+        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].EXTERNAL,
         external_type: "three"
       },
       position: {
@@ -43889,7 +43910,7 @@ function (_super) {
       data: {
         id: 'four',
         label: 'Node 4',
-        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
+        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 100,
@@ -43905,7 +43926,7 @@ function (_super) {
       data: {
         id: 'five',
         label: 'Node 5',
-        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
+        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 0,
@@ -43915,7 +43936,7 @@ function (_super) {
       data: {
         id: 'six',
         label: 'Node 6',
-        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
+        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 100,
@@ -43931,7 +43952,7 @@ function (_super) {
       data: {
         id: 'seven',
         label: 'Node 7',
-        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
+        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 0,
@@ -43941,7 +43962,7 @@ function (_super) {
       data: {
         id: 'eight',
         label: 'Node 8',
-        type: _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL
+        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
       },
       position: {
         x: 100,
@@ -44018,18 +44039,12 @@ __webpack_require__.r(__webpack_exports__);
   getAssetUrl: function getAssetUrl(assetName) {
     //TODO: Fix this with something like this.panel.type
     var baseUrl = 'public/plugins/novatec-sdg-panel';
-    console.log(baseUrl + '/assets/' + assetName);
     return baseUrl + '/assets/' + assetName;
   },
   getTypeSymbol: function getTypeSymbol(type, externalIcons, resolveName) {
     if (resolveName === void 0) {
       resolveName = true;
     }
-
-    console.log("type");
-    console.log(type);
-    console.log("externalIcons");
-    console.log(externalIcons);
 
     if (!type) {
       return this.getAssetUrl('default.png');
@@ -44042,7 +44057,6 @@ __webpack_require__.r(__webpack_exports__);
     var icon = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(externalIcons, function (icon) {
       return icon.pattern.toLowerCase() === type.toLowerCase();
     });
-    console.log(icon);
 
     if (icon !== undefined) {
       return this.getAssetUrl(icon.filename + '.png');
@@ -45559,6 +45573,17 @@ var EGraphNodeType;
 /***/ (function(module, exports) {
 
 module.exports = __WEBPACK_EXTERNAL_MODULE__grafana_data__;
+
+/***/ }),
+
+/***/ "@grafana/runtime":
+/*!***********************************!*\
+  !*** external "@grafana/runtime" ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__grafana_runtime__;
 
 /***/ }),
 
