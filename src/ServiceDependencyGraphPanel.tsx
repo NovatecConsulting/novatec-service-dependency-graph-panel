@@ -38,7 +38,7 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
       
 
     componentDidMount () {
-        const cy = cytoscape({
+        const cy: any = cytoscape({
             container: this.ref,
             zoom: this.state.zoom,
             elements:  this.props.elements,
@@ -65,15 +65,15 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
         cy.on("render cyCanvas.resize", () => {
             graphCanvas.repaint(true)
             });
-        cy.on('select', 'node', (event) => this.onSelectionChange(event));
-        cy.on('unselect', 'node', (event) => this.onSelectionChange(event));
+        cy.on('select', 'node', () => this.onSelectionChange());
+        cy.on('unselect', 'node', () => this.onSelectionChange());
         this.setState({
             cy: cy,
             graphCanvas: graphCanvas
         })
     }
 
-    onSelectionChange(event: any) {
+    onSelectionChange() {
         const selection = this.state.cy.$(':selected');
 
 		if (selection.length === 1) {
@@ -128,7 +128,7 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
 	}
 
 	unlockNodes() {
-		this.state.cy.nodes().forEach(node => {
+		this.state.cy.nodes().forEach((node: { unlock: () => void; }) => {
 			node.unlock();
 		});
     }
@@ -162,19 +162,19 @@ export class ServiceDependencyGraphPanel extends PureComponent<PanelState, Panel
 
                     </div>
                     <div className="zoom-button-container">
-                        <button className="btn navbar-button" onClick={() => this.toggleAnimation()}>
+                        <button className="btn navbar-button width-100" onClick={() => this.toggleAnimation()}>
                             <i className={this.state.animateButton}></i>
                         </button>
-                        <button className="btn navbar-button" onClick={() => this.runLayout()}>
+                        <button className="btn navbar-button width-100" onClick={() => this.runLayout()}>
                             <i className="fa fa-sitemap"></i>
                         </button>
-                        <button className="btn navbar-button" onClick={() => this.fit()}>
+                        <button className="btn navbar-button width-100" onClick={() => this.fit()}>
                             <i className="fa fa-dot-circle-o"></i>
                             </button>
-                        <button className="btn navbar-button" onClick={() => this.zoom(+1)}>
+                        <button className="btn navbar-button width-100" onClick={() => this.zoom(+1)}>
                             <i className="fa fa-plus"></i>
                         </button>
-                        <button className="btn navbar-button" onClick={() => this.zoom(-1)}>
+                        <button className="btn navbar-button width-100" onClick={() => this.zoom(-1)}>
                             <i className="fa fa-minus"></i>
                         </button>
                     </div>

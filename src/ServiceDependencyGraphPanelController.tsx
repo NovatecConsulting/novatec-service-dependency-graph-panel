@@ -2,7 +2,7 @@ import React from 'react';
 import  { PureComponent } from 'react';
 import { PanelProps } from '@grafana/data';
 import { ServiceDependencyGraphPanel } from './ServiceDependencyGraphPanel'
-import _, { find} from 'lodash';
+import _ from 'lodash';
 import { EGraphNodeType, PanelSettings } from './types';
 import cytoscape from 'cytoscape';
 import './css/novatec-service-dependency-graph-panel.css'

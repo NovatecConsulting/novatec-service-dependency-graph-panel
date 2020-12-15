@@ -5,19 +5,28 @@ import { PanelSettings } from '../../types';
 
 
 interface Props extends StandardEditorProps<string, PanelSettings> {
-    item: any, 
-    value: any, 
+    item: any
+    value: string, 
     onChange: any, 
     context: any
 }
 
+interface State {
+    item: any, 
+    value: string, 
+    onChange: any, 
+    context: any
+  }
 
 
-export class ExternalIconMapping extends React.PureComponent<Props>  {
+
+export class ExternalIconMapping extends React.PureComponent<Props, State>  {
 
     constructor(props: Props | Readonly<Props>) {
         super(props);
         this.state = {...props};
+        console.log(typeof props.context)
+        console.log(typeof props.onChange)
     }
 
     addMapping() {

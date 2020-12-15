@@ -98,7 +98,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, ".service-dependency-graph-panel {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n.graph-container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: row; }\n\n.service-dependency-graph {\n  position: relative;\n  flex-grow: 1;\n  min-width: 0; }\n\n.canvas-container {\n  width: 100%;\n  height: 100%;\n  overflow: hidden; }\n\n.zoom-button-container {\n  position: absolute;\n  top: 0;\n  right: 1rem;\n  z-index: 99; }\n\n.statistics {\n  flex-basis: 0;\n  transition: flex-basis 250ms ease-in-out;\n  overflow-y: scroll; }\n\n.statistics.show {\n  flex-basis: 30rem;\n  padding-left: 0.5%; }\n\n.header--selection {\n  font-size: 1.25em;\n  text-align: center;\n  border-bottom: 2px solid #161719;\n  font-weight: 500;\n  color: #d8d9da; }\n\n.secondHeader--selection {\n  font-size: 1.2em;\n  text-align: center;\n  padding-top: 1.5rem;\n  padding-bottom: 0.5rem; }\n\n.no-data--selection {\n  color: #888888;\n  text-align: center; }\n\n.table--selection {\n  width: 99%;\n  table-layout: fixed; }\n\n.table--selection th, .table--selection td {\n  padding: 3px 5px; }\n\n.table--selection tr {\n  border-bottom: 2px solid #161719; }\n\n.table--td--selection {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.threshold--bad {\n  color: #f2495c; }\n\n.threshold--good {\n  color: #73bf69; }\n\n.table--th--selectionSmall {\n  width: 5.5rem; }\n\n.table--th--selectionMedium {\n  width: 8rem; }\n\n.table--selection--head {\n  background-color: #28282a;\n  border-top: 2px solid #161719;\n  color: #33b5e5; }\n", "", {"version":3,"sources":["C:/Users/mbi/Downloads/grafana-7.2.0.windows-amd64 (1)/grafana-7.2.0/data/plugins/novatec-service-dependency-graph-panel/src/css/novatec-service-dependency-graph-panel.css"],"names":[],"mappings":"AAAA;EACE,cAAc;EACd,oBAAoB;EACpB,wBAAwB;EACxB,uBAAuB,EAAE;;AAE3B;EACE,YAAY;EACZ,aAAa;EACb,cAAc;EACd,oBAAoB,EAAE;;AAExB;EACE,mBAAmB;EACnB,aAAa;EACb,aAAa,EAAE;;AAEjB;EACE,YAAY;EACZ,aAAa;EACb,iBAAiB,EAAE;;AAErB;EACE,mBAAmB;EACnB,OAAO;EACP,YAAY;EACZ,YAAY,EAAE;;AAEhB;EACE,cAAc;EACd,yCAAyC;EACzC,mBAAmB,EAAE;;AAEvB;EACE,kBAAkB;EAClB,mBAAmB,EAAE;;AAEvB;EACE,kBAAkB;EAClB,mBAAmB;EACnB,iCAAiC;EACjC,iBAAiB;EACjB,eAAe,EAAE;;AAEnB;EACE,iBAAiB;EACjB,mBAAmB;EACnB,oBAAoB;EACpB,uBAAuB,EAAE;;AAE3B;EACE,eAAe;EACf,mBAAmB,EAAE;;AAEvB;EACE,WAAW;EACX,oBAAoB,EAAE;;AAExB;EACE,iBAAiB,EAAE;;AAErB;EACE,iCAAiC,EAAE;;AAErC;EACE,iBAAiB;EACjB,wBAAwB;EACxB,oBAAoB,EAAE;;AAExB;EACE,eAAe,EAAE;;AAEnB;EACE,eAAe,EAAE;;AAEnB;EACE,cAAc,EAAE;;AAElB;EACE,YAAY,EAAE;;AAEhB;EACE,0BAA0B;EAC1B,8BAA8B;EAC9B,eAAe,EAAE","file":"novatec-service-dependency-graph-panel.css","sourcesContent":[".service-dependency-graph-panel {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n.graph-container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: row; }\n\n.service-dependency-graph {\n  position: relative;\n  flex-grow: 1;\n  min-width: 0; }\n\n.canvas-container {\n  width: 100%;\n  height: 100%;\n  overflow: hidden; }\n\n.zoom-button-container {\n  position: absolute;\n  top: 0;\n  right: 1rem;\n  z-index: 99; }\n\n.statistics {\n  flex-basis: 0;\n  transition: flex-basis 250ms ease-in-out;\n  overflow-y: scroll; }\n\n.statistics.show {\n  flex-basis: 30rem;\n  padding-left: 0.5%; }\n\n.header--selection {\n  font-size: 1.25em;\n  text-align: center;\n  border-bottom: 2px solid #161719;\n  font-weight: 500;\n  color: #d8d9da; }\n\n.secondHeader--selection {\n  font-size: 1.2em;\n  text-align: center;\n  padding-top: 1.5rem;\n  padding-bottom: 0.5rem; }\n\n.no-data--selection {\n  color: #888888;\n  text-align: center; }\n\n.table--selection {\n  width: 99%;\n  table-layout: fixed; }\n\n.table--selection th, .table--selection td {\n  padding: 3px 5px; }\n\n.table--selection tr {\n  border-bottom: 2px solid #161719; }\n\n.table--td--selection {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.threshold--bad {\n  color: #f2495c; }\n\n.threshold--good {\n  color: #73bf69; }\n\n.table--th--selectionSmall {\n  width: 5.5rem; }\n\n.table--th--selectionMedium {\n  width: 8rem; }\n\n.table--selection--head {\n  background-color: #28282a;\n  border-top: 2px solid #161719;\n  color: #33b5e5; }\n"],"sourceRoot":""}]);
+exports.push([module.i, ".service-dependency-graph-panel {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n.graph-container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: row; }\n\n.service-dependency-graph {\n  position: relative;\n  flex-grow: 1;\n  min-width: 0; }\n\n.canvas-container {\n  width: 100%;\n  height: 100%;\n  overflow: hidden; }\n\n.zoom-button-container {\n  position: absolute;\n  top: 0;\n  right: 1rem;\n  z-index: 99;\n  width: 35px; }\n\n.statistics {\n  flex-basis: 0;\n  transition: flex-basis 250ms ease-in-out;\n  overflow-y: scroll; }\n\n.statistics.show {\n  flex-basis: 30rem;\n  padding-left: 0.5%; }\n\n.header--selection {\n  font-size: 1.25em;\n  text-align: center;\n  border-bottom: 2px solid #161719;\n  font-weight: 500;\n  color: #d8d9da; }\n\n.secondHeader--selection {\n  font-size: 1.2em;\n  text-align: center;\n  padding-top: 1.5rem;\n  padding-bottom: 0.5rem; }\n\n.no-data--selection {\n  color: #888888;\n  text-align: center; }\n\n.table--selection {\n  width: 99%;\n  table-layout: fixed; }\n\n.table--selection th, .table--selection td {\n  padding: 3px 5px; }\n\n.table--selection tr {\n  border-bottom: 2px solid #161719; }\n\n.table--td--selection {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.threshold--bad {\n  color: #f2495c; }\n\n.threshold--good {\n  color: #73bf69; }\n\n.table--th--selectionSmall {\n  width: 5.5rem; }\n\n.table--th--selectionMedium {\n  width: 8rem; }\n\n.table--selection--head {\n  background-color: #28282a;\n  border-top: 2px solid #161719;\n  color: #33b5e5; }\n\n.width-100 {\n  width: 100%; }\n", "", {"version":3,"sources":["C:/Users/mbi/Downloads/grafana-7.2.0.windows-amd64 (1)/grafana-7.2.0/data/plugins/novatec-service-dependency-graph-panel/src/css/novatec-service-dependency-graph-panel.css"],"names":[],"mappings":"AAAA;EACE,cAAc;EACd,oBAAoB;EACpB,wBAAwB;EACxB,uBAAuB,EAAE;;AAE3B;EACE,YAAY;EACZ,aAAa;EACb,cAAc;EACd,oBAAoB,EAAE;;AAExB;EACE,mBAAmB;EACnB,aAAa;EACb,aAAa,EAAE;;AAEjB;EACE,YAAY;EACZ,aAAa;EACb,iBAAiB,EAAE;;AAErB;EACE,mBAAmB;EACnB,OAAO;EACP,YAAY;EACZ,YAAY;EACZ,YAAY,EAAE;;AAEhB;EACE,cAAc;EACd,yCAAyC;EACzC,mBAAmB,EAAE;;AAEvB;EACE,kBAAkB;EAClB,mBAAmB,EAAE;;AAEvB;EACE,kBAAkB;EAClB,mBAAmB;EACnB,iCAAiC;EACjC,iBAAiB;EACjB,eAAe,EAAE;;AAEnB;EACE,iBAAiB;EACjB,mBAAmB;EACnB,oBAAoB;EACpB,uBAAuB,EAAE;;AAE3B;EACE,eAAe;EACf,mBAAmB,EAAE;;AAEvB;EACE,WAAW;EACX,oBAAoB,EAAE;;AAExB;EACE,iBAAiB,EAAE;;AAErB;EACE,iCAAiC,EAAE;;AAErC;EACE,iBAAiB;EACjB,wBAAwB;EACxB,oBAAoB,EAAE;;AAExB;EACE,eAAe,EAAE;;AAEnB;EACE,eAAe,EAAE;;AAEnB;EACE,cAAc,EAAE;;AAElB;EACE,YAAY,EAAE;;AAEhB;EACE,0BAA0B;EAC1B,8BAA8B;EAC9B,eAAe,EAAE;;AAEnB;EACE,YAAY,EAAE","file":"novatec-service-dependency-graph-panel.css","sourcesContent":[".service-dependency-graph-panel {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n.graph-container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: row; }\n\n.service-dependency-graph {\n  position: relative;\n  flex-grow: 1;\n  min-width: 0; }\n\n.canvas-container {\n  width: 100%;\n  height: 100%;\n  overflow: hidden; }\n\n.zoom-button-container {\n  position: absolute;\n  top: 0;\n  right: 1rem;\n  z-index: 99;\n  width: 35px; }\n\n.statistics {\n  flex-basis: 0;\n  transition: flex-basis 250ms ease-in-out;\n  overflow-y: scroll; }\n\n.statistics.show {\n  flex-basis: 30rem;\n  padding-left: 0.5%; }\n\n.header--selection {\n  font-size: 1.25em;\n  text-align: center;\n  border-bottom: 2px solid #161719;\n  font-weight: 500;\n  color: #d8d9da; }\n\n.secondHeader--selection {\n  font-size: 1.2em;\n  text-align: center;\n  padding-top: 1.5rem;\n  padding-bottom: 0.5rem; }\n\n.no-data--selection {\n  color: #888888;\n  text-align: center; }\n\n.table--selection {\n  width: 99%;\n  table-layout: fixed; }\n\n.table--selection th, .table--selection td {\n  padding: 3px 5px; }\n\n.table--selection tr {\n  border-bottom: 2px solid #161719; }\n\n.table--td--selection {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.threshold--bad {\n  color: #f2495c; }\n\n.threshold--good {\n  color: #73bf69; }\n\n.table--th--selectionSmall {\n  width: 5.5rem; }\n\n.table--th--selectionMedium {\n  width: 8rem; }\n\n.table--selection--head {\n  background-color: #28282a;\n  border-top: 2px solid #161719;\n  color: #33b5e5; }\n\n.width-100 {\n  width: 100%; }\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -117,7 +117,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_
 
 
 // module
-exports.push([module.i, "", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"TypeaheadTextfield.css","sourceRoot":""}]);
+exports.push([module.i, ".suggestion {\n  width: 100%;\n  border-right: 1px solid #3865AB;\n  border-left: 1px solid #3865AB;\n  background-color: #0B0C0E;\n  padding-left: 10px; }\n\nul {\n  list-style-type: none; }\n\nul:last-child {\n  border-bottom: 1px solid #3865AB; }\n", "", {"version":3,"sources":["C:/Users/mbi/Downloads/grafana-7.2.0.windows-amd64 (1)/grafana-7.2.0/data/plugins/novatec-service-dependency-graph-panel/src/options/TypeAheadTextfield/TypeaheadTextfield.css"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,gCAAgC;EAChC,+BAA+B;EAC/B,0BAA0B;EAC1B,mBAAmB,EAAE;;AAEvB;EACE,sBAAsB,EAAE;;AAE1B;EACE,iCAAiC,EAAE","file":"TypeaheadTextfield.css","sourcesContent":[".suggestion {\n  width: 100%;\n  border-right: 1px solid #3865AB;\n  border-left: 1px solid #3865AB;\n  background-color: #0B0C0E;\n  padding-left: 10px; }\n\nul {\n  list-style-type: none; }\n\nul:last-child {\n  border-bottom: 1px solid #3865AB; }\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -43278,11 +43278,11 @@ function (_super) {
     cy.on("render cyCanvas.resize", function () {
       graphCanvas.repaint(true);
     });
-    cy.on('select', 'node', function (event) {
-      return _this.onSelectionChange(event);
+    cy.on('select', 'node', function () {
+      return _this.onSelectionChange();
     });
-    cy.on('unselect', 'node', function (event) {
-      return _this.onSelectionChange(event);
+    cy.on('unselect', 'node', function () {
+      return _this.onSelectionChange();
     });
     this.setState({
       cy: cy,
@@ -43290,7 +43290,7 @@ function (_super) {
     });
   };
 
-  ServiceDependencyGraphPanel.prototype.onSelectionChange = function (event) {
+  ServiceDependencyGraphPanel.prototype.onSelectionChange = function () {
     var selection = this.state.cy.$(':selected');
 
     if (selection.length === 1) {
@@ -43395,35 +43395,35 @@ function (_super) {
     }), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "zoom-button-container"
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
-      className: "btn navbar-button",
+      className: "btn navbar-button width-100",
       onClick: function onClick() {
         return _this.toggleAnimation();
       }
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: this.state.animateButton
     })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
-      className: "btn navbar-button",
+      className: "btn navbar-button width-100",
       onClick: function onClick() {
         return _this.runLayout();
       }
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: "fa fa-sitemap"
     })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
-      className: "btn navbar-button",
+      className: "btn navbar-button width-100",
       onClick: function onClick() {
         return _this.fit();
       }
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: "fa fa-dot-circle-o"
     })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
-      className: "btn navbar-button",
+      className: "btn navbar-button width-100",
       onClick: function onClick() {
         return _this.zoom(+1);
       }
     }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
       className: "fa fa-plus"
     })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
-      className: "btn navbar-button",
+      className: "btn navbar-button width-100",
       onClick: function onClick() {
         return _this.zoom(-1);
       }
@@ -43810,6 +43810,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ //TODO ADD IGraphMetrics
 
 
 
@@ -43960,7 +43961,7 @@ function () {
       return false;
     }
 
-    if (!this.controller.panel.settings.animate && elapsedTime < 1000) {
+    if (!this.controller.getSettings().animate && elapsedTime < 1000) {
       return true;
     }
 
@@ -44088,27 +44089,25 @@ function () {
 
     var showConnectionStats = this.controller.getSettings().showConnectionStats;
 
-    if (true
-    /*showConnectionStats && cy.zoom() > 1*/
-    ) {
-        try {
-          for (var edges_2 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(edges), edges_2_1 = edges_2.next(); !edges_2_1.done; edges_2_1 = edges_2.next()) {
-            var edge = edges_2_1.value;
+    if (showConnectionStats && cy.zoom() > 1) {
+      try {
+        for (var edges_2 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(edges), edges_2_1 = edges_2.next(); !edges_2_1.done; edges_2_1 = edges_2.next()) {
+          var edge = edges_2_1.value;
 
-            this._drawEdgeLabel(ctx, edge);
-          }
-        } catch (e_2_1) {
-          e_2 = {
-            error: e_2_1
-          };
+          this._drawEdgeLabel(ctx, edge);
+        }
+      } catch (e_2_1) {
+        e_2 = {
+          error: e_2_1
+        };
+      } finally {
+        try {
+          if (edges_2_1 && !edges_2_1.done && (_b = edges_2["return"])) _b.call(edges_2);
         } finally {
-          try {
-            if (edges_2_1 && !edges_2_1.done && (_b = edges_2["return"])) _b.call(edges_2);
-          } finally {
-            if (e_2) throw e_2.error;
-          }
+          if (e_2) throw e_2.error;
         }
       }
+    }
   };
 
   CanvasDrawer.prototype._drawEdgeLine = function (ctx, edge, sourcePoint, targetPoint) {
@@ -44147,8 +44146,8 @@ function () {
     var midpoint = edge.midpoint();
     var xMid = midpoint.x;
     var yMid = midpoint.y;
-    var statistics = [];
-    var metrics = edge.data('metrics');
+    var statistics = []; //const metrics: IGraphMetrics = edge.data('metrics');
+
     var duration = 1; //TODO _.defaultTo(metrics.response_time, -1);
 
     var requestCount = 1; //TODO _.defaultTo(metrics.rate, -1);
@@ -44303,8 +44302,7 @@ function () {
 
   CanvasDrawer.prototype._drawNode = function (ctx, node) {
     var cy = this.cytoscape;
-    var type = node.data('type');
-    var metrics = node.data('metrics');
+    var type = node.data('type'); // const metrics: IGraphMetrics = node.data('metrics');
 
     if (type === _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL) {
       var requestCount = 0; //TODO_.defaultTo(metrics.rate, -1);
@@ -44384,8 +44382,8 @@ function () {
   };
 
   CanvasDrawer.prototype._drawNodeStatistics = function (ctx, node) {
-    var lines = [];
-    var metrics = node.data('metrics');
+    var lines = []; // const metrics: IGraphMetrics = node.data('metrics');
+
     var requestCount = 5; //TODO_.defaultTo(metrics.rate, -1);
 
     var errorCount = 6; //TODO _.defaultTo(metrics.error_rate, -1);
@@ -44444,7 +44442,7 @@ function () {
     ctx.closePath();
     ctx.setLineDash([10, 2]);
 
-    if (violation && this.controller.panel.settings.animate) {
+    if (violation && this.controller.getSettings().animate) {
       ctx.lineDashOffset = this.dashAnimationOffset;
     } else {
       ctx.lineDashOffset = 0;
@@ -44462,7 +44460,6 @@ function () {
   };
 
   CanvasDrawer.prototype._drawExternalService = function (ctx, node) {
-    console.log("---------CTX----------");
     var pos = node.position();
     var cX = pos.x;
     var cY = pos.y;
@@ -44499,8 +44496,8 @@ function () {
     var labelWidth = ctx.measureText(label).width;
     var xPos = pos.x - labelWidth / 2;
     var yPos = pos.y + node.height() * 0.8;
-    var showBaselines = this.controller.getSettings().showBaselines;
-    var metrics = node.data('metrics');
+    var showBaselines = this.controller.getSettings().showBaselines; // const metrics: IGraphMetrics = node.data('metrics');
+
     var responseTime = 1; //TODO_.defaultTo(metrics.response_time, -1);
 
     var threshold = 1; //TODO_.defaultTo(metrics.threshold, -1);
@@ -44602,7 +44599,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 
-
+ //{ defaultTo }
 
 var ParticleEngine =
 /** @class */
@@ -44679,8 +44676,8 @@ function () {
     console.log(cy.edges());
     cy.edges().forEach(function (edge) {
       console.log(edge);
-      var particles = edge.data('particles');
-      var metrics = edge.data('metrics'); //TODO
+      var particles = edge.data('particles'); //const metrics: IGraphMetrics = edge.data('metrics');
+      //TODO
 
       /*if (!metrics) {
           return;
@@ -45091,7 +45088,9 @@ function (_super) {
       });
     };
 
-    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
+    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props), {
+      suggestions: []
+    });
     return _this;
   }
 
@@ -45124,7 +45123,8 @@ function (_super) {
       renderSuggestion: this.renderSuggestion,
       inputProps: inputProps,
       theme: {
-        input: "input-small gf-form-input width-100"
+        input: "input-small gf-form-input width-100",
+        suggestion: "suggestion"
       }
     });
   };
@@ -45151,6 +45151,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
@@ -45164,6 +45166,8 @@ function (_super) {
     var _this = _super.call(this, props) || this;
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
+    console.log(_typeof(props.context));
+    console.log(_typeof(props.onChange));
     return _this;
   }
 
@@ -45333,12 +45337,9 @@ function (_super) {
   function ServiceIconMapping(props) {
     var _this = _super.call(this, props) || this;
 
-    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
-
-    _this.setState({
+    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props), {
       serviceIcons: []
     });
-
     fetch(_AssetUtils__WEBPACK_IMPORTED_MODULE_3__["default"].getAssetUrl('service_icons/icon_index.json')).then(function (response) {
       return response.json();
     }).then(function (data) {

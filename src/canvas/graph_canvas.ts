@@ -2,7 +2,7 @@ import _ from 'lodash';
 import cytoscape from 'cytoscape';
 import { ServiceDependencyGraphPanel } from '../ServiceDependencyGraphPanel';
 import ParticleEngine from './particle_engine';
-import { CyCanvas, IGraphMetrics, Particle, EGraphNodeType, Particles } from '../types';
+import { CyCanvas, Particle, EGraphNodeType, Particles } from '../types'; //TODO ADD IGraphMetrics
 import humanFormat from 'human-format';
 import assetUtils from '../AssetUtils';
 
@@ -42,7 +42,7 @@ export default class CanvasDrawer {
 
     pixelRatio: number;
 
-    imageAssets = {};
+    imageAssets: any = {};
 
     selectionNeighborhood: cytoscape.Collection;
 
@@ -88,7 +88,7 @@ export default class CanvasDrawer {
     _loadImage(imageUrl: string, assetName: string) {
         const that = this;
 
-        const loadImage = (url, asset) => {
+        const loadImage = (url: string, asset: keyof typeof that.imageAssets  ) => {
             const image = new Image();
             that.imageAssets[asset] = {
                 image,
@@ -102,7 +102,7 @@ export default class CanvasDrawer {
             });
         };
         loadImage(imageUrl, assetName)
-            .then((asset: string) => {
+            .then((asset: any) => {
                 that.imageAssets[asset].loaded = true;
             });
     }
@@ -115,7 +115,7 @@ export default class CanvasDrawer {
         }
     }
 
-    _getImageAsset(assetName, resolveName = true) {
+    _getImageAsset(assetName: string, resolveName = true) {
         if (!_.has(this.imageAssets, assetName)) {
             const assetUrl = assetUtils.getTypeSymbol(assetName,this.controller.getSettings().externalIcons, resolveName);
             this._loadImage(assetUrl, assetName);
@@ -128,7 +128,7 @@ export default class CanvasDrawer {
         }
     }
 
-    _getAsset(assetName, relativeUrl) {
+    _getAsset(assetName: string, relativeUrl: string) {
         if (!_.has(this.imageAssets, assetName)) {
             const assetUrl = assetUtils.getAssetUrl(relativeUrl);
             this._loadImage(assetUrl, assetName);
@@ -175,7 +175,7 @@ export default class CanvasDrawer {
             return false;
         }
 
-        if (!this.controller.panel.settings.animate && elapsedTime < 1000) {
+        if (!this.controller.getSettings().animate && elapsedTime < 1000) {
             return true;
         }
         return false;
@@ -270,7 +270,7 @@ export default class CanvasDrawer {
         }
         
         const { showConnectionStats } = this.controller.getSettings();
-        if ( true/*showConnectionStats && cy.zoom() > 1*/) {
+        if ( showConnectionStats && cy.zoom() > 1) {
             for(const edge of edges) {
                 this._drawEdgeLabel(ctx, edge);
             }
@@ -317,7 +317,7 @@ export default class CanvasDrawer {
 
         let statistics: string[] = [];
 
-        const metrics: IGraphMetrics = edge.data('metrics');
+        //const metrics: IGraphMetrics = edge.data('metrics');
         const duration = 1//TODO _.defaultTo(metrics.response_time, -1);
         const requestCount = 1//TODO _.defaultTo(metrics.rate, -1);
         const errorCount = 1//TODO _.defaultTo(metrics.error_rate, -1);
@@ -413,7 +413,7 @@ export default class CanvasDrawer {
         ctx.fillText(label, xPos, yPos);
     }
 
-    _drawParticle(drawCtx, particles: Particle[], index: number) {
+    _drawParticle(drawCtx: any, particles: Particle[], index: number) {
         const { ctx,
             now,
             xDirection,
@@ -468,7 +468,7 @@ export default class CanvasDrawer {
     _drawNode(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
         const cy = this.cytoscape;
         const type = node.data('type');
-        const metrics: IGraphMetrics = node.data('metrics');
+        // const metrics: IGraphMetrics = node.data('metrics');
         if (type === EGraphNodeType.INTERNAL) {
             const requestCount = 0//TODO_.defaultTo(metrics.rate, -1);
             const errorCount = 0//TODO _.defaultTo(metrics.error_rate, 0);
@@ -541,7 +541,7 @@ export default class CanvasDrawer {
     _drawNodeStatistics(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
         const lines: string[] = [];
 
-        const metrics: IGraphMetrics = node.data('metrics');
+        // const metrics: IGraphMetrics = node.data('metrics');
         const requestCount = 5//TODO_.defaultTo(metrics.rate, -1);
         const errorCount = 6//TODO _.defaultTo(metrics.error_rate, -1);
         const responseTime = 8//TODO _.defaultTo(metrics.response_time, -1);
@@ -592,7 +592,7 @@ export default class CanvasDrawer {
         ctx.closePath();
 
         ctx.setLineDash([10, 2]);
-        if (violation && this.controller.panel.settings.animate) {
+        if (violation && this.controller.getSettings().animate) {
             ctx.lineDashOffset = this.dashAnimationOffset;
         } else {
             ctx.lineDashOffset = 0;
@@ -611,7 +611,6 @@ export default class CanvasDrawer {
     }
 
     _drawExternalService(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
-        console.log("---------CTX----------")
         const pos = node.position();
         const cX = pos.x;
         const cY = pos.y;
@@ -653,7 +652,7 @@ export default class CanvasDrawer {
         const yPos = pos.y + node.height() * 0.8;
 
         const showBaselines = this.controller.getSettings().showBaselines;
-        const metrics: IGraphMetrics = node.data('metrics');
+        // const metrics: IGraphMetrics = node.data('metrics');
         const responseTime = 1//TODO_.defaultTo(metrics.response_time, -1);
         const threshold = 1 //TODO_.defaultTo(metrics.threshold, -1);
 

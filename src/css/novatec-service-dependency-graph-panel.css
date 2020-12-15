@@ -29,6 +29,7 @@
   top: 0;
   right: 1rem;
   z-index: 99;
+  width: 35px;
 }
 
 .statistics {
@@ -102,6 +103,10 @@
   background-color: #28282a;
   border-top: 2px solid #161719;
   color: #33b5e5;
+}
+
+.width-100 {
+  width: 100%;
 }
 
 

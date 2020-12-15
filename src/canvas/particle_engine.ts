@@ -1,6 +1,6 @@
 import CanvasDrawer from "./graph_canvas";
-import _, { defaultTo } from 'lodash';
-import { Particles, Particle, IGraphMetrics } from "../types";
+import _ from 'lodash'; //{ defaultTo }
+import { Particles, Particle } from "../types"; //IGraphMetrics
 
 export default class ParticleEngine {
 
@@ -10,7 +10,7 @@ export default class ParticleEngine {
 
     minSpawnPropability: number = 0.005;
 
-    spawnInterval: number | null;
+    spawnInterval: any;
 
     animating: boolean;
     
@@ -62,7 +62,7 @@ export default class ParticleEngine {
         cy.edges().forEach(edge => {
             console.log(edge)
             let particles: Particles = edge.data('particles');
-            const metrics: IGraphMetrics = edge.data('metrics');
+            //const metrics: IGraphMetrics = edge.data('metrics');
 
             //TODO
             /*if (!metrics) {

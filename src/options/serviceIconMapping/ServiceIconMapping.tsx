@@ -12,15 +12,23 @@ interface Props extends StandardEditorProps<string, PanelSettings> {
     context: any
 }
 
+interface State {
+    item: any, 
+    value: string, 
+    onChange: any, 
+    context: any
+    serviceIcons: string[]
+  }
 
-export class ServiceIconMapping extends React.PureComponent<Props>  {
+
+export class ServiceIconMapping extends React.PureComponent<Props, State>  {
 
     constructor(props: Props | Readonly<Props>) {
         super(props);
-        this.state = {...props};
-        this.setState({
-            serviceIcons: []
-        })
+        this.state = {
+                        ...props,
+                        serviceIcons: []
+        };
         fetch(assetUtils.getAssetUrl('service_icons/icon_index.json'))
 			.then(response => response.json())
 			.then(data => {

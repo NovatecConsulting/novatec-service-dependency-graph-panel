@@ -7,18 +7,36 @@ import { PanelSettings } from '../../types';
 
 interface Props extends StandardEditorProps<string, PanelSettings> {}
 
-export class TypeaheadTextField extends React.PureComponent<Props> {
+interface Props extends StandardEditorProps<string, PanelSettings> {
+    item: any
+    value: string, 
+    onChange: any, 
+    context: any
+}
+
+interface State {
+    item: any, 
+    value: string, 
+    onChange: any, 
+    context: any,
+    suggestions: string[]
+  }
+
+export class TypeaheadTextField extends React.PureComponent<Props, State> {
     
     constructor(props: Props | Readonly<Props>) {
         super(props);
-        this.state = {...props};
+        this.state = {
+            ...props,
+            suggestions: []
+        };
     }
 
     renderSuggestion(suggestion:any){
         return(
-        <div>
-          {suggestion}
-        </div>)
+            <div>
+                {suggestion}
+            </div>)
     }
 
     getColumns() {
@@ -82,7 +100,12 @@ export class TypeaheadTextField extends React.PureComponent<Props> {
                 getSuggestionValue={this.getSuggestionValue}
                 renderSuggestion={this.renderSuggestion}
                 inputProps={inputProps}
-                theme={ {input: "input-small gf-form-input width-100"} }
+                theme={ 
+                        {
+                            input: "input-small gf-form-input width-100",
+                            suggestion : "suggestion"
+                        } 
+                      }
             />
         );
     }
