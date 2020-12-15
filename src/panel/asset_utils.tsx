@@ -5,15 +5,10 @@ export default {
     getAssetUrl(assetName: string) {
         //TODO: Fix this with something like this.panel.type
        var baseUrl = 'public/plugins/novatec-sdg-panel';
-       console.log(baseUrl + '/assets/' + assetName)
        return baseUrl + '/assets/' + assetName;
    },
    
     getTypeSymbol(type: any, externalIcons: any, resolveName = true) {
-        console.log("type")
-        console.log(type)
-        console.log("externalIcons")
-        console.log(externalIcons)
        if (!type) {
            return this.getAssetUrl('default.png');
        }
@@ -24,7 +19,6 @@ export default {
        
        const icon = find(externalIcons, icon => icon.pattern.toLowerCase() === type.toLowerCase());
        
-       console.log(icon);
        if (icon !== undefined) {
            return this.getAssetUrl(icon.filename + '.png');
        } else {
