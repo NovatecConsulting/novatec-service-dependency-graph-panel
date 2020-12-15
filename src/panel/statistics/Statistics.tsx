@@ -1,6 +1,6 @@
 import React from 'react';
 import { NodeStatistics } from './NodeStatistics'
-import './css/novatec-service-dependency-graph-panel.css';
+import '../../css/novatec-service-dependency-graph-panel.css';
 
 interface StatisticsProps  {
     show: boolean,

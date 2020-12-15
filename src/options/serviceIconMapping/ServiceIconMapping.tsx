@@ -2,7 +2,7 @@ import React from 'react';
 import {  remove} from 'lodash';
 import { StandardEditorProps } from '@grafana/data';
 import { PanelSettings } from '../../types';
-import assetUtils from '../../AssetUtils'
+import assetUtils from '../../panel/asset_utils'
 
 
 interface Props extends StandardEditorProps<string, PanelSettings> {

@@ -1,12 +1,12 @@
-import CanvasDrawer from 'canvas/graph_canvas';
+import CanvasDrawer from 'panel/canvas/graph_canvas';
 import cytoscape from 'cytoscape';
 import React from 'react';
 import { PureComponent } from 'react';
-import { ServiceDependencyGraphPanelController } from './ServiceDependencyGraphPanelController';
+import { ServiceDependencyGraphPanelController } from '../ServiceDependencyGraphPanelController';
 import cyCanvas from 'cytoscape-canvas';
 import cola from 'cytoscape-cola';
-import layoutOptions from './layout_options';
-import { Statistics } from 'Statistics';
+import layoutOptions from '../layout_options';
+import { Statistics } from '../statistics/Statistics';
 
 
 interface PanelState {
@@ -23,7 +23,7 @@ interface PanelState {
 cyCanvas(cytoscape);
 cytoscape.use(cola);
 
-export class ServiceDependencyGraphPanel extends PureComponent<PanelState, PanelState> {
+export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState> {
     ref: any;
     constructor(props: PanelState){
         super(props);

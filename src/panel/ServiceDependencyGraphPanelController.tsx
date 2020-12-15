@@ -1,14 +1,11 @@
 import React from 'react';
 import  { PureComponent } from 'react';
 import { PanelProps } from '@grafana/data';
-import { ServiceDependencyGraphPanel } from './ServiceDependencyGraphPanel'
+import { ServiceDependencyGraph } from './serviceDependencyGraph/ServiceDependencyGraph'
 import _ from 'lodash';
-import { EGraphNodeType, PanelSettings } from './types';
+import { EGraphNodeType, PanelSettings } from '../types';
 import cytoscape from 'cytoscape';
-import './css/novatec-service-dependency-graph-panel.css'
-//import cola from 'cytoscape-cola';
-//import cyCanvas from 'cytoscape-canvas';
-
+import '../css/novatec-service-dependency-graph-panel.css'
 
 
 interface Props extends PanelProps<PanelSettings> {}
@@ -64,10 +61,9 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
        { data: { source: 'three', target: 'six', label: 'Edge from Node1 to Node2' } },
        { data: { source: 'six', target: 'three', label: 'Edge from Node1 to Node2' } }
     ];
-    console.log(this.state)
     return (
         <div className="service-dependency-graph-panel" style ={ {height: this.props.height, width: this.props.width}} ref={this.ref} id = "cy">
-            <ServiceDependencyGraphPanel elements={ elements } zoom = { 1 }  controller = { this } animate = { false } showStatistics = {false}/>
+            <ServiceDependencyGraph elements={ elements } zoom = { 1 }  controller = { this } animate = { false } showStatistics = {false}/>
         </div>   
         );
       }

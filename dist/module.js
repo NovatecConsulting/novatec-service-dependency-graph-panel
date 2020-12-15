@@ -43096,362 +43096,719 @@ exports.removeOverlapInOneDimension = removeOverlapInOneDimension;
 
 /***/ }),
 
-/***/ "./AssetUtils.tsx":
-/*!************************!*\
-  !*** ./AssetUtils.tsx ***!
-  \************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "./css/novatec-service-dependency-graph-panel.css":
+/*!********************************************************!*\
+  !*** ./css/novatec-service-dependency-graph-panel.css ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-  getAssetUrl: function getAssetUrl(assetName) {
-    //TODO: Fix this with something like this.panel.type
-    var baseUrl = 'public/plugins/novatec-sdg-panel';
-    console.log(baseUrl + '/assets/' + assetName);
-    return baseUrl + '/assets/' + assetName;
-  },
-  getTypeSymbol: function getTypeSymbol(type, externalIcons, resolveName) {
-    if (resolveName === void 0) {
-      resolveName = true;
-    }
+var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader??ref--8-1!../../node_modules/postcss-loader/src??ref--8-2!../../node_modules/sass-loader/dist/cjs.js!./novatec-service-dependency-graph-panel.css */ "../../../../../../node_modules/css-loader/index.js?!../node_modules/postcss-loader/src/index.js?!../node_modules/sass-loader/dist/cjs.js!./css/novatec-service-dependency-graph-panel.css");
 
-    console.log("type");
-    console.log(type);
-    console.log("externalIcons");
-    console.log(externalIcons);
+if(typeof content === 'string') content = [[module.i, content, '']];
 
-    if (!type) {
-      return this.getAssetUrl('default.png');
-    }
+var transform;
+var insertInto;
 
-    if (!resolveName) {
-      return this.getAssetUrl(type);
-    }
 
-    var icon = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(externalIcons, function (icon) {
-      return icon.pattern.toLowerCase() === type.toLowerCase();
-    });
-    console.log(icon);
 
-    if (icon !== undefined) {
-      return this.getAssetUrl(icon.filename + '.png');
-    } else {
-      return this.getAssetUrl('default.png');
-    }
-  }
-});
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../../../../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
-/***/ "./NodeStatistics.tsx":
-/*!****************************!*\
-  !*** ./NodeStatistics.tsx ***!
-  \****************************/
-/*! exports provided: NodeStatistics */
+/***/ "./module.ts":
+/*!*******************!*\
+  !*** ./module.ts ***!
+  \*******************/
+/*! exports provided: plugin */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NodeStatistics", function() { return NodeStatistics; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "plugin", function() { return plugin; });
+/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @grafana/data */ "@grafana/data");
+/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_grafana_data__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _panel_ServiceDependencyGraphPanelController__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./panel/ServiceDependencyGraphPanelController */ "./panel/ServiceDependencyGraphPanelController.tsx");
+/* harmony import */ var _options_options__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./options/options */ "./options/options.tsx");
 
-var NodeStatistics = function NodeStatistics(_a) {
-  var nodeList = _a.nodeList,
-      noDataText = _a.noDataText,
-      title = _a.title;
-  var nodeStatistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "no-data--selection"
-  }, noDataText);
 
-  if (nodeList.length > 0) {
-    var recievingNodes = nodeList.map(function (node) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection",
-        title: node.name
-      }, node.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, node.responseTime), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, node.rate), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, node.error));
+
+var plugin = new _grafana_data__WEBPACK_IMPORTED_MODULE_0__["PanelPlugin"](_panel_ServiceDependencyGraphPanelController__WEBPACK_IMPORTED_MODULE_1__["ServiceDependencyGraphPanelController"]).setPanelOptions(_options_options__WEBPACK_IMPORTED_MODULE_2__["optionsBuilder"]);
+
+/***/ }),
+
+/***/ "./options/TypeAheadTextfield/TypeaheadTextfield.css":
+/*!***********************************************************!*\
+  !*** ./options/TypeAheadTextfield/TypeaheadTextfield.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../../node_modules/css-loader??ref--8-1!../../../node_modules/postcss-loader/src??ref--8-2!../../../node_modules/sass-loader/dist/cjs.js!./TypeaheadTextfield.css */ "../../../../../../node_modules/css-loader/index.js?!../node_modules/postcss-loader/src/index.js?!../node_modules/sass-loader/dist/cjs.js!./options/TypeAheadTextfield/TypeaheadTextfield.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../../../../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./options/TypeAheadTextfield/TypeaheadTextfield.tsx":
+/*!***********************************************************!*\
+  !*** ./options/TypeAheadTextfield/TypeaheadTextfield.tsx ***!
+  \***********************************************************/
+/*! exports provided: TypeaheadTextField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TypeaheadTextField", function() { return TypeaheadTextField; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_autosuggest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-autosuggest */ "../node_modules/react-autosuggest/dist/index.js");
+/* harmony import */ var react_autosuggest__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_autosuggest__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _TypeaheadTextfield_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TypeaheadTextfield.css */ "./options/TypeAheadTextfield/TypeaheadTextfield.css");
+/* harmony import */ var _TypeaheadTextfield_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_TypeaheadTextfield_css__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+var TypeaheadTextField =
+/** @class */
+function (_super) {
+  Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(TypeaheadTextField, _super);
+
+  function TypeaheadTextField(props) {
+    var _this = _super.call(this, props) || this;
+
+    _this.onChange = function (event, _a) {
+      var newValue = _a.newValue,
+          method = _a.method;
+
+      _this.setState({
+        value: event.currentTarget.value
+      });
+
+      _this.props.onChange.call(_this.props.item.path, newValue);
+    };
+
+    _this.getSuggestions = function (value) {
+      var inputValue = "";
+
+      if (value !== undefined) {
+        inputValue = value.trim().toLowerCase();
+      }
+
+      var inputLength = inputValue.length;
+      return inputLength === 0 ? [] : _this.getColumns().filter(function (column) {
+        return column.toLowerCase().slice(0, inputLength) === inputValue;
+      });
+    };
+
+    _this.onSuggestionsFetchRequested = function (value) {
+      _this.setState({
+        suggestions: _this.getSuggestions(value)
+      });
+    };
+
+    _this.getSuggestionValue = function (suggestion) {
+      return suggestion;
+    };
+
+    _this.onSuggestionsClearRequested = function () {
+      _this.setState({
+        suggestions: []
+      });
+    };
+
+    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props), {
+      suggestions: []
     });
-    nodeStatistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-      className: "table--selection"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      className: "table--selection--head"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-      className: "table--th--selectionSmall"
-    }, "Time"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-      className: "table--th--selectionSmall"
-    }, "Requests"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-      className: "table--th--selectionSmall"
-    }, "Error Rate")), recievingNodes);
+    return _this;
   }
 
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "secondHeader--selection"
-  }, title), nodeStatistics);
+  TypeaheadTextField.prototype.renderSuggestion = function (suggestion) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, suggestion);
+  };
+
+  TypeaheadTextField.prototype.getColumns = function () {
+    return ["aaaa", "aa", "cccc"];
+  };
+
+  TypeaheadTextField.prototype.render = function () {
+    var value = this.props.value;
+
+    if (value === undefined) {
+      value = "";
+    }
+
+    var suggestions = this.getSuggestions(value);
+    var inputProps = {
+      placeholder: 'Enter cloumn name...',
+      value: value,
+      onChange: this.onChange
+    };
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_autosuggest__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      suggestions: suggestions,
+      onSuggestionsFetchRequested: this.onSuggestionsFetchRequested,
+      onSuggestionsClearRequested: this.onSuggestionsClearRequested,
+      getSuggestionValue: this.getSuggestionValue,
+      renderSuggestion: this.renderSuggestion,
+      inputProps: inputProps,
+      theme: {
+        input: "input-small gf-form-input width-100",
+        suggestion: "suggestion"
+      }
+    });
+  };
+
+  return TypeaheadTextField;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.PureComponent);
+
+
+
+/***/ }),
+
+/***/ "./options/externalIconMapping/ExternalIconMapping.tsx":
+/*!*************************************************************!*\
+  !*** ./options/externalIconMapping/ExternalIconMapping.tsx ***!
+  \*************************************************************/
+/*! exports provided: ExternalIconMapping */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExternalIconMapping", function() { return ExternalIconMapping; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+
+
+var ExternalIconMapping =
+/** @class */
+function (_super) {
+  Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(ExternalIconMapping, _super);
+
+  function ExternalIconMapping(props) {
+    var _this = _super.call(this, props) || this;
+
+    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
+    console.log(_typeof(props.context));
+    console.log(_typeof(props.onChange));
+    return _this;
+  }
+
+  ExternalIconMapping.prototype.addMapping = function () {
+    this.state.context.options.externalIcons.push({
+      pattern: 'my-type',
+      filename: 'default'
+    });
+    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
+  };
+
+  ExternalIconMapping.prototype.removeMapping = function (index) {
+    var _this = this;
+
+    Object(lodash__WEBPACK_IMPORTED_MODULE_2__["remove"])(this.state.context.options.externalIcons, function (n) {
+      return _this.state.context.options.externalIcons.indexOf(n) == index;
+    });
+    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
+  };
+
+  ExternalIconMapping.prototype.setPatternValue = function (event, index) {
+    this.state.context.options.externalIcons[index].pattern = event.currentTarget.value;
+    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
+  };
+
+  ExternalIconMapping.prototype.setFileNameValue = function (event, index) {
+    this.state.context.options.externalIcons[index].filename = event.currentTarget.value;
+    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
+  };
+
+  ExternalIconMapping.prototype.getExternalIcons = function () {
+    return ['default', 'message', 'database', 'http', 'web', 'balancer', 'ldap', 'mainframe', 'smtp', 'ftp'];
+  };
+
+  ExternalIconMapping.prototype.render = function () {
+    var e_1, _a, e_2, _b;
+
+    var _this = this;
+
+    if (!this.state.value || this.state.value === undefined) {
+      this.state.context.options.externalIcons = [{
+        pattern: 'my-type',
+        filename: 'default'
+      }];
+    }
+
+    var optionsList = [];
+
+    try {
+      for (var _c = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.getExternalIcons()), _d = _c.next(); !_d.done; _d = _c.next()) {
+        var image = _d.value;
+        optionsList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+          value: image
+        }, image));
+      }
+    } catch (e_1_1) {
+      e_1 = {
+        error: e_1_1
+      };
+    } finally {
+      try {
+        if (_d && !_d.done && (_a = _c["return"])) _a.call(_c);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
+    }
+
+    console.log(this.state.context.options.externalIcons);
+    var componentList = [];
+
+    var _loop_1 = function _loop_1(index) {
+      componentList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "gf-form"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        className: "input-small gf-form-input width-10",
+        value: this_1.state.context.options.externalIcons[index].pattern,
+        onChange: function onChange(e) {
+          return _this.setPatternValue(e, index);
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        className: "input-small gf-form-input width-10",
+        value: this_1.state.context.options.externalIcons[index].filename,
+        onChange: function onChange(e) {
+          return _this.setFileNameValue(e, index);
+        }
+      }, optionsList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        className: "gf-form-label tight-form-func",
+        onClick: function onClick() {
+          return _this.removeMapping(index);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-trash"
+      })))));
+    };
+
+    var this_1 = this;
+
+    try {
+      for (var _e = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.state.context.options.externalIcons.entries()), _f = _e.next(); !_f.done; _f = _e.next()) {
+        var _g = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(_f.value, 1),
+            index = _g[0];
+
+        _loop_1(index);
+      }
+    } catch (e_2_1) {
+      e_2 = {
+        error: e_2_1
+      };
+    } finally {
+      try {
+        if (_f && !_f.done && (_b = _e["return"])) _b.call(_e);
+      } finally {
+        if (e_2) throw e_2.error;
+      }
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "gf-form-inline"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "gf-form"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+      className: "gf-form-label width-10"
+    }, "Target Type"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+      className: "gf-form-label width-10"
+    }, "Icon"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, componentList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+      className: "btn navbar-button navbar-button--primary",
+      onClick: function onClick() {
+        return _this.addMapping();
+      }
+    }, "Add External Service Icon Mapping"));
+  };
+
+  return ExternalIconMapping;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.PureComponent);
+
+
+
+/***/ }),
+
+/***/ "./options/options.tsx":
+/*!*****************************!*\
+  !*** ./options/options.tsx ***!
+  \*****************************/
+/*! exports provided: optionsBuilder */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "optionsBuilder", function() { return optionsBuilder; });
+/* harmony import */ var _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TypeAheadTextfield/TypeaheadTextfield */ "./options/TypeAheadTextfield/TypeaheadTextfield.tsx");
+/* harmony import */ var _serviceIconMapping_ServiceIconMapping__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./serviceIconMapping/ServiceIconMapping */ "./options/serviceIconMapping/ServiceIconMapping.tsx");
+/* harmony import */ var _externalIconMapping_ExternalIconMapping__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./externalIconMapping/ExternalIconMapping */ "./options/externalIconMapping/ExternalIconMapping.tsx");
+
+
+
+var optionsBuilder = function optionsBuilder(builder) {
+  return builder //Connection Mapping
+  .addCustomEditor({
+    path: 'dataMapping.sourceComponentPrefix',
+    id: 'sourceComponentPrefix',
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"],
+    name: 'Source Component Column Prefix',
+    category: ['Connection Mapping']
+  }).addCustomEditor({
+    path: 'dataMapping.targetComponentPrefix',
+    id: 'targetComponentPrefix',
+    name: 'Target Component Column Prefix',
+    category: ['Connection Mapping'],
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"]
+  }).addCustomEditor({
+    path: 'dataMapping.type',
+    id: 'type',
+    name: 'Type',
+    category: ['Connection Mapping'],
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"]
+  }).addCustomEditor({
+    path: 'dataMapping.extOrigin',
+    id: 'externalOrigin',
+    name: 'External Origin',
+    category: ['Connection Mapping'],
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"]
+  }).addCustomEditor({
+    path: 'dataMapping.extTarget',
+    id: 'externalTarget',
+    name: 'External Target',
+    category: ['Connection Mapping'],
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"]
+  }) //Data Mapping
+  .addCustomEditor({
+    id: 'responseTime',
+    path: 'dataMapping.responseTimeColumn',
+    name: 'Response Time Column',
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"],
+    category: ['Data Mapping']
+  }).addCustomEditor({
+    id: 'requestRateColumn',
+    path: 'dataMapping.requestRateColumn',
+    name: 'Request Rate Column',
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"],
+    category: ['Data Mapping']
+  }).addCustomEditor({
+    id: 'errorRateColumn',
+    path: 'dataMapping.errorRateColumn',
+    name: 'Error Rate Column',
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"],
+    category: ['Data Mapping']
+  }).addCustomEditor({
+    id: 'responseTimeOutgoingColumn',
+    path: 'dataMapping.responseTimeOutgoingColumn',
+    name: 'Response Time Column (Outgoing)',
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"],
+    category: ['Data Mapping']
+  }).addCustomEditor({
+    id: 'requestRateOutgoingColumn',
+    path: 'dataMapping.requestRateOutgoingColumn',
+    name: 'Request Rate Column (Outgoing)',
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"],
+    category: ['Data Mapping']
+  }).addCustomEditor({
+    id: 'errorRateOutgoingColumn',
+    path: 'dataMapping.errorRateOutgoingColumn',
+    name: 'Error Rate Column (Outgoing)',
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"],
+    category: ['Data Mapping']
+  }).addCustomEditor({
+    id: 'baselineRtUpper',
+    path: 'dataMapping.baselineRtUpper',
+    name: 'Response Time Baseline (Upper)',
+    editor: _TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_0__["TypeaheadTextField"],
+    category: ['Data Mapping']
+  }) //General Settings
+  .addBooleanSwitch({
+    path: 'showConnectionStats',
+    name: 'Show Connection Statistics',
+    category: ['General Settings']
+  }).addBooleanSwitch({
+    path: 'sumTimings',
+    name: 'Handle Timings as Sums',
+    description: "If this setting is active, the timings provided" + "by the mapped response time columns are considered as a " + "continually increasing sum of response times. When " + "deactivated, it is considered that the timings provided " + "by columns are the actual average response times.",
+    category: ['General Settings']
+  }).addBooleanSwitch({
+    path: 'filterEmptyConnections',
+    name: 'Filter Empty Data',
+    description: "If this setting is active, the timings provided by " + "the mapped response time columns are considered as a continually " + "increasing sum of response times. When deactivated, it is considered " + "that the timings provided by columns are the actual average response times.",
+    category: ['General Settings']
+  }).addBooleanSwitch({
+    path: 'showDebugInformation',
+    name: 'Show Debug Information',
+    category: ['General Settings']
+  }).addBooleanSwitch({
+    path: 'showDummyData',
+    name: 'Show Dummy Data',
+    category: ['General Settings']
+  }).addBooleanSwitch({
+    path: 'showBaselines',
+    name: 'Show Baselines',
+    category: ['General Settings']
+  }) //Appearance
+  .addColorPicker({
+    path: 'style.healthyColor',
+    name: 'Healthy Color',
+    category: ['Appearance'],
+    defaultValue: "rgb(87, 148, 242)"
+  }).addColorPicker({
+    path: 'style.dangerColor',
+    name: 'Danger Color',
+    category: ['Appearance'],
+    defaultValue: "#C4162A"
+  }).addColorPicker({
+    path: 'style.noDataColor',
+    name: 'No Data Color',
+    category: ['Appearance'],
+    defaultValue: "rgb(123, 123, 138)"
+  }) //Service Icon Mapping
+  .addCustomEditor({
+    path: 'serviceIcons',
+    id: 'serviceIconMapping',
+    editor: _serviceIconMapping_ServiceIconMapping__WEBPACK_IMPORTED_MODULE_1__["ServiceIconMapping"],
+    name: '',
+    category: ['Service Icon Mapping']
+  }) // External Service Icon Mapping
+  .addCustomEditor({
+    path: 'externalIcons',
+    id: 'externalIconMapping',
+    editor: _externalIconMapping_ExternalIconMapping__WEBPACK_IMPORTED_MODULE_2__["ExternalIconMapping"],
+    name: '',
+    category: ['External Icon Mapping']
+  }) //Tracing Drilldown  
+  .addTextInput({
+    path: 'drillDownLink',
+    name: 'Backend URL',
+    category: ['Tracing Drilldown']
+  });
 };
 
 /***/ }),
 
-/***/ "./ServiceDependencyGraphPanel.tsx":
-/*!*****************************************!*\
-  !*** ./ServiceDependencyGraphPanel.tsx ***!
-  \*****************************************/
-/*! exports provided: ServiceDependencyGraphPanel */
+/***/ "./options/serviceIconMapping/ServiceIconMapping.tsx":
+/*!***********************************************************!*\
+  !*** ./options/serviceIconMapping/ServiceIconMapping.tsx ***!
+  \***********************************************************/
+/*! exports provided: ServiceIconMapping */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ServiceDependencyGraphPanel", function() { return ServiceDependencyGraphPanel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ServiceIconMapping", function() { return ServiceIconMapping; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
-/* harmony import */ var canvas_graph_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! canvas/graph_canvas */ "./canvas/graph_canvas.ts");
-/* harmony import */ var cytoscape__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cytoscape */ "../node_modules/cytoscape/dist/cytoscape.cjs.js");
-/* harmony import */ var cytoscape__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cytoscape__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! cytoscape-canvas */ "../node_modules/cytoscape-canvas/dist/cytoscape-canvas.js");
-/* harmony import */ var cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! cytoscape-cola */ "../node_modules/cytoscape-cola/cytoscape-cola.js");
-/* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(cytoscape_cola__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _layout_options__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./layout_options */ "./layout_options.ts");
-/* harmony import */ var Statistics__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! Statistics */ "./Statistics.tsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _panel_asset_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../panel/asset_utils */ "./panel/asset_utils.tsx");
 
 
 
 
 
-
-
-
-
-cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4___default()(cytoscape__WEBPACK_IMPORTED_MODULE_2___default.a);
-cytoscape__WEBPACK_IMPORTED_MODULE_2___default.a.use(cytoscape_cola__WEBPACK_IMPORTED_MODULE_5___default.a);
-
-var ServiceDependencyGraphPanel =
+var ServiceIconMapping =
 /** @class */
 function (_super) {
-  Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(ServiceDependencyGraphPanel, _super);
+  Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(ServiceIconMapping, _super);
 
-  function ServiceDependencyGraphPanel(props) {
+  function ServiceIconMapping(props) {
     var _this = _super.call(this, props) || this;
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props), {
-      animateButton: "fa fa-play-circle",
-      showStatistics: false
+      serviceIcons: []
     });
-    _this.ref = react__WEBPACK_IMPORTED_MODULE_3___default.a.createRef();
+    fetch(_panel_asset_utils__WEBPACK_IMPORTED_MODULE_3__["default"].getAssetUrl('service_icons/icon_index.json')).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      data.sort();
+
+      _this.setState({
+        serviceIcons: data
+      });
+    })["catch"](function () {
+      console.error('Could not load service icons mapping index. Please verify the "icon_index.json" in the plugin\'s asset directory.');
+    });
     return _this;
   }
 
-  ServiceDependencyGraphPanel.prototype.componentDidMount = function () {
+  ServiceIconMapping.prototype.addMapping = function () {
+    this.state.context.options.serviceIcons.push({
+      pattern: 'my-type',
+      filename: 'default'
+    });
+    this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
+  };
+
+  ServiceIconMapping.prototype.removeMapping = function (index) {
     var _this = this;
 
-    var cy = cytoscape__WEBPACK_IMPORTED_MODULE_2___default()({
-      container: this.ref,
-      zoom: this.state.zoom,
-      elements: this.props.elements,
-      style: [{
-        "selector": "node",
-        "style": {
-          "background-opacity": 0
-        }
-      }, {
-        "selector": "edge",
-        "style": {
-          "visibility": "hidden"
-        }
-      }],
-      wheelSensitivity: 0.125
+    Object(lodash__WEBPACK_IMPORTED_MODULE_2__["remove"])(this.state.context.options.serviceIcons, function (n) {
+      return _this.state.context.options.serviceIcons.indexOf(n) == index;
     });
-    var graphCanvas = new canvas_graph_canvas__WEBPACK_IMPORTED_MODULE_1__["default"](this, cy, cy.cyCanvas({
-      zIndex: 1
-    }));
-    cy.on("render cyCanvas.resize", function () {
-      graphCanvas.repaint(true);
-    });
-    cy.on('select', 'node', function () {
-      return _this.onSelectionChange();
-    });
-    cy.on('unselect', 'node', function () {
-      return _this.onSelectionChange();
-    });
-    this.setState({
-      cy: cy,
-      graphCanvas: graphCanvas
-    });
+    this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
   };
 
-  ServiceDependencyGraphPanel.prototype.onSelectionChange = function () {
-    var selection = this.state.cy.$(':selected');
-
-    if (selection.length === 1) {
-      this.setState({
-        showStatistics: true
-      });
-    } else {
-      this.setState({
-        showStatistics: false
-      });
-    }
+  ServiceIconMapping.prototype.setPatternValue = function (event, index) {
+    this.state.context.options.serviceIcons[index].pattern = event.currentTarget.value;
+    this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
   };
 
-  ServiceDependencyGraphPanel.prototype.getSettings = function () {
-    return this.props.controller.state.options;
+  ServiceIconMapping.prototype.setFileNameValue = function (event, index) {
+    this.state.context.options.serviceIcons[index].filename = event.currentTarget.value.toString();
+    this.props.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
   };
 
-  ServiceDependencyGraphPanel.prototype.toggleAnimation = function () {
-    this.props.controller.state.options.animate = !this.state.controller.state.options.animate;
+  ServiceIconMapping.prototype.render = function () {
+    var e_1, _a, e_2, _b;
 
-    if (this.state.controller.state.options.animate) {
-      this.state.graphCanvas.startAnimation();
-      this.setState({
-        animateButton: "fa fa-pause-circle"
-      });
-    } else {
-      this.state.graphCanvas.stopAnimation();
-      this.setState({
-        animateButton: "fa fa-play-circle"
-      });
-    }
-  };
-
-  ServiceDependencyGraphPanel.prototype.runLayout = function (unlockNodes) {
-    if (unlockNodes === void 0) {
-      unlockNodes = false;
-    }
-
-    var that = this;
-
-    var options = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, _layout_options__WEBPACK_IMPORTED_MODULE_6__["default"]), {
-      stop: function stop() {
-        if (unlockNodes) {
-          that.unlockNodes();
-        }
-
-        that.setState({
-          zoom: that.state.cy.zoom()
-        });
-      }
-    });
-
-    this.state.cy.layout(options).run();
-  };
-
-  ServiceDependencyGraphPanel.prototype.unlockNodes = function () {
-    this.state.cy.nodes().forEach(function (node) {
-      node.unlock();
-    });
-  };
-
-  ServiceDependencyGraphPanel.prototype.fit = function () {
-    var selection = this.state.graphCanvas.selectionNeighborhood;
-
-    if (selection && !selection.empty()) {
-      this.state.cy.fit(selection, 30);
-    } else {
-      this.state.cy.fit();
-    }
-
-    this.setState({
-      zoom: this.state.cy.zoom()
-    });
-  };
-
-  ServiceDependencyGraphPanel.prototype.zoom = function (zoom) {
-    var zoomStep = 0.25 * zoom;
-    var zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
-    this.setState({
-      zoom: zoomLevel
-    });
-    this.state.cy.zoom(zoomLevel);
-  };
-
-  ServiceDependencyGraphPanel.prototype.render = function () {
     var _this = this;
 
-    return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
-      className: "graph-container",
-      "ng-show": "!ctrl.getError()"
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
-      className: "service-dependency-graph"
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
-      className: "canvas-container",
-      ref: function ref(_ref) {
-        return _this.ref = _ref;
-      },
-      style: {
-        height: "100%",
-        width: "100%"
+    if (!this.state.value || this.state.value === undefined) {
+      this.state.context.options.serviceIcons = [{
+        pattern: 'my-type',
+        filename: 'default'
+      }];
+    }
+
+    var optionsList = [];
+
+    if (this.state.serviceIcons !== undefined) {
+      try {
+        for (var _c = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.state.serviceIcons), _d = _c.next(); !_d.done; _d = _c.next()) {
+          var image = _d.value;
+          optionsList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+            value: image
+          }, image));
+        }
+      } catch (e_1_1) {
+        e_1 = {
+          error: e_1_1
+        };
+      } finally {
+        try {
+          if (_d && !_d.done && (_a = _c["return"])) _a.call(_c);
+        } finally {
+          if (e_1) throw e_1.error;
+        }
       }
-    }), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
-      className: "zoom-button-container"
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
-      className: "btn navbar-button width-100",
+    }
+
+    var componentList = [];
+
+    var _loop_1 = function _loop_1(index) {
+      componentList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "gf-form"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        className: "input-small gf-form-input width-10",
+        value: this_1.state.context.options.serviceIcons[index].pattern,
+        onChange: function onChange(e) {
+          return _this.setPatternValue(e, index);
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        className: "input-small gf-form-input width-10",
+        value: this_1.state.context.options.serviceIcons[index].filename,
+        onChange: function onChange(e) {
+          return _this.setFileNameValue(e, index);
+        }
+      }, optionsList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        className: "gf-form-label tight-form-func",
+        onClick: function onClick() {
+          return _this.removeMapping(index);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-trash"
+      })))));
+    };
+
+    var this_1 = this;
+
+    try {
+      for (var _e = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.state.context.options.serviceIcons.entries()), _f = _e.next(); !_f.done; _f = _e.next()) {
+        var _g = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(_f.value, 1),
+            index = _g[0];
+
+        _loop_1(index);
+      }
+    } catch (e_2_1) {
+      e_2 = {
+        error: e_2_1
+      };
+    } finally {
+      try {
+        if (_f && !_f.done && (_b = _e["return"])) _b.call(_e);
+      } finally {
+        if (e_2) throw e_2.error;
+      }
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "gf-form-inline"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "gf-form"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+      className: "gf-form-label width-10"
+    }, "Target Name (RegEx)"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+      className: "gf-form-label width-10"
+    }, "Icon"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, componentList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+      className: "btn navbar-button navbar-button--primary",
       onClick: function onClick() {
-        return _this.toggleAnimation();
+        return _this.addMapping();
       }
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
-      className: this.state.animateButton
-    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
-      className: "btn navbar-button width-100",
-      onClick: function onClick() {
-        return _this.runLayout();
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
-      className: "fa fa-sitemap"
-    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
-      className: "btn navbar-button width-100",
-      onClick: function onClick() {
-        return _this.fit();
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
-      className: "fa fa-dot-circle-o"
-    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
-      className: "btn navbar-button width-100",
-      onClick: function onClick() {
-        return _this.zoom(+1);
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
-      className: "fa fa-plus"
-    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
-      className: "btn navbar-button width-100",
-      onClick: function onClick() {
-        return _this.zoom(-1);
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
-      className: "fa fa-minus"
-    })))), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(Statistics__WEBPACK_IMPORTED_MODULE_7__["Statistics"], {
-      show: this.state.showStatistics,
-      selectionId: "a",
-      resolvedDrillDownLink: "",
-      selectionStatistics: "c",
-      node: "",
-      currentType: 'INTERNAL',
-      showBaselines: false,
-      receiving: ""
-    }));
+    }, "Add Service Icon Mapping"));
   };
 
-  return ServiceDependencyGraphPanel;
-}(react__WEBPACK_IMPORTED_MODULE_3__["PureComponent"]);
+  return ServiceIconMapping;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.PureComponent);
 
 
 
 /***/ }),
 
-/***/ "./ServiceDependencyGraphPanelController.tsx":
-/*!***************************************************!*\
-  !*** ./ServiceDependencyGraphPanelController.tsx ***!
-  \***************************************************/
+/***/ "./panel/ServiceDependencyGraphPanelController.tsx":
+/*!*********************************************************!*\
+  !*** ./panel/ServiceDependencyGraphPanelController.tsx ***!
+  \*********************************************************/
 /*! exports provided: ServiceDependencyGraphPanelController */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -43461,9 +43818,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _ServiceDependencyGraphPanel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ServiceDependencyGraphPanel */ "./ServiceDependencyGraphPanel.tsx");
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./types */ "./types.tsx");
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
+/* harmony import */ var _serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./serviceDependencyGraph/ServiceDependencyGraph */ "./panel/serviceDependencyGraph/ServiceDependencyGraph.tsx");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../types */ "./types.tsx");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
 /* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_4__);
 
 
@@ -43621,7 +43978,6 @@ function (_super) {
         label: 'Edge from Node1 to Node2'
       }
     }];
-    console.log(this.state);
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       className: "service-dependency-graph-panel",
       style: {
@@ -43630,7 +43986,7 @@ function (_super) {
       },
       ref: this.ref,
       id: "cy"
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ServiceDependencyGraphPanel__WEBPACK_IMPORTED_MODULE_2__["ServiceDependencyGraphPanel"], {
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_2__["ServiceDependencyGraph"], {
       elements: elements,
       zoom: 1,
       controller: this,
@@ -43646,154 +44002,62 @@ function (_super) {
 
 /***/ }),
 
-/***/ "./Statistics.tsx":
-/*!************************!*\
-  !*** ./Statistics.tsx ***!
-  \************************/
-/*! exports provided: Statistics */
+/***/ "./panel/asset_utils.tsx":
+/*!*******************************!*\
+  !*** ./panel/asset_utils.tsx ***!
+  \*******************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Statistics", function() { return Statistics; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _NodeStatistics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NodeStatistics */ "./NodeStatistics.tsx");
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 
-
-
-var Statistics = function Statistics(_a) {
-  var show = _a.show,
-      selectionId = _a.selectionId,
-      resolvedDrillDownLink = _a.resolvedDrillDownLink,
-      selectionStatistics = _a.selectionStatistics,
-      node = _a.node,
-      currentType = _a.currentType,
-      showBaselines = _a.showBaselines,
-      receiving = _a.receiving;
-  var statistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-
-  if (show) {
-    console.log("show");
-    var drilldownLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-
-    if (resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL') {
-      console.log("Drilldown");
-      drilldownLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        target: "_blank",
-        "ng-href": resolvedDrillDownLink
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-paper-plane-o"
-      }));
+/* harmony default export */ __webpack_exports__["default"] = ({
+  getAssetUrl: function getAssetUrl(assetName) {
+    //TODO: Fix this with something like this.panel.type
+    var baseUrl = 'public/plugins/novatec-sdg-panel';
+    console.log(baseUrl + '/assets/' + assetName);
+    return baseUrl + '/assets/' + assetName;
+  },
+  getTypeSymbol: function getTypeSymbol(type, externalIcons, resolveName) {
+    if (resolveName === void 0) {
+      resolveName = true;
     }
 
-    var requests = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+    console.log("type");
+    console.log(type);
+    console.log("externalIcons");
+    console.log(externalIcons);
 
-    if (selectionStatistics.requests >= 0) {
-      console.log("requests");
-      requests = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, "Requests"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, "selectionStatistics.requests"));
+    if (!type) {
+      return this.getAssetUrl('default.png');
     }
 
-    var errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-
-    if (selectionStatistics.errors >= 0) {
-      console.log("errors");
-      errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, "Errors"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, "selectionStatistics.errors"));
+    if (!resolveName) {
+      return this.getAssetUrl(type);
     }
 
-    var errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+    var icon = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(externalIcons, function (icon) {
+      return icon.pattern.toLowerCase() === type.toLowerCase();
+    });
+    console.log(icon);
 
-    if (selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0) {
-      console.log("errorRate");
-      errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        "ng-show": ""
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, "Error Rate"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, 100 / selectionStatistics.requests * selectionStatistics.errors, "%"));
+    if (icon !== undefined) {
+      return this.getAssetUrl(icon.filename + '.png');
+    } else {
+      return this.getAssetUrl('default.png');
     }
-
-    var avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-
-    if (selectionStatistics.responseTime >= 0) {
-      console.log("avgResponseTime");
-      avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, "Avg. Response Time"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, "selectionStatistics.responseTime", " ms"));
-    }
-
-    var baseline = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-
-    if (showBaselines && selectionStatistics.threshold) {
-      console.log("baseline");
-      var threshold = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection threshold--good"
-      }, "Good \"(<= ", selectionStatistics.threshold, "ms)\"");
-
-      if (selectionStatistics.thresholdViolation) {
-        threshold = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-          className: "table--td--selection threshold--bad"
-        }, "Bad (", ">", " ", selectionStatistics.threshold, "ms)");
-      }
-
-      baseline = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "table--td--selection"
-      }, "Response Time Health (Upper Baseline)"), threshold);
-    }
-
-    statistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "header--selection"
-    }, selectionId, drilldownLink), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "secondHeader--selection"
-    }, "Statistics"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-      className: "table--selection"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      className: "table--selection--head"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-      className: "table--th--selectionMedium"
-    }, "Value")), requests, errors, errorRate, avgResponseTime, baseline), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NodeStatistics__WEBPACK_IMPORTED_MODULE_1__["NodeStatistics"], {
-      nodeList: [],
-      noDataText: "No incoming statistics available.",
-      title: "Incoming Statistics"
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NodeStatistics__WEBPACK_IMPORTED_MODULE_1__["NodeStatistics"], {
-      nodeList: [],
-      noDataText: "No outgoing statistics available.",
-      title: "Outgoing Statistics"
-    }));
   }
-
-  var w = "0%";
-
-  if (show) {
-    w = "40%";
-  }
-
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    style: {
-      width: w
-    }
-  }, statistics);
-};
+});
 
 /***/ }),
 
-/***/ "./canvas/graph_canvas.ts":
-/*!********************************!*\
-  !*** ./canvas/graph_canvas.ts ***!
-  \********************************/
+/***/ "./panel/canvas/graph_canvas.ts":
+/*!**************************************!*\
+  !*** ./panel/canvas/graph_canvas.ts ***!
+  \**************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -43802,11 +44066,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _particle_engine__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./particle_engine */ "./canvas/particle_engine.ts");
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../types */ "./types.tsx");
+/* harmony import */ var _particle_engine__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./particle_engine */ "./panel/canvas/particle_engine.ts");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../types */ "./types.tsx");
 /* harmony import */ var human_format__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! human-format */ "../node_modules/human-format/index.js");
 /* harmony import */ var human_format__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(human_format__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _AssetUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../AssetUtils */ "./AssetUtils.tsx");
+/* harmony import */ var _asset_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../asset_utils */ "./panel/asset_utils.tsx");
 
 
 
@@ -43902,7 +44166,7 @@ function () {
     }
 
     if (!lodash__WEBPACK_IMPORTED_MODULE_1___default.a.has(this.imageAssets, assetName)) {
-      var assetUrl = _AssetUtils__WEBPACK_IMPORTED_MODULE_5__["default"].getTypeSymbol(assetName, this.controller.getSettings().externalIcons, resolveName);
+      var assetUrl = _asset_utils__WEBPACK_IMPORTED_MODULE_5__["default"].getTypeSymbol(assetName, this.controller.getSettings().externalIcons, resolveName);
 
       this._loadImage(assetUrl, assetName);
     }
@@ -43916,7 +44180,7 @@ function () {
 
   CanvasDrawer.prototype._getAsset = function (assetName, relativeUrl) {
     if (!lodash__WEBPACK_IMPORTED_MODULE_1___default.a.has(this.imageAssets, assetName)) {
-      var assetUrl = _AssetUtils__WEBPACK_IMPORTED_MODULE_5__["default"].getAssetUrl(relativeUrl);
+      var assetUrl = _asset_utils__WEBPACK_IMPORTED_MODULE_5__["default"].getAssetUrl(relativeUrl);
 
       this._loadImage(assetUrl, assetName);
     }
@@ -44586,10 +44850,10 @@ function () {
 
 /***/ }),
 
-/***/ "./canvas/particle_engine.ts":
-/*!***********************************!*\
-  !*** ./canvas/particle_engine.ts ***!
-  \***********************************/
+/***/ "./panel/canvas/particle_engine.ts":
+/*!*****************************************!*\
+  !*** ./panel/canvas/particle_engine.ts ***!
+  \*****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -44745,40 +45009,10 @@ function () {
 
 /***/ }),
 
-/***/ "./css/novatec-service-dependency-graph-panel.css":
-/*!********************************************************!*\
-  !*** ./css/novatec-service-dependency-graph-panel.css ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../../node_modules/css-loader??ref--8-1!../../node_modules/postcss-loader/src??ref--8-2!../../node_modules/sass-loader/dist/cjs.js!./novatec-service-dependency-graph-panel.css */ "../../../../../../node_modules/css-loader/index.js?!../node_modules/postcss-loader/src/index.js?!../node_modules/sass-loader/dist/cjs.js!./css/novatec-service-dependency-graph-panel.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../../../../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./layout_options.ts":
-/*!***************************!*\
-  !*** ./layout_options.ts ***!
-  \***************************/
+/***/ "./panel/layout_options.ts":
+/*!*********************************!*\
+  !*** ./panel/layout_options.ts ***!
+  \*********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -44825,666 +45059,447 @@ var options = {
 
 /***/ }),
 
-/***/ "./module.ts":
-/*!*******************!*\
-  !*** ./module.ts ***!
-  \*******************/
-/*! exports provided: plugin */
+/***/ "./panel/serviceDependencyGraph/ServiceDependencyGraph.tsx":
+/*!*****************************************************************!*\
+  !*** ./panel/serviceDependencyGraph/ServiceDependencyGraph.tsx ***!
+  \*****************************************************************/
+/*! exports provided: ServiceDependencyGraph */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "plugin", function() { return plugin; });
-/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @grafana/data */ "@grafana/data");
-/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_grafana_data__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _ServiceDependencyGraphPanelController__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ServiceDependencyGraphPanelController */ "./ServiceDependencyGraphPanelController.tsx");
-/* harmony import */ var _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./options/TypeAheadTextfield/TypeaheadTextfield */ "./options/TypeAheadTextfield/TypeaheadTextfield.tsx");
-/* harmony import */ var options_serviceIconMapping_ServiceIconMapping__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! options/serviceIconMapping/ServiceIconMapping */ "./options/serviceIconMapping/ServiceIconMapping.tsx");
-/* harmony import */ var options_externalIconMapping_ExternalIconMapping__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! options/externalIconMapping/ExternalIconMapping */ "./options/externalIconMapping/ExternalIconMapping.tsx");
-
-
-
-
-
-var plugin = new _grafana_data__WEBPACK_IMPORTED_MODULE_0__["PanelPlugin"](_ServiceDependencyGraphPanelController__WEBPACK_IMPORTED_MODULE_1__["ServiceDependencyGraphPanelController"]).setPanelOptions(function (builder) {
-  return builder //Connection Mapping
-  .addCustomEditor({
-    path: 'dataMapping.sourceComponentPrefix',
-    id: 'sourceComponentPrefix',
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"],
-    name: 'Source Component Column Prefix',
-    category: ['Connection Mapping']
-  }).addCustomEditor({
-    path: 'dataMapping.targetComponentPrefix',
-    id: 'targetComponentPrefix',
-    name: 'Target Component Column Prefix',
-    category: ['Connection Mapping'],
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"]
-  }).addCustomEditor({
-    path: 'dataMapping.type',
-    id: 'type',
-    name: 'Type',
-    category: ['Connection Mapping'],
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"]
-  }).addCustomEditor({
-    path: 'dataMapping.extOrigin',
-    id: 'externalOrigin',
-    name: 'External Origin',
-    category: ['Connection Mapping'],
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"]
-  }).addCustomEditor({
-    path: 'dataMapping.extTarget',
-    id: 'externalTarget',
-    name: 'External Target',
-    category: ['Connection Mapping'],
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"]
-  }) //Data Mapping
-  .addCustomEditor({
-    id: 'responseTime',
-    path: 'dataMapping.responseTimeColumn',
-    name: 'Response Time Column',
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"],
-    category: ['Data Mapping']
-  }).addCustomEditor({
-    id: 'requestRateColumn',
-    path: 'dataMapping.requestRateColumn',
-    name: 'Request Rate Column',
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"],
-    category: ['Data Mapping']
-  }).addCustomEditor({
-    id: 'errorRateColumn',
-    path: 'dataMapping.errorRateColumn',
-    name: 'Error Rate Column',
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"],
-    category: ['Data Mapping']
-  }).addCustomEditor({
-    id: 'responseTimeOutgoingColumn',
-    path: 'dataMapping.responseTimeOutgoingColumn',
-    name: 'Response Time Column (Outgoing)',
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"],
-    category: ['Data Mapping']
-  }).addCustomEditor({
-    id: 'requestRateOutgoingColumn',
-    path: 'dataMapping.requestRateOutgoingColumn',
-    name: 'Request Rate Column (Outgoing)',
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"],
-    category: ['Data Mapping']
-  }).addCustomEditor({
-    id: 'errorRateOutgoingColumn',
-    path: 'dataMapping.errorRateOutgoingColumn',
-    name: 'Error Rate Column (Outgoing)',
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"],
-    category: ['Data Mapping']
-  }).addCustomEditor({
-    id: 'baselineRtUpper',
-    path: 'dataMapping.baselineRtUpper',
-    name: 'Response Time Baseline (Upper)',
-    editor: _options_TypeAheadTextfield_TypeaheadTextfield__WEBPACK_IMPORTED_MODULE_2__["TypeaheadTextField"],
-    category: ['Data Mapping']
-  }) //General Settings
-  .addBooleanSwitch({
-    path: 'showConnectionStats',
-    name: 'Show Connection Statistics',
-    category: ['General Settings']
-  }).addBooleanSwitch({
-    path: 'sumTimings',
-    name: 'Handle Timings as Sums',
-    description: "If this setting is active, the timings provided" + "by the mapped response time columns are considered as a " + "continually increasing sum of response times. When " + "deactivated, it is considered that the timings provided " + "by columns are the actual average response times.",
-    category: ['General Settings']
-  }).addBooleanSwitch({
-    path: 'filterEmptyConnections',
-    name: 'Filter Empty Data',
-    description: "If this setting is active, the timings provided by " + "the mapped response time columns are considered as a continually " + "increasing sum of response times. When deactivated, it is considered " + "that the timings provided by columns are the actual average response times.",
-    category: ['General Settings']
-  }).addBooleanSwitch({
-    path: 'showDebugInformation',
-    name: 'Show Debug Information',
-    category: ['General Settings']
-  }).addBooleanSwitch({
-    path: 'showDummyData',
-    name: 'Show Dummy Data',
-    category: ['General Settings']
-  }).addBooleanSwitch({
-    path: 'showBaselines',
-    name: 'Show Baselines',
-    category: ['General Settings']
-  }) //Appearance
-  .addColorPicker({
-    path: 'style.healthyColor',
-    name: 'Healthy Color',
-    category: ['Appearance'],
-    defaultValue: "rgb(87, 148, 242)"
-  }).addColorPicker({
-    path: 'style.dangerColor',
-    name: 'Danger Color',
-    category: ['Appearance'],
-    defaultValue: "#C4162A"
-  }).addColorPicker({
-    path: 'style.noDataColor',
-    name: 'No Data Color',
-    category: ['Appearance'],
-    defaultValue: "rgb(123, 123, 138)"
-  }) //Service Icon Mapping
-  .addCustomEditor({
-    path: 'serviceIcons',
-    id: 'serviceIconMapping',
-    editor: options_serviceIconMapping_ServiceIconMapping__WEBPACK_IMPORTED_MODULE_3__["ServiceIconMapping"],
-    name: '',
-    category: ['Service Icon Mapping']
-  }) // External Service Icon Mapping
-  .addCustomEditor({
-    path: 'externalIcons',
-    id: 'externalIconMapping',
-    editor: options_externalIconMapping_ExternalIconMapping__WEBPACK_IMPORTED_MODULE_4__["ExternalIconMapping"],
-    name: '',
-    category: ['External Icon Mapping']
-  }) //Tracing Drilldown  
-  .addTextInput({
-    path: 'drillDownLink',
-    name: 'Backend URL',
-    category: ['Tracing Drilldown']
-  });
-});
-
-/***/ }),
-
-/***/ "./options/TypeAheadTextfield/TypeaheadTextfield.css":
-/*!***********************************************************!*\
-  !*** ./options/TypeAheadTextfield/TypeaheadTextfield.css ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../../../node_modules/css-loader??ref--8-1!../../../node_modules/postcss-loader/src??ref--8-2!../../../node_modules/sass-loader/dist/cjs.js!./TypeaheadTextfield.css */ "../../../../../../node_modules/css-loader/index.js?!../node_modules/postcss-loader/src/index.js?!../node_modules/sass-loader/dist/cjs.js!./options/TypeAheadTextfield/TypeaheadTextfield.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../../../../../node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./options/TypeAheadTextfield/TypeaheadTextfield.tsx":
-/*!***********************************************************!*\
-  !*** ./options/TypeAheadTextfield/TypeaheadTextfield.tsx ***!
-  \***********************************************************/
-/*! exports provided: TypeaheadTextField */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TypeaheadTextField", function() { return TypeaheadTextField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ServiceDependencyGraph", function() { return ServiceDependencyGraph; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_autosuggest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-autosuggest */ "../node_modules/react-autosuggest/dist/index.js");
-/* harmony import */ var react_autosuggest__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_autosuggest__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _TypeaheadTextfield_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TypeaheadTextfield.css */ "./options/TypeAheadTextfield/TypeaheadTextfield.css");
-/* harmony import */ var _TypeaheadTextfield_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_TypeaheadTextfield_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var panel_canvas_graph_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! panel/canvas/graph_canvas */ "./panel/canvas/graph_canvas.ts");
+/* harmony import */ var cytoscape__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cytoscape */ "../node_modules/cytoscape/dist/cytoscape.cjs.js");
+/* harmony import */ var cytoscape__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cytoscape__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! cytoscape-canvas */ "../node_modules/cytoscape-canvas/dist/cytoscape-canvas.js");
+/* harmony import */ var cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! cytoscape-cola */ "../node_modules/cytoscape-cola/cytoscape-cola.js");
+/* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(cytoscape_cola__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _layout_options__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../layout_options */ "./panel/layout_options.ts");
+/* harmony import */ var _statistics_Statistics__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../statistics/Statistics */ "./panel/statistics/Statistics.tsx");
 
 
 
 
 
-var TypeaheadTextField =
+
+
+
+
+cytoscape_canvas__WEBPACK_IMPORTED_MODULE_4___default()(cytoscape__WEBPACK_IMPORTED_MODULE_2___default.a);
+cytoscape__WEBPACK_IMPORTED_MODULE_2___default.a.use(cytoscape_cola__WEBPACK_IMPORTED_MODULE_5___default.a);
+
+var ServiceDependencyGraph =
 /** @class */
 function (_super) {
-  Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(TypeaheadTextField, _super);
+  Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(ServiceDependencyGraph, _super);
 
-  function TypeaheadTextField(props) {
-    var _this = _super.call(this, props) || this;
-
-    _this.onChange = function (event, _a) {
-      var newValue = _a.newValue,
-          method = _a.method;
-
-      _this.setState({
-        value: event.currentTarget.value
-      });
-
-      _this.props.onChange.call(_this.props.item.path, newValue);
-    };
-
-    _this.getSuggestions = function (value) {
-      var inputValue = "";
-
-      if (value !== undefined) {
-        inputValue = value.trim().toLowerCase();
-      }
-
-      var inputLength = inputValue.length;
-      return inputLength === 0 ? [] : _this.getColumns().filter(function (column) {
-        return column.toLowerCase().slice(0, inputLength) === inputValue;
-      });
-    };
-
-    _this.onSuggestionsFetchRequested = function (value) {
-      _this.setState({
-        suggestions: _this.getSuggestions(value)
-      });
-    };
-
-    _this.getSuggestionValue = function (suggestion) {
-      return suggestion;
-    };
-
-    _this.onSuggestionsClearRequested = function () {
-      _this.setState({
-        suggestions: []
-      });
-    };
-
-    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props), {
-      suggestions: []
-    });
-    return _this;
-  }
-
-  TypeaheadTextField.prototype.renderSuggestion = function (suggestion) {
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, suggestion);
-  };
-
-  TypeaheadTextField.prototype.getColumns = function () {
-    return ["aaaa", "aa", "cccc"];
-  };
-
-  TypeaheadTextField.prototype.render = function () {
-    var value = this.props.value;
-
-    if (value === undefined) {
-      value = "";
-    }
-
-    var suggestions = this.getSuggestions(value);
-    var inputProps = {
-      placeholder: 'Enter cloumn name...',
-      value: value,
-      onChange: this.onChange
-    };
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_autosuggest__WEBPACK_IMPORTED_MODULE_2___default.a, {
-      suggestions: suggestions,
-      onSuggestionsFetchRequested: this.onSuggestionsFetchRequested,
-      onSuggestionsClearRequested: this.onSuggestionsClearRequested,
-      getSuggestionValue: this.getSuggestionValue,
-      renderSuggestion: this.renderSuggestion,
-      inputProps: inputProps,
-      theme: {
-        input: "input-small gf-form-input width-100",
-        suggestion: "suggestion"
-      }
-    });
-  };
-
-  return TypeaheadTextField;
-}(react__WEBPACK_IMPORTED_MODULE_1___default.a.PureComponent);
-
-
-
-/***/ }),
-
-/***/ "./options/externalIconMapping/ExternalIconMapping.tsx":
-/*!*************************************************************!*\
-  !*** ./options/externalIconMapping/ExternalIconMapping.tsx ***!
-  \*************************************************************/
-/*! exports provided: ExternalIconMapping */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExternalIconMapping", function() { return ExternalIconMapping; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-
-
-
-
-var ExternalIconMapping =
-/** @class */
-function (_super) {
-  Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(ExternalIconMapping, _super);
-
-  function ExternalIconMapping(props) {
-    var _this = _super.call(this, props) || this;
-
-    _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
-    console.log(_typeof(props.context));
-    console.log(_typeof(props.onChange));
-    return _this;
-  }
-
-  ExternalIconMapping.prototype.addMapping = function () {
-    this.state.context.options.externalIcons.push({
-      pattern: 'my-type',
-      filename: 'default'
-    });
-    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
-  };
-
-  ExternalIconMapping.prototype.removeMapping = function (index) {
-    var _this = this;
-
-    Object(lodash__WEBPACK_IMPORTED_MODULE_2__["remove"])(this.state.context.options.externalIcons, function (n) {
-      return _this.state.context.options.externalIcons.indexOf(n) == index;
-    });
-    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
-  };
-
-  ExternalIconMapping.prototype.setPatternValue = function (event, index) {
-    this.state.context.options.externalIcons[index].pattern = event.currentTarget.value;
-    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
-  };
-
-  ExternalIconMapping.prototype.setFileNameValue = function (event, index) {
-    this.state.context.options.externalIcons[index].filename = event.currentTarget.value;
-    this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
-  };
-
-  ExternalIconMapping.prototype.getExternalIcons = function () {
-    return ['default', 'message', 'database', 'http', 'web', 'balancer', 'ldap', 'mainframe', 'smtp', 'ftp'];
-  };
-
-  ExternalIconMapping.prototype.render = function () {
-    var e_1, _a, e_2, _b;
-
-    var _this = this;
-
-    if (!this.state.value || this.state.value === undefined) {
-      this.state.context.options.externalIcons = [{
-        pattern: 'my-type',
-        filename: 'default'
-      }];
-    }
-
-    var optionsList = [];
-
-    try {
-      for (var _c = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.getExternalIcons()), _d = _c.next(); !_d.done; _d = _c.next()) {
-        var image = _d.value;
-        optionsList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
-          value: image
-        }, image));
-      }
-    } catch (e_1_1) {
-      e_1 = {
-        error: e_1_1
-      };
-    } finally {
-      try {
-        if (_d && !_d.done && (_a = _c["return"])) _a.call(_c);
-      } finally {
-        if (e_1) throw e_1.error;
-      }
-    }
-
-    console.log(this.state.context.options.externalIcons);
-    var componentList = [];
-
-    var _loop_1 = function _loop_1(index) {
-      componentList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "gf-form"
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        type: "text",
-        className: "input-small gf-form-input width-10",
-        value: this_1.state.context.options.externalIcons[index].pattern,
-        onChange: function onChange(e) {
-          return _this.setPatternValue(e, index);
-        }
-      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
-        className: "input-small gf-form-input width-10",
-        value: this_1.state.context.options.externalIcons[index].filename,
-        onChange: function onChange(e) {
-          return _this.setFileNameValue(e, index);
-        }
-      }, optionsList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-        className: "gf-form-label tight-form-func",
-        onClick: function onClick() {
-          return _this.removeMapping(index);
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "fa fa-trash"
-      })))));
-    };
-
-    var this_1 = this;
-
-    try {
-      for (var _e = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.state.context.options.externalIcons.entries()), _f = _e.next(); !_f.done; _f = _e.next()) {
-        var _g = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(_f.value, 1),
-            index = _g[0];
-
-        _loop_1(index);
-      }
-    } catch (e_2_1) {
-      e_2 = {
-        error: e_2_1
-      };
-    } finally {
-      try {
-        if (_f && !_f.done && (_b = _e["return"])) _b.call(_e);
-      } finally {
-        if (e_2) throw e_2.error;
-      }
-    }
-
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "gf-form-inline"
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "gf-form"
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-      className: "gf-form-label width-10"
-    }, "Target Type"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-      className: "gf-form-label width-10"
-    }, "Icon"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, componentList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-      className: "btn navbar-button navbar-button--primary",
-      onClick: function onClick() {
-        return _this.addMapping();
-      }
-    }, "Add External Service Icon Mapping"));
-  };
-
-  return ExternalIconMapping;
-}(react__WEBPACK_IMPORTED_MODULE_1___default.a.PureComponent);
-
-
-
-/***/ }),
-
-/***/ "./options/serviceIconMapping/ServiceIconMapping.tsx":
-/*!***********************************************************!*\
-  !*** ./options/serviceIconMapping/ServiceIconMapping.tsx ***!
-  \***********************************************************/
-/*! exports provided: ServiceIconMapping */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ServiceIconMapping", function() { return ServiceIconMapping; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _AssetUtils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../AssetUtils */ "./AssetUtils.tsx");
-
-
-
-
-
-var ServiceIconMapping =
-/** @class */
-function (_super) {
-  Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(ServiceIconMapping, _super);
-
-  function ServiceIconMapping(props) {
+  function ServiceDependencyGraph(props) {
     var _this = _super.call(this, props) || this;
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props), {
-      serviceIcons: []
+      animateButton: "fa fa-play-circle",
+      showStatistics: false
     });
-    fetch(_AssetUtils__WEBPACK_IMPORTED_MODULE_3__["default"].getAssetUrl('service_icons/icon_index.json')).then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      data.sort();
-
-      _this.setState({
-        serviceIcons: data
-      });
-    })["catch"](function () {
-      console.error('Could not load service icons mapping index. Please verify the "icon_index.json" in the plugin\'s asset directory.');
-    });
+    _this.ref = react__WEBPACK_IMPORTED_MODULE_3___default.a.createRef();
     return _this;
   }
 
-  ServiceIconMapping.prototype.addMapping = function () {
-    this.state.context.options.serviceIcons.push({
-      pattern: 'my-type',
-      filename: 'default'
-    });
-    this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
-  };
-
-  ServiceIconMapping.prototype.removeMapping = function (index) {
+  ServiceDependencyGraph.prototype.componentDidMount = function () {
     var _this = this;
 
-    Object(lodash__WEBPACK_IMPORTED_MODULE_2__["remove"])(this.state.context.options.serviceIcons, function (n) {
-      return _this.state.context.options.serviceIcons.indexOf(n) == index;
+    var cy = cytoscape__WEBPACK_IMPORTED_MODULE_2___default()({
+      container: this.ref,
+      zoom: this.state.zoom,
+      elements: this.props.elements,
+      style: [{
+        "selector": "node",
+        "style": {
+          "background-opacity": 0
+        }
+      }, {
+        "selector": "edge",
+        "style": {
+          "visibility": "hidden"
+        }
+      }],
+      wheelSensitivity: 0.125
     });
-    this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
+    var graphCanvas = new panel_canvas_graph_canvas__WEBPACK_IMPORTED_MODULE_1__["default"](this, cy, cy.cyCanvas({
+      zIndex: 1
+    }));
+    cy.on("render cyCanvas.resize", function () {
+      graphCanvas.repaint(true);
+    });
+    cy.on('select', 'node', function () {
+      return _this.onSelectionChange();
+    });
+    cy.on('unselect', 'node', function () {
+      return _this.onSelectionChange();
+    });
+    this.setState({
+      cy: cy,
+      graphCanvas: graphCanvas
+    });
   };
 
-  ServiceIconMapping.prototype.setPatternValue = function (event, index) {
-    this.state.context.options.serviceIcons[index].pattern = event.currentTarget.value;
-    this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
+  ServiceDependencyGraph.prototype.onSelectionChange = function () {
+    var selection = this.state.cy.$(':selected');
+
+    if (selection.length === 1) {
+      this.setState({
+        showStatistics: true
+      });
+    } else {
+      this.setState({
+        showStatistics: false
+      });
+    }
   };
 
-  ServiceIconMapping.prototype.setFileNameValue = function (event, index) {
-    this.state.context.options.serviceIcons[index].filename = event.currentTarget.value.toString();
-    this.props.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
+  ServiceDependencyGraph.prototype.getSettings = function () {
+    return this.props.controller.state.options;
   };
 
-  ServiceIconMapping.prototype.render = function () {
-    var e_1, _a, e_2, _b;
+  ServiceDependencyGraph.prototype.toggleAnimation = function () {
+    this.props.controller.state.options.animate = !this.state.controller.state.options.animate;
 
+    if (this.state.controller.state.options.animate) {
+      this.state.graphCanvas.startAnimation();
+      this.setState({
+        animateButton: "fa fa-pause-circle"
+      });
+    } else {
+      this.state.graphCanvas.stopAnimation();
+      this.setState({
+        animateButton: "fa fa-play-circle"
+      });
+    }
+  };
+
+  ServiceDependencyGraph.prototype.runLayout = function (unlockNodes) {
+    if (unlockNodes === void 0) {
+      unlockNodes = false;
+    }
+
+    var that = this;
+
+    var options = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, _layout_options__WEBPACK_IMPORTED_MODULE_6__["default"]), {
+      stop: function stop() {
+        if (unlockNodes) {
+          that.unlockNodes();
+        }
+
+        that.setState({
+          zoom: that.state.cy.zoom()
+        });
+      }
+    });
+
+    this.state.cy.layout(options).run();
+  };
+
+  ServiceDependencyGraph.prototype.unlockNodes = function () {
+    this.state.cy.nodes().forEach(function (node) {
+      node.unlock();
+    });
+  };
+
+  ServiceDependencyGraph.prototype.fit = function () {
+    var selection = this.state.graphCanvas.selectionNeighborhood;
+
+    if (selection && !selection.empty()) {
+      this.state.cy.fit(selection, 30);
+    } else {
+      this.state.cy.fit();
+    }
+
+    this.setState({
+      zoom: this.state.cy.zoom()
+    });
+  };
+
+  ServiceDependencyGraph.prototype.zoom = function (zoom) {
+    var zoomStep = 0.25 * zoom;
+    var zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
+    this.setState({
+      zoom: zoomLevel
+    });
+    this.state.cy.zoom(zoomLevel);
+  };
+
+  ServiceDependencyGraph.prototype.render = function () {
     var _this = this;
 
-    if (!this.state.value || this.state.value === undefined) {
-      this.state.context.options.serviceIcons = [{
-        pattern: 'my-type',
-        filename: 'default'
-      }];
-    }
-
-    var optionsList = [];
-
-    if (this.state.serviceIcons !== undefined) {
-      try {
-        for (var _c = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.state.serviceIcons), _d = _c.next(); !_d.done; _d = _c.next()) {
-          var image = _d.value;
-          optionsList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
-            value: image
-          }, image));
-        }
-      } catch (e_1_1) {
-        e_1 = {
-          error: e_1_1
-        };
-      } finally {
-        try {
-          if (_d && !_d.done && (_a = _c["return"])) _a.call(_c);
-        } finally {
-          if (e_1) throw e_1.error;
-        }
+    return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+      className: "graph-container",
+      "ng-show": "!ctrl.getError()"
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+      className: "service-dependency-graph"
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+      className: "canvas-container",
+      ref: function ref(_ref) {
+        return _this.ref = _ref;
+      },
+      style: {
+        height: "100%",
+        width: "100%"
       }
-    }
-
-    var componentList = [];
-
-    var _loop_1 = function _loop_1(index) {
-      componentList.push(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "gf-form"
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        type: "text",
-        className: "input-small gf-form-input width-10",
-        value: this_1.state.context.options.serviceIcons[index].pattern,
-        onChange: function onChange(e) {
-          return _this.setPatternValue(e, index);
-        }
-      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
-        className: "input-small gf-form-input width-10",
-        value: this_1.state.context.options.serviceIcons[index].filename,
-        onChange: function onChange(e) {
-          return _this.setFileNameValue(e, index);
-        }
-      }, optionsList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-        className: "gf-form-label tight-form-func",
-        onClick: function onClick() {
-          return _this.removeMapping(index);
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "fa fa-trash"
-      })))));
-    };
-
-    var this_1 = this;
-
-    try {
-      for (var _e = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.state.context.options.serviceIcons.entries()), _f = _e.next(); !_f.done; _f = _e.next()) {
-        var _g = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__read"])(_f.value, 1),
-            index = _g[0];
-
-        _loop_1(index);
-      }
-    } catch (e_2_1) {
-      e_2 = {
-        error: e_2_1
-      };
-    } finally {
-      try {
-        if (_f && !_f.done && (_b = _e["return"])) _b.call(_e);
-      } finally {
-        if (e_2) throw e_2.error;
-      }
-    }
-
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "gf-form-inline"
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "gf-form"
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-      className: "gf-form-label width-10"
-    }, "Target Name (RegEx)"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-      className: "gf-form-label width-10"
-    }, "Icon"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, componentList), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-      className: "btn navbar-button navbar-button--primary",
+    }), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+      className: "zoom-button-container"
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
+      className: "btn navbar-button width-100",
       onClick: function onClick() {
-        return _this.addMapping();
+        return _this.toggleAnimation();
       }
-    }, "Add Service Icon Mapping"));
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
+      className: this.state.animateButton
+    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
+      className: "btn navbar-button width-100",
+      onClick: function onClick() {
+        return _this.runLayout();
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
+      className: "fa fa-sitemap"
+    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
+      className: "btn navbar-button width-100",
+      onClick: function onClick() {
+        return _this.fit();
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
+      className: "fa fa-dot-circle-o"
+    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
+      className: "btn navbar-button width-100",
+      onClick: function onClick() {
+        return _this.zoom(+1);
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
+      className: "fa fa-plus"
+    })), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("button", {
+      className: "btn navbar-button width-100",
+      onClick: function onClick() {
+        return _this.zoom(-1);
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("i", {
+      className: "fa fa-minus"
+    })))), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_statistics_Statistics__WEBPACK_IMPORTED_MODULE_7__["Statistics"], {
+      show: this.state.showStatistics,
+      selectionId: "a",
+      resolvedDrillDownLink: "",
+      selectionStatistics: "c",
+      node: "",
+      currentType: 'INTERNAL',
+      showBaselines: false,
+      receiving: ""
+    }));
   };
 
-  return ServiceIconMapping;
-}(react__WEBPACK_IMPORTED_MODULE_1___default.a.PureComponent);
+  return ServiceDependencyGraph;
+}(react__WEBPACK_IMPORTED_MODULE_3__["PureComponent"]);
 
 
+
+/***/ }),
+
+/***/ "./panel/statistics/NodeStatistics.tsx":
+/*!*********************************************!*\
+  !*** ./panel/statistics/NodeStatistics.tsx ***!
+  \*********************************************/
+/*! exports provided: NodeStatistics */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NodeStatistics", function() { return NodeStatistics; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var NodeStatistics = function NodeStatistics(_a) {
+  var nodeList = _a.nodeList,
+      noDataText = _a.noDataText,
+      title = _a.title;
+  var nodeStatistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "no-data--selection"
+  }, noDataText);
+
+  if (nodeList.length > 0) {
+    var recievingNodes = nodeList.map(function (node) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection",
+        title: node.name
+      }, node.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, node.responseTime), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, node.rate), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, node.error));
+    });
+    nodeStatistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+      className: "table--selection"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "table--selection--head"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      className: "table--th--selectionSmall"
+    }, "Time"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      className: "table--th--selectionSmall"
+    }, "Requests"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      className: "table--th--selectionSmall"
+    }, "Error Rate")), recievingNodes);
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "secondHeader--selection"
+  }, title), nodeStatistics);
+};
+
+/***/ }),
+
+/***/ "./panel/statistics/Statistics.tsx":
+/*!*****************************************!*\
+  !*** ./panel/statistics/Statistics.tsx ***!
+  \*****************************************/
+/*! exports provided: Statistics */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Statistics", function() { return Statistics; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _NodeStatistics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NodeStatistics */ "./panel/statistics/NodeStatistics.tsx");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+var Statistics = function Statistics(_a) {
+  var show = _a.show,
+      selectionId = _a.selectionId,
+      resolvedDrillDownLink = _a.resolvedDrillDownLink,
+      selectionStatistics = _a.selectionStatistics,
+      node = _a.node,
+      currentType = _a.currentType,
+      showBaselines = _a.showBaselines,
+      receiving = _a.receiving;
+  var statistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+  if (show) {
+    console.log("show");
+    var drilldownLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL') {
+      console.log("Drilldown");
+      drilldownLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        target: "_blank",
+        "ng-href": resolvedDrillDownLink
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-paper-plane-o"
+      }));
+    }
+
+    var requests = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (selectionStatistics.requests >= 0) {
+      console.log("requests");
+      requests = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "Requests"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "selectionStatistics.requests"));
+    }
+
+    var errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (selectionStatistics.errors >= 0) {
+      console.log("errors");
+      errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "Errors"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "selectionStatistics.errors"));
+    }
+
+    var errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0) {
+      console.log("errorRate");
+      errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        "ng-show": ""
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "Error Rate"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, 100 / selectionStatistics.requests * selectionStatistics.errors, "%"));
+    }
+
+    var avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (selectionStatistics.responseTime >= 0) {
+      console.log("avgResponseTime");
+      avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "Avg. Response Time"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "selectionStatistics.responseTime", " ms"));
+    }
+
+    var baseline = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+
+    if (showBaselines && selectionStatistics.threshold) {
+      console.log("baseline");
+      var threshold = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection threshold--good"
+      }, "Good \"(<= ", selectionStatistics.threshold, "ms)\"");
+
+      if (selectionStatistics.thresholdViolation) {
+        threshold = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "table--td--selection threshold--bad"
+        }, "Bad (", ">", " ", selectionStatistics.threshold, "ms)");
+      }
+
+      baseline = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "table--td--selection"
+      }, "Response Time Health (Upper Baseline)"), threshold);
+    }
+
+    statistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "header--selection"
+    }, selectionId, drilldownLink), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "secondHeader--selection"
+    }, "Statistics"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+      className: "table--selection"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "table--selection--head"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      className: "table--th--selectionMedium"
+    }, "Value")), requests, errors, errorRate, avgResponseTime, baseline), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NodeStatistics__WEBPACK_IMPORTED_MODULE_1__["NodeStatistics"], {
+      nodeList: [],
+      noDataText: "No incoming statistics available.",
+      title: "Incoming Statistics"
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NodeStatistics__WEBPACK_IMPORTED_MODULE_1__["NodeStatistics"], {
+      nodeList: [],
+      noDataText: "No outgoing statistics available.",
+      title: "Outgoing Statistics"
+    }));
+  }
+
+  var w = "0%";
+
+  if (show) {
+    w = "40%";
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      width: w
+    }
+  }, statistics);
+};
 
 /***/ }),
 

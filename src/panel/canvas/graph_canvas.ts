@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import cytoscape from 'cytoscape';
-import { ServiceDependencyGraphPanel } from '../ServiceDependencyGraphPanel';
+import { ServiceDependencyGraph } from '../serviceDependencyGraph/ServiceDependencyGraph';
 import ParticleEngine from './particle_engine';
-import { CyCanvas, Particle, EGraphNodeType, Particles } from '../types'; //TODO ADD IGraphMetrics
+import { CyCanvas, Particle, EGraphNodeType, Particles } from '../../types'; //TODO ADD IGraphMetrics
 import humanFormat from 'human-format';
-import assetUtils from '../AssetUtils';
+import assetUtils from '../asset_utils';
 
 
 export default class CanvasDrawer {
@@ -20,7 +20,7 @@ export default class CanvasDrawer {
 
     readonly donutRadius: number = 15;
 
-    controller: ServiceDependencyGraphPanel;
+    controller: ServiceDependencyGraph;
 
     cytoscape: cytoscape.Core;
 
@@ -54,7 +54,7 @@ export default class CanvasDrawer {
 
     timeScale: any;
 
-    constructor(ctrl: ServiceDependencyGraphPanel, cy: cytoscape.Core, cyCanvas: CyCanvas) {
+    constructor(ctrl: ServiceDependencyGraph, cy: cytoscape.Core, cyCanvas: CyCanvas) {
         this.cytoscape = cy;
         this.cyCanvas = cyCanvas;
         this.controller = ctrl;

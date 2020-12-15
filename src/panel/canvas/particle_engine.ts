@@ -1,6 +1,6 @@
 import CanvasDrawer from "./graph_canvas";
 import _ from 'lodash'; //{ defaultTo }
-import { Particles, Particle } from "../types"; //IGraphMetrics
+import { Particles, Particle } from "../../types"; //IGraphMetrics
 
 export default class ParticleEngine {
 
