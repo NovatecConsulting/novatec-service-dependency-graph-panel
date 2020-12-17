@@ -25,8 +25,6 @@ export class ExternalIconMapping extends React.PureComponent<Props, State>  {
     constructor(props: Props | Readonly<Props>) {
         super(props);
         this.state = {...props};
-        console.log(typeof props.context)
-        console.log(typeof props.onChange)
     }
 
     addMapping() {
@@ -66,7 +64,6 @@ export class ExternalIconMapping extends React.PureComponent<Props, State>  {
             </option>
             )
         }
-        console.log(this.state.context.options.externalIcons)
         var componentList: JSX.Element[] = []
         for (const [index] of this.state.context.options.externalIcons.entries()) {
             componentList.push(

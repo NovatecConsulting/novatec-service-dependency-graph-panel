@@ -2,7 +2,7 @@ import _ from 'lodash';
 import cytoscape from 'cytoscape';
 import { ServiceDependencyGraph } from '../serviceDependencyGraph/ServiceDependencyGraph';
 import ParticleEngine from './particle_engine';
-import { CyCanvas, Particle, EGraphNodeType, Particles } from '../../types'; //TODO ADD IGraphMetrics
+import { CyCanvas, Particle, EGraphNodeType, Particles, IGraphMetrics } from '../../types';
 import humanFormat from 'human-format';
 import assetUtils from '../asset_utils';
 
@@ -317,10 +317,10 @@ export default class CanvasDrawer {
 
         let statistics: string[] = [];
 
-        //const metrics: IGraphMetrics = edge.data('metrics');
-        const duration = 1//TODO _.defaultTo(metrics.response_time, -1);
-        const requestCount = 1//TODO _.defaultTo(metrics.rate, -1);
-        const errorCount = 1//TODO _.defaultTo(metrics.error_rate, -1);
+        const metrics: IGraphMetrics = edge.data('metrics');
+        const duration =  _.defaultTo(metrics.response_time, -1);
+        const requestCount = _.defaultTo(metrics.rate, -1);
+        const errorCount = _.defaultTo(metrics.error_rate, -1);
 
         if (duration >= 0) {
             const decimals = duration >= 1000 ? 1 : 0;
@@ -468,12 +468,13 @@ export default class CanvasDrawer {
     _drawNode(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
         const cy = this.cytoscape;
         const type = node.data('type');
-        // const metrics: IGraphMetrics = node.data('metrics');
+        const metrics: IGraphMetrics = node.data('metrics');
+        
         if (type === EGraphNodeType.INTERNAL) {
-            const requestCount = 0//TODO_.defaultTo(metrics.rate, -1);
-            const errorCount = 0//TODO _.defaultTo(metrics.error_rate, 0);
-            const responseTime = 0//TODO _.defaultTo(metrics.response_time, -1);
-            const threshold = 0 //TODO_.defaultTo(metrics.threshold, -1);
+            const requestCount = _.defaultTo(metrics.rate, -1);
+            const errorCount =  _.defaultTo(metrics.error_rate, 0);
+            const responseTime = _.defaultTo(metrics.response_time, -1);
+            const threshold = _.defaultTo(metrics.threshold, -1);
 
             var unknownPct;
             var errorPct;
@@ -541,10 +542,10 @@ export default class CanvasDrawer {
     _drawNodeStatistics(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
         const lines: string[] = [];
 
-        // const metrics: IGraphMetrics = node.data('metrics');
-        const requestCount = 5//TODO_.defaultTo(metrics.rate, -1);
-        const errorCount = 6//TODO _.defaultTo(metrics.error_rate, -1);
-        const responseTime = 8//TODO _.defaultTo(metrics.response_time, -1);
+        const metrics: IGraphMetrics = node.data('metrics');
+        const requestCount = _.defaultTo(metrics.rate, -1);
+        const errorCount =  _.defaultTo(metrics.error_rate, -1);
+        const responseTime = _.defaultTo(metrics.response_time, -1);
 
         if (requestCount >= 0) {
             const decimals = requestCount >= 1000 ? 1 : 0;
@@ -652,9 +653,9 @@ export default class CanvasDrawer {
         const yPos = pos.y + node.height() * 0.8;
 
         const showBaselines = this.controller.getSettings().showBaselines;
-        // const metrics: IGraphMetrics = node.data('metrics');
-        const responseTime = 1//TODO_.defaultTo(metrics.response_time, -1);
-        const threshold = 1 //TODO_.defaultTo(metrics.threshold, -1);
+        const metrics: IGraphMetrics = node.data('metrics');
+        const responseTime = _.defaultTo(metrics.response_time, -1);
+        const threshold = _.defaultTo(metrics.threshold, -1);
 
         if (!showBaselines || threshold < 0 || responseTime < 0 || responseTime <= threshold) {
             ctx.fillStyle = this.colors.default;

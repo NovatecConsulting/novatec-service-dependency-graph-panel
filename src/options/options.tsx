@@ -1,4 +1,4 @@
-import { PanelOptionsEditorBuilder, PanelPlugin } from '@grafana/data';
+import { PanelOptionsEditorBuilder } from '@grafana/data';
 import { PanelSettings } from '../types';
 import { TypeaheadTextField } from './TypeAheadTextfield/TypeaheadTextfield';
 import { ServiceIconMapping } from './serviceIconMapping/ServiceIconMapping';

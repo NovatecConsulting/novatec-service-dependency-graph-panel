@@ -12,6 +12,7 @@ export interface PanelSettings {
   showDummyData: boolean;
   drillDownLink: string;
   showBaselines: boolean;
+  columns: string[];
 };
 
 export interface DataMapping {

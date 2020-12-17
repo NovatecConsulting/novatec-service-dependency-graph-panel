@@ -1,6 +1,6 @@
 import CanvasDrawer from "./graph_canvas";
-import _ from 'lodash'; //{ defaultTo }
-import { Particles, Particle } from "../../types"; //IGraphMetrics
+import _, { defaultTo } from 'lodash';
+import { Particles, Particle, IGraphMetrics } from "../../types";
 
 export default class ParticleEngine {
 
@@ -58,19 +58,18 @@ export default class ParticleEngine {
         const cy = this.drawer.cytoscape;
 
         const now = Date.now();
-        console.log(cy.edges())
         cy.edges().forEach(edge => {
             console.log(edge)
             let particles: Particles = edge.data('particles');
-            //const metrics: IGraphMetrics = edge.data('metrics');
+            const metrics: IGraphMetrics = edge.data('metrics');
 
-            //TODO
-            /*if (!metrics) {
+            
+            if (!metrics) {
                 return;
-            }*/
+            }
 
-            const rate = 100//TODO defaultTo(metrics.rate, 0);
-            const error_rate = 101// TODOdefaultTo(metrics.error_rate, 0);
+            const rate = defaultTo(metrics.rate, 0);
+            const error_rate = defaultTo(metrics.error_rate, 0);
             const volume = rate + error_rate;
 
             let errorRate;
@@ -87,8 +86,8 @@ export default class ParticleEngine {
                 };
                 edge.data('particles', particles);
             }
-            //TODO ADD metrics && 
-            if (volume > 0) {
+
+            if (metrics && volume > 0) {
                 const spawnPropability = Math.min(volume / this.maxVolume, 1.0);
                 for (let i = 0; i < 5; i++) {
                     if (Math.random() <= spawnPropability + this.minSpawnPropability) {

@@ -124,6 +124,25 @@ exports.push([module.i, ".suggestion {\n  width: 100%;\n  border-right: 1px soli
 
 /***/ }),
 
+/***/ "../../../../../../node_modules/css-loader/index.js?!../node_modules/postcss-loader/src/index.js?!../node_modules/sass-loader/dist/cjs.js!./panel/statistics/Statistics.css":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** C:/Users/mbi/Downloads/node_modules/css-loader??ref--8-1!../node_modules/postcss-loader/src??ref--8-2!../node_modules/sass-loader/dist/cjs.js!./panel/statistics/Statistics.css ***!
+  \***************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../../../node_modules/css-loader/lib/css-base.js */ "../../../../../../node_modules/css-loader/lib/css-base.js")(true);
+// imports
+
+
+// module
+exports.push([module.i, ".margin {\n  margin: 10px; }\n", "", {"version":3,"sources":["C:/Users/mbi/Downloads/grafana-7.2.0.windows-amd64 (1)/grafana-7.2.0/data/plugins/novatec-service-dependency-graph-panel/src/panel/statistics/Statistics.css"],"names":[],"mappings":"AAAA;EACE,aAAa,EAAE","file":"Statistics.css","sourcesContent":[".margin {\n  margin: 10px; }\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "../../../../../../node_modules/css-loader/lib/css-base.js":
 /*!**********************************************************************!*\
   !*** C:/Users/mbi/Downloads/node_modules/css-loader/lib/css-base.js ***!
@@ -43221,7 +43240,11 @@ function (_super) {
     _this.getSuggestions = function (value) {
       var inputValue = "";
 
-      if (value !== undefined) {
+      if (value.value !== undefined) {
+        return [];
+      }
+
+      if (value !== undefined && value !== null && value !== "") {
         inputValue = value.trim().toLowerCase();
       }
 
@@ -43258,7 +43281,25 @@ function (_super) {
   };
 
   TypeaheadTextField.prototype.getColumns = function () {
-    return ["aaaa", "aa", "cccc"];
+    var data = this.props.context.data;
+    var series;
+    var columnNames = [];
+
+    if (data !== undefined && data.length > 0) {
+      series = data[0].fields;
+
+      for (var index in series) {
+        var field = series[index];
+
+        if (field.config !== undefined && field.config.displayName !== undefined) {
+          columnNames.push(field.config.displayName);
+        } else {
+          columnNames.push(field.name);
+        }
+      }
+    }
+
+    return columnNames;
   };
 
   TypeaheadTextField.prototype.render = function () {
@@ -43310,8 +43351,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 
 
 
@@ -43325,8 +43364,6 @@ function (_super) {
     var _this = _super.call(this, props) || this;
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
-    console.log(_typeof(props.context));
-    console.log(_typeof(props.onChange));
     return _this;
   }
 
@@ -43394,7 +43431,6 @@ function (_super) {
       }
     }
 
-    console.log(this.state.context.options.externalIcons);
     var componentList = [];
 
     var _loop_1 = function _loop_1(index) {
@@ -43821,11 +43857,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./serviceDependencyGraph/ServiceDependencyGraph */ "./panel/serviceDependencyGraph/ServiceDependencyGraph.tsx");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../types */ "./types.tsx");
-/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @grafana/runtime */ "@grafana/runtime");
-/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_grafana_runtime__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @grafana/runtime */ "@grafana/runtime");
+/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_grafana_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var processing_graph_generator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! processing/graph_generator */ "./processing/graph_generator.ts");
+/* harmony import */ var processing_pre_processor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! processing/pre_processor */ "./processing/pre_processor.ts");
+
 
 
 
@@ -43845,7 +43883,8 @@ function (_super) {
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
     _this.ref = react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
-    console.log(_this.getAggregationType());
+    _this.graphGenerator = new processing_graph_generator__WEBPACK_IMPORTED_MODULE_6__["default"](_this);
+    _this.preProcessor = new processing_pre_processor__WEBPACK_IMPORTED_MODULE_7__["default"](_this);
     return _this;
   }
 
@@ -43853,153 +43892,187 @@ function (_super) {
     return this.state.options;
   };
 
+  ServiceDependencyGraphPanelController.prototype.processQueryData = function (data) {
+    this.validQueryTypes = this.hasOnlyTableQueries(data);
+
+    if (this.hasAggregationVariable()) {
+      var graphData = this.preProcessor.processData(data);
+      console.groupCollapsed('Processed received data');
+      console.log('raw data: ', data);
+      console.log('graph data: ', graphData);
+      console.groupEnd();
+      return this.currentData = graphData;
+    } else {
+      this.currentData = undefined;
+    }
+  };
+
+  ServiceDependencyGraphPanelController.prototype.hasOnlyTableQueries = function (inputData) {
+    var result = true;
+    Object(lodash__WEBPACK_IMPORTED_MODULE_3__["each"])(inputData, function (dataElement) {
+      if (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["has"])(dataElement, 'columns')) {
+        result = false;
+      }
+    });
+    return result;
+  };
+
   ServiceDependencyGraphPanelController.prototype.getAggregationType = function () {
-    var variables = Object(_grafana_runtime__WEBPACK_IMPORTED_MODULE_5__["getTemplateSrv"])().getVariables();
+    var variables = Object(_grafana_runtime__WEBPACK_IMPORTED_MODULE_4__["getTemplateSrv"])().getVariables();
+    console.log(variables);
 
     var index = lodash__WEBPACK_IMPORTED_MODULE_3___default.a.findIndex(variables, function (o) {
-      return o.id == 'aggregationType';
+      console.log(o);
+      return o.id === 'aggregationType';
     });
 
-    if (index > 0) {
+    if (index >= 0) {
       return variables[index].query;
     }
 
+    console.log(index);
     return -1;
   };
 
+  ServiceDependencyGraphPanelController.prototype.hasAggregationVariable = function () {
+    var templateVariable = this.getAggregationType();
+    return !!templateVariable;
+  };
+
+  ServiceDependencyGraphPanelController.prototype.processData = function () {
+    console.log(this.props.data);
+    this.processQueryData(this.state.data.series);
+    console.log(this.currentData);
+    var graph = this.graphGenerator.generateGraph(this.currentData);
+    return graph;
+  };
+
+  ServiceDependencyGraphPanelController.prototype._transformEdges = function (edges) {
+    console.log(edges);
+    var cyEdges = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["map"])(edges, function (edge) {
+      var cyEdge = {
+        group: 'edges',
+        data: {
+          id: edge.source + ":" + edge.target,
+          source: edge.source,
+          target: edge.target,
+          metrics: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, edge.metrics)
+        }
+      };
+      return cyEdge;
+    });
+    console.log(cyEdges);
+    return cyEdges;
+  };
+
+  ServiceDependencyGraphPanelController.prototype._transformNodes = function (nodes) {
+    console.log(nodes);
+    var cyNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["map"])(nodes, function (node) {
+      var result = {
+        group: 'nodes',
+        data: {
+          id: node.name,
+          type: node.type,
+          external_type: node.external_type,
+          metrics: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, node.metrics)
+        }
+      };
+      return result;
+    });
+    console.log(cyNodes);
+    return cyNodes;
+  };
+
+  ServiceDependencyGraphPanelController.prototype._updateOrRemove = function (dataArray, inputArray) {
+    var elements = [];
+
+    var _loop_1 = function _loop_1(i) {
+      var element = dataArray[i];
+      var cyNode = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["find"])(inputArray, {
+        data: {
+          id: element.id()
+        }
+      });
+
+      if (cyNode) {
+        element.data(cyNode.data);
+        Object(lodash__WEBPACK_IMPORTED_MODULE_3__["remove"])(inputArray, function (n) {
+          return n.data.id === cyNode.data.id;
+        });
+        elements.push(element);
+      } else {
+        element.remove();
+      }
+    };
+
+    for (var i = 0; i < dataArray.length; i++) {
+      _loop_1(i);
+    }
+
+    return elements;
+  };
+
+  ServiceDependencyGraphPanelController.prototype._updateGraph = function (graph, cy) {
+    console.log(graph);
+
+    var cyNodes = this._transformNodes(graph.nodes);
+
+    var cyEdges = this._transformEdges(graph.edges);
+
+    console.groupCollapsed("Updating graph");
+    console.log("cytoscape nodes: ", JSON.parse(JSON.stringify(cyNodes)));
+    console.log("cytoscape edges: ", JSON.parse(JSON.stringify(cyEdges)));
+    console.groupEnd();
+    var nodes = cy.nodes().toArray();
+
+    var updatedNodes = this._updateOrRemove(nodes, cyNodes); // add new nodes
+
+
+    cy.add(cyNodes);
+    var edges = cy.edges().toArray();
+
+    this._updateOrRemove(edges, cyEdges); // add new edges
+
+
+    cy.add(cyEdges);
+
+    if (cyNodes.length > 0) {
+      Object(lodash__WEBPACK_IMPORTED_MODULE_3__["each"])(updatedNodes, function (node) {
+        node.lock();
+      }); //this.runLayout(true);
+    }
+  };
+
+  ServiceDependencyGraphPanelController.prototype.getError = function () {
+    if (!this.hasAggregationVariable()) {
+      return "Please provide a 'aggregationType' template variable.";
+    }
+
+    if (!this.validQueryTypes) {// TODO: make validQueryTypes work! return "Invalid query types - only use queries which return table data.";
+    }
+
+    if (!this.isDataAvailable()) {
+      return "No data to show - the query returned no data.";
+    }
+
+    return null;
+  };
+
+  ServiceDependencyGraphPanelController.prototype.isDataAvailable = function () {
+    var dataExist = !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isUndefined"])(this.currentData) && !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isUndefined"])(this.currentData.graph) && this.currentData.graph.length > 0;
+    return dataExist;
+  };
+
   ServiceDependencyGraphPanelController.prototype.render = function () {
-    var elements = [{
-      data: {
-        id: 'one',
-        label: 'Node 1',
-        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].EXTERNAL,
-        external_type: "one"
-      },
-      position: {
-        x: 0,
-        y: 0
-      }
-    }, {
-      data: {
-        id: 'two',
-        label: 'Node 2',
-        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
-      },
-      position: {
-        x: 100,
-        y: 0
-      }
-    }, {
-      data: {
-        source: 'one',
-        target: 'two',
-        label: 'Edge from Node1 to Node2'
-      }
-    }, {
-      data: {
-        id: 'three',
-        label: 'Node 3',
-        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].EXTERNAL,
-        external_type: "three"
-      },
-      position: {
-        x: 0,
-        y: 0
-      }
-    }, {
-      data: {
-        id: 'four',
-        label: 'Node 4',
-        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
-      },
-      position: {
-        x: 100,
-        y: 0
-      }
-    }, {
-      data: {
-        source: 'three',
-        target: 'four',
-        label: 'Edge from Node1 to Node2'
-      }
-    }, {
-      data: {
-        id: 'five',
-        label: 'Node 5',
-        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
-      },
-      position: {
-        x: 0,
-        y: 0
-      }
-    }, {
-      data: {
-        id: 'six',
-        label: 'Node 6',
-        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
-      },
-      position: {
-        x: 100,
-        y: 0
-      }
-    }, {
-      data: {
-        source: 'five',
-        target: 'six',
-        label: 'Edge from Node1 to Node2'
-      }
-    }, {
-      data: {
-        id: 'seven',
-        label: 'Node 7',
-        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
-      },
-      position: {
-        x: 0,
-        y: 0
-      }
-    }, {
-      data: {
-        id: 'eight',
-        label: 'Node 8',
-        type: _types__WEBPACK_IMPORTED_MODULE_4__["EGraphNodeType"].INTERNAL
-      },
-      position: {
-        x: 100,
-        y: 0
-      }
-    }, {
-      data: {
-        source: 'seven',
-        target: 'eight',
-        label: 'Edge from Node1 to Node2'
-      }
-    }, {
-      data: {
-        source: 'eight',
-        target: 'one',
-        label: 'Edge from Node1 to Node2'
-      }
-    }, {
-      data: {
-        source: 'five',
-        target: 'four',
-        label: 'Edge from Node1 to Node2'
-      }
-    }, {
-      data: {
-        source: 'three',
-        target: 'six',
-        label: 'Edge from Node1 to Node2'
-      }
-    }, {
-      data: {
-        source: 'six',
-        target: 'three',
-        label: 'Edge from Node1 to Node2'
-      }
-    }];
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    this.currentData = this.processData();
+    var panel = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.getError());
+
+    if (this.getError() === null) {
+      panel = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null);
+    }
+
+    console.log(this.props);
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       className: "service-dependency-graph-panel",
       style: {
         height: this.props.height,
@@ -44008,12 +44081,12 @@ function (_super) {
       ref: this.ref,
       id: "cy"
     }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_2__["ServiceDependencyGraph"], {
-      elements: elements,
+      data: this.processData(),
       zoom: 1,
       controller: this,
       animate: false,
       showStatistics: false
-    }));
+    })));
   };
 
   return ServiceDependencyGraphPanelController;
@@ -44088,7 +44161,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- //TODO ADD IGraphMetrics
 
 
 
@@ -44424,13 +44496,14 @@ function () {
     var midpoint = edge.midpoint();
     var xMid = midpoint.x;
     var yMid = midpoint.y;
-    var statistics = []; //const metrics: IGraphMetrics = edge.data('metrics');
+    var statistics = [];
+    var metrics = edge.data('metrics');
 
-    var duration = 1; //TODO _.defaultTo(metrics.response_time, -1);
+    var duration = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.response_time, -1);
 
-    var requestCount = 1; //TODO _.defaultTo(metrics.rate, -1);
+    var requestCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.rate, -1);
 
-    var errorCount = 1; //TODO _.defaultTo(metrics.error_rate, -1);
+    var errorCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.error_rate, -1);
 
     if (duration >= 0) {
       var decimals = duration >= 1000 ? 1 : 0;
@@ -44580,16 +44653,17 @@ function () {
 
   CanvasDrawer.prototype._drawNode = function (ctx, node) {
     var cy = this.cytoscape;
-    var type = node.data('type'); // const metrics: IGraphMetrics = node.data('metrics');
+    var type = node.data('type');
+    var metrics = node.data('metrics');
 
     if (type === _types__WEBPACK_IMPORTED_MODULE_3__["EGraphNodeType"].INTERNAL) {
-      var requestCount = 0; //TODO_.defaultTo(metrics.rate, -1);
+      var requestCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.rate, -1);
 
-      var errorCount = 0; //TODO _.defaultTo(metrics.error_rate, 0);
+      var errorCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.error_rate, 0);
 
-      var responseTime = 0; //TODO _.defaultTo(metrics.response_time, -1);
+      var responseTime = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.response_time, -1);
 
-      var threshold = 0; //TODO_.defaultTo(metrics.threshold, -1);
+      var threshold = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.threshold, -1);
 
       var unknownPct;
       var errorPct;
@@ -44660,13 +44734,14 @@ function () {
   };
 
   CanvasDrawer.prototype._drawNodeStatistics = function (ctx, node) {
-    var lines = []; // const metrics: IGraphMetrics = node.data('metrics');
+    var lines = [];
+    var metrics = node.data('metrics');
 
-    var requestCount = 5; //TODO_.defaultTo(metrics.rate, -1);
+    var requestCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.rate, -1);
 
-    var errorCount = 6; //TODO _.defaultTo(metrics.error_rate, -1);
+    var errorCount = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.error_rate, -1);
 
-    var responseTime = 8; //TODO _.defaultTo(metrics.response_time, -1);
+    var responseTime = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.response_time, -1);
 
     if (requestCount >= 0) {
       var decimals = requestCount >= 1000 ? 1 : 0;
@@ -44774,11 +44849,12 @@ function () {
     var labelWidth = ctx.measureText(label).width;
     var xPos = pos.x - labelWidth / 2;
     var yPos = pos.y + node.height() * 0.8;
-    var showBaselines = this.controller.getSettings().showBaselines; // const metrics: IGraphMetrics = node.data('metrics');
+    var showBaselines = this.controller.getSettings().showBaselines;
+    var metrics = node.data('metrics');
 
-    var responseTime = 1; //TODO_.defaultTo(metrics.response_time, -1);
+    var responseTime = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.response_time, -1);
 
-    var threshold = 1; //TODO_.defaultTo(metrics.threshold, -1);
+    var threshold = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.defaultTo(metrics.threshold, -1);
 
     if (!showBaselines || threshold < 0 || responseTime < 0 || responseTime <= threshold) {
       ctx.fillStyle = this.colors["default"];
@@ -44877,7 +44953,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 
- //{ defaultTo }
+
 
 var ParticleEngine =
 /** @class */
@@ -44951,20 +45027,17 @@ function () {
 
     var cy = this.drawer.cytoscape;
     var now = Date.now();
-    console.log(cy.edges());
     cy.edges().forEach(function (edge) {
       console.log(edge);
-      var particles = edge.data('particles'); //const metrics: IGraphMetrics = edge.data('metrics');
-      //TODO
+      var particles = edge.data('particles');
+      var metrics = edge.data('metrics');
 
-      /*if (!metrics) {
-          return;
-      }*/
+      if (!metrics) {
+        return;
+      }
 
-      var rate = 100; //TODO defaultTo(metrics.rate, 0);
-
-      var error_rate = 101; // TODOdefaultTo(metrics.error_rate, 0);
-
+      var rate = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["defaultTo"])(metrics.rate, 0);
+      var error_rate = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["defaultTo"])(metrics.error_rate, 0);
       var volume = rate + error_rate;
       var errorRate;
 
@@ -44980,10 +45053,9 @@ function () {
           danger: []
         };
         edge.data('particles', particles);
-      } //TODO ADD metrics && 
+      }
 
-
-      if (volume > 0) {
+      if (metrics && volume > 0) {
         var spawnPropability = Math.min(volume / _this.maxVolume, 1.0);
 
         for (var i = 0; i < 5; i++) {
@@ -45095,6 +45167,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var cytoscape_cola__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(cytoscape_cola__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _layout_options__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../layout_options */ "./panel/layout_options.ts");
 /* harmony import */ var _statistics_Statistics__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../statistics/Statistics */ "./panel/statistics/Statistics.tsx");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @grafana/runtime */ "@grafana/runtime");
+/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_grafana_runtime__WEBPACK_IMPORTED_MODULE_9__);
+
+
 
 
 
@@ -45120,6 +45198,7 @@ function (_super) {
       showStatistics: false
     });
     _this.ref = react__WEBPACK_IMPORTED_MODULE_3___default.a.createRef();
+    _this.templateSrv = Object(_grafana_runtime__WEBPACK_IMPORTED_MODULE_9__["getTemplateSrv"])();
     return _this;
   }
 
@@ -45129,7 +45208,7 @@ function (_super) {
     var cy = cytoscape__WEBPACK_IMPORTED_MODULE_2___default()({
       container: this.ref,
       zoom: this.state.zoom,
-      elements: this.props.elements,
+      elements: this.props.data,
       style: [{
         "selector": "node",
         "style": {
@@ -45158,13 +45237,14 @@ function (_super) {
     this.setState({
       cy: cy,
       graphCanvas: graphCanvas
-    });
+    }); //this._updateGraph(graph, cy);
   };
 
   ServiceDependencyGraph.prototype.onSelectionChange = function () {
     var selection = this.state.cy.$(':selected');
 
     if (selection.length === 1) {
+      this.updateStatisticTable();
       this.setState({
         showStatistics: true
       });
@@ -45246,6 +45326,107 @@ function (_super) {
     this.state.cy.zoom(zoomLevel);
   };
 
+  ServiceDependencyGraph.prototype.updateStatisticTable = function () {
+    var selection = this.state.cy.$(':selected');
+    console.log(selection);
+
+    if (selection.length === 1) {
+      var currentNode = selection[0];
+      this.selectionId = currentNode.id();
+      this.currentType = currentNode.data('type');
+      var receiving = [];
+      var sending = [];
+      var edges = selection.connectedEdges();
+      console.log(currentNode);
+      var metrics = selection.nodes()[0].data('metrics');
+      console.log(metrics);
+
+      var requestCount = lodash__WEBPACK_IMPORTED_MODULE_8___default.a.defaultTo(metrics.rate, -1);
+
+      var errorCount = lodash__WEBPACK_IMPORTED_MODULE_8___default.a.defaultTo(metrics.error_rate, -1);
+
+      var duration = lodash__WEBPACK_IMPORTED_MODULE_8___default.a.defaultTo(metrics.response_time, -1);
+
+      var threshold = lodash__WEBPACK_IMPORTED_MODULE_8___default.a.defaultTo(metrics.threshold, -1);
+
+      this.selectionStatistics = {};
+
+      if (requestCount >= 0) {
+        this.selectionStatistics.requests = Math.floor(requestCount);
+      }
+
+      if (errorCount >= 0) {
+        this.selectionStatistics.errors = Math.floor(errorCount);
+      }
+
+      if (duration >= 0) {
+        this.selectionStatistics.responseTime = Math.floor(duration);
+
+        if (threshold >= 0) {
+          this.selectionStatistics.threshold = Math.floor(threshold);
+          this.selectionStatistics.thresholdViolation = duration > threshold;
+        }
+      }
+
+      for (var i = 0; i < edges.length; i++) {
+        var actualEdge = edges[i];
+        var sendingCheck = actualEdge.source().id() === this.selectionId;
+        var node = void 0;
+
+        if (sendingCheck) {
+          node = actualEdge.target();
+        } else {
+          node = actualEdge.source();
+        }
+
+        var sendingObject = {
+          name: node.id(),
+          responseTime: "-",
+          rate: "-",
+          error: "-"
+        };
+        var edgeMetrics = actualEdge.data('metrics');
+        console.log(edgeMetrics);
+        console.log(actualEdge);
+
+        if (edgeMetrics !== undefined) {
+          var response_time = edgeMetrics.response_time,
+              rate = edgeMetrics.rate,
+              error_rate = edgeMetrics.error_rate;
+
+          if (rate != undefined) {
+            sendingObject.rate = Math.floor(rate).toString();
+          }
+
+          if (response_time != undefined) {
+            sendingObject.responseTime = Math.floor(response_time) + " ms";
+          }
+
+          if (error_rate != undefined && rate != undefined) {
+            sendingObject.error = Math.floor(error_rate / (rate / 100)) + "%";
+          }
+        }
+
+        if (sendingCheck) {
+          sending.push(sendingObject);
+        } else {
+          receiving.push(sendingObject);
+        }
+      }
+
+      this.receiving = receiving;
+      this.sending = sending;
+      this.generateDrillDownLink();
+    }
+  };
+
+  ServiceDependencyGraph.prototype.generateDrillDownLink = function () {
+    var drillDownLink = this.getSettings().drillDownLink;
+    var link = drillDownLink.replace('{}', this.selectionId);
+    console.log(link);
+    this.resolvedDrillDownLink = this.templateSrv.replace(link);
+  };
+
   ServiceDependencyGraph.prototype.render = function () {
     var _this = this;
 
@@ -45302,13 +45483,13 @@ function (_super) {
       className: "fa fa-minus"
     })))), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_statistics_Statistics__WEBPACK_IMPORTED_MODULE_7__["Statistics"], {
       show: this.state.showStatistics,
-      selectionId: "a",
-      resolvedDrillDownLink: "",
-      selectionStatistics: "c",
-      node: "",
-      currentType: 'INTERNAL',
+      selectionId: this.selectionId,
+      resolvedDrillDownLink: this.resolvedDrillDownLink,
+      selectionStatistics: this.selectionStatistics,
+      currentType: this.currentType,
       showBaselines: false,
-      receiving: ""
+      receiving: this.receiving,
+      sending: this.sending
     }));
   };
 
@@ -45373,6 +45554,36 @@ var NodeStatistics = function NodeStatistics(_a) {
 
 /***/ }),
 
+/***/ "./panel/statistics/Statistics.css":
+/*!*****************************************!*\
+  !*** ./panel/statistics/Statistics.css ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../../../node_modules/css-loader??ref--8-1!../../../node_modules/postcss-loader/src??ref--8-2!../../../node_modules/sass-loader/dist/cjs.js!./Statistics.css */ "../../../../../../node_modules/css-loader/index.js?!../node_modules/postcss-loader/src/index.js?!../node_modules/sass-loader/dist/cjs.js!./panel/statistics/Statistics.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../../../node_modules/style-loader/lib/addStyles.js */ "../../../../../../node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./panel/statistics/Statistics.tsx":
 /*!*****************************************!*\
   !*** ./panel/statistics/Statistics.tsx ***!
@@ -45388,6 +45599,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NodeStatistics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NodeStatistics */ "./panel/statistics/NodeStatistics.tsx");
 /* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
 /* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Statistics_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Statistics.css */ "./panel/statistics/Statistics.css");
+/* harmony import */ var _Statistics_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_Statistics_css__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -45396,10 +45610,10 @@ var Statistics = function Statistics(_a) {
       selectionId = _a.selectionId,
       resolvedDrillDownLink = _a.resolvedDrillDownLink,
       selectionStatistics = _a.selectionStatistics,
-      node = _a.node,
       currentType = _a.currentType,
       showBaselines = _a.showBaselines,
-      receiving = _a.receiving;
+      receiving = _a.receiving,
+      sending = _a.sending;
   var statistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
   if (show) {
@@ -45410,9 +45624,9 @@ var Statistics = function Statistics(_a) {
       console.log("Drilldown");
       drilldownLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         target: "_blank",
-        "ng-href": resolvedDrillDownLink
+        href: resolvedDrillDownLink
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-paper-plane-o"
+        className: "fa fa-paper-plane-o margin"
       }));
     }
 
@@ -45424,7 +45638,7 @@ var Statistics = function Statistics(_a) {
         className: "table--td--selection"
       }, "Requests"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
-      }, "selectionStatistics.requests"));
+      }, selectionStatistics.requests));
     }
 
     var errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
@@ -45492,11 +45706,11 @@ var Statistics = function Statistics(_a) {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
       className: "table--th--selectionMedium"
     }, "Value")), requests, errors, errorRate, avgResponseTime, baseline), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NodeStatistics__WEBPACK_IMPORTED_MODULE_1__["NodeStatistics"], {
-      nodeList: [],
+      nodeList: receiving,
       noDataText: "No incoming statistics available.",
       title: "Incoming Statistics"
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NodeStatistics__WEBPACK_IMPORTED_MODULE_1__["NodeStatistics"], {
-      nodeList: [],
+      nodeList: sending,
       noDataText: "No outgoing statistics available.",
       title: "Outgoing Statistics"
     }));
@@ -45514,6 +45728,674 @@ var Statistics = function Statistics(_a) {
     }
   }, statistics);
 };
+
+/***/ }),
+
+/***/ "./processing/graph_generator.ts":
+/*!***************************************!*\
+  !*** ./processing/graph_generator.ts ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util/Utils */ "./processing/util/Utils.ts");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types */ "./types.tsx");
+
+
+
+
+var GraphGenerator =
+/** @class */
+function () {
+  function GraphGenerator(controller) {
+    this.controller = controller;
+  }
+
+  GraphGenerator.prototype._createNode = function (dataElements) {
+    if (!dataElements || dataElements.length <= 0) {
+      return undefined;
+    }
+
+    var sumMetrics = this.controller.getSettings().sumTimings;
+    var nodeName = dataElements[0].target;
+
+    if (nodeName === "" || nodeName === undefined || nodeName === null) {
+      nodeName = "undefined";
+    }
+
+    var internalNode = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["some"])(dataElements, ['type', _types__WEBPACK_IMPORTED_MODULE_2__["GraphDataType"].INTERNAL]) || Object(lodash__WEBPACK_IMPORTED_MODULE_0__["some"])(dataElements, ['type', _types__WEBPACK_IMPORTED_MODULE_2__["GraphDataType"].EXTERNAL_IN]);
+    var nodeType = internalNode ? _types__WEBPACK_IMPORTED_MODULE_2__["EGraphNodeType"].INTERNAL : _types__WEBPACK_IMPORTED_MODULE_2__["EGraphNodeType"].EXTERNAL;
+    var metrics = {};
+    var node = {
+      data: {
+        id: nodeName,
+        label: nodeName,
+        external_type: nodeType,
+        type: nodeType,
+        metrics: metrics
+      }
+    };
+    var aggregationFunction = sumMetrics ? lodash__WEBPACK_IMPORTED_MODULE_0__["sum"] : lodash__WEBPACK_IMPORTED_MODULE_0__["mean"];
+
+    if (internalNode) {
+      metrics.rate = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["sum"])(Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(dataElements, function (element) {
+        return element.data.rate_in;
+      }));
+      metrics.error_rate = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["sum"])(Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(dataElements, function (element) {
+        return element.data.error_rate_in;
+      }));
+      var response_timings = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(dataElements, function (element) {
+        return element.data.response_time_in;
+      }).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
+
+      if (response_timings.length > 0) {
+        metrics.response_time = aggregationFunction(response_timings);
+      }
+    } else {
+      metrics.rate = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["sum"])(Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(dataElements, function (element) {
+        return element.data.rate_out;
+      }));
+      metrics.error_rate = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["sum"])(Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(dataElements, function (element) {
+        return element.data.error_rate_out;
+      }));
+      var response_timings = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(dataElements, function (element) {
+        return element.data.response_time_out;
+      }).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
+
+      if (response_timings.length > 0) {
+        metrics.response_time = aggregationFunction(response_timings);
+      }
+
+      var externalType = lodash__WEBPACK_IMPORTED_MODULE_0___default()(dataElements).map(function (element) {
+        return element.data.type;
+      }).uniq().value();
+
+      if (externalType.length == 1) {
+        node.external_type = externalType[0];
+      }
+    } // metrics which are same for internal and external nodes
+
+
+    metrics.threshold = lodash__WEBPACK_IMPORTED_MODULE_0___default()(dataElements).map(function (element) {
+      return element.data.threshold;
+    }).filter().mean();
+
+    if (sumMetrics) {
+      var requestCount = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["defaultTo"])(metrics.rate, 0) + Object(lodash__WEBPACK_IMPORTED_MODULE_0__["defaultTo"])(metrics.error_rate, 0);
+      var response_time = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["defaultTo"])(metrics.response_time, -1);
+
+      if (requestCount > 0 && response_time >= 0) {
+        metrics.response_time = response_time / requestCount;
+      }
+    }
+
+    var rate = metrics.rate,
+        error_rate = metrics.error_rate;
+
+    if (rate + error_rate > 0) {
+      metrics.success_rate = 1.0 / (rate + error_rate) * rate;
+    } else {
+      metrics.success_rate = 1.0;
+    }
+
+    return node;
+  };
+
+  GraphGenerator.prototype._createMissingNodes = function (data, nodes) {
+    var existingNodeNames = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(nodes, function (node) {
+      return node.data.id;
+    });
+    var expectedNodeNames = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["uniq"])(Object(lodash__WEBPACK_IMPORTED_MODULE_0__["flatMap"])(data, function (dataElement) {
+      return [dataElement.source, dataElement.target];
+    })).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
+    var missingNodeNames = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["difference"])(expectedNodeNames, existingNodeNames);
+    console.log(existingNodeNames);
+    console.log(expectedNodeNames);
+    var missingNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(missingNodeNames, function (name) {
+      var nodeType;
+      var external_type; // derive node type
+
+      var elementSrc = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(data, {
+        source: name
+      });
+      var elementTrgt = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(data, {
+        target: name
+      });
+
+      if (elementSrc && elementSrc.type == _types__WEBPACK_IMPORTED_MODULE_2__["GraphDataType"].EXTERNAL_IN) {
+        nodeType = _types__WEBPACK_IMPORTED_MODULE_2__["EGraphNodeType"].EXTERNAL;
+        external_type = elementSrc.data.type;
+      } else if (elementTrgt && elementTrgt.type == _types__WEBPACK_IMPORTED_MODULE_2__["GraphDataType"].EXTERNAL_OUT) {
+        nodeType = _types__WEBPACK_IMPORTED_MODULE_2__["EGraphNodeType"].EXTERNAL;
+        external_type = elementTrgt.data.type;
+      } else {
+        nodeType = _types__WEBPACK_IMPORTED_MODULE_2__["EGraphNodeType"].INTERNAL;
+      } //TODO: UPDATE IGraphNode!!!!
+
+
+      return {
+        data: {
+          id: name,
+          type: nodeType,
+          external_type: external_type,
+          metrics: {}
+        }
+      };
+    });
+    console.log(missingNodes);
+    return missingNodes;
+  };
+
+  GraphGenerator.prototype._createNodes = function (data) {
+    var _this = this;
+
+    var graphData = data.graph;
+    console.log(graphData);
+    var filteredData = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["filter"])(graphData, function (dataElement) {
+      return dataElement.source !== dataElement.target;
+    });
+    console.log(filteredData);
+    var targetGroups = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["groupBy"])(filteredData, 'target');
+    console.log(targetGroups);
+    var nodes = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(targetGroups, function (group) {
+      return _this._createNode(group);
+    }).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
+    console.log(nodes); // ensure that all nodes exist, even we have no data for them
+
+    var missingNodes = this._createMissingNodes(filteredData, nodes);
+
+    console.log(missingNodes);
+    return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["concat"])(nodes, missingNodes);
+  };
+
+  GraphGenerator.prototype._createEdge = function (dataElement) {
+    var source = dataElement.source,
+        target = dataElement.target;
+
+    if (source === undefined || target === undefined) {
+      console.error("source and target are necessary to create an edge", dataElement);
+      return undefined;
+    }
+
+    var metrics = {}; //TODO Use IGraphEdge
+
+    var edge = {
+      data: {
+        source: source,
+        target: target,
+        metrics: metrics
+      }
+    };
+    var _a = dataElement.data,
+        rate_out = _a.rate_out,
+        rate_in = _a.rate_in,
+        error_rate_out = _a.error_rate_out,
+        response_time_out = _a.response_time_out;
+
+    if (!Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isUndefined"])(rate_out)) {
+      metrics.rate = rate_out;
+    } else if (!Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isUndefined"])(rate_in)) {
+      metrics.rate = rate_in;
+    }
+
+    if (!Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isUndefined"])(error_rate_out)) {
+      metrics.error_rate = error_rate_out;
+    }
+
+    if (!Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isUndefined"])(response_time_out)) {
+      var sumTimings = this.controller.getSettings().sumTimings;
+
+      if (sumTimings && metrics.rate) {
+        metrics.response_time = response_time_out / metrics.rate;
+      } else {
+        metrics.response_time = response_time_out;
+      }
+    }
+
+    return edge;
+  };
+
+  GraphGenerator.prototype._createEdges = function (data) {
+    var _this = this;
+
+    data = data.graph;
+
+    var filteredData = lodash__WEBPACK_IMPORTED_MODULE_0___default()(data).filter(function (e) {
+      return !!e.source;
+    }).filter(function (e) {
+      return e.source !== e.target;
+    }).value();
+
+    var edges = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(filteredData, function (element) {
+      return _this._createEdge(element);
+    });
+    return edges.filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
+  };
+
+  GraphGenerator.prototype._filterData = function (graph) {
+    var filterData = this.controller.getSettings().filterEmptyConnections;
+
+    if (filterData) {
+      var filteredGraph = {
+        nodes: [],
+        edges: []
+      }; // filter empty connections
+
+      filteredGraph.edges = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["filter"])(graph.edges, function (edge) {
+        return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["size"])(edge.metrics) > 0;
+      });
+      filteredGraph.nodes = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["filter"])(graph.nodes, function (node) {
+        var name = node.name; // don't filter connected elements
+
+        if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["some"])(graph.edges, {
+          'source': name
+        }) || Object(lodash__WEBPACK_IMPORTED_MODULE_0__["some"])(graph.edges, {
+          'target': name
+        })) {
+          return true;
+        }
+
+        var metrics = node.metrics;
+
+        if (!metrics) {
+          return false; // no metrics
+        } // only if rate, error rate or response time is available
+
+
+        return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["defaultTo"])(metrics.rate, -1) >= 0 || Object(lodash__WEBPACK_IMPORTED_MODULE_0__["defaultTo"])(metrics.error_rate, -1) >= 0 || Object(lodash__WEBPACK_IMPORTED_MODULE_0__["defaultTo"])(metrics.response_time, -1) >= 0;
+      });
+      return filteredGraph;
+    } else {
+      return graph;
+    }
+  };
+
+  GraphGenerator.prototype.generateGraph = function (graphData) {
+    var filteredData = this._filterData(graphData);
+
+    console.log(graphData);
+
+    var nodes = this._createNodes(filteredData);
+
+    var edges = this._createEdges(graphData);
+
+    var graph = {
+      nodes: nodes,
+      edges: edges
+    };
+    console.log(graph);
+
+    var filteredGraph = this._filterData(graph);
+
+    console.groupCollapsed('Graph generated');
+    console.log('Input data:', graphData);
+    console.log('Nodes:', nodes);
+    console.log('Edges:', edges);
+    console.log('Filtered graph', filteredGraph);
+    console.groupEnd();
+    return filteredGraph;
+  };
+
+  return GraphGenerator;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (GraphGenerator);
+
+/***/ }),
+
+/***/ "./processing/pre_processor.ts":
+/*!*************************************!*\
+  !*** ./processing/pre_processor.ts ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _util_Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util/Utils */ "./processing/util/Utils.ts");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../types */ "./types.tsx");
+
+
+
+
+
+var PreProcessor =
+/** @class */
+function () {
+  function PreProcessor(controller) {
+    this.controller = controller;
+  }
+
+  PreProcessor.prototype._transformTables = function (tables) {
+    var transformedTable = [];
+    console.log(tables);
+
+    for (var index = 0; index < tables.length; index++) {
+      var currentField = tables[index]; // TODO APPLY out_duration_avg
+
+      if (currentField.name !== "out_duration_avg") {
+        for (var j = 0; j < currentField.values.buffer.length; j++) {
+          if (transformedTable[j] === undefined) {
+            transformedTable[j] = {};
+          }
+
+          transformedTable[j][currentField.name] = currentField.values.buffer[j];
+        }
+      }
+    }
+
+    return transformedTable;
+  };
+
+  PreProcessor.prototype._transformObjects = function (data) {
+    var dataMapping = this.controller.getSettings().dataMapping;
+    console.log(data); //TODO make block below nice!
+
+    var sourceComponentPrefix = dataMapping.sourceComponentPrefix;
+    var targetComponentPrefix = dataMapping.targetComponentPrefix;
+    var externalSource = dataMapping.extOrigin;
+    var externalTarget = dataMapping.extTarget;
+    var aggregationSuffix = this.controller.getAggregationType();
+    var sourceColumn = sourceComponentPrefix + aggregationSuffix;
+    var targetColumn = targetComponentPrefix + aggregationSuffix;
+    var result = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["map"])(data, function (dataObject) {
+      var source = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(dataObject, sourceColumn) && dataObject[sourceColumn] !== "";
+      var target = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(dataObject, targetColumn) && dataObject[targetColumn] !== "";
+      var extSource = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(dataObject, externalSource) && dataObject[externalSource] !== "";
+      var extTarget = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(dataObject, externalTarget) && dataObject[externalTarget] !== "";
+      console.log(data);
+      var trueCount = [source, target, extSource, extTarget].filter(function (e) {
+        return e;
+      }).length;
+      console.log(trueCount);
+
+      if (trueCount > 1) {
+        if (target && extTarget) {
+          target = false;
+        } else if (source && extSource) {
+          source = false;
+        } else {
+          console.error("soruce-target conflict for data element", dataObject);
+          return;
+        }
+      }
+
+      var result = {
+        target: "",
+        data: dataObject,
+        type: _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].INTERNAL
+      };
+
+      if (trueCount == 0) {
+        result.target = dataObject[aggregationSuffix];
+        result.type = _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].EXTERNAL_IN;
+      } else {
+        if (source || target) {
+          if (source) {
+            result.source = dataObject[sourceColumn];
+            result.target = dataObject[aggregationSuffix];
+          } else {
+            result.source = dataObject[aggregationSuffix];
+            result.target = dataObject[targetColumn];
+          }
+
+          if (result.source === result.target) {
+            result.type = _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].SELF;
+          }
+        } else if (extSource) {
+          result.source = dataObject[externalSource];
+          result.target = dataObject[aggregationSuffix];
+          result.type = _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].EXTERNAL_IN;
+        } else if (extTarget) {
+          result.source = dataObject[aggregationSuffix];
+          result.target = dataObject[externalTarget];
+          result.type = _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].EXTERNAL_OUT;
+        }
+      }
+
+      return result;
+    });
+    var filteredResult = result.filter(function (element) {
+      return element !== null;
+    });
+    return filteredResult;
+  };
+
+  PreProcessor.prototype._mergeGraphData = function (data) {
+    var groupedData = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["values"])(Object(lodash__WEBPACK_IMPORTED_MODULE_1__["groupBy"])(data, function (element) {
+      return element.source + '<--->' + element.target;
+    }));
+    var mergedData = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["map"])(groupedData, function (group) {
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["reduce"])(group, function (result, next) {
+        return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["merge"])(result, next);
+      }, {});
+    });
+    return mergedData;
+  };
+
+  PreProcessor.prototype._cleanMetaData = function (columnMapping, metaData) {
+    var result = {};
+    Object(lodash__WEBPACK_IMPORTED_MODULE_1__["forOwn"])(columnMapping, function (value, key) {
+      if (Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(metaData, value)) {
+        result[key] = metaData[value];
+      }
+    });
+    return result;
+  };
+
+  PreProcessor.prototype._cleanData = function (data) {
+    var _this = this;
+
+    var columnMapping = {};
+    columnMapping['response_time_in'] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'responseTimeColumn');
+    columnMapping['rate_in'] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'requestRateColumn');
+    columnMapping['error_rate_in'] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'errorRateColumn');
+    columnMapping['response_time_out'] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'responseTimeOutgoingColumn');
+    columnMapping['rate_out'] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'requestRateOutgoingColumn');
+    columnMapping['error_rate_out'] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'errorRateOutgoingColumn');
+    columnMapping['type'] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'type');
+    columnMapping["threshold"] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'baselineRtUpper');
+    console.log(columnMapping);
+    var cleanedData = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["map"])(data, function (dataElement) {
+      var cleanedMetaData = _this._cleanMetaData(columnMapping, dataElement.data);
+
+      var result = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, dataElement), {
+        data: cleanedMetaData
+      });
+
+      return result;
+    });
+    console.log(cleanedData);
+    return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["filter"])(cleanedData, function (dataElement) {
+      return dataElement.target !== "" && dataElement.source !== "";
+    });
+    ;
+  };
+
+  PreProcessor.prototype._extractColumnNames = function (data) {
+    var columnNames = lodash__WEBPACK_IMPORTED_MODULE_1___default()(data).flatMap(function (dataElement) {
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["keys"])(dataElement.data);
+    }).uniq().sort().value();
+
+    return columnNames;
+  };
+
+  PreProcessor.prototype._getField = function (fieldName, fields) {
+    var e_1, _a;
+
+    try {
+      for (var fields_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(fields), fields_1_1 = fields_1.next(); !fields_1_1.done; fields_1_1 = fields_1.next()) {
+        var field = fields_1_1.value;
+
+        if (field.name === fieldName) {
+          return field;
+        }
+      }
+    } catch (e_1_1) {
+      e_1 = {
+        error: e_1_1
+      };
+    } finally {
+      try {
+        if (fields_1_1 && !fields_1_1.done && (_a = fields_1["return"])) _a.call(fields_1);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
+    }
+
+    return undefined;
+  };
+
+  PreProcessor.prototype._mergeSeries = function (series) {
+    var e_2, _a, e_3, _b;
+
+    var mergedSeries = undefined;
+
+    try {
+      for (var series_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(series), series_1_1 = series_1.next(); !series_1_1.done; series_1_1 = series_1.next()) {
+        var seriesElement = series_1_1.value;
+        console.log(series);
+        console.log(mergedSeries);
+        console.log(seriesElement);
+
+        if (mergedSeries === undefined) {
+          mergedSeries = seriesElement;
+        } else {
+          try {
+            for (var _c = (e_3 = void 0, Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(seriesElement.fields)), _d = _c.next(); !_d.done; _d = _c.next()) {
+              var field = _d.value;
+
+              var mergedField = this._getField(field.name, mergedSeries.fields);
+
+              if (mergedField === undefined) {
+                mergedSeries.fields.push(field);
+              } else {
+                mergedField.values = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["concat"])(field.values, mergedField.values);
+              }
+            }
+          } catch (e_3_1) {
+            e_3 = {
+              error: e_3_1
+            };
+          } finally {
+            try {
+              if (_d && !_d.done && (_b = _c["return"])) _b.call(_c);
+            } finally {
+              if (e_3) throw e_3.error;
+            }
+          }
+        }
+      }
+    } catch (e_2_1) {
+      e_2 = {
+        error: e_2_1
+      };
+    } finally {
+      try {
+        if (series_1_1 && !series_1_1.done && (_a = series_1["return"])) _a.call(series_1);
+      } finally {
+        if (e_2) throw e_2.error;
+      }
+    }
+
+    return mergedSeries;
+  };
+
+  PreProcessor.prototype.processData = function (inputData) {
+    console.log(inputData);
+
+    var mergedSeries = this._mergeSeries(inputData);
+
+    console.log(mergedSeries);
+
+    var objectTables = this._transformTables(mergedSeries);
+
+    var flattenData = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["flattenDeep"])(objectTables);
+
+    var graphElements = this._transformObjects(flattenData);
+
+    var mergedData = this._mergeGraphData(graphElements);
+
+    var columnNames = this._extractColumnNames(mergedData);
+
+    var cleanData = this._cleanData(mergedData);
+
+    console.groupCollapsed('Data transformation log');
+    console.log('Transform tables:', objectTables);
+    console.log('Flat data:', flattenData);
+    console.log('Graph elements:', graphElements);
+    console.log('Merged graph data:', mergedData);
+    console.log('Cleaned data:', cleanData);
+    console.log('Table columns:', columnNames);
+    console.groupEnd();
+    return {
+      graph: cleanData,
+      raw: inputData,
+      columnNames: columnNames
+    };
+  };
+
+  return PreProcessor;
+}();
+
+;
+/* harmony default export */ __webpack_exports__["default"] = (PreProcessor);
+
+/***/ }),
+
+/***/ "./processing/util/Utils.ts":
+/*!**********************************!*\
+  !*** ./processing/util/Utils.ts ***!
+  \**********************************/
+/*! exports provided: isPresent, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPresent", function() { return isPresent; });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+
+function isPresent(t) {
+  return t !== undefined && t !== null;
+}
+;
+/* harmony default export */ __webpack_exports__["default"] = ({
+  getTemplateVariable: function getTemplateVariable(controller, variableName) {
+    var templateVariable = lodash__WEBPACK_IMPORTED_MODULE_0___default.a.find(controller.dashboard.templating.list, {
+      name: variableName
+    });
+
+    if (templateVariable) {
+      return templateVariable.current.value;
+    } else {
+      return undefined;
+    }
+  },
+  getConfig: function getConfig(controller, configName) {
+    console.log(controller.getSettings());
+    console.log(configName);
+    console.log(controller.getSettings().dataMapping[configName]);
+    return controller.getSettings().dataMapping[configName];
+  },
+  getTemplateVariableValues: function getTemplateVariableValues(controller, variableName) {
+    var templateVariable = lodash__WEBPACK_IMPORTED_MODULE_0___default.a.find(controller.dashboard.templating.list, {
+      name: variableName
+    });
+
+    var options = templateVariable.model.options;
+    return lodash__WEBPACK_IMPORTED_MODULE_0___default.a.map(options, function (o) {
+      return o.value;
+    });
+  }
+});
 
 /***/ }),
 

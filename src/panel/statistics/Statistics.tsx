@@ -1,16 +1,17 @@
 import React from 'react';
 import { NodeStatistics } from './NodeStatistics'
 import '../../css/novatec-service-dependency-graph-panel.css';
+import './Statistics.css';
 
 interface StatisticsProps  {
     show: boolean,
     selectionId: any, 
     resolvedDrillDownLink: string, 
     selectionStatistics: any,
-    node: any,
     currentType: any,
     showBaselines: any,
-    receiving: any
+    receiving: any,
+    sending: any
 }
 
 export const Statistics: React.FC<StatisticsProps> = ({
@@ -18,10 +19,10 @@ export const Statistics: React.FC<StatisticsProps> = ({
     selectionId, 
     resolvedDrillDownLink, 
     selectionStatistics,
-    node,
     currentType,
     showBaselines,
-    receiving
+    receiving,
+    sending
     }) => {
         
         var statistics=(<div></div>)
@@ -31,8 +32,8 @@ export const Statistics: React.FC<StatisticsProps> = ({
             if(resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL'){
                 console.log("Drilldown")
                 drilldownLink = (
-                    <a target="_blank" ng-href={resolvedDrillDownLink}>
-                        <i className="fa fa-paper-plane-o"></i>
+                    <a target="_blank" href={resolvedDrillDownLink}>
+                        <i className="fa fa-paper-plane-o margin"></i>
                     </a>
                     )
             }
@@ -43,7 +44,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
                 requests = ( 
                     <tr>
                         <td className="table--td--selection">Requests</td>
-                        <td className="table--td--selection">{"selectionStatistics.requests"}</td>
+                        <td className="table--td--selection">{selectionStatistics.requests}</td>
                     </tr>
                 )
             }
@@ -114,8 +115,8 @@ export const Statistics: React.FC<StatisticsProps> = ({
                         {baseline}
                     </table>
 
-                    <NodeStatistics nodeList={[]} noDataText="No incoming statistics available." title="Incoming Statistics"/>
-                    <NodeStatistics nodeList={[]} noDataText = "No outgoing statistics available." title="Outgoing Statistics"/>
+                    <NodeStatistics nodeList={receiving} noDataText="No incoming statistics available." title="Incoming Statistics"/>
+                    <NodeStatistics nodeList={sending} noDataText = "No outgoing statistics available." title="Outgoing Statistics"/>
                 </div>
             )
         }
