@@ -1,5 +1,8 @@
 ## Novatec Service Dependency Graph Panel
 
+[![Downloads](https://img.shields.io/badge/dynamic/json?color=orange&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22novatec-sdg-panel%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/novatec-sdg-panel)
+[![License](https://img.shields.io/github/license/NovatecConsulting/novatec-service-dependency-graph-panel)](LICENSE)
+
 ![Service Dependency Graph In Action](https://novatecconsulting.github.io/novatec-service-dependency-graph-panel/images/service-dependency-graph-panel.gif)
 
 The Service Dependency Graph Panel by [Novatec](https://www.novatec-gmbh.de/en/) provides you with many features such as monitoring 
