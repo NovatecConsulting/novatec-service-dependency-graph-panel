@@ -29,7 +29,7 @@
     "emotion": "10.0.27"
   },
   "engines": {
-    "node": ">=12 <13"
+    "node": ">=12 <16"
   },
   "dependencies": {
     "@grafana/runtime": "^7.3.2",
