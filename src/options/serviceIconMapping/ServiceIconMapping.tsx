@@ -4,7 +4,6 @@ import { StandardEditorProps } from '@grafana/data';
 import { PanelSettings } from '../../types';
 import assetUtils from '../../panel/asset_utils'
 
-
 interface Props extends StandardEditorProps<string, PanelSettings> {
     item: any, 
     value: any, 
@@ -19,7 +18,6 @@ interface State {
     context: any
     serviceIcons: string[]
   }
-
 
 export class ServiceIconMapping extends React.PureComponent<Props, State>  {
 
@@ -108,6 +106,7 @@ export class ServiceIconMapping extends React.PureComponent<Props, State>  {
                 </div>
                 <div>
                     {componentList}
+
                 </div>
                 <button className="btn navbar-button navbar-button--primary" onClick={() => this.addMapping()}>Add Service Icon Mapping</button>
             </div>

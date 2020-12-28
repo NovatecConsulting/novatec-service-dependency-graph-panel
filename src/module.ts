@@ -1,5 +1,6 @@
 import { PanelPlugin } from '@grafana/data';
 import { PanelSettings } from './types';
+
 import { ServiceDependencyGraphPanelController } from './panel/ServiceDependencyGraphPanelController';
 import { optionsBuilder } from './options/options'
 

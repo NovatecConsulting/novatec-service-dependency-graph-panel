@@ -3,7 +3,6 @@ import { remove } from 'lodash';
 import { StandardEditorProps } from '@grafana/data';
 import { PanelSettings } from '../../types';
 
-
 interface Props extends StandardEditorProps<string, PanelSettings> {
     item: any
     value: string, 
