@@ -2,6 +2,7 @@ import _, { map, flattenDeep, has, groupBy, values, reduce, merge, forOwn, keys,
 import Utils from './util/Utils';
 import { ServiceDependencyGraphPanelController } from '../panel/ServiceDependencyGraphPanelController';
 import { QueryResponse, GraphDataElement, GraphDataType, CurrentData } from '../types';
+import { toDataFrame } from '@grafana/data';
 
 class PreProcessor {
 
@@ -59,7 +60,7 @@ class PreProcessor {
 				} else if (source && extSource) {
 					source = false;
 				} else {
-					console.error("soruce-target conflict for data element", dataObject);
+					console.error("source-target conflict for data element", dataObject);
 					return;
 				}
 			}
@@ -175,9 +176,6 @@ class PreProcessor {
 	_mergeSeries(series: any[]) {
 		var mergedSeries: any = undefined
 		for(const seriesElement of series) {
-			console.log(series)
-			console.log(mergedSeries)
-			console.log(seriesElement)
 			if(mergedSeries === undefined) {
 				mergedSeries = seriesElement
 			} else {
@@ -191,12 +189,29 @@ class PreProcessor {
 				}
 			}
 		}
-
+		console.log(mergedSeries)
 		return mergedSeries
+	}
+
+	_flattenValues(inputData: any) {
+		for(const data of inputData) {
+			for(const field of data.fields) {
+				var flattenValues: any[] = []
+				for(const valueArray of field.values) {
+					flattenValues = concat(flattenValues, valueArray);
+				}
+				field.values = flattenValues;
+			}
+		}
+		return inputData
 	}
 
 	processData(inputData: QueryResponse[]): CurrentData {
 		console.log(inputData)
+		console.log(toDataFrame(inputData))
+		//const flatDataFrame = this._flattenValues(inputData)
+
+
 		const mergedSeries = this._mergeSeries(inputData);
 		console.log(mergedSeries)
 		const objectTables = this._transformTables(mergedSeries);

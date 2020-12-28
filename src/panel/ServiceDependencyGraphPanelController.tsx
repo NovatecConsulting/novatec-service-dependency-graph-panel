@@ -1,6 +1,6 @@
 import React from 'react';
 import  { PureComponent } from 'react';
-import { PanelProps } from '@grafana/data';
+import { DataFrameView, PanelProps, toDataFrame } from '@grafana/data';
 import { ServiceDependencyGraph } from './serviceDependencyGraph/ServiceDependencyGraph'
 import _, { each, has, find, remove, map, isUndefined } from 'lodash';
 import {  CyData, IGraph, IGraphEdge, IGraphNode, PanelSettings, QueryResponse } from '../types';
@@ -214,12 +214,18 @@ isDataAvailable() {
 }
 
 render(){
+  console.log(this.state.data.series)
+  const frame = toDataFrame(this.state.data.series)
+  console.log(frame)
+  const view = new DataFrameView(frame);
+  console.log(view)
   this.currentData = this.processData()
   var panel = (<div>{this.getError()}</div>)
   if(this.getError() === null) {
     panel = (<div></div>)
   }
   console.log(this.props)
+  
   return (
     <div>
       <div className="service-dependency-graph-panel" style ={ {height: this.props.height, width: this.props.width}} ref={this.ref} id = "cy">

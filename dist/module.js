@@ -43854,15 +43854,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./serviceDependencyGraph/ServiceDependencyGraph */ "./panel/serviceDependencyGraph/ServiceDependencyGraph.tsx");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @grafana/runtime */ "@grafana/runtime");
-/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_grafana_runtime__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var processing_graph_generator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! processing/graph_generator */ "./processing/graph_generator.ts");
-/* harmony import */ var processing_pre_processor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! processing/pre_processor */ "./processing/pre_processor.ts");
+/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @grafana/data */ "@grafana/data");
+/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_grafana_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./serviceDependencyGraph/ServiceDependencyGraph */ "./panel/serviceDependencyGraph/ServiceDependencyGraph.tsx");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @grafana/runtime */ "@grafana/runtime");
+/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_grafana_runtime__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var processing_graph_generator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! processing/graph_generator */ "./processing/graph_generator.ts");
+/* harmony import */ var processing_pre_processor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! processing/pre_processor */ "./processing/pre_processor.ts");
+
 
 
 
@@ -43883,8 +43886,8 @@ function (_super) {
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
     _this.ref = react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
-    _this.graphGenerator = new processing_graph_generator__WEBPACK_IMPORTED_MODULE_6__["default"](_this);
-    _this.preProcessor = new processing_pre_processor__WEBPACK_IMPORTED_MODULE_7__["default"](_this);
+    _this.graphGenerator = new processing_graph_generator__WEBPACK_IMPORTED_MODULE_7__["default"](_this);
+    _this.preProcessor = new processing_pre_processor__WEBPACK_IMPORTED_MODULE_8__["default"](_this);
     return _this;
   }
 
@@ -43909,8 +43912,8 @@ function (_super) {
 
   ServiceDependencyGraphPanelController.prototype.hasOnlyTableQueries = function (inputData) {
     var result = true;
-    Object(lodash__WEBPACK_IMPORTED_MODULE_3__["each"])(inputData, function (dataElement) {
-      if (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["has"])(dataElement, 'columns')) {
+    Object(lodash__WEBPACK_IMPORTED_MODULE_4__["each"])(inputData, function (dataElement) {
+      if (!Object(lodash__WEBPACK_IMPORTED_MODULE_4__["has"])(dataElement, 'columns')) {
         result = false;
       }
     });
@@ -43918,10 +43921,10 @@ function (_super) {
   };
 
   ServiceDependencyGraphPanelController.prototype.getAggregationType = function () {
-    var variables = Object(_grafana_runtime__WEBPACK_IMPORTED_MODULE_4__["getTemplateSrv"])().getVariables();
+    var variables = Object(_grafana_runtime__WEBPACK_IMPORTED_MODULE_5__["getTemplateSrv"])().getVariables();
     console.log(variables);
 
-    var index = lodash__WEBPACK_IMPORTED_MODULE_3___default.a.findIndex(variables, function (o) {
+    var index = lodash__WEBPACK_IMPORTED_MODULE_4___default.a.findIndex(variables, function (o) {
       console.log(o);
       return o.id === 'aggregationType';
     });
@@ -43949,7 +43952,7 @@ function (_super) {
 
   ServiceDependencyGraphPanelController.prototype._transformEdges = function (edges) {
     console.log(edges);
-    var cyEdges = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["map"])(edges, function (edge) {
+    var cyEdges = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["map"])(edges, function (edge) {
       var cyEdge = {
         group: 'edges',
         data: {
@@ -43967,7 +43970,7 @@ function (_super) {
 
   ServiceDependencyGraphPanelController.prototype._transformNodes = function (nodes) {
     console.log(nodes);
-    var cyNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["map"])(nodes, function (node) {
+    var cyNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["map"])(nodes, function (node) {
       var result = {
         group: 'nodes',
         data: {
@@ -43988,7 +43991,7 @@ function (_super) {
 
     var _loop_1 = function _loop_1(i) {
       var element = dataArray[i];
-      var cyNode = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["find"])(inputArray, {
+      var cyNode = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["find"])(inputArray, {
         data: {
           id: element.id()
         }
@@ -43996,7 +43999,7 @@ function (_super) {
 
       if (cyNode) {
         element.data(cyNode.data);
-        Object(lodash__WEBPACK_IMPORTED_MODULE_3__["remove"])(inputArray, function (n) {
+        Object(lodash__WEBPACK_IMPORTED_MODULE_4__["remove"])(inputArray, function (n) {
           return n.data.id === cyNode.data.id;
         });
         elements.push(element);
@@ -44037,7 +44040,7 @@ function (_super) {
     cy.add(cyEdges);
 
     if (cyNodes.length > 0) {
-      Object(lodash__WEBPACK_IMPORTED_MODULE_3__["each"])(updatedNodes, function (node) {
+      Object(lodash__WEBPACK_IMPORTED_MODULE_4__["each"])(updatedNodes, function (node) {
         node.lock();
       }); //this.runLayout(true);
     }
@@ -44059,11 +44062,16 @@ function (_super) {
   };
 
   ServiceDependencyGraphPanelController.prototype.isDataAvailable = function () {
-    var dataExist = !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isUndefined"])(this.currentData) && !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isUndefined"])(this.currentData.graph) && this.currentData.graph.length > 0;
+    var dataExist = !Object(lodash__WEBPACK_IMPORTED_MODULE_4__["isUndefined"])(this.currentData) && !Object(lodash__WEBPACK_IMPORTED_MODULE_4__["isUndefined"])(this.currentData.graph) && this.currentData.graph.length > 0;
     return dataExist;
   };
 
   ServiceDependencyGraphPanelController.prototype.render = function () {
+    console.log(this.state.data.series);
+    var frame = Object(_grafana_data__WEBPACK_IMPORTED_MODULE_2__["toDataFrame"])(this.state.data.series);
+    console.log(frame);
+    var view = new _grafana_data__WEBPACK_IMPORTED_MODULE_2__["DataFrameView"](frame);
+    console.log(view);
     this.currentData = this.processData();
     var panel = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.getError());
 
@@ -44080,7 +44088,7 @@ function (_super) {
       },
       ref: this.ref,
       id: "cy"
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_2__["ServiceDependencyGraph"], {
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_3__["ServiceDependencyGraph"], {
       data: this.processData(),
       zoom: 1,
       controller: this,
@@ -46061,6 +46069,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _util_Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util/Utils */ "./processing/util/Utils.ts");
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../types */ "./types.tsx");
+/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @grafana/data */ "@grafana/data");
+/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_grafana_data__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -46122,7 +46133,7 @@ function () {
         } else if (source && extSource) {
           source = false;
         } else {
-          console.error("soruce-target conflict for data element", dataObject);
+          console.error("source-target conflict for data element", dataObject);
           return;
         }
       }
@@ -46261,9 +46272,6 @@ function () {
     try {
       for (var series_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(series), series_1_1 = series_1.next(); !series_1_1.done; series_1_1 = series_1.next()) {
         var seriesElement = series_1_1.value;
-        console.log(series);
-        console.log(mergedSeries);
-        console.log(seriesElement);
 
         if (mergedSeries === undefined) {
           mergedSeries = seriesElement;
@@ -46305,11 +46313,71 @@ function () {
       }
     }
 
+    console.log(mergedSeries);
     return mergedSeries;
+  };
+
+  PreProcessor.prototype._flattenValues = function (inputData) {
+    var e_4, _a, e_5, _b, e_6, _c;
+
+    try {
+      for (var inputData_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(inputData), inputData_1_1 = inputData_1.next(); !inputData_1_1.done; inputData_1_1 = inputData_1.next()) {
+        var data = inputData_1_1.value;
+
+        try {
+          for (var _d = (e_5 = void 0, Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(data.fields)), _e = _d.next(); !_e.done; _e = _d.next()) {
+            var field = _e.value;
+            var flattenValues = [];
+
+            try {
+              for (var _f = (e_6 = void 0, Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(field.values)), _g = _f.next(); !_g.done; _g = _f.next()) {
+                var valueArray = _g.value;
+                flattenValues = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["concat"])(flattenValues, valueArray);
+              }
+            } catch (e_6_1) {
+              e_6 = {
+                error: e_6_1
+              };
+            } finally {
+              try {
+                if (_g && !_g.done && (_c = _f["return"])) _c.call(_f);
+              } finally {
+                if (e_6) throw e_6.error;
+              }
+            }
+
+            field.values = flattenValues;
+          }
+        } catch (e_5_1) {
+          e_5 = {
+            error: e_5_1
+          };
+        } finally {
+          try {
+            if (_e && !_e.done && (_b = _d["return"])) _b.call(_d);
+          } finally {
+            if (e_5) throw e_5.error;
+          }
+        }
+      }
+    } catch (e_4_1) {
+      e_4 = {
+        error: e_4_1
+      };
+    } finally {
+      try {
+        if (inputData_1_1 && !inputData_1_1.done && (_a = inputData_1["return"])) _a.call(inputData_1);
+      } finally {
+        if (e_4) throw e_4.error;
+      }
+    }
+
+    return inputData;
   };
 
   PreProcessor.prototype.processData = function (inputData) {
     console.log(inputData);
+    console.log(Object(_grafana_data__WEBPACK_IMPORTED_MODULE_4__["toDataFrame"])(inputData)); //const flatDataFrame = this._flattenValues(inputData)
 
     var mergedSeries = this._mergeSeries(inputData);
 
