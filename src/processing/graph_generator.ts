@@ -25,22 +25,24 @@ class GraphGenerator {
 		}
 		
 		const internalNode = some(dataElements, ['type', GraphDataType.INTERNAL]) || some(dataElements, ['type', GraphDataType.EXTERNAL_IN]);
+		console.log(internalNode)
 		const nodeType = internalNode ? EGraphNodeType.INTERNAL : EGraphNodeType.EXTERNAL;
+		console.log(nodeType)
 
 		const metrics: IGraphMetrics = {};
-
+		
 		const node: any = {
 			data:{
 				id: nodeName,
 				label: nodeName,
 				external_type: nodeType,
 				type: nodeType,
-				metrics
-			}
+				metrics,
+			},
 		};
 
 		const aggregationFunction = sumMetrics ? sum : mean;
-
+		console.log(dataElements)
 		if (internalNode) {
 			metrics.rate = sum(map(dataElements, element => element.data.rate_in));
 			metrics.error_rate = sum(map(dataElements, element => element.data.error_rate_in));
@@ -62,8 +64,9 @@ class GraphGenerator {
 				.map(element => element.data.type)
 				.uniq()
 				.value();
+
 			if (externalType.length == 1) {
-				node.external_type = externalType[0];
+				node.data.external_type = externalType[0];
 			}
 		}
 
@@ -87,7 +90,7 @@ class GraphGenerator {
 		} else {
 			metrics.success_rate = 1.0;
 		}
-
+		console.log(node)
 		return node;
 	}
 
@@ -95,8 +98,7 @@ class GraphGenerator {
 		const existingNodeNames = map(nodes, node => node.data.id);
 		const expectedNodeNames = uniq(flatMap(data, dataElement => [dataElement.source, dataElement.target])).filter(isPresent);
 		const missingNodeNames = difference(expectedNodeNames, existingNodeNames);
-		console.log(existingNodeNames)
-		console.log(expectedNodeNames)
+
 		const missingNodes = map(missingNodeNames, name => {
 			let nodeType: EGraphNodeType;
 			let external_type: string | undefined;
@@ -123,23 +125,20 @@ class GraphGenerator {
 				}
 			};
 		});
-		console.log(missingNodes)
 
 		return missingNodes;
 	}
 
 	_createNodes(data: GraphDataElement[]): IGraphNode[] {
 		var graphData = data.graph
-		console.log(graphData)
-		const filteredData = filter(graphData, dataElement => dataElement.source !== dataElement.target);
-		console.log(filteredData)
+		const filteredData = filter(graphData, dataElement => dataElement.source !== dataElement.target || (_.has(dataElement, "target") && !_.has(dataElement, "target")) || (!_.has(dataElement, "target") && _.has(dataElement, "target")));
+	
 		const targetGroups = groupBy(filteredData, 'target');
-		console.log(targetGroups)
+		
 		const nodes = map(targetGroups, group => this._createNode(group)).filter(isPresent);
-		console.log(nodes)
+		
 		// ensure that all nodes exist, even we have no data for them
 		const missingNodes = this._createMissingNodes(filteredData, nodes);
-		console.log(missingNodes)
 
 		return concat(nodes, missingNodes);
 	}
@@ -164,7 +163,7 @@ class GraphGenerator {
 		};
 
 		const { rate_out, rate_in, error_rate_out, response_time_out } = dataElement.data;
-
+		console.log(dataElement)
 		if (!isUndefined(rate_out)) {
 			metrics.rate = rate_out;
 		} else if (!isUndefined(rate_in)) {
@@ -237,7 +236,7 @@ class GraphGenerator {
 
 	generateGraph(graphData: GraphDataElement[]): IGraph {
 		const filteredData = this._filterData(graphData);
-		console.log(graphData)
+		
 		const nodes = this._createNodes(filteredData);
 
 		const edges = this._createEdges(graphData);
@@ -246,11 +245,11 @@ class GraphGenerator {
 			nodes,
 			edges
 		};
-		console.log(graph)
+		
 		const filteredGraph = this._filterData(graph);
 
 		console.groupCollapsed('Graph generated');
-		console.log('Input data:', graphData);
+		console.log('Input data:', graphData.graph);
 		console.log('Nodes:', nodes);
 		console.log('Edges:', edges);
 		console.log('Filtered graph', filteredGraph);

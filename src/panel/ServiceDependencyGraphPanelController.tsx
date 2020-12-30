@@ -1,9 +1,9 @@
 import React from 'react';
 import  { PureComponent } from 'react';
-import { DataFrameView, PanelProps, toDataFrame } from '@grafana/data';
+import { PanelProps } from '@grafana/data';
 import { ServiceDependencyGraph } from './serviceDependencyGraph/ServiceDependencyGraph'
 import _, { each, has, find, remove, map, isUndefined } from 'lodash';
-import {  CyData, IGraph, IGraphEdge, IGraphNode, PanelSettings, QueryResponse } from '../types';
+import {  CyData, IGraphEdge, IGraphNode, PanelSettings, QueryResponse } from '../types';
 import { getTemplateSrv } from '@grafana/runtime';
 import cytoscape, { EdgeSingular, NodeSingular } from 'cytoscape';
 import '../css/novatec-service-dependency-graph-panel.css'
@@ -52,6 +52,13 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
     return this.state.options
  }
 
+ componentDidUpdate() {
+  console.log(this.props.data)
+  console.log(this.currentData)
+  this.processData();
+  console.log(this.currentData)
+ }
+
  processQueryData(data: any[]) {
   this.validQueryTypes = this.hasOnlyTableQueries(data);
   if (this.hasAggregationVariable()) {
@@ -81,14 +88,15 @@ hasOnlyTableQueries(inputData: QueryResponse[]) {
 
 getAggregationType() {
   const variables: any[] = getTemplateSrv().getVariables()
-  console.log(variables)
+
   const index = _.findIndex(variables, function(o: any) { 
-    console.log(o);
-    return o.id === 'aggregationType'; });
+    return o.id === 'aggregationType'; 
+  });
+
   if(index >= 0) {
     return variables[index].query
   }
-  console.log(index)
+
   return -1;
 }
 
@@ -99,15 +107,12 @@ hasAggregationVariable() {
 }
 
 processData(){
-  console.log(this.props.data)
-  this.processQueryData(this.state.data.series)
-  console.log(this.currentData)
+  this.processQueryData(this.props.data.series)
   const graph: any = this.graphGenerator.generateGraph(this.currentData);
   return graph
  }
 
 _transformEdges(edges: IGraphEdge[]): CyData[] {
-  console.log(edges)
   const cyEdges = map(edges, edge => {
     const cyEdge = {
       group: 'edges',
@@ -123,13 +128,12 @@ _transformEdges(edges: IGraphEdge[]): CyData[] {
     return cyEdge;
   });
   
-  console.log(cyEdges)
   return cyEdges;
 }
    
 _transformNodes(nodes: IGraphNode[]): CyData[] {
-  console.log(nodes)
   const cyNodes = map(nodes, node => {
+    console.log(node)
     const result: CyData = {
       group: 'nodes',
       data: {
@@ -143,7 +147,7 @@ _transformNodes(nodes: IGraphNode[]): CyData[] {
     };
     return result;
   });
-  console.log(cyNodes)
+
   return cyNodes;
 }
    
@@ -165,42 +169,9 @@ _updateOrRemove(dataArray: (NodeSingular | EdgeSingular)[], inputArray: CyData[]
   return elements;
 }
 
-_updateGraph(graph: IGraph, cy: any) {
-  console.log(graph)
-  const cyNodes = this._transformNodes(graph.nodes);
-  const cyEdges = this._transformEdges(graph.edges);
-
-  console.groupCollapsed("Updating graph");
-  console.log("cytoscape nodes: ", JSON.parse(JSON.stringify(cyNodes)));
-  console.log("cytoscape edges: ", JSON.parse(JSON.stringify(cyEdges)));
-  console.groupEnd();
-  const nodes = cy.nodes().toArray();
-  const updatedNodes = this._updateOrRemove(nodes, cyNodes);
-
-  // add new nodes
-  cy.add(cyNodes);
-
-  const edges = cy.edges().toArray();
-  this._updateOrRemove(edges, cyEdges);
-
-  // add new edges
-  cy.add(cyEdges);
-
-  if (cyNodes.length > 0) {
-    each(updatedNodes, node => {
-      node.lock();
-    });
-    //this.runLayout(true);
-  }
-  
-}
-
 getError(): string | null {
   if (!this.hasAggregationVariable()) {
     return "Please provide a 'aggregationType' template variable.";
-  }
-  if (!this.validQueryTypes) {
-    // TODO: make validQueryTypes work! return "Invalid query types - only use queries which return table data.";
   }
   if (!this.isDataAvailable()) {
     return "No data to show - the query returned no data.";
@@ -214,24 +185,18 @@ isDataAvailable() {
 }
 
 render(){
-  console.log(this.state.data.series)
-  const frame = toDataFrame(this.state.data.series)
-  console.log(frame)
-  const view = new DataFrameView(frame);
-  console.log(view)
-  this.currentData = this.processData()
-  var panel = (<div>{this.getError()}</div>)
-  if(this.getError() === null) {
-    panel = (<div></div>)
-  }
-  console.log(this.props)
-  
-  return (
-    <div>
+  this.processData()
+  const error = this.getError()
+  var panel = (<div>{error}</div>);
+  if( error === null) {
+    panel = (<div>
       <div className="service-dependency-graph-panel" style ={ {height: this.props.height, width: this.props.width}} ref={this.ref} id = "cy">
                 <ServiceDependencyGraph data={ this.processData() } zoom = { 1 }  controller = { this } animate = { false } showStatistics = {false}/>
             </div>
-    </div>
+         </div>
       );
-    }
+  } 
+
+  return (panel);
   }
+}

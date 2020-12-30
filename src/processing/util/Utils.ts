@@ -18,9 +18,6 @@ export default {
 	},
 
 	getConfig: function (controller, configName) {
-		console.log(controller.getSettings())
-		console.log(configName)
-		console.log(controller.getSettings().dataMapping[configName])
 		return controller.getSettings().dataMapping[configName];
 	},
 

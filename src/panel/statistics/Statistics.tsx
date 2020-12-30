@@ -27,10 +27,9 @@ export const Statistics: React.FC<StatisticsProps> = ({
         
         var statistics=(<div></div>)
         if(show) {
-            console.log("show")
             var drilldownLink = (<div></div>)
             if(resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL'){
-                console.log("Drilldown")
+
                 drilldownLink = (
                     <a target="_blank" href={resolvedDrillDownLink}>
                         <i className="fa fa-paper-plane-o margin"></i>
@@ -40,7 +39,6 @@ export const Statistics: React.FC<StatisticsProps> = ({
 
             var requests=(<div></div>)
             if(selectionStatistics.requests >= 0) {
-                console.log("requests")
                 requests = ( 
                     <tr>
                         <td className="table--td--selection">Requests</td>
@@ -51,18 +49,17 @@ export const Statistics: React.FC<StatisticsProps> = ({
 
             var errors=(<div></div>)
             if(selectionStatistics.errors >= 0) {
-                console.log("errors")
                 errors = (
                     <tr>
                         <td className="table--td--selection">Errors</td>
-                        <td className="table--td--selection">{"selectionStatistics.errors"}</td>
+                        <td className="table--td--selection">{selectionStatistics.errors}</td>
                     </tr>
                     )
             }
 
             var errorRate=(<div></div>)
+            console.log(selectionStatistics)
             if(selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0){
-                console.log("errorRate")
                 errorRate = (
                     <tr ng-show="">
                         <td className="table--td--selection">Error Rate</td>
@@ -73,18 +70,17 @@ export const Statistics: React.FC<StatisticsProps> = ({
 
             var avgResponseTime=(<div></div>)
             if(selectionStatistics.responseTime >= 0) {
-                console.log("avgResponseTime")
                 avgResponseTime = (
                     <tr>
                         <td className="table--td--selection">Avg. Response Time</td>
-                        <td className="table--td--selection">{"selectionStatistics.responseTime"} ms</td>
+                        <td className="table--td--selection">{selectionStatistics.responseTime} ms</td>
                     </tr>
                 )
             }
 
             var baseline=(<div></div>)
             if (showBaselines && selectionStatistics.threshold) {
-                console.log("baseline")
+
                 var threshold = (<td className="table--td--selection threshold--good">Good "(&lt;= {selectionStatistics.threshold}ms)"</td>)
                 if(selectionStatistics.thresholdViolation) {
                     threshold = <td className="table--td--selection threshold--bad">Bad ({">"} {selectionStatistics.threshold}ms)</td>

@@ -7,8 +7,8 @@ import cyCanvas from 'cytoscape-canvas';
 import cola from 'cytoscape-cola';
 import layoutOptions from '../layout_options';
 import { Statistics } from '../statistics/Statistics';
-import _ from 'lodash';
-import { TableContent, IGraphMetrics } from 'types';
+import _, { map, find, remove } from 'lodash';
+import { TableContent, IGraphMetrics, IGraph, CyData, IGraphNode, IGraphEdge } from 'types';
 import { TemplateSrv, getTemplateSrv } from '@grafana/runtime';
 
 
@@ -50,25 +50,24 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   componentDidMount () {
-      
       const cy: any = cytoscape({
           container: this.ref,
           zoom: this.state.zoom,
           elements: this.props.data,
           style: [
-      {
-        "selector": "node",
-        "style": {
-          "background-opacity": 0
-        }
-      },
-      {
-        "selector": "edge",
-        "style": {
-          "visibility": "hidden"
-        }
-      }
-    ],
+          {
+            "selector": "node",
+            "style": {
+              "background-opacity": 0
+            }
+          },
+          {
+            "selector": "edge",
+            "style": {
+              "visibility": "hidden"
+            }
+          }
+        ],
           wheelSensitivity: 0.125
       });
       
@@ -88,6 +87,88 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 
       //this._updateGraph(graph, cy);
   }
+
+  componentDidUpdate(){
+    console.log(this.props.data)
+    this._updateGraph(this.props.data)
+  }
+
+  _updateGraph(graph: IGraph) {
+		const cyNodes = this._transformNodes(graph.nodes);
+		const cyEdges = this._transformEdges(graph.edges);
+
+		console.groupCollapsed("Updating graph");
+		console.log("cytoscape nodes: ", JSON.parse(JSON.stringify(cyNodes)));
+		console.log("cytoscape edges: ", JSON.parse(JSON.stringify(cyEdges)));
+		console.groupEnd();
+
+		// add new nodes
+		this.state.cy.add(cyNodes);
+
+		const edges = this.state.cy.edges().toArray();
+		this._updateOrRemove(edges, cyEdges);
+
+    // add new edges
+		this.state.cy.add(cyEdges);
+  }
+  
+  _transformNodes(nodes: IGraphNode[]): CyData[] {
+    console.log(nodes)
+		const cyNodes = map(nodes, node => {
+			const result: CyData = {
+				group: 'nodes',
+				data: {
+					id: node.data.id,
+					type: node.data.type,
+					external_type: node.data.external_type,
+					metrics: {
+						...node.data.metrics
+					}
+				}
+			};
+			return result;
+		});
+
+		return cyNodes;
+  }
+  
+  _transformEdges(edges: IGraphEdge[]): CyData[] {
+		const cyEdges = map(edges, edge => {
+			const cyEdge = {
+				group: 'edges',
+				data: {
+					id: edge.data.source + ":" + edge.data.target,
+					source: edge.data.source,
+					target: edge.data.target,
+					metrics: {
+						...edge.data.metrics
+					}
+				}
+			};
+
+			return cyEdge;
+		});
+
+		return cyEdges;
+  }
+  
+  _updateOrRemove(dataArray: (NodeSingular | EdgeSingular)[], inputArray: CyData[]) {
+		const elements: (NodeSingular | EdgeSingular)[] = [];
+		for (let i = 0; i < dataArray.length; i++) {
+			const element = dataArray[i];
+
+			const cyNode = find(inputArray, { data: { id: element.id() } });
+
+			if (cyNode) {
+				element.data(cyNode.data);
+				remove(inputArray, n => n.data.id === cyNode.data.id);
+				elements.push(element);
+			} else {
+				element.remove();
+			}
+		}
+		return elements;
+	}
 
   onSelectionChange() {
     const selection = this.state.cy.$(':selected');
@@ -171,18 +252,18 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   updateStatisticTable() {
-		const selection = this.state.cy.$(':selected');
-    console.log(selection)
+    const selection = this.state.cy.$(':selected');
+    
 		if (selection.length === 1) {
 			const currentNode: NodeSingular = selection[0];
 			this.selectionId = currentNode.id();
 			this.currentType = currentNode.data('type');
 			const receiving: TableContent[] = [];
 			const sending: TableContent[] = [];
-			const edges: EdgeCollection = selection.connectedEdges();
-      console.log(currentNode)
+      const edges: EdgeCollection = selection.connectedEdges();
+      
       const metrics: IGraphMetrics = selection.nodes()[0].data('metrics');
-      console.log(metrics)
+
 			const requestCount = _.defaultTo(metrics.rate, -1);
 			const errorCount = _.defaultTo(metrics.error_rate, -1);
 			const duration = _.defaultTo(metrics.response_time, -1);
@@ -226,8 +307,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 				};
 
         const edgeMetrics: IGraphMetrics = actualEdge.data('metrics');
-        console.log(edgeMetrics)
-        console.log(actualEdge)
+
         if(edgeMetrics !== undefined) {
           const { response_time, rate, error_rate } = edgeMetrics;
 
@@ -258,12 +338,13 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   generateDrillDownLink() {
 		const { drillDownLink } = this.getSettings();
     const link = drillDownLink.replace('{}', this.selectionId);
-    console.log(link)
 		this.resolvedDrillDownLink = this.templateSrv.replace(link);
 	}
 
   render(){
-    
+    if(this.state.cy !== undefined) {
+      this._updateGraph(this.props.data)
+    }
     return (
         <div className="graph-container" ng-show="!ctrl.getError()">
             <div className="service-dependency-graph">

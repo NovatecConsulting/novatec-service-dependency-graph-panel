@@ -1,9 +1,10 @@
-import _, { map, flattenDeep, has, groupBy, values, reduce, merge, forOwn, keys, filter, concat } from 'lodash';
+import _, { map, flattenDeep, has, groupBy, values, reduce, merge, forOwn, keys, filter, concat, defaults } from 'lodash';
 import Utils from './util/Utils';
 import { ServiceDependencyGraphPanelController } from '../panel/ServiceDependencyGraphPanelController';
 import { QueryResponse, GraphDataElement, GraphDataType, CurrentData } from '../types';
-import { toDataFrame } from '@grafana/data';
-
+import { DataFrameView, toDataFrame } from '@grafana/data';
+import data from '../dummy_graph';
+ 
 class PreProcessor {
 
 	controller: ServiceDependencyGraphPanelController;
@@ -14,18 +15,15 @@ class PreProcessor {
 
 	_transformTables(tables: any[]) {
 		var transformedTable: any[] = [];
-		console.log(tables)
 		for (var index = 0; index < tables.length; index++) {
 			
 			var currentField = tables[index]
-			// TODO APPLY out_duration_avg
-			if(currentField.name !== "out_duration_avg") {
-				for (var j = 0; j < currentField.values.buffer.length; j++) {
-					if(transformedTable[j] === undefined) {
-						transformedTable[j] = {}
-					}
-					transformedTable[j][currentField.name] = currentField.values.buffer[j]
+			
+			for (var j = 0; j < currentField.values.buffer.length; j++) {
+				if(transformedTable[j] === undefined) {
+					transformedTable[j] = {}
 				}
+				transformedTable[j][currentField.name] = currentField.values.buffer[j]
 			}
 
 		}
@@ -35,7 +33,6 @@ class PreProcessor {
 
 	_transformObjects(data: any[]): GraphDataElement[] {
 		const dataMapping = this.controller.getSettings().dataMapping;
-		console.log(data)
 		//TODO make block below nice!
 		const sourceComponentPrefix = dataMapping.sourceComponentPrefix
 		const targetComponentPrefix = dataMapping.targetComponentPrefix
@@ -51,9 +48,9 @@ class PreProcessor {
 			let target = has(dataObject, targetColumn) && dataObject[targetColumn] !== "";
 			const extSource = has(dataObject, externalSource) && dataObject[externalSource] !== "";
 			const extTarget = has(dataObject, externalTarget) && dataObject[externalTarget] !== "";
-			console.log(data)
+
 			let trueCount = [source, target, extSource, extTarget].filter(e => e).length;
-			console.log(trueCount)
+
 			if (trueCount > 1) {
 				if (target && extTarget) {
 					target = false;
@@ -139,7 +136,6 @@ class PreProcessor {
 		columnMapping['type'] = Utils.getConfig(this.controller, 'type');
 		columnMapping["threshold"] = Utils.getConfig(this.controller, 'baselineRtUpper');
 
-		console.log(columnMapping)
 		const cleanedData = map(data, dataElement => {
 			const cleanedMetaData = this._cleanMetaData(columnMapping, dataElement.data);
 
@@ -150,11 +146,12 @@ class PreProcessor {
 
 			return result;
 		});
-		console.log(cleanedData)
+
 		return filter(cleanedData, dataElement => dataElement.target !== "" && dataElement.source !== "");;
 	}
 
 	_extractColumnNames(data: GraphDataElement[]): string[] {
+		console.log(data)
 		const columnNames: string[] = _(data)
 			.flatMap(dataElement => keys(dataElement.data))
 			.uniq()
@@ -189,54 +186,156 @@ class PreProcessor {
 				}
 			}
 		}
-		console.log(mergedSeries)
 		return mergedSeries
 	}
 
-	_flattenValues(inputData: any) {
-		for(const data of inputData) {
-			for(const field of data.fields) {
-				var flattenValues: any[] = []
-				for(const valueArray of field.values) {
-					flattenValues = concat(flattenValues, valueArray);
-				}
-				field.values = flattenValues;
+	_dataToRows(inputDataSets: any) {
+		var rows: any[] =[]
+
+		const dataMapping = this.controller.getSettings().dataMapping;
+		const sourceComponentPrefix = dataMapping.sourceComponentPrefix
+		const targetComponentPrefix = dataMapping.targetComponentPrefix
+		const externalSource = dataMapping.extOrigin
+		const externalTarget = dataMapping.extTarget
+		const aggregationSuffix: string = this.controller.getAggregationType();
+		const type =  dataMapping.type
+
+		const sourceColumn = sourceComponentPrefix + aggregationSuffix;
+		const targetColumn = targetComponentPrefix + aggregationSuffix;
+
+		const errorRateColumn = dataMapping.errorRateColumn
+		const errorRateOutgoingColumn = dataMapping.errorRateOutgoingColumn
+		const responseTimeColumn = dataMapping.responseTimeColumn
+		const responseTimeOutgoingColumn = dataMapping.responseTimeOutgoingColumn
+		const requestRateColumn = dataMapping.requestRateColumn
+		const requestRateOutgoingColumn = dataMapping.requestRateOutgoingColumn
+		const responseTimeBaseline = dataMapping.baselineRtUpper
+
+		const time = "Time";
+
+		for(const inputData of inputDataSets) {
+			const externalSourceField = inputData.fields.find((field: { name: any; }) => field.name === externalSource);
+			const externalTargetField = inputData.fields.find((field: { name: any; }) => field.name === externalTarget);
+			const aggregationSuffixField = inputData.fields.find((field: { name: any; }) => field.name === aggregationSuffix);
+			const typeField =  inputData.fields.find((field: { name: any; }) => field.name === type);
+
+			const sourceColumnField = inputData.fields.find((field: { name: any; }) => field.name === sourceColumn);
+			const targetColumnField = inputData.fields.find((field: { name: any; }) => field.name === targetColumn);
+
+			const errorRateColumnField = inputData.fields.find((field: { name: any; }) => field.name === errorRateColumn);
+			const errorRateOutgoingColumnField = inputData.fields.find((field: { name: any; }) => field.name === errorRateOutgoingColumn);
+			const responseTimeColumnField = inputData.fields.find((field: { name: any; }) => field.name === responseTimeColumn);
+			const responseTimeOutgoingColumnField = inputData.fields.find((field: { name: any; }) => field.name === responseTimeOutgoingColumn);
+			const requestRateColumnField = inputData.fields.find((field: { name: any; }) => field.name === requestRateColumn);
+			const requestRateOutgoingColumnField = inputData.fields.find((field: { name: any; }) => field.name === requestRateOutgoingColumn);
+			const responseTimeBaselineField = inputData.fields.find((field: { name: any; }) => field.name === responseTimeBaseline);
+
+			for (let i = 0; i < inputData.length; i++) {
+
+				const row: any = {};
+				row[externalSource] = externalSourceField?.values.get(i)
+				row[externalTarget] = externalTargetField?.values.get(i)
+				row[aggregationSuffix] = aggregationSuffixField?.values.get(i)
+				row[sourceColumn] = sourceColumnField?.values.get(i)
+				row[targetColumn] = targetColumnField?.values.get(i)
+				row["error_rate_in"] = errorRateColumnField?.values.get(i)
+				row["error_rate_out"] = errorRateOutgoingColumnField?.values.get(i)
+				row["response_time_in"] = responseTimeColumnField?.values.get(i)
+				row["response_time_out"] = responseTimeOutgoingColumnField?.values.get(i)
+				row["rate_in"] = requestRateColumnField?.values.get(i)
+				row["rate_out"] = requestRateOutgoingColumnField?.values.get(i)
+				row["threshold"] = responseTimeBaselineField?.values.get(i)
+				row["type"] = typeField?.values.get(i)
+				Object.keys(row).forEach(key => (row[key] === undefined || row[key] === "")  && delete row[key])
+				rows.push(row)
+			}
+			
+		}
+		return rows;
+	}
+
+	_resolveData(row: any) {
+		let source = has(row, "sourceColumn") && row["sourceColumn"] !== "";
+		let target = has(row, "targetColumn") && row[ "targetColumn"] !== "";
+		const extSource = has(row, "extOrigin") && row["extOrigin"] !== "";
+		const extTarget = has(row, "extTarget") && row["extTarget"] !== "";
+		let trueCount = [source, target, extSource, extTarget].filter(e => e).length;
+
+		if (trueCount > 1) {
+			if (target && extTarget) {
+				target = false;
+			} else if (source && extSource) {
+				source = false;
+			} else {
+				console.error("source-target conflict for data element", row);
+				return;
 			}
 		}
-		return inputData
+		var resolvedObject: any = {
+			"data": row.data
+		}
+		if (trueCount == 0) {
+			resolvedObject.target = row["aggregationSuffix"];
+			resolvedObject.type = GraphDataType.EXTERNAL_IN;
+		} else {
+			if (source || target) {
+				if (source) {
+					resolvedObject.source = row["sourceColumn"];
+					resolvedObject.target = row["aggregationSuffix"];
+					resolvedObject.type = GraphDataType.INTERNAL
+				} else {
+					resolvedObject.source = row["aggregationSuffix"];
+					resolvedObject.target = row["targetColumn"];
+					resolvedObject.type = GraphDataType.INTERNAL
+				}
+
+				if (resolvedObject.source === resolvedObject.target) {
+					resolvedObject.type = GraphDataType.SELF;
+				}
+			} else if (extSource) {
+				resolvedObject.source = row["externalSource"];
+				resolvedObject.target = row["aggregationSuffix"];
+				resolvedObject.type = GraphDataType.EXTERNAL_IN;
+			} else if (extTarget) {
+				resolvedObject.source = row["aggregationSuffix"];
+				resolvedObject.target = row["externalTarget"];
+				resolvedObject.type = GraphDataType.EXTERNAL_OUT;
+			}
+		}
+		return resolvedObject
+
+	}
+
+	_mergeObjects(rows: any[]) {
+		var mergedObjects: any[] = [];
+
+		for(const row of rows) {
+			mergedObjects.push(row);
+		}
+		return mergedObjects;
 	}
 
 	processData(inputData: QueryResponse[]): CurrentData {
-		console.log(inputData)
-		console.log(toDataFrame(inputData))
-		//const flatDataFrame = this._flattenValues(inputData)
+		const rows = this._dataToRows(inputData)
 
-
-		const mergedSeries = this._mergeSeries(inputData);
-		console.log(mergedSeries)
-		const objectTables = this._transformTables(mergedSeries);
-
-		const flattenData = flattenDeep(objectTables);
+		const flattenData = this._mergeObjects(rows)
 
 		const graphElements = this._transformObjects(flattenData);
 
+		const columnNames = this._extractColumnNames(graphElements);
+
 		const mergedData = this._mergeGraphData(graphElements);
 
-		const columnNames = this._extractColumnNames(mergedData);
-
-		const cleanData = this._cleanData(mergedData);
-
 		console.groupCollapsed('Data transformation log');
-		console.log('Transform tables:', objectTables);
+		console.log('Raw data as rows:', rows);
 		console.log('Flat data:', flattenData);
 		console.log('Graph elements:', graphElements);
-		console.log('Merged graph data:', mergedData);
-		console.log('Cleaned data:', cleanData);
+		console.log('Cleaned graph data:', mergedData);
 		console.log('Table columns:', columnNames);
 		console.groupEnd();
 
 		return {
-			graph: cleanData,
+			graph: mergedData,
 			raw: inputData,
 			columnNames: columnNames
 		};

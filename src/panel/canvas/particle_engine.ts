@@ -6,7 +6,7 @@ export default class ParticleEngine {
 
     drawer: CanvasDrawer;
 
-    maxVolume: number = 1000;
+    maxVolume: number = 800;
 
     minSpawnPropability: number = 0.005;
 
@@ -46,7 +46,7 @@ export default class ParticleEngine {
 
     hasParticles(){
         for(const edge of this.drawer.cytoscape.edges().toArray()) {
-            console.log(edge)
+
             if(edge.data('particles') !== undefined &&  (edge.data('particles').normal.length > 0 || edge.data('particles').danger.length > 0)) {
                 return true
             } 
@@ -59,7 +59,7 @@ export default class ParticleEngine {
 
         const now = Date.now();
         cy.edges().forEach(edge => {
-            console.log(edge)
+            
             let particles: Particles = edge.data('particles');
             const metrics: IGraphMetrics = edge.data('metrics');
 

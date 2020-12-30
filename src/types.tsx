@@ -113,6 +113,15 @@ export interface IGraphNode {
   type: EGraphNodeType;
   metrics?: IGraphMetrics;
   external_type?: string;
+  data: IGraphNodeData;
+};
+
+export interface IGraphNodeData {
+  name: string;
+  id: string;
+  type: EGraphNodeType;
+  metrics?: IGraphMetrics;
+  external_type?: string;
 };
 
 export interface IGraphMetrics {
@@ -129,6 +138,13 @@ export enum EGraphNodeType {
 };
 
 export interface IGraphEdge {
+  source: string;
+  target: string;
+  data: IGraphEdgeData;
+  metrics?: IGraphMetrics;
+};
+
+export interface IGraphEdgeData {
   source: string;
   target: string;
   metrics?: IGraphMetrics;

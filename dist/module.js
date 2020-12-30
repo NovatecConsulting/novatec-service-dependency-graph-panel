@@ -43854,18 +43854,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @grafana/data */ "@grafana/data");
-/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_grafana_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./serviceDependencyGraph/ServiceDependencyGraph */ "./panel/serviceDependencyGraph/ServiceDependencyGraph.tsx");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @grafana/runtime */ "@grafana/runtime");
-/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_grafana_runtime__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
-/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var processing_graph_generator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! processing/graph_generator */ "./processing/graph_generator.ts");
-/* harmony import */ var processing_pre_processor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! processing/pre_processor */ "./processing/pre_processor.ts");
-
+/* harmony import */ var _serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./serviceDependencyGraph/ServiceDependencyGraph */ "./panel/serviceDependencyGraph/ServiceDependencyGraph.tsx");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @grafana/runtime */ "@grafana/runtime");
+/* harmony import */ var _grafana_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_grafana_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../css/novatec-service-dependency-graph-panel.css */ "./css/novatec-service-dependency-graph-panel.css");
+/* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var processing_graph_generator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! processing/graph_generator */ "./processing/graph_generator.ts");
+/* harmony import */ var processing_pre_processor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! processing/pre_processor */ "./processing/pre_processor.ts");
 
 
 
@@ -43886,13 +43883,20 @@ function (_super) {
 
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props);
     _this.ref = react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
-    _this.graphGenerator = new processing_graph_generator__WEBPACK_IMPORTED_MODULE_7__["default"](_this);
-    _this.preProcessor = new processing_pre_processor__WEBPACK_IMPORTED_MODULE_8__["default"](_this);
+    _this.graphGenerator = new processing_graph_generator__WEBPACK_IMPORTED_MODULE_6__["default"](_this);
+    _this.preProcessor = new processing_pre_processor__WEBPACK_IMPORTED_MODULE_7__["default"](_this);
     return _this;
   }
 
   ServiceDependencyGraphPanelController.prototype.getSettings = function () {
     return this.state.options;
+  };
+
+  ServiceDependencyGraphPanelController.prototype.componentDidUpdate = function () {
+    console.log(this.props.data);
+    console.log(this.currentData);
+    this.processData();
+    console.log(this.currentData);
   };
 
   ServiceDependencyGraphPanelController.prototype.processQueryData = function (data) {
@@ -43912,8 +43916,8 @@ function (_super) {
 
   ServiceDependencyGraphPanelController.prototype.hasOnlyTableQueries = function (inputData) {
     var result = true;
-    Object(lodash__WEBPACK_IMPORTED_MODULE_4__["each"])(inputData, function (dataElement) {
-      if (!Object(lodash__WEBPACK_IMPORTED_MODULE_4__["has"])(dataElement, 'columns')) {
+    Object(lodash__WEBPACK_IMPORTED_MODULE_3__["each"])(inputData, function (dataElement) {
+      if (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["has"])(dataElement, 'columns')) {
         result = false;
       }
     });
@@ -43921,11 +43925,9 @@ function (_super) {
   };
 
   ServiceDependencyGraphPanelController.prototype.getAggregationType = function () {
-    var variables = Object(_grafana_runtime__WEBPACK_IMPORTED_MODULE_5__["getTemplateSrv"])().getVariables();
-    console.log(variables);
+    var variables = Object(_grafana_runtime__WEBPACK_IMPORTED_MODULE_4__["getTemplateSrv"])().getVariables();
 
-    var index = lodash__WEBPACK_IMPORTED_MODULE_4___default.a.findIndex(variables, function (o) {
-      console.log(o);
+    var index = lodash__WEBPACK_IMPORTED_MODULE_3___default.a.findIndex(variables, function (o) {
       return o.id === 'aggregationType';
     });
 
@@ -43933,7 +43935,6 @@ function (_super) {
       return variables[index].query;
     }
 
-    console.log(index);
     return -1;
   };
 
@@ -43943,16 +43944,13 @@ function (_super) {
   };
 
   ServiceDependencyGraphPanelController.prototype.processData = function () {
-    console.log(this.props.data);
-    this.processQueryData(this.state.data.series);
-    console.log(this.currentData);
+    this.processQueryData(this.props.data.series);
     var graph = this.graphGenerator.generateGraph(this.currentData);
     return graph;
   };
 
   ServiceDependencyGraphPanelController.prototype._transformEdges = function (edges) {
-    console.log(edges);
-    var cyEdges = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["map"])(edges, function (edge) {
+    var cyEdges = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["map"])(edges, function (edge) {
       var cyEdge = {
         group: 'edges',
         data: {
@@ -43964,13 +43962,12 @@ function (_super) {
       };
       return cyEdge;
     });
-    console.log(cyEdges);
     return cyEdges;
   };
 
   ServiceDependencyGraphPanelController.prototype._transformNodes = function (nodes) {
-    console.log(nodes);
-    var cyNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["map"])(nodes, function (node) {
+    var cyNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["map"])(nodes, function (node) {
+      console.log(node);
       var result = {
         group: 'nodes',
         data: {
@@ -43982,7 +43979,6 @@ function (_super) {
       };
       return result;
     });
-    console.log(cyNodes);
     return cyNodes;
   };
 
@@ -43991,7 +43987,7 @@ function (_super) {
 
     var _loop_1 = function _loop_1(i) {
       var element = dataArray[i];
-      var cyNode = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["find"])(inputArray, {
+      var cyNode = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["find"])(inputArray, {
         data: {
           id: element.id()
         }
@@ -43999,7 +43995,7 @@ function (_super) {
 
       if (cyNode) {
         element.data(cyNode.data);
-        Object(lodash__WEBPACK_IMPORTED_MODULE_4__["remove"])(inputArray, function (n) {
+        Object(lodash__WEBPACK_IMPORTED_MODULE_3__["remove"])(inputArray, function (n) {
           return n.data.id === cyNode.data.id;
         });
         elements.push(element);
@@ -44015,43 +44011,9 @@ function (_super) {
     return elements;
   };
 
-  ServiceDependencyGraphPanelController.prototype._updateGraph = function (graph, cy) {
-    console.log(graph);
-
-    var cyNodes = this._transformNodes(graph.nodes);
-
-    var cyEdges = this._transformEdges(graph.edges);
-
-    console.groupCollapsed("Updating graph");
-    console.log("cytoscape nodes: ", JSON.parse(JSON.stringify(cyNodes)));
-    console.log("cytoscape edges: ", JSON.parse(JSON.stringify(cyEdges)));
-    console.groupEnd();
-    var nodes = cy.nodes().toArray();
-
-    var updatedNodes = this._updateOrRemove(nodes, cyNodes); // add new nodes
-
-
-    cy.add(cyNodes);
-    var edges = cy.edges().toArray();
-
-    this._updateOrRemove(edges, cyEdges); // add new edges
-
-
-    cy.add(cyEdges);
-
-    if (cyNodes.length > 0) {
-      Object(lodash__WEBPACK_IMPORTED_MODULE_4__["each"])(updatedNodes, function (node) {
-        node.lock();
-      }); //this.runLayout(true);
-    }
-  };
-
   ServiceDependencyGraphPanelController.prototype.getError = function () {
     if (!this.hasAggregationVariable()) {
       return "Please provide a 'aggregationType' template variable.";
-    }
-
-    if (!this.validQueryTypes) {// TODO: make validQueryTypes work! return "Invalid query types - only use queries which return table data.";
     }
 
     if (!this.isDataAvailable()) {
@@ -44062,39 +44024,34 @@ function (_super) {
   };
 
   ServiceDependencyGraphPanelController.prototype.isDataAvailable = function () {
-    var dataExist = !Object(lodash__WEBPACK_IMPORTED_MODULE_4__["isUndefined"])(this.currentData) && !Object(lodash__WEBPACK_IMPORTED_MODULE_4__["isUndefined"])(this.currentData.graph) && this.currentData.graph.length > 0;
+    var dataExist = !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isUndefined"])(this.currentData) && !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isUndefined"])(this.currentData.graph) && this.currentData.graph.length > 0;
     return dataExist;
   };
 
   ServiceDependencyGraphPanelController.prototype.render = function () {
-    console.log(this.state.data.series);
-    var frame = Object(_grafana_data__WEBPACK_IMPORTED_MODULE_2__["toDataFrame"])(this.state.data.series);
-    console.log(frame);
-    var view = new _grafana_data__WEBPACK_IMPORTED_MODULE_2__["DataFrameView"](frame);
-    console.log(view);
-    this.currentData = this.processData();
-    var panel = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, this.getError());
+    this.processData();
+    var error = this.getError();
+    var panel = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, error);
 
-    if (this.getError() === null) {
-      panel = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null);
+    if (error === null) {
+      panel = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "service-dependency-graph-panel",
+        style: {
+          height: this.props.height,
+          width: this.props.width
+        },
+        ref: this.ref,
+        id: "cy"
+      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_2__["ServiceDependencyGraph"], {
+        data: this.processData(),
+        zoom: 1,
+        controller: this,
+        animate: false,
+        showStatistics: false
+      })));
     }
 
-    console.log(this.props);
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "service-dependency-graph-panel",
-      style: {
-        height: this.props.height,
-        width: this.props.width
-      },
-      ref: this.ref,
-      id: "cy"
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_serviceDependencyGraph_ServiceDependencyGraph__WEBPACK_IMPORTED_MODULE_3__["ServiceDependencyGraph"], {
-      data: this.processData(),
-      zoom: 1,
-      controller: this,
-      animate: false,
-      showStatistics: false
-    })));
+    return panel;
   };
 
   return ServiceDependencyGraphPanelController;
@@ -44967,7 +44924,7 @@ var ParticleEngine =
 /** @class */
 function () {
   function ParticleEngine(canvasDrawer) {
-    this.maxVolume = 1000;
+    this.maxVolume = 800;
     this.minSpawnPropability = 0.005;
     this.drawer = canvasDrawer;
     this.animating = false;
@@ -45009,7 +44966,6 @@ function () {
     try {
       for (var _b = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(this.drawer.cytoscape.edges().toArray()), _c = _b.next(); !_c.done; _c = _b.next()) {
         var edge = _c.value;
-        console.log(edge);
 
         if (edge.data('particles') !== undefined && (edge.data('particles').normal.length > 0 || edge.data('particles').danger.length > 0)) {
           return true;
@@ -45036,7 +44992,6 @@ function () {
     var cy = this.drawer.cytoscape;
     var now = Date.now();
     cy.edges().forEach(function (edge) {
-      console.log(edge);
       var particles = edge.data('particles');
       var metrics = edge.data('metrics');
 
@@ -45248,6 +45203,93 @@ function (_super) {
     }); //this._updateGraph(graph, cy);
   };
 
+  ServiceDependencyGraph.prototype.componentDidUpdate = function () {
+    console.log(this.props.data);
+
+    this._updateGraph(this.props.data);
+  };
+
+  ServiceDependencyGraph.prototype._updateGraph = function (graph) {
+    var cyNodes = this._transformNodes(graph.nodes);
+
+    var cyEdges = this._transformEdges(graph.edges);
+
+    console.groupCollapsed("Updating graph");
+    console.log("cytoscape nodes: ", JSON.parse(JSON.stringify(cyNodes)));
+    console.log("cytoscape edges: ", JSON.parse(JSON.stringify(cyEdges)));
+    console.groupEnd(); // add new nodes
+
+    this.state.cy.add(cyNodes);
+    var edges = this.state.cy.edges().toArray();
+
+    this._updateOrRemove(edges, cyEdges); // add new edges
+
+
+    this.state.cy.add(cyEdges);
+  };
+
+  ServiceDependencyGraph.prototype._transformNodes = function (nodes) {
+    console.log(nodes);
+    var cyNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_8__["map"])(nodes, function (node) {
+      var result = {
+        group: 'nodes',
+        data: {
+          id: node.data.id,
+          type: node.data.type,
+          external_type: node.data.external_type,
+          metrics: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, node.data.metrics)
+        }
+      };
+      return result;
+    });
+    return cyNodes;
+  };
+
+  ServiceDependencyGraph.prototype._transformEdges = function (edges) {
+    var cyEdges = Object(lodash__WEBPACK_IMPORTED_MODULE_8__["map"])(edges, function (edge) {
+      var cyEdge = {
+        group: 'edges',
+        data: {
+          id: edge.data.source + ":" + edge.data.target,
+          source: edge.data.source,
+          target: edge.data.target,
+          metrics: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, edge.data.metrics)
+        }
+      };
+      return cyEdge;
+    });
+    return cyEdges;
+  };
+
+  ServiceDependencyGraph.prototype._updateOrRemove = function (dataArray, inputArray) {
+    var elements = [];
+
+    var _loop_1 = function _loop_1(i) {
+      var element = dataArray[i];
+      var cyNode = Object(lodash__WEBPACK_IMPORTED_MODULE_8__["find"])(inputArray, {
+        data: {
+          id: element.id()
+        }
+      });
+
+      if (cyNode) {
+        element.data(cyNode.data);
+        Object(lodash__WEBPACK_IMPORTED_MODULE_8__["remove"])(inputArray, function (n) {
+          return n.data.id === cyNode.data.id;
+        });
+        elements.push(element);
+      } else {
+        element.remove();
+      }
+    };
+
+    for (var i = 0; i < dataArray.length; i++) {
+      _loop_1(i);
+    }
+
+    return elements;
+  };
+
   ServiceDependencyGraph.prototype.onSelectionChange = function () {
     var selection = this.state.cy.$(':selected');
 
@@ -45336,7 +45378,6 @@ function (_super) {
 
   ServiceDependencyGraph.prototype.updateStatisticTable = function () {
     var selection = this.state.cy.$(':selected');
-    console.log(selection);
 
     if (selection.length === 1) {
       var currentNode = selection[0];
@@ -45345,9 +45386,7 @@ function (_super) {
       var receiving = [];
       var sending = [];
       var edges = selection.connectedEdges();
-      console.log(currentNode);
       var metrics = selection.nodes()[0].data('metrics');
-      console.log(metrics);
 
       var requestCount = lodash__WEBPACK_IMPORTED_MODULE_8___default.a.defaultTo(metrics.rate, -1);
 
@@ -45394,8 +45433,6 @@ function (_super) {
           error: "-"
         };
         var edgeMetrics = actualEdge.data('metrics');
-        console.log(edgeMetrics);
-        console.log(actualEdge);
 
         if (edgeMetrics !== undefined) {
           var response_time = edgeMetrics.response_time,
@@ -45431,12 +45468,15 @@ function (_super) {
   ServiceDependencyGraph.prototype.generateDrillDownLink = function () {
     var drillDownLink = this.getSettings().drillDownLink;
     var link = drillDownLink.replace('{}', this.selectionId);
-    console.log(link);
     this.resolvedDrillDownLink = this.templateSrv.replace(link);
   };
 
   ServiceDependencyGraph.prototype.render = function () {
     var _this = this;
+
+    if (this.state.cy !== undefined) {
+      this._updateGraph(this.props.data);
+    }
 
     return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
       className: "graph-container",
@@ -45625,11 +45665,9 @@ var Statistics = function Statistics(_a) {
   var statistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
   if (show) {
-    console.log("show");
     var drilldownLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
     if (resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL') {
-      console.log("Drilldown");
       drilldownLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         target: "_blank",
         href: resolvedDrillDownLink
@@ -45641,7 +45679,6 @@ var Statistics = function Statistics(_a) {
     var requests = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
     if (selectionStatistics.requests >= 0) {
-      console.log("requests");
       requests = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
       }, "Requests"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -45652,18 +45689,17 @@ var Statistics = function Statistics(_a) {
     var errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
     if (selectionStatistics.errors >= 0) {
-      console.log("errors");
       errors = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
       }, "Errors"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
-      }, "selectionStatistics.errors"));
+      }, selectionStatistics.errors));
     }
 
     var errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+    console.log(selectionStatistics);
 
     if (selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0) {
-      console.log("errorRate");
       errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         "ng-show": ""
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -45676,18 +45712,16 @@ var Statistics = function Statistics(_a) {
     var avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
     if (selectionStatistics.responseTime >= 0) {
-      console.log("avgResponseTime");
       avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
       }, "Avg. Response Time"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
-      }, "selectionStatistics.responseTime", " ms"));
+      }, selectionStatistics.responseTime, " ms"));
     }
 
     var baseline = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
 
     if (showBaselines && selectionStatistics.threshold) {
-      console.log("baseline");
       var threshold = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection threshold--good"
       }, "Good \"(<= ", selectionStatistics.threshold, "ms)\"");
@@ -45753,7 +45787,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util/Utils */ "./processing/util/Utils.ts");
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types */ "./types.tsx");
 
- //import { TypeaheadTextField } from './options/TypeaheadTextfield';
 
 
 
@@ -45777,7 +45810,9 @@ function () {
     }
 
     var internalNode = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["some"])(dataElements, ['type', _types__WEBPACK_IMPORTED_MODULE_2__["GraphDataType"].INTERNAL]) || Object(lodash__WEBPACK_IMPORTED_MODULE_0__["some"])(dataElements, ['type', _types__WEBPACK_IMPORTED_MODULE_2__["GraphDataType"].EXTERNAL_IN]);
+    console.log(internalNode);
     var nodeType = internalNode ? _types__WEBPACK_IMPORTED_MODULE_2__["EGraphNodeType"].INTERNAL : _types__WEBPACK_IMPORTED_MODULE_2__["EGraphNodeType"].EXTERNAL;
+    console.log(nodeType);
     var metrics = {};
     var node = {
       data: {
@@ -45789,6 +45824,7 @@ function () {
       }
     };
     var aggregationFunction = sumMetrics ? lodash__WEBPACK_IMPORTED_MODULE_0__["sum"] : lodash__WEBPACK_IMPORTED_MODULE_0__["mean"];
+    console.log(dataElements);
 
     if (internalNode) {
       metrics.rate = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["sum"])(Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(dataElements, function (element) {
@@ -45824,7 +45860,7 @@ function () {
       }).uniq().value();
 
       if (externalType.length == 1) {
-        node.external_type = externalType[0];
+        node.data.external_type = externalType[0];
       }
     } // metrics which are same for internal and external nodes
 
@@ -45851,6 +45887,7 @@ function () {
       metrics.success_rate = 1.0;
     }
 
+    console.log(node);
     return node;
   };
 
@@ -45862,8 +45899,6 @@ function () {
       return [dataElement.source, dataElement.target];
     })).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
     var missingNodeNames = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["difference"])(expectedNodeNames, existingNodeNames);
-    console.log(existingNodeNames);
-    console.log(expectedNodeNames);
     var missingNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(missingNodeNames, function (name) {
       var nodeType;
       var external_type; // derive node type
@@ -45895,7 +45930,6 @@ function () {
         }
       };
     });
-    console.log(missingNodes);
     return missingNodes;
   };
 
@@ -45903,21 +45937,16 @@ function () {
     var _this = this;
 
     var graphData = data.graph;
-    console.log(graphData);
     var filteredData = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["filter"])(graphData, function (dataElement) {
-      return dataElement.source !== dataElement.target;
+      return dataElement.source !== dataElement.target || lodash__WEBPACK_IMPORTED_MODULE_0___default.a.has(dataElement, "target") && !lodash__WEBPACK_IMPORTED_MODULE_0___default.a.has(dataElement, "target") || !lodash__WEBPACK_IMPORTED_MODULE_0___default.a.has(dataElement, "target") && lodash__WEBPACK_IMPORTED_MODULE_0___default.a.has(dataElement, "target");
     });
-    console.log(filteredData);
     var targetGroups = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["groupBy"])(filteredData, 'target');
-    console.log(targetGroups);
     var nodes = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(targetGroups, function (group) {
       return _this._createNode(group);
-    }).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
-    console.log(nodes); // ensure that all nodes exist, even we have no data for them
+    }).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]); // ensure that all nodes exist, even we have no data for them
 
     var missingNodes = this._createMissingNodes(filteredData, nodes);
 
-    console.log(missingNodes);
     return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["concat"])(nodes, missingNodes);
   };
 
@@ -45944,6 +45973,7 @@ function () {
         rate_in = _a.rate_in,
         error_rate_out = _a.error_rate_out,
         response_time_out = _a.response_time_out;
+    console.log(dataElement);
 
     if (!Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isUndefined"])(rate_out)) {
       metrics.rate = rate_out;
@@ -46026,8 +46056,6 @@ function () {
   GraphGenerator.prototype.generateGraph = function (graphData) {
     var filteredData = this._filterData(graphData);
 
-    console.log(graphData);
-
     var nodes = this._createNodes(filteredData);
 
     var edges = this._createEdges(graphData);
@@ -46036,12 +46064,11 @@ function () {
       nodes: nodes,
       edges: edges
     };
-    console.log(graph);
 
     var filteredGraph = this._filterData(graph);
 
     console.groupCollapsed('Graph generated');
-    console.log('Input data:', graphData);
+    console.log('Input data:', graphData.graph);
     console.log('Nodes:', nodes);
     console.log('Edges:', edges);
     console.log('Filtered graph', filteredGraph);
@@ -46070,9 +46097,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _util_Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util/Utils */ "./processing/util/Utils.ts");
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../types */ "./types.tsx");
-/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @grafana/data */ "@grafana/data");
-/* harmony import */ var _grafana_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_grafana_data__WEBPACK_IMPORTED_MODULE_4__);
-
 
 
 
@@ -46087,19 +46111,16 @@ function () {
 
   PreProcessor.prototype._transformTables = function (tables) {
     var transformedTable = [];
-    console.log(tables);
 
     for (var index = 0; index < tables.length; index++) {
-      var currentField = tables[index]; // TODO APPLY out_duration_avg
+      var currentField = tables[index];
 
-      if (currentField.name !== "out_duration_avg") {
-        for (var j = 0; j < currentField.values.buffer.length; j++) {
-          if (transformedTable[j] === undefined) {
-            transformedTable[j] = {};
-          }
-
-          transformedTable[j][currentField.name] = currentField.values.buffer[j];
+      for (var j = 0; j < currentField.values.buffer.length; j++) {
+        if (transformedTable[j] === undefined) {
+          transformedTable[j] = {};
         }
+
+        transformedTable[j][currentField.name] = currentField.values.buffer[j];
       }
     }
 
@@ -46107,8 +46128,7 @@ function () {
   };
 
   PreProcessor.prototype._transformObjects = function (data) {
-    var dataMapping = this.controller.getSettings().dataMapping;
-    console.log(data); //TODO make block below nice!
+    var dataMapping = this.controller.getSettings().dataMapping; //TODO make block below nice!
 
     var sourceComponentPrefix = dataMapping.sourceComponentPrefix;
     var targetComponentPrefix = dataMapping.targetComponentPrefix;
@@ -46122,11 +46142,9 @@ function () {
       var target = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(dataObject, targetColumn) && dataObject[targetColumn] !== "";
       var extSource = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(dataObject, externalSource) && dataObject[externalSource] !== "";
       var extTarget = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(dataObject, externalTarget) && dataObject[externalTarget] !== "";
-      console.log(data);
       var trueCount = [source, target, extSource, extTarget].filter(function (e) {
         return e;
       }).length;
-      console.log(trueCount);
 
       if (trueCount > 1) {
         if (target && extTarget) {
@@ -46214,7 +46232,6 @@ function () {
     columnMapping['error_rate_out'] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'errorRateOutgoingColumn');
     columnMapping['type'] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'type');
     columnMapping["threshold"] = _util_Utils__WEBPACK_IMPORTED_MODULE_2__["default"].getConfig(this.controller, 'baselineRtUpper');
-    console.log(columnMapping);
     var cleanedData = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["map"])(data, function (dataElement) {
       var cleanedMetaData = _this._cleanMetaData(columnMapping, dataElement.data);
 
@@ -46224,7 +46241,6 @@ function () {
 
       return result;
     });
-    console.log(cleanedData);
     return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["filter"])(cleanedData, function (dataElement) {
       return dataElement.target !== "" && dataElement.source !== "";
     });
@@ -46232,6 +46248,8 @@ function () {
   };
 
   PreProcessor.prototype._extractColumnNames = function (data) {
+    console.log(data);
+
     var columnNames = lodash__WEBPACK_IMPORTED_MODULE_1___default()(data).flatMap(function (dataElement) {
       return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["keys"])(dataElement.data);
     }).uniq().sort().value();
@@ -46314,51 +46332,97 @@ function () {
       }
     }
 
-    console.log(mergedSeries);
     return mergedSeries;
   };
 
-  PreProcessor.prototype._flattenValues = function (inputData) {
-    var e_4, _a, e_5, _b, e_6, _c;
+  PreProcessor.prototype._dataToRows = function (inputDataSets) {
+    var e_4, _a;
+
+    var rows = [];
+    var dataMapping = this.controller.getSettings().dataMapping;
+    var sourceComponentPrefix = dataMapping.sourceComponentPrefix;
+    var targetComponentPrefix = dataMapping.targetComponentPrefix;
+    var externalSource = dataMapping.extOrigin;
+    var externalTarget = dataMapping.extTarget;
+    var aggregationSuffix = this.controller.getAggregationType();
+    var type = dataMapping.type;
+    var sourceColumn = sourceComponentPrefix + aggregationSuffix;
+    var targetColumn = targetComponentPrefix + aggregationSuffix;
+    var errorRateColumn = dataMapping.errorRateColumn;
+    var errorRateOutgoingColumn = dataMapping.errorRateOutgoingColumn;
+    var responseTimeColumn = dataMapping.responseTimeColumn;
+    var responseTimeOutgoingColumn = dataMapping.responseTimeOutgoingColumn;
+    var requestRateColumn = dataMapping.requestRateColumn;
+    var requestRateOutgoingColumn = dataMapping.requestRateOutgoingColumn;
+    var responseTimeBaseline = dataMapping.baselineRtUpper;
+    var time = "Time";
 
     try {
-      for (var inputData_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(inputData), inputData_1_1 = inputData_1.next(); !inputData_1_1.done; inputData_1_1 = inputData_1.next()) {
-        var data = inputData_1_1.value;
+      for (var inputDataSets_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(inputDataSets), inputDataSets_1_1 = inputDataSets_1.next(); !inputDataSets_1_1.done; inputDataSets_1_1 = inputDataSets_1.next()) {
+        var inputData = inputDataSets_1_1.value;
+        var externalSourceField = inputData.fields.find(function (field) {
+          return field.name === externalSource;
+        });
+        var externalTargetField = inputData.fields.find(function (field) {
+          return field.name === externalTarget;
+        });
+        var aggregationSuffixField = inputData.fields.find(function (field) {
+          return field.name === aggregationSuffix;
+        });
+        var typeField = inputData.fields.find(function (field) {
+          return field.name === type;
+        });
+        var sourceColumnField = inputData.fields.find(function (field) {
+          return field.name === sourceColumn;
+        });
+        var targetColumnField = inputData.fields.find(function (field) {
+          return field.name === targetColumn;
+        });
+        var errorRateColumnField = inputData.fields.find(function (field) {
+          return field.name === errorRateColumn;
+        });
+        var errorRateOutgoingColumnField = inputData.fields.find(function (field) {
+          return field.name === errorRateOutgoingColumn;
+        });
+        var responseTimeColumnField = inputData.fields.find(function (field) {
+          return field.name === responseTimeColumn;
+        });
+        var responseTimeOutgoingColumnField = inputData.fields.find(function (field) {
+          return field.name === responseTimeOutgoingColumn;
+        });
+        var requestRateColumnField = inputData.fields.find(function (field) {
+          return field.name === requestRateColumn;
+        });
+        var requestRateOutgoingColumnField = inputData.fields.find(function (field) {
+          return field.name === requestRateOutgoingColumn;
+        });
+        var responseTimeBaselineField = inputData.fields.find(function (field) {
+          return field.name === responseTimeBaseline;
+        });
 
-        try {
-          for (var _d = (e_5 = void 0, Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(data.fields)), _e = _d.next(); !_e.done; _e = _d.next()) {
-            var field = _e.value;
-            var flattenValues = [];
+        var _loop_1 = function _loop_1(i) {
+          var row = {};
+          row[externalSource] = externalSourceField === null || externalSourceField === void 0 ? void 0 : externalSourceField.values.get(i);
+          row[externalTarget] = externalTargetField === null || externalTargetField === void 0 ? void 0 : externalTargetField.values.get(i);
+          row[aggregationSuffix] = aggregationSuffixField === null || aggregationSuffixField === void 0 ? void 0 : aggregationSuffixField.values.get(i);
+          row[sourceColumn] = sourceColumnField === null || sourceColumnField === void 0 ? void 0 : sourceColumnField.values.get(i);
+          row[targetColumn] = targetColumnField === null || targetColumnField === void 0 ? void 0 : targetColumnField.values.get(i);
+          row["error_rate_in"] = errorRateColumnField === null || errorRateColumnField === void 0 ? void 0 : errorRateColumnField.values.get(i);
+          row["error_rate_out"] = errorRateOutgoingColumnField === null || errorRateOutgoingColumnField === void 0 ? void 0 : errorRateOutgoingColumnField.values.get(i);
+          row["response_time_in"] = responseTimeColumnField === null || responseTimeColumnField === void 0 ? void 0 : responseTimeColumnField.values.get(i);
+          row["response_time_out"] = responseTimeOutgoingColumnField === null || responseTimeOutgoingColumnField === void 0 ? void 0 : responseTimeOutgoingColumnField.values.get(i);
+          row["rate_in"] = requestRateColumnField === null || requestRateColumnField === void 0 ? void 0 : requestRateColumnField.values.get(i);
+          row["rate_out"] = requestRateOutgoingColumnField === null || requestRateOutgoingColumnField === void 0 ? void 0 : requestRateOutgoingColumnField.values.get(i);
+          row["threshold"] = responseTimeBaselineField === null || responseTimeBaselineField === void 0 ? void 0 : responseTimeBaselineField.values.get(i);
+          row["type"] = typeField === null || typeField === void 0 ? void 0 : typeField.values.get(i);
+          Object.keys(row).forEach(function (key) {
+            return (row[key] === undefined || row[key] === "") && delete row[key];
+          });
+          rows.push(row);
+        };
 
-            try {
-              for (var _f = (e_6 = void 0, Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(field.values)), _g = _f.next(); !_g.done; _g = _f.next()) {
-                var valueArray = _g.value;
-                flattenValues = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["concat"])(flattenValues, valueArray);
-              }
-            } catch (e_6_1) {
-              e_6 = {
-                error: e_6_1
-              };
-            } finally {
-              try {
-                if (_g && !_g.done && (_c = _f["return"])) _c.call(_f);
-              } finally {
-                if (e_6) throw e_6.error;
-              }
-            }
-
-            field.values = flattenValues;
-          }
-        } catch (e_5_1) {
-          e_5 = {
-            error: e_5_1
-          };
-        } finally {
-          try {
-            if (_e && !_e.done && (_b = _d["return"])) _b.call(_d);
-          } finally {
-            if (e_5) throw e_5.error;
-          }
+        for (var i = 0; i < inputData.length; i++) {
+          _loop_1(i);
         }
       }
     } catch (e_4_1) {
@@ -46367,45 +46431,116 @@ function () {
       };
     } finally {
       try {
-        if (inputData_1_1 && !inputData_1_1.done && (_a = inputData_1["return"])) _a.call(inputData_1);
+        if (inputDataSets_1_1 && !inputDataSets_1_1.done && (_a = inputDataSets_1["return"])) _a.call(inputDataSets_1);
       } finally {
         if (e_4) throw e_4.error;
       }
     }
 
-    return inputData;
+    return rows;
+  };
+
+  PreProcessor.prototype._resolveData = function (row) {
+    var source = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(row, "sourceColumn") && row["sourceColumn"] !== "";
+    var target = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(row, "targetColumn") && row["targetColumn"] !== "";
+    var extSource = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(row, "extOrigin") && row["extOrigin"] !== "";
+    var extTarget = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["has"])(row, "extTarget") && row["extTarget"] !== "";
+    var trueCount = [source, target, extSource, extTarget].filter(function (e) {
+      return e;
+    }).length;
+
+    if (trueCount > 1) {
+      if (target && extTarget) {
+        target = false;
+      } else if (source && extSource) {
+        source = false;
+      } else {
+        console.error("source-target conflict for data element", row);
+        return;
+      }
+    }
+
+    var resolvedObject = {
+      "data": row.data
+    };
+
+    if (trueCount == 0) {
+      resolvedObject.target = row["aggregationSuffix"];
+      resolvedObject.type = _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].EXTERNAL_IN;
+    } else {
+      if (source || target) {
+        if (source) {
+          resolvedObject.source = row["sourceColumn"];
+          resolvedObject.target = row["aggregationSuffix"];
+          resolvedObject.type = _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].INTERNAL;
+        } else {
+          resolvedObject.source = row["aggregationSuffix"];
+          resolvedObject.target = row["targetColumn"];
+          resolvedObject.type = _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].INTERNAL;
+        }
+
+        if (resolvedObject.source === resolvedObject.target) {
+          resolvedObject.type = _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].SELF;
+        }
+      } else if (extSource) {
+        resolvedObject.source = row["externalSource"];
+        resolvedObject.target = row["aggregationSuffix"];
+        resolvedObject.type = _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].EXTERNAL_IN;
+      } else if (extTarget) {
+        resolvedObject.source = row["aggregationSuffix"];
+        resolvedObject.target = row["externalTarget"];
+        resolvedObject.type = _types__WEBPACK_IMPORTED_MODULE_3__["GraphDataType"].EXTERNAL_OUT;
+      }
+    }
+
+    return resolvedObject;
+  };
+
+  PreProcessor.prototype._mergeObjects = function (rows) {
+    var e_5, _a;
+
+    var mergedObjects = [];
+
+    try {
+      for (var rows_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(rows), rows_1_1 = rows_1.next(); !rows_1_1.done; rows_1_1 = rows_1.next()) {
+        var row = rows_1_1.value;
+        mergedObjects.push(row);
+      }
+    } catch (e_5_1) {
+      e_5 = {
+        error: e_5_1
+      };
+    } finally {
+      try {
+        if (rows_1_1 && !rows_1_1.done && (_a = rows_1["return"])) _a.call(rows_1);
+      } finally {
+        if (e_5) throw e_5.error;
+      }
+    }
+
+    return mergedObjects;
   };
 
   PreProcessor.prototype.processData = function (inputData) {
-    console.log(inputData);
-    console.log(Object(_grafana_data__WEBPACK_IMPORTED_MODULE_4__["toDataFrame"])(inputData)); //const flatDataFrame = this._flattenValues(inputData)
+    var rows = this._dataToRows(inputData);
 
-    var mergedSeries = this._mergeSeries(inputData);
-
-    console.log(mergedSeries);
-
-    var objectTables = this._transformTables(mergedSeries);
-
-    var flattenData = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["flattenDeep"])(objectTables);
+    var flattenData = this._mergeObjects(rows);
 
     var graphElements = this._transformObjects(flattenData);
 
+    var columnNames = this._extractColumnNames(graphElements);
+
     var mergedData = this._mergeGraphData(graphElements);
 
-    var columnNames = this._extractColumnNames(mergedData);
-
-    var cleanData = this._cleanData(mergedData);
-
     console.groupCollapsed('Data transformation log');
-    console.log('Transform tables:', objectTables);
+    console.log('Raw data as rows:', rows);
     console.log('Flat data:', flattenData);
     console.log('Graph elements:', graphElements);
-    console.log('Merged graph data:', mergedData);
-    console.log('Cleaned data:', cleanData);
+    console.log('Cleaned graph data:', mergedData);
     console.log('Table columns:', columnNames);
     console.groupEnd();
     return {
-      graph: cleanData,
+      graph: mergedData,
       raw: inputData,
       columnNames: columnNames
     };
@@ -46449,9 +46584,6 @@ function isPresent(t) {
     }
   },
   getConfig: function getConfig(controller, configName) {
-    console.log(controller.getSettings());
-    console.log(configName);
-    console.log(controller.getSettings().dataMapping[configName]);
     return controller.getSettings().dataMapping[configName];
   },
   getTemplateVariableValues: function getTemplateVariableValues(controller, variableName) {
@@ -46499,6 +46631,7 @@ var GraphDataType;
 ;
 ;
 ;
+;
 var EGraphNodeType;
 
 (function (EGraphNodeType) {
@@ -46506,6 +46639,7 @@ var EGraphNodeType;
   EGraphNodeType["EXTERNAL"] = "EXTERNAL";
 })(EGraphNodeType || (EGraphNodeType = {}));
 
+;
 ;
 ;
 ;
