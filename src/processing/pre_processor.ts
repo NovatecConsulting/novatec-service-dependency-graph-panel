@@ -123,7 +123,6 @@ class PreProcessor {
 	}
 
 	_extractColumnNames(data: GraphDataElement[]): string[] {
-		console.log(data)
 		const columnNames: string[] = _(data)
 			.flatMap(dataElement => keys(dataElement.data))
 			.uniq()
@@ -164,28 +163,19 @@ class PreProcessor {
 	_dataToRows(inputDataSets: any) {
 		var rows: any[] =[]
 
-		const dataMapping = this.controller.getSettings().dataMapping;
-		const sourceComponentPrefix = dataMapping.sourceComponentPrefix
-		const targetComponentPrefix = dataMapping.targetComponentPrefix
-		const externalSource = dataMapping.extOrigin
-		const externalTarget = dataMapping.extTarget
 		const aggregationSuffix: string = this.controller.getAggregationType();
-		const type =  dataMapping.type
+		const {
+			sourceComponentPrefix, targetComponentPrefix, extOrigin, extTarget, type, 
+			errorRateColumn, errorRateOutgoingColumn, responseTimeColumn, responseTimeOutgoingColumn, requestRateColumn, requestRateOutgoingColumn, baselineRtUpper
+		} = this.controller.getSettings().dataMapping;
 
 		const sourceColumn = sourceComponentPrefix + aggregationSuffix;
 		const targetColumn = targetComponentPrefix + aggregationSuffix;
 
-		const errorRateColumn = dataMapping.errorRateColumn
-		const errorRateOutgoingColumn = dataMapping.errorRateOutgoingColumn
-		const responseTimeColumn = dataMapping.responseTimeColumn
-		const responseTimeOutgoingColumn = dataMapping.responseTimeOutgoingColumn
-		const requestRateColumn = dataMapping.requestRateColumn
-		const requestRateOutgoingColumn = dataMapping.requestRateOutgoingColumn
-		const responseTimeBaseline = dataMapping.baselineRtUpper
 
 		for(const inputData of inputDataSets) {
-			const externalSourceField = inputData.fields.find((field: { name: any; }) => field.name === externalSource);
-			const externalTargetField = inputData.fields.find((field: { name: any; }) => field.name === externalTarget);
+			const externalSourceField = inputData.fields.find((field: { name: any; }) => field.name === extOrigin);
+			const externalTargetField = inputData.fields.find((field: { name: any; }) => field.name === extTarget);
 			const aggregationSuffixField = inputData.fields.find((field: { name: any; }) => field.name === aggregationSuffix);
 			const typeField =  inputData.fields.find((field: { name: any; }) => field.name === type);
 
@@ -198,13 +188,13 @@ class PreProcessor {
 			const responseTimeOutgoingColumnField = inputData.fields.find((field: { name: any; }) => field.name === responseTimeOutgoingColumn);
 			const requestRateColumnField = inputData.fields.find((field: { name: any; }) => field.name === requestRateColumn);
 			const requestRateOutgoingColumnField = inputData.fields.find((field: { name: any; }) => field.name === requestRateOutgoingColumn);
-			const responseTimeBaselineField = inputData.fields.find((field: { name: any; }) => field.name === responseTimeBaseline);
+			const responseTimeBaselineField = inputData.fields.find((field: { name: any; }) => field.name === baselineRtUpper);
 
 			for (let i = 0; i < inputData.length; i++) {
 
 				const row: any = {};
-				row[externalSource] = externalSourceField?.values.get(i)
-				row[externalTarget] = externalTargetField?.values.get(i)
+				row[extOrigin] = externalSourceField?.values.get(i)
+				row[extTarget] = externalTargetField?.values.get(i)
 				row[aggregationSuffix] = aggregationSuffixField?.values.get(i)
 				row[sourceColumn] = sourceColumnField?.values.get(i)
 				row[targetColumn] = targetColumnField?.values.get(i)

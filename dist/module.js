@@ -43893,10 +43893,7 @@ function (_super) {
   };
 
   ServiceDependencyGraphPanelController.prototype.componentDidUpdate = function () {
-    console.log(this.props.data);
-    console.log(this.currentData);
     this.processData();
-    console.log(this.currentData);
   };
 
   ServiceDependencyGraphPanelController.prototype.processQueryData = function (data) {
@@ -43967,7 +43964,6 @@ function (_super) {
 
   ServiceDependencyGraphPanelController.prototype._transformNodes = function (nodes) {
     var cyNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["map"])(nodes, function (node) {
-      console.log(node);
       var result = {
         group: 'nodes',
         data: {
@@ -45203,8 +45199,6 @@ function (_super) {
   };
 
   ServiceDependencyGraph.prototype.componentDidUpdate = function () {
-    console.log(this.props.data);
-
     this._updateGraph(this.props.data);
   };
 
@@ -45237,7 +45231,6 @@ function (_super) {
   };
 
   ServiceDependencyGraph.prototype._transformNodes = function (nodes) {
-    console.log(nodes);
     var cyNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_8__["map"])(nodes, function (node) {
       var result = {
         group: 'nodes',
@@ -45818,9 +45811,7 @@ function () {
     }
 
     var internalNode = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["some"])(dataElements, ['type', _types__WEBPACK_IMPORTED_MODULE_2__["GraphDataType"].INTERNAL]) || Object(lodash__WEBPACK_IMPORTED_MODULE_0__["some"])(dataElements, ['type', _types__WEBPACK_IMPORTED_MODULE_2__["GraphDataType"].EXTERNAL_IN]);
-    console.log(internalNode);
     var nodeType = internalNode ? _types__WEBPACK_IMPORTED_MODULE_2__["EGraphNodeType"].INTERNAL : _types__WEBPACK_IMPORTED_MODULE_2__["EGraphNodeType"].EXTERNAL;
-    console.log(nodeType);
     var metrics = {};
     var node = {
       data: {
@@ -45832,7 +45823,6 @@ function () {
       }
     };
     var aggregationFunction = sumMetrics ? lodash__WEBPACK_IMPORTED_MODULE_0__["sum"] : lodash__WEBPACK_IMPORTED_MODULE_0__["mean"];
-    console.log(dataElements);
 
     if (internalNode) {
       metrics.rate = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["sum"])(Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(dataElements, function (element) {
@@ -45895,7 +45885,6 @@ function () {
       metrics.success_rate = 1.0;
     }
 
-    console.log(node);
     return node;
   };
 
@@ -45981,7 +45970,6 @@ function () {
         rate_in = _a.rate_in,
         error_rate_out = _a.error_rate_out,
         response_time_out = _a.response_time_out;
-    console.log(dataElement);
 
     if (!Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isUndefined"])(rate_out)) {
       metrics.rate = rate_out;
@@ -46223,8 +46211,6 @@ function () {
   };
 
   PreProcessor.prototype._extractColumnNames = function (data) {
-    console.log(data);
-
     var columnNames = lodash__WEBPACK_IMPORTED_MODULE_1___default()(data).flatMap(function (dataElement) {
       return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["keys"])(dataElement.data);
     }).uniq().sort().value();
@@ -46314,31 +46300,31 @@ function () {
     var e_4, _a;
 
     var rows = [];
-    var dataMapping = this.controller.getSettings().dataMapping;
-    var sourceComponentPrefix = dataMapping.sourceComponentPrefix;
-    var targetComponentPrefix = dataMapping.targetComponentPrefix;
-    var externalSource = dataMapping.extOrigin;
-    var externalTarget = dataMapping.extTarget;
     var aggregationSuffix = this.controller.getAggregationType();
-    var type = dataMapping.type;
+    var _b = this.controller.getSettings().dataMapping,
+        sourceComponentPrefix = _b.sourceComponentPrefix,
+        targetComponentPrefix = _b.targetComponentPrefix,
+        extOrigin = _b.extOrigin,
+        extTarget = _b.extTarget,
+        type = _b.type,
+        errorRateColumn = _b.errorRateColumn,
+        errorRateOutgoingColumn = _b.errorRateOutgoingColumn,
+        responseTimeColumn = _b.responseTimeColumn,
+        responseTimeOutgoingColumn = _b.responseTimeOutgoingColumn,
+        requestRateColumn = _b.requestRateColumn,
+        requestRateOutgoingColumn = _b.requestRateOutgoingColumn,
+        baselineRtUpper = _b.baselineRtUpper;
     var sourceColumn = sourceComponentPrefix + aggregationSuffix;
     var targetColumn = targetComponentPrefix + aggregationSuffix;
-    var errorRateColumn = dataMapping.errorRateColumn;
-    var errorRateOutgoingColumn = dataMapping.errorRateOutgoingColumn;
-    var responseTimeColumn = dataMapping.responseTimeColumn;
-    var responseTimeOutgoingColumn = dataMapping.responseTimeOutgoingColumn;
-    var requestRateColumn = dataMapping.requestRateColumn;
-    var requestRateOutgoingColumn = dataMapping.requestRateOutgoingColumn;
-    var responseTimeBaseline = dataMapping.baselineRtUpper;
 
     try {
       for (var inputDataSets_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__values"])(inputDataSets), inputDataSets_1_1 = inputDataSets_1.next(); !inputDataSets_1_1.done; inputDataSets_1_1 = inputDataSets_1.next()) {
         var inputData = inputDataSets_1_1.value;
         var externalSourceField = inputData.fields.find(function (field) {
-          return field.name === externalSource;
+          return field.name === extOrigin;
         });
         var externalTargetField = inputData.fields.find(function (field) {
-          return field.name === externalTarget;
+          return field.name === extTarget;
         });
         var aggregationSuffixField = inputData.fields.find(function (field) {
           return field.name === aggregationSuffix;
@@ -46371,13 +46357,13 @@ function () {
           return field.name === requestRateOutgoingColumn;
         });
         var responseTimeBaselineField = inputData.fields.find(function (field) {
-          return field.name === responseTimeBaseline;
+          return field.name === baselineRtUpper;
         });
 
         var _loop_1 = function _loop_1(i) {
           var row = {};
-          row[externalSource] = externalSourceField === null || externalSourceField === void 0 ? void 0 : externalSourceField.values.get(i);
-          row[externalTarget] = externalTargetField === null || externalTargetField === void 0 ? void 0 : externalTargetField.values.get(i);
+          row[extOrigin] = externalSourceField === null || externalSourceField === void 0 ? void 0 : externalSourceField.values.get(i);
+          row[extTarget] = externalTargetField === null || externalTargetField === void 0 ? void 0 : externalTargetField.values.get(i);
           row[aggregationSuffix] = aggregationSuffixField === null || aggregationSuffixField === void 0 ? void 0 : aggregationSuffixField.values.get(i);
           row[sourceColumn] = sourceColumnField === null || sourceColumnField === void 0 ? void 0 : sourceColumnField.values.get(i);
           row[targetColumn] = targetColumnField === null || targetColumnField === void 0 ? void 0 : targetColumnField.values.get(i);

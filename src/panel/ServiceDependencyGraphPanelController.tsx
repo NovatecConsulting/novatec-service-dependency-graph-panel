@@ -53,10 +53,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
  }
 
  componentDidUpdate() {
-  console.log(this.props.data)
-  console.log(this.currentData)
   this.processData();
-  console.log(this.currentData)
  }
 
  processQueryData(data: any[]) {
@@ -133,7 +130,6 @@ _transformEdges(edges: IGraphEdge[]): CyData[] {
    
 _transformNodes(nodes: IGraphNode[]): CyData[] {
   const cyNodes = map(nodes, node => {
-    console.log(node)
     const result: CyData = {
       group: 'nodes',
       data: {

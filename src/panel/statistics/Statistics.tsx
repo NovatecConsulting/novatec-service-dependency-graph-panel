@@ -58,7 +58,6 @@ export const Statistics: React.FC<StatisticsProps> = ({
             }
 
             var errorRate=(<div></div>)
-            console.log(selectionStatistics)
             if(selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0){
                 errorRate = (
                     <tr ng-show="">

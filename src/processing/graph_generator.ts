@@ -25,9 +25,7 @@ class GraphGenerator {
 		}
 		
 		const internalNode = some(dataElements, ['type', GraphDataType.INTERNAL]) || some(dataElements, ['type', GraphDataType.EXTERNAL_IN]);
-		console.log(internalNode)
 		const nodeType = internalNode ? EGraphNodeType.INTERNAL : EGraphNodeType.EXTERNAL;
-		console.log(nodeType)
 
 		const metrics: IGraphMetrics = {};
 		
@@ -42,7 +40,6 @@ class GraphGenerator {
 		};
 
 		const aggregationFunction = sumMetrics ? sum : mean;
-		console.log(dataElements)
 		if (internalNode) {
 			metrics.rate = sum(map(dataElements, element => element.data.rate_in));
 			metrics.error_rate = sum(map(dataElements, element => element.data.error_rate_in));
@@ -90,7 +87,6 @@ class GraphGenerator {
 		} else {
 			metrics.success_rate = 1.0;
 		}
-		console.log(node)
 		return node;
 	}
 
@@ -163,7 +159,6 @@ class GraphGenerator {
 		};
 
 		const { rate_out, rate_in, error_rate_out, response_time_out } = dataElement.data;
-		console.log(dataElement)
 		if (!isUndefined(rate_out)) {
 			metrics.rate = rate_out;
 		} else if (!isUndefined(rate_in)) {

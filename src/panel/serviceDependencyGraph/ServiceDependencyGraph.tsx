@@ -89,7 +89,6 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   componentDidUpdate(){
-    console.log(this.props.data)
     this._updateGraph(this.props.data)
   }
 
@@ -123,7 +122,6 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
   
   _transformNodes(nodes: IGraphNode[]): CyData[] {
-    console.log(nodes)
 		const cyNodes = map(nodes, node => {
 			const result: CyData = {
 				group: 'nodes',
