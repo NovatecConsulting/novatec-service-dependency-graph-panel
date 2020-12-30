@@ -115,8 +115,7 @@ class GraphGenerator {
 			} else {
 				nodeType = EGraphNodeType.INTERNAL;
 			}
-			//TODO: UPDATE IGraphNode!!!!
-			return <any>{
+			return <IGraphNode>{
 				data: {
 					id: name,
 					type: nodeType,
@@ -130,8 +129,7 @@ class GraphGenerator {
 	}
 
 	_createNodes(data: GraphDataElement[]): IGraphNode[] {
-		var graphData = data.graph
-		const filteredData = filter(graphData, dataElement => dataElement.source !== dataElement.target || (_.has(dataElement, "target") && !_.has(dataElement, "target")) || (!_.has(dataElement, "target") && _.has(dataElement, "target")));
+		const filteredData = filter(data, dataElement => dataElement.source !== dataElement.target || (_.has(dataElement, "target") && !_.has(dataElement, "target")) || (!_.has(dataElement, "target") && _.has(dataElement, "target")));
 	
 		const targetGroups = groupBy(filteredData, 'target');
 		
@@ -154,7 +152,9 @@ class GraphGenerator {
 		const metrics: IGraphMetrics = {};
 
 		//TODO Use IGraphEdge
-		const edge: any = {
+		const edge: IGraphEdge = {
+			source: source,
+			target: target,
 			data: {
 				source,
 				target,
@@ -187,7 +187,6 @@ class GraphGenerator {
 	}
 
 	_createEdges(data: GraphDataElement[]): IGraphEdge[] {
-		data = data.graph
 		const filteredData = _(data)
 			.filter(e => !!e.source)
 			.filter(e => e.source !== e.target)
@@ -235,9 +234,7 @@ class GraphGenerator {
 	}
 
 	generateGraph(graphData: GraphDataElement[]): IGraph {
-		const filteredData = this._filterData(graphData);
-		
-		const nodes = this._createNodes(filteredData);
+		const nodes = this._createNodes(graphData);
 
 		const edges = this._createEdges(graphData);
 
@@ -249,7 +246,7 @@ class GraphGenerator {
 		const filteredGraph = this._filterData(graph);
 
 		console.groupCollapsed('Graph generated');
-		console.log('Input data:', graphData.graph);
+		console.log('Input data:', graphData);
 		console.log('Nodes:', nodes);
 		console.log('Edges:', edges);
 		console.log('Filtered graph', filteredGraph);

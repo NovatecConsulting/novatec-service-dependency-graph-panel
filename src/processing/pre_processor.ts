@@ -1,9 +1,6 @@
-import _, { map, flattenDeep, has, groupBy, values, reduce, merge, forOwn, keys, filter, concat, defaults } from 'lodash';
-import Utils from './util/Utils';
+import _, { map, has, groupBy, values, reduce, merge, forOwn, keys, concat } from 'lodash';
 import { ServiceDependencyGraphPanelController } from '../panel/ServiceDependencyGraphPanelController';
 import { QueryResponse, GraphDataElement, GraphDataType, CurrentData } from '../types';
-import { DataFrameView, toDataFrame } from '@grafana/data';
-import data from '../dummy_graph';
  
 class PreProcessor {
 
@@ -58,7 +55,7 @@ class PreProcessor {
 					source = false;
 				} else {
 					console.error("source-target conflict for data element", dataObject);
-					return;
+					return {} ;
 				}
 			}
 
@@ -114,7 +111,7 @@ class PreProcessor {
 	}
 
 	_cleanMetaData(columnMapping: any, metaData: any) {
-		const result = {};
+		const result: any = {};
 
 		forOwn(columnMapping, (value, key) => {
 			if (has(metaData, value)) {
@@ -123,31 +120,6 @@ class PreProcessor {
 		});
 
 		return result;
-	}
-
-	_cleanData(data: GraphDataElement[]): GraphDataElement[] {
-		const columnMapping = {};
-		columnMapping['response_time_in'] = Utils.getConfig(this.controller, 'responseTimeColumn');
-		columnMapping['rate_in'] = Utils.getConfig(this.controller, 'requestRateColumn');
-		columnMapping['error_rate_in'] = Utils.getConfig(this.controller, 'errorRateColumn');
-		columnMapping['response_time_out'] = Utils.getConfig(this.controller, 'responseTimeOutgoingColumn');
-		columnMapping['rate_out'] = Utils.getConfig(this.controller, 'requestRateOutgoingColumn');
-		columnMapping['error_rate_out'] = Utils.getConfig(this.controller, 'errorRateOutgoingColumn');
-		columnMapping['type'] = Utils.getConfig(this.controller, 'type');
-		columnMapping["threshold"] = Utils.getConfig(this.controller, 'baselineRtUpper');
-
-		const cleanedData = map(data, dataElement => {
-			const cleanedMetaData = this._cleanMetaData(columnMapping, dataElement.data);
-
-			const result = {
-				...dataElement,
-				data: cleanedMetaData
-			};
-
-			return result;
-		});
-
-		return filter(cleanedData, dataElement => dataElement.target !== "" && dataElement.source !== "");;
 	}
 
 	_extractColumnNames(data: GraphDataElement[]): string[] {
@@ -210,8 +182,6 @@ class PreProcessor {
 		const requestRateColumn = dataMapping.requestRateColumn
 		const requestRateOutgoingColumn = dataMapping.requestRateOutgoingColumn
 		const responseTimeBaseline = dataMapping.baselineRtUpper
-
-		const time = "Time";
 
 		for(const inputData of inputDataSets) {
 			const externalSourceField = inputData.fields.find((field: { name: any; }) => field.name === externalSource);

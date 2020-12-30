@@ -108,7 +108,7 @@ hasAggregationVariable() {
 
 processData(){
   this.processQueryData(this.props.data.series)
-  const graph: any = this.graphGenerator.generateGraph(this.currentData);
+  const graph: any = this.graphGenerator.generateGraph(this.currentData.graph);
   return graph
  }
 

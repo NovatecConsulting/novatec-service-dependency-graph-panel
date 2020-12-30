@@ -7,7 +7,7 @@ import cyCanvas from 'cytoscape-canvas';
 import cola from 'cytoscape-cola';
 import layoutOptions from '../layout_options';
 import { Statistics } from '../statistics/Statistics';
-import _, { map, find, remove } from 'lodash';
+import _, { map, find, remove, each } from 'lodash';
 import { TableContent, IGraphMetrics, IGraph, CyData, IGraphNode, IGraphEdge } from 'types';
 import { TemplateSrv, getTemplateSrv } from '@grafana/runtime';
 
@@ -102,14 +102,24 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 		console.log("cytoscape edges: ", JSON.parse(JSON.stringify(cyEdges)));
 		console.groupEnd();
 
+    const nodes = this.state.cy.nodes().toArray();
+    const updatedNodes = this._updateOrRemove(nodes, cyNodes);
+    
 		// add new nodes
 		this.state.cy.add(cyNodes);
 
 		const edges = this.state.cy.edges().toArray();
 		this._updateOrRemove(edges, cyEdges);
 
-    // add new edges
+		// add new edges
 		this.state.cy.add(cyEdges);
+
+    if (cyNodes.length > 0) {
+      each(updatedNodes, node => {
+        
+      });
+      this.runLayout(true);
+		}
   }
   
   _transformNodes(nodes: IGraphNode[]): CyData[] {
