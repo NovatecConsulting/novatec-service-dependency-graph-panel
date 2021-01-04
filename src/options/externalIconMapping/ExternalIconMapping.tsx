@@ -6,20 +6,11 @@ import { PanelSettings } from '../../types';
 interface Props extends StandardEditorProps<string, PanelSettings> {
     item: any
     value: string, 
-    onChange: any, 
+    onChange: (value?: string) => void, 
     context: any
 }
 
-interface State {
-    item: any, 
-    value: string, 
-    onChange: any, 
-    context: any
-  }
-
-
-
-export class ExternalIconMapping extends React.PureComponent<Props, State>  {
+export class ExternalIconMapping extends React.PureComponent<Props, Props >  {
 
     constructor(props: Props | Readonly<Props>) {
         super(props);
@@ -27,23 +18,23 @@ export class ExternalIconMapping extends React.PureComponent<Props, State>  {
     }
 
     addMapping() {
-        this.state.context.options.externalIcons.push({ pattern: 'my-type', filename: 'default' })
-        this.state.onChange.call( this.state.item.path,  this.state.context.options.externalIcons)
+        this.state.context.options.externalIcons.push({ pattern: 'my-type', filename: 'default' });
+        this.state.onChange.call( this.state.item.path,  this.state.context.options.externalIcons);
     }
     
-    removeMapping(index:any) {
-        remove( this.state.context.options.externalIcons, n =>  this.state.context.options.externalIcons.indexOf(n) == index)
-        this.state.onChange.call( this.state.item.path,  this.state.context.options.externalIcons)
+    removeMapping(index: number) {
+        remove( this.state.context.options.externalIcons, n =>  this.state.context.options.externalIcons.indexOf(n) == index);
+        this.state.onChange.call( this.state.item.path,  this.state.context.options.externalIcons);
     }
     
-    setPatternValue(event: any, index: any) {
-        this.state.context.options.externalIcons[index].pattern = event.currentTarget.value
-        this.state.onChange.call( this.state.item.path,  this.state.context.options.externalIcons)
+    setPatternValue(event: any, index: number) {
+        this.state.context.options.externalIcons[index].pattern = event.currentTarget.value;
+        this.state.onChange.call( this.state.item.path,  this.state.context.options.externalIcons);
     }
     
-    setFileNameValue(event: any, index: any) {
-        this.state.context.options.externalIcons[index].filename = event.currentTarget.value
-        this.state.onChange.call(this.state.item.path,  this.state.context.options.externalIcons)
+    setFileNameValue(event: any, index: number) {
+        this.state.context.options.externalIcons[index].filename = event.currentTarget.value;
+        this.state.onChange.call(this.state.item.path,  this.state.context.options.externalIcons);
     }
 
     getExternalIcons(){
@@ -53,17 +44,17 @@ export class ExternalIconMapping extends React.PureComponent<Props, State>  {
 
     render() {
         if(!this.state.value || this.state.value === undefined) {
-            this.state.context.options.externalIcons = [{ pattern: 'my-type', filename: 'default' }]
+            this.state.context.options.externalIcons = [{ pattern: 'my-type', filename: 'default' }];
         }
-        var optionsList: JSX.Element[] = []
+        var optionsList: JSX.Element[] = [];
         for(const image of this.getExternalIcons()) {
             optionsList.push(
             <option value={image}>
                 {image}
             </option>
-            )
+            );
         }
-        var componentList: JSX.Element[] = []
+        var componentList: JSX.Element[] = [];
         for (const [index] of this.state.context.options.externalIcons.entries()) {
             componentList.push(
                 <div>
@@ -82,7 +73,7 @@ export class ExternalIconMapping extends React.PureComponent<Props, State>  {
                                 className="fa fa-trash"></i></a>
                     </div>
                 </div>
-            )
+            );
         }
         return (
             <div>
@@ -97,6 +88,6 @@ export class ExternalIconMapping extends React.PureComponent<Props, State>  {
                 </div>
                 <button className="btn navbar-button navbar-button--primary" onClick={() => this.addMapping()}>Add External Service Icon Mapping</button>
             </div>
-        )
+        );
     }
 }

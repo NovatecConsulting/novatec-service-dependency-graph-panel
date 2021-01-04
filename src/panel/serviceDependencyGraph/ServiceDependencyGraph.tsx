@@ -1,5 +1,5 @@
 import CanvasDrawer from 'panel/canvas/graph_canvas';
-import cytoscape, { EdgeCollection, EdgeSingular, NodeSingular } from 'cytoscape';
+import cytoscape, { EdgeCollection, EdgeSingular, ElementDefinition, NodeSingular } from 'cytoscape';
 import React from 'react';
 import { PureComponent } from 'react';
 import { ServiceDependencyGraphPanelController } from '../ServiceDependencyGraphPanelController';
@@ -8,7 +8,7 @@ import cola from 'cytoscape-cola';
 import layoutOptions from '../layout_options';
 import { Statistics } from '../statistics/Statistics';
 import _, { map, find, remove, each } from 'lodash';
-import { TableContent, IGraphMetrics, IGraph, CyData, IGraphNode, IGraphEdge } from 'types';
+import { TableContent, IGraphMetrics, IGraph, IGraphNode, IGraphEdge } from 'types';
 import { TemplateSrv, getTemplateSrv } from '@grafana/runtime';
 
 
@@ -16,8 +16,8 @@ interface PanelState {
     zoom: number | undefined,
     animate: boolean | undefined,
     controller: ServiceDependencyGraphPanelController;
-    cy?: any | undefined,
-    graphCanvas?: any | undefined,
+    cy?: cytoscape.Core | undefined,
+    graphCanvas?: CanvasDrawer | undefined,
     animateButton?: string,
     showStatistics: boolean,
     data: any
@@ -27,16 +27,24 @@ cyCanvas(cytoscape);
 cytoscape.use(cola);
 
 export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState> {
+
   ref: any;
-  graphGenerator: any
-  currentData: any
-  selectionId: any
-  currentType: any
-  selectionStatistics: any
-  receiving: any
-  sending: any
-  resolvedDrillDownLink: string
-  templateSrv: TemplateSrv
+
+  selectionId: string | number;
+
+  currentType: string;
+
+  selectionStatistics: any;
+
+  receiving: TableContent[];
+
+  sending: TableContent[];
+
+  resolvedDrillDownLink: string;
+
+  templateSrv: TemplateSrv;
+
+  initResize: boolean = true;
 
   constructor(props: PanelState){
       super(props);
@@ -44,9 +52,9 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
           ...props,
           animateButton: "fa fa-play-circle",
           showStatistics: false
-      }
+      };
       this.ref = React.createRef();
-      this.templateSrv = getTemplateSrv()
+      this.templateSrv = getTemplateSrv();
   }
 
   componentDidMount () {
@@ -73,7 +81,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       
       var graphCanvas = new CanvasDrawer(this, cy, cy.cyCanvas({
           zIndex: 1
-      }))
+      }));
       
       cy.on("render cyCanvas.resize", () => {
           graphCanvas.repaint(true)
@@ -83,13 +91,11 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       this.setState({
           cy: cy,
           graphCanvas: graphCanvas
-      })
-
-      //this._updateGraph(graph, cy);
+      });
   }
 
   componentDidUpdate(){
-    this._updateGraph(this.props.data)
+    this._updateGraph(this.props.data);
   }
 
   _updateGraph(graph: IGraph) {
@@ -113,17 +119,24 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 		// add new edges
 		this.state.cy.add(cyEdges);
 
-    if (cyNodes.length > 0) {
-      each(updatedNodes, node => {
-        
-      });
-      this.runLayout(true);
+    if (this.initResize) {
+			this.initResize = false;
+			this.state.cy.resize();
+			this.state.cy.reset();
+			this.runLayout();
+		} else {
+			if (cyNodes.length > 0) {
+				each(updatedNodes, node => {
+					node.lock();
+				});
+				this.runLayout(true);
+			}
 		}
   }
   
-  _transformNodes(nodes: IGraphNode[]): CyData[] {
-		const cyNodes = map(nodes, node => {
-			const result: CyData = {
+  _transformNodes(nodes: IGraphNode[]): ElementDefinition[] {
+		const cyNodes: ElementDefinition[] = map(nodes, node => {
+			const result: ElementDefinition = {
 				group: 'nodes',
 				data: {
 					id: node.data.id,
@@ -140,9 +153,9 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 		return cyNodes;
   }
   
-  _transformEdges(edges: IGraphEdge[]): CyData[] {
-		const cyEdges = map(edges, edge => {
-			const cyEdge = {
+  _transformEdges(edges: IGraphEdge[]): ElementDefinition[] {
+		const cyEdges: ElementDefinition[] = map(edges, edge => {
+			const cyEdge: ElementDefinition = {
 				group: 'edges',
 				data: {
 					id: edge.data.source + ":" + edge.data.target,
@@ -160,8 +173,8 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 		return cyEdges;
   }
   
-  _updateOrRemove(dataArray: (NodeSingular | EdgeSingular)[], inputArray: CyData[]) {
-		const elements: (NodeSingular | EdgeSingular)[] = [];
+  _updateOrRemove(dataArray: (NodeSingular | EdgeSingular)[], inputArray: ElementDefinition[]) {
+		const elements: any[]  = []; //(NodeSingular | EdgeSingular)[]
 		for (let i = 0; i < dataArray.length; i++) {
 			const element = dataArray[i];
 
@@ -185,18 +198,18 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       this.updateStatisticTable(); 
       this.setState({
                 showStatistics: true
-      })
+      });
             
     } else {
       this.setState({
                 showStatistics: false
-            }) 
+            });
     }
 
   }
 
   getSettings() {
-      return this.props.controller.state.options
+      return this.props.controller.state.options;
   }
 
   toggleAnimation() {
@@ -206,30 +219,32 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       this.state.graphCanvas.startAnimation();
       this.setState({
           animateButton: "fa fa-pause-circle"
-      })
+      });
     } else {
       this.state.graphCanvas.stopAnimation();
       this.setState({
           animateButton: "fa fa-play-circle"
-      })
+      });
     }
   }
 
   runLayout(unlockNodes: boolean = false) {
 		const that = this;
 		const options = {
-            ...layoutOptions,
+
+      ...layoutOptions,
+
 			stop: function () {
 				if (unlockNodes) {
 					that.unlockNodes();
-                }
-                that.setState(
-                    {zoom: that.state.cy.zoom()}
-                )
+        }
+        that.setState({
+          zoom: that.state.cy.zoom()
+        })
 			}
-        };
+    };
 
-        this.state.cy.layout(options).run()
+    this.state.cy.layout(options).run()
 	}
 
 	unlockNodes() {
@@ -245,17 +260,17 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 		} else {
 			this.state.cy.fit();
         }
-        this.setState(
-            {zoom: this.state.cy.zoom()}
-        )
+        this.setState({
+          zoom: this.state.cy.zoom()
+        });
 	}
     
   zoom(zoom: any) {
     const zoomStep = 0.25 * zoom;
     const zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
-    this.setState(
-        {zoom: zoomLevel}
-    )
+    this.setState({
+      zoom: zoomLevel
+    });
     this.state.cy.zoom(zoomLevel);
   }
 
@@ -304,7 +319,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 					node = actualEdge.target();
 				}
 				else {
-					node = actualEdge.source()
+					node = actualEdge.source();
 				}
 
 				const sendingObject: TableContent = {
@@ -351,7 +366,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 
   render(){
     if(this.state.cy !== undefined) {
-      this._updateGraph(this.props.data)
+      this._updateGraph(this.props.data);
     }
     return (
         <div className="graph-container" ng-show="!ctrl.getError()">

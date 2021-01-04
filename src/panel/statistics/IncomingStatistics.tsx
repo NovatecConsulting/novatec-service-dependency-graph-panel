@@ -1,10 +1,8 @@
 import React from 'react';
+import { TableContent } from 'types';
 
-export const NodeStatistics = (
-    receiving: any, 
-    
-    ) => {
-        var incomingStatistics = (<div className="no-data--selection">No incoming statistics available.</div>)
+export const NodeStatistics = (receiving: TableContent[]) => {
+        var incomingStatistics = (<div className="no-data--selection">No incoming statistics available.</div>);
 
         if(receiving.length > 0) {
             var recievingNodes = receiving.map((node: any) => 

@@ -43905,7 +43905,7 @@ function (_super) {
       console.log('raw data: ', data);
       console.log('graph data: ', graphData);
       console.groupEnd();
-      return this.currentData = graphData;
+      this.currentData = graphData;
     } else {
       this.currentData = undefined;
     }
@@ -44496,7 +44496,6 @@ function () {
 
   CanvasDrawer.prototype._drawEdgeParticles = function (ctx, edge, sourcePoint, targetPoint, now) {
     var particles = edge.data('particles');
-    console.log("draw edge particles");
 
     if (particles === undefined) {
       return;
@@ -44861,7 +44860,7 @@ function () {
     ctx.beginPath();
     ctx.arc(cX, cY, radius - width, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'white';
-    ctx.fill(); // // cut out an inner-circle == donut
+    ctx.fill(); // cut out an inner-circle == donut
 
     ctx.beginPath();
     ctx.arc(cX, cY, radius - width - strokeWidth, 0, 2 * Math.PI, false);
@@ -44920,7 +44919,7 @@ var ParticleEngine =
 function () {
   function ParticleEngine(canvasDrawer) {
     this.maxVolume = 800;
-    this.minSpawnPropability = 0.005;
+    this.minSpawnPropability = 0.004;
     this.drawer = canvasDrawer;
     this.animating = false;
   }
@@ -44932,7 +44931,7 @@ function () {
       var that_1 = this;
       this.spawnInterval = setInterval(function () {
         return that_1.animate();
-      }, 50);
+      }, 60);
     }
   };
 
@@ -45151,6 +45150,7 @@ function (_super) {
   function ServiceDependencyGraph(props) {
     var _this = _super.call(this, props) || this;
 
+    _this.initResize = true;
     _this.state = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, props), {
       animateButton: "fa fa-play-circle",
       showStatistics: false
@@ -45195,7 +45195,7 @@ function (_super) {
     this.setState({
       cy: cy,
       graphCanvas: graphCanvas
-    }); //this._updateGraph(graph, cy);
+    });
   };
 
   ServiceDependencyGraph.prototype.componentDidUpdate = function () {
@@ -45224,9 +45224,18 @@ function (_super) {
 
     this.state.cy.add(cyEdges);
 
-    if (cyNodes.length > 0) {
-      Object(lodash__WEBPACK_IMPORTED_MODULE_8__["each"])(updatedNodes, function (node) {});
-      this.runLayout(true);
+    if (this.initResize) {
+      this.initResize = false;
+      this.state.cy.resize();
+      this.state.cy.reset();
+      this.runLayout();
+    } else {
+      if (cyNodes.length > 0) {
+        Object(lodash__WEBPACK_IMPORTED_MODULE_8__["each"])(updatedNodes, function (node) {
+          node.lock();
+        });
+        this.runLayout(true);
+      }
     }
   };
 
@@ -45263,7 +45272,7 @@ function (_super) {
   };
 
   ServiceDependencyGraph.prototype._updateOrRemove = function (dataArray, inputArray) {
-    var elements = [];
+    var elements = []; //(NodeSingular | EdgeSingular)[]
 
     var _loop_1 = function _loop_1(i) {
       var element = dataArray[i];
@@ -45561,6 +45570,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NodeStatistics", function() { return NodeStatistics; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/Utils */ "./panel/statistics/utils/Utils.ts");
+
 
 var NodeStatistics = function NodeStatistics(_a) {
   var nodeList = _a.nodeList,
@@ -45581,7 +45592,7 @@ var NodeStatistics = function NodeStatistics(_a) {
         className: "table--td--selection"
       }, node.rate), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
-      }, node.error));
+      }, Object(_utils_Utils__WEBPACK_IMPORTED_MODULE_1__["default"])(2, node.error)));
     });
     nodeStatistics = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
       className: "table--selection"
@@ -45650,6 +45661,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_css_novatec_service_dependency_graph_panel_css__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _Statistics_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Statistics.css */ "./panel/statistics/Statistics.css");
 /* harmony import */ var _Statistics_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_Statistics_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _utils_Utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/Utils */ "./panel/statistics/utils/Utils.ts");
+
 
 
 
@@ -45698,7 +45711,6 @@ var Statistics = function Statistics(_a) {
     }
 
     var errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-    console.log(selectionStatistics);
 
     if (selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0) {
       errorRate = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
@@ -45707,7 +45719,7 @@ var Statistics = function Statistics(_a) {
         className: "table--td--selection"
       }, "Error Rate"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "table--td--selection"
-      }, 100 / selectionStatistics.requests * selectionStatistics.errors, "%"));
+      }, Object(_utils_Utils__WEBPACK_IMPORTED_MODULE_4__["default"])(2, 100 / selectionStatistics.requests * selectionStatistics.errors)));
     }
 
     var avgResponseTime = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
@@ -45774,6 +45786,36 @@ var Statistics = function Statistics(_a) {
 
 /***/ }),
 
+/***/ "./panel/statistics/utils/Utils.ts":
+/*!*****************************************!*\
+  !*** ./panel/statistics/utils/Utils.ts ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function roundPercentageToDecimal(decimal, value) {
+  if (value !== "-") {
+    var valueDecimals = _getDecimalsOf(parseFloat(value));
+
+    if (valueDecimals > decimal) {
+      value = parseFloat(value).toFixed(decimal) + "%";
+    }
+  }
+
+  return value;
+}
+
+function _getDecimalsOf(value) {
+  if (Math.floor(value) !== value) return value.toString().split(".")[1].length || 0;
+  return 0;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (roundPercentageToDecimal);
+
+/***/ }),
+
 /***/ "./processing/graph_generator.ts":
 /*!***************************************!*\
   !*** ./processing/graph_generator.ts ***!
@@ -45785,7 +45827,7 @@ var Statistics = function Statistics(_a) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _util_Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util/Utils */ "./processing/util/Utils.ts");
+/* harmony import */ var _utils_Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/Utils */ "./processing/utils/Utils.ts");
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types */ "./types.tsx");
 
 
@@ -45833,7 +45875,7 @@ function () {
       }));
       var response_timings = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(dataElements, function (element) {
         return element.data.response_time_in;
-      }).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
+      }).filter(_utils_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
 
       if (response_timings.length > 0) {
         metrics.response_time = aggregationFunction(response_timings);
@@ -45847,7 +45889,7 @@ function () {
       }));
       var response_timings = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(dataElements, function (element) {
         return element.data.response_time_out;
-      }).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
+      }).filter(_utils_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
 
       if (response_timings.length > 0) {
         metrics.response_time = aggregationFunction(response_timings);
@@ -45894,7 +45936,7 @@ function () {
     });
     var expectedNodeNames = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["uniq"])(Object(lodash__WEBPACK_IMPORTED_MODULE_0__["flatMap"])(data, function (dataElement) {
       return [dataElement.source, dataElement.target];
-    })).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
+    })).filter(_utils_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
     var missingNodeNames = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["difference"])(expectedNodeNames, existingNodeNames);
     var missingNodes = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(missingNodeNames, function (name) {
       var nodeType;
@@ -45938,7 +45980,7 @@ function () {
     var targetGroups = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["groupBy"])(filteredData, 'target');
     var nodes = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(targetGroups, function (group) {
       return _this._createNode(group);
-    }).filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]); // ensure that all nodes exist, even we have no data for them
+    }).filter(_utils_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]); // ensure that all nodes exist, even we have no data for them
 
     var missingNodes = this._createMissingNodes(filteredData, nodes);
 
@@ -45954,8 +45996,7 @@ function () {
       return undefined;
     }
 
-    var metrics = {}; //TODO Use IGraphEdge
-
+    var metrics = {};
     var edge = {
       source: source,
       target: target,
@@ -46006,7 +46047,7 @@ function () {
     var edges = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["map"])(filteredData, function (element) {
       return _this._createEdge(element);
     });
-    return edges.filter(_util_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
+    return edges.filter(_utils_Utils__WEBPACK_IMPORTED_MODULE_1__["isPresent"]);
   };
 
   GraphGenerator.prototype._filterData = function (graph) {
@@ -46019,20 +46060,20 @@ function () {
       }; // filter empty connections
 
       filteredGraph.edges = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["filter"])(graph.edges, function (edge) {
-        return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["size"])(edge.metrics) > 0;
+        return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["size"])(edge.data.metrics) > 0;
       });
       filteredGraph.nodes = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["filter"])(graph.nodes, function (node) {
         var name = node.name; // don't filter connected elements
 
         if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["some"])(graph.edges, {
-          'source': name
+          'data.source': name
         }) || Object(lodash__WEBPACK_IMPORTED_MODULE_0__["some"])(graph.edges, {
-          'target': name
+          'data.target': name
         })) {
           return true;
         }
 
-        var metrics = node.metrics;
+        var metrics = node.data.metrics;
 
         if (!metrics) {
           return false; // no metrics
@@ -46118,8 +46159,7 @@ function () {
   };
 
   PreProcessor.prototype._transformObjects = function (data) {
-    var dataMapping = this.controller.getSettings().dataMapping; //TODO make block below nice!
-
+    var dataMapping = this.controller.getSettings().dataMapping;
     var sourceComponentPrefix = dataMapping.sourceComponentPrefix;
     var targetComponentPrefix = dataMapping.targetComponentPrefix;
     var externalSource = dataMapping.extOrigin;
@@ -46143,7 +46183,7 @@ function () {
           source = false;
         } else {
           console.error("source-target conflict for data element", dataObject);
-          return {};
+          return undefined;
         }
       }
 
@@ -46514,10 +46554,10 @@ function () {
 
 /***/ }),
 
-/***/ "./processing/util/Utils.ts":
-/*!**********************************!*\
-  !*** ./processing/util/Utils.ts ***!
-  \**********************************/
+/***/ "./processing/utils/Utils.ts":
+/*!***********************************!*\
+  !*** ./processing/utils/Utils.ts ***!
+  \***********************************/
 /*! exports provided: isPresent, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

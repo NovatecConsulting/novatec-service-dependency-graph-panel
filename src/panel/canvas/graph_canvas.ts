@@ -78,7 +78,7 @@ export default class CanvasDrawer {
             s: 1000,
             min: 60000
         });
-        this.repaint(true)
+        this.repaint(true);
     }
 
     resetAssets() {
@@ -253,9 +253,9 @@ export default class CanvasDrawer {
         const opaqueEdges = edges.filter(edge => !hasSelection || this.selectionNeighborhood.has(edge));
 
         ctx.globalAlpha = 0.25;
-        this._drawEdges(ctx, transparentEdges, now)
+        this._drawEdges(ctx, transparentEdges, now);
         ctx.globalAlpha = 1;
-        this._drawEdges(ctx, opaqueEdges, now)
+        this._drawEdges(ctx, opaqueEdges, now);
         ctx.restore();
     }
 
@@ -343,7 +343,7 @@ export default class CanvasDrawer {
 
     _drawEdgeParticles(ctx: CanvasRenderingContext2D, edge: cytoscape.EdgeSingular, sourcePoint: cytoscape.Position, targetPoint: cytoscape.Position, now: number) {
         const particles: Particles = edge.data('particles');
-        console.log("draw edge particles")
+        
         if (particles === undefined) {
             return;
         }
@@ -703,7 +703,7 @@ export default class CanvasDrawer {
         ctx.fillStyle = 'white';
         ctx.fill();
 
-        // // cut out an inner-circle == donut
+        // cut out an inner-circle == donut
         ctx.beginPath();
         ctx.arc(cX, cY, radius - width - strokeWidth, 0, 2 * Math.PI, false);
         if (node.selected()) {

@@ -14,7 +14,7 @@ interface Props extends StandardEditorProps<string, PanelSettings> {
 interface State {
     item: any, 
     value: string, 
-    onChange: any, 
+    onChange: (value?: string) => void, 
     context: any
     serviceIcons: string[]
   }
@@ -41,41 +41,41 @@ export class ServiceIconMapping extends React.PureComponent<Props, State>  {
     }
     
     addMapping() {
-        this.state.context.options.serviceIcons.push({ pattern: 'my-type', filename: 'default' })
-        this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons)
+        this.state.context.options.serviceIcons.push({ pattern: 'my-type', filename: 'default' });
+        this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
     }
 
     removeMapping(index:any) {
-        remove(this.state.context.options.serviceIcons, n => this.state.context.options.serviceIcons.indexOf(n) == index)
-        this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons)
+        remove(this.state.context.options.serviceIcons, n => this.state.context.options.serviceIcons.indexOf(n) == index);
+        this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
     }
 
     setPatternValue(event: any, index: any) {
-        this.state.context.options.serviceIcons[index].pattern = event.currentTarget.value
-        this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons)
+        this.state.context.options.serviceIcons[index].pattern = event.currentTarget.value;
+        this.state.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
     }
 
     setFileNameValue(event: any, index: any) {
-        this.state.context.options.serviceIcons[index].filename = event.currentTarget.value.toString()
-        this.props.onChange.call(this.state.item.path, this.state.context.options.serviceIcons)
+        this.state.context.options.serviceIcons[index].filename = event.currentTarget.value.toString();
+        this.props.onChange.call(this.state.item.path, this.state.context.options.serviceIcons);
     }
 
 
     render(){
         if(!this.state.value || this.state.value === undefined) {
-            this.state.context.options.serviceIcons = [{ pattern: 'my-type', filename: 'default' }]
+            this.state.context.options.serviceIcons = [{ pattern: 'my-type', filename: 'default' }];
         }
-        var optionsList: JSX.Element[] = []
+        var optionsList: JSX.Element[] = [];
         if(this.state.serviceIcons !== undefined) {
             for(const image of this.state.serviceIcons) {
                 optionsList.push(
                 <option value={image}>
                     {image}
                 </option>
-                )
+                );
             }
         }
-        var componentList: JSX.Element[] = []
+        var componentList: JSX.Element[] = [];
         for (const [index] of this.state.context.options.serviceIcons.entries()) {
             componentList.push(
                 <div>
@@ -94,7 +94,7 @@ export class ServiceIconMapping extends React.PureComponent<Props, State>  {
                                 className="fa fa-trash"></i></a>
                     </div>
                 </div>
-            )
+            );
         }
         return (
             <div>
@@ -110,6 +110,6 @@ export class ServiceIconMapping extends React.PureComponent<Props, State>  {
                 </div>
                 <button className="btn navbar-button navbar-button--primary" onClick={() => this.addMapping()}>Add Service Icon Mapping</button>
             </div>
-        )
+        );
     }
 }

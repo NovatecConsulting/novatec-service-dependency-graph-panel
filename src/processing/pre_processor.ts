@@ -14,13 +14,13 @@ class PreProcessor {
 		var transformedTable: any[] = [];
 		for (var index = 0; index < tables.length; index++) {
 			
-			var currentField = tables[index]
+			var currentField = tables[index];
 			
 			for (var j = 0; j < currentField.values.buffer.length; j++) {
 				if(transformedTable[j] === undefined) {
-					transformedTable[j] = {}
+					transformedTable[j] = {};
 				}
-				transformedTable[j][currentField.name] = currentField.values.buffer[j]
+				transformedTable[j][currentField.name] = currentField.values.buffer[j];
 			}
 
 		}
@@ -30,11 +30,11 @@ class PreProcessor {
 
 	_transformObjects(data: any[]): GraphDataElement[] {
 		const dataMapping = this.controller.getSettings().dataMapping;
-		//TODO make block below nice!
-		const sourceComponentPrefix = dataMapping.sourceComponentPrefix
-		const targetComponentPrefix = dataMapping.targetComponentPrefix
-		const externalSource = dataMapping.extOrigin
-		const externalTarget = dataMapping.extTarget
+
+		const sourceComponentPrefix = dataMapping.sourceComponentPrefix;
+		const targetComponentPrefix = dataMapping.targetComponentPrefix;
+		const externalSource = dataMapping.extOrigin;
+		const externalTarget = dataMapping.extTarget;
 		const aggregationSuffix: string = this.controller.getAggregationType();
 
 		const sourceColumn = sourceComponentPrefix + aggregationSuffix;
@@ -55,7 +55,7 @@ class PreProcessor {
 					source = false;
 				} else {
 					console.error("source-target conflict for data element", dataObject);
-					return {} ;
+					return undefined;
 				}
 			}
 
@@ -135,33 +135,33 @@ class PreProcessor {
 	_getField(fieldName: string, fields: any[]) {
 		for(const field of fields) {
 			if(field.name === fieldName) {
-				return field
+				return field;
 			}
 		}
-		return undefined
+		return undefined;
 	}
 
 	_mergeSeries(series: any[]) {
-		var mergedSeries: any = undefined
+		var mergedSeries: any = undefined;
 		for(const seriesElement of series) {
 			if(mergedSeries === undefined) {
-				mergedSeries = seriesElement
+				mergedSeries = seriesElement;
 			} else {
 				for(const field of seriesElement.fields) {
-					const mergedField = this._getField(field.name, mergedSeries.fields)
+					const mergedField = this._getField(field.name, mergedSeries.fields);
 					if(mergedField === undefined) {
-						mergedSeries.fields.push(field)
+						mergedSeries.fields.push(field);
 					} else {
-						mergedField.values = concat(field.values, mergedField.values)
+						mergedField.values = concat(field.values, mergedField.values);
 					}
 				}
 			}
 		}
-		return mergedSeries
+		return mergedSeries;
 	}
 
 	_dataToRows(inputDataSets: any) {
-		var rows: any[] =[]
+		var rows: any[] =[];
 
 		const aggregationSuffix: string = this.controller.getAggregationType();
 		const {

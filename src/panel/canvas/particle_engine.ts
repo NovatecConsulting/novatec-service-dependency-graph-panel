@@ -8,7 +8,7 @@ export default class ParticleEngine {
 
     maxVolume: number = 800;
 
-    minSpawnPropability: number = 0.005;
+    minSpawnPropability: number = 0.004;
 
     spawnInterval: any;
 
@@ -20,26 +20,26 @@ export default class ParticleEngine {
     }
 
     start() {
-        this.animating = true
+        this.animating = true;
         if (!this.spawnInterval) {
             const that = this;
-            this.spawnInterval = setInterval(() => that.animate(), 50);
+            this.spawnInterval = setInterval(() => that.animate(), 60);
         }
     }
 
     stop() {
-        this.animating = false
+        this.animating = false;
     }
 
     animate(){
-        const that = this
+        const that = this;
         if(!that.animating) {
             if(!this.hasParticles()) {
                 clearInterval(this.spawnInterval);
                 this.spawnInterval = null;
             }
         } else {
-            that._spawnParticles()
+            that._spawnParticles();
         }
         that.drawer.repaint();
     }
@@ -48,10 +48,10 @@ export default class ParticleEngine {
         for(const edge of this.drawer.cytoscape.edges().toArray()) {
 
             if(edge.data('particles') !== undefined &&  (edge.data('particles').normal.length > 0 || edge.data('particles').danger.length > 0)) {
-                return true
+                return true;
             } 
         }
-        return false
+        return false;
     }
 
     _spawnParticles() {

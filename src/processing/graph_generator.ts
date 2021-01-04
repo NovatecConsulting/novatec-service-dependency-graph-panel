@@ -1,5 +1,5 @@
 import _, { groupBy, filter, map, sum, some, isUndefined, uniq, difference, flatMap, concat, mean, defaultTo, find, size } from 'lodash';
-import { isPresent } from './util/Utils';
+import { isPresent } from './utils/Utils';
 import { ServiceDependencyGraphPanelController } from '../panel/ServiceDependencyGraphPanelController';
 import { GraphDataElement, IGraph, IGraphEdge, IGraphMetrics, IGraphNode, EGraphNodeType, GraphDataType } from '../types';
 
@@ -147,7 +147,6 @@ class GraphGenerator {
 
 		const metrics: IGraphMetrics = {};
 
-		//TODO Use IGraphEdge
 		const edge: IGraphEdge = {
 			source: source,
 			target: target,
@@ -201,17 +200,17 @@ class GraphGenerator {
 			};
 
 			// filter empty connections
-			filteredGraph.edges = filter(graph.edges, edge => size(edge.metrics) > 0);
+			filteredGraph.edges = filter(graph.edges, edge => size(edge.data.metrics) > 0);
 
 			filteredGraph.nodes = filter(graph.nodes, node => {
 				const name = node.name;
 
 				// don't filter connected elements
-				if (some(graph.edges, { 'source': name }) || some(graph.edges, { 'target': name })) {
+				if (some(graph.edges, { 'data.source': name }) || some(graph.edges, { 'data.target': name })) {
 					return true;
 				}
 
-				const metrics = node.metrics;
+				const metrics = node.data.metrics;
 				if (!metrics) {
 					return false; // no metrics
 				}

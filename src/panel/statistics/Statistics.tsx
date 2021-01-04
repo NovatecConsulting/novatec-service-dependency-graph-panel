@@ -2,16 +2,18 @@ import React from 'react';
 import { NodeStatistics } from './NodeStatistics'
 import '../../css/novatec-service-dependency-graph-panel.css';
 import './Statistics.css';
+import { TableContent } from 'types';
+import roundPercentageToDecimal from './utils/Utils';
 
 interface StatisticsProps  {
     show: boolean,
-    selectionId: any, 
+    selectionId: string | number, 
     resolvedDrillDownLink: string, 
     selectionStatistics: any,
-    currentType: any,
-    showBaselines: any,
-    receiving: any,
-    sending: any
+    currentType: string,
+    showBaselines: boolean,
+    receiving: TableContent[],
+    sending: TableContent[]
 }
 
 export const Statistics: React.FC<StatisticsProps> = ({
@@ -62,7 +64,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
                 errorRate = (
                     <tr ng-show="">
                         <td className="table--td--selection">Error Rate</td>
-                        <td className="table--td--selection">{ (100 / selectionStatistics.requests * selectionStatistics.errors) }%</td>
+                        <td className="table--td--selection">{ roundPercentageToDecimal(2, (100 / selectionStatistics.requests * selectionStatistics.errors))}</td>
                     </tr>
                 )
             }

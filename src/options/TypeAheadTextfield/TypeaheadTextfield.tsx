@@ -10,14 +10,14 @@ interface Props extends StandardEditorProps<string, PanelSettings> {}
 interface Props extends StandardEditorProps<string, PanelSettings> {
     item: any
     value: string, 
-    onChange: any, 
+    onChange: (value?: string) => void, 
     context: any
 }
 
 interface State {
     item: any, 
     value: string, 
-    onChange: any, 
+    onChange: (value?: string) => void, 
     context: any,
     suggestions: string[]
   }
@@ -36,7 +36,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
         return(
             <div>
                 {suggestion}
-            </div>)
+            </div>);
     }
 
     getColumns() {
@@ -61,7 +61,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     onChange = (event: any, { newValue, method }: any) => {
         this.setState({
             value: event.currentTarget.value
-        })
+        });
         this.props.onChange.call(this.props.item.path, newValue);
     }
 
@@ -74,9 +74,11 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
             inputValue = value.trim().toLowerCase();
         }
         const inputLength = inputValue.length;
-        return inputLength === 0 ? [] : this.getColumns().filter((column =>
-            column.toLowerCase().slice(0, inputLength) === inputValue
-        ));
+        return inputLength === 0 ? [] : this.getColumns().filter(
+            (column =>
+                column.toLowerCase().slice(0, inputLength) === inputValue
+            )
+        );
       };
 
 
@@ -97,7 +99,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     };
 
     render() {
-        var value = this.props.value
+        var value = this.props.value;
         if(value === undefined) {
             value = "";
         }
