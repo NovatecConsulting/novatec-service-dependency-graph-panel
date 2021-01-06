@@ -92,6 +92,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
           cy: cy,
           graphCanvas: graphCanvas
       });
+      graphCanvas.start();
   }
 
   componentDidUpdate(){
