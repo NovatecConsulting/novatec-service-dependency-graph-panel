@@ -17,7 +17,7 @@ class GraphGenerator {
 			return undefined;
 		}
 
-		const sumMetrics = this.controller.getSettings().sumTimings;
+		const sumMetrics = !this.controller.getSettings().sumTimings;
 
 		var nodeName = dataElements[0].target;
 		if(nodeName === "" || nodeName === undefined || nodeName === null) {
@@ -169,7 +169,7 @@ class GraphGenerator {
 		if (!isUndefined(response_time_out)) {
 			const { sumTimings } = this.controller.getSettings();
 
-			if (sumTimings && metrics.rate) {
+			if (!sumTimings && metrics.rate) {
 				metrics.response_time = response_time_out / metrics.rate;
 			} else {
 				metrics.response_time = response_time_out;
