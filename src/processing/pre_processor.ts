@@ -276,7 +276,6 @@ class PreProcessor {
 	}
 
 	processData(inputData: QueryResponse[]): CurrentData {
-		console.log(inputData)
 		const rows = this._dataToRows(inputData)
 
 		const flattenData = this._mergeObjects(rows)
@@ -288,6 +287,7 @@ class PreProcessor {
 		const mergedData = this._mergeGraphData(graphElements);
 
 		console.groupCollapsed('Data transformation log');
+		console.log('Raw data:', inputData);
 		console.log('Raw data as rows:', rows);
 		console.log('Flat data:', flattenData);
 		console.log('Graph elements:', graphElements);

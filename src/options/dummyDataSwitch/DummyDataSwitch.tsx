@@ -23,7 +23,6 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
     
     constructor(props: Props | Readonly<Props>) {
         super(props);
-        console.log(props.context.options.showDummyData)
         this.state = {
             dataMapping:this.props.context.options.dataMapping,
             ...props

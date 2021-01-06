@@ -111,10 +111,8 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
 
   processData(){
     var inputData: any = this.props.data.series
-    console.log(inputData)
     if(this.getSettings().dataMapping.showDummyData) {
       inputData = data
-      console.log(inputData)
     }
     this.processQueryData(inputData);
     const graph: any = this.graphGenerator.generateGraph(this.currentData.graph);
