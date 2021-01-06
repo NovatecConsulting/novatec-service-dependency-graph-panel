@@ -276,6 +276,7 @@ class PreProcessor {
 	}
 
 	processData(inputData: QueryResponse[]): CurrentData {
+		console.log(inputData)
 		const rows = this._dataToRows(inputData)
 
 		const flattenData = this._mergeObjects(rows)

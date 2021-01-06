@@ -3,6 +3,7 @@ import { PanelSettings } from '../types';
 import { TypeaheadTextField } from './TypeAheadTextfield/TypeaheadTextfield';
 import { ServiceIconMapping } from './serviceIconMapping/ServiceIconMapping';
 import { ExternalIconMapping } from './externalIconMapping/ExternalIconMapping';
+import { DummyDataSwitch } from './dummyDataSwitch/DummyDataSwitch';
 
 
 export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>) => {
@@ -140,9 +141,11 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         category: ['General Settings'],
       })
 
-      .addBooleanSwitch({
-        path: 'showDummyData',
+      .addCustomEditor({
+        path: 'dataMapping',
+        id: 'dummyDataSwitch',
         name: 'Show Dummy Data',
+        editor: DummyDataSwitch,
         category: ['General Settings'],
       })
 

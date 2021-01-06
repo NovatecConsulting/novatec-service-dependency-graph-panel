@@ -28,6 +28,7 @@ export interface DataMapping {
   extOrigin: string;
   extTarget: string;
   type: string;
+  showDummyData: boolean;
 
   baselineRtUpper: string;
 };

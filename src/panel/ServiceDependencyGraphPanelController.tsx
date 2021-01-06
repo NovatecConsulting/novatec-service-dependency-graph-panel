@@ -9,6 +9,7 @@ import cytoscape, { EdgeSingular, NodeSingular } from 'cytoscape';
 import '../css/novatec-service-dependency-graph-panel.css'
 import GraphGenerator from 'processing/graph_generator';
 import PreProcessor from 'processing/pre_processor';
+import data from '../dummy_data_frame';
 
 
 interface Props extends PanelProps<PanelSettings> {}
@@ -109,7 +110,13 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
   }
 
   processData(){
-    this.processQueryData(this.props.data.series);
+    var inputData: any = this.props.data.series
+    console.log(inputData)
+    if(this.getSettings().dataMapping.showDummyData) {
+      inputData = data
+      console.log(inputData)
+    }
+    this.processQueryData(inputData);
     const graph: any = this.graphGenerator.generateGraph(this.currentData.graph);
     return graph;
   }
