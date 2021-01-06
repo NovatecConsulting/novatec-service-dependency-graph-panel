@@ -360,9 +360,12 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
   
   generateDrillDownLink() {
-		const { drillDownLink } = this.getSettings();
-    const link = drillDownLink.replace('{}', this.selectionId);
-		this.resolvedDrillDownLink = this.templateSrv.replace(link);
+    const { drillDownLink } = this.getSettings();
+    if(drillDownLink !== undefined) {
+      const link = drillDownLink.replace('{}', this.selectionId);
+      this.resolvedDrillDownLink = this.templateSrv.replace(link);
+    }
+    
 	}
 
   render(){
