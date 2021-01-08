@@ -1,5 +1,7 @@
 import React from 'react';
+import { TableHeader } from '../../types'
 import { TableContent } from 'types';
+import SortableTable from './SortableTable'
 import roundPercentageToDecimal from './utils/Utils'
 
 interface NodeStatisticsProps  {
@@ -8,36 +10,34 @@ interface NodeStatisticsProps  {
     title: string  
 }
 
+const tableHeaders: TableHeader[] = [
+    {text: "Name", dataField: "name", sort: true, isKey: true},
+    {text: "Time", dataField: "time", sort: true, ignoreLiteral: " ms"},
+    {text: "Requests", dataField: "requests", sort: true,  ignoreLiteral: ""},
+    {text: "Error Rate", dataField: "error_rate", sort: true, ignoreLiteral: "%"},
+]
+
 export const NodeStatistics: React.FC<NodeStatisticsProps> = ({nodeList, noDataText, title}) => {
         var nodeStatistics = (<div className="no-data--selection">{noDataText}</div>)
         if(nodeList.length > 0) {
-            var recievingNodes = nodeList.map((node: any) => {
-                
-                return ( 
-                    <tr>
-                        <td className="table--td--selection" title={node.name}>{node.name}</td>
-                        <td className="table--td--selection">{node.responseTime}</td>
-                        <td className="table--td--selection">{node.rate}</td>
-                        <td className="table--td--selection">{roundPercentageToDecimal(2, node.error)}</td>
-                    </tr>
-                )
+            var data = nodeList.map((node: any) => {
+                return {
+                    name: node.name,
+                    time: node.responseTime,
+                    requests: node.rate,
+                    error_rate: roundPercentageToDecimal(2, node.error)
+                }
             }
             );
             
-
             nodeStatistics = (
-                <table className="table--selection">
-                    <tr className="table--selection--head">
-                        <th>Name</th>
-                        <th className="table--th--selectionSmall">Time</th>
-                        <th className="table--th--selectionSmall">Requests</th>
-                        <th className="table--th--selectionSmall">Error Rate</th>
-                    </tr>
-                    {recievingNodes}
-                </table>
-            );
+                <SortableTable 
+                    tableHeaders={tableHeaders}
+                    data = {data}
+                />
+            )
         }
-        
+
         return (
             <div>
                 <div className="secondHeader--selection">{title}</div>

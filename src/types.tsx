@@ -183,3 +183,15 @@ export interface CyCanvas {
   resetTransform: (arg0: CanvasRenderingContext2D) => void;
   setTransform: (arg0: CanvasRenderingContext2D) => void;
 };
+
+export interface TableHeader {
+  text: string;
+  dataField: string;
+  isKey?: boolean;
+  sort: boolean;
+  headerClasses?: string
+  footerClasses?: string
+  classes?: string
+  sortFunc?: any
+  ignoreLiteral?: string
+}
