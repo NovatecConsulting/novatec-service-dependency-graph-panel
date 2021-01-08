@@ -5,26 +5,26 @@ import { ServiceIconMapping } from './serviceIconMapping/ServiceIconMapping';
 import { ExternalIconMapping } from './externalIconMapping/ExternalIconMapping';
 import { DummyDataSwitch } from './dummyDataSwitch/DummyDataSwitch';
 
-
 export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>) => {
-    return builder
+  return (
+    builder
 
-    //Connection Mapping
-    .addCustomEditor({
+      //Connection Mapping
+      .addCustomEditor({
         path: 'dataMapping.sourceComponentPrefix',
         id: 'sourceComponentPrefix',
         editor: TypeaheadTextField,
         name: 'Source Component Column Prefix',
         category: ['Connection Mapping'],
-        })
-      
+      })
+
       .addCustomEditor({
         path: 'dataMapping.targetComponentPrefix',
         id: 'targetComponentPrefix',
         name: 'Target Component Column Prefix',
         category: ['Connection Mapping'],
         editor: TypeaheadTextField,
-        })
+      })
 
       .addCustomEditor({
         path: 'dataMapping.type',
@@ -32,7 +32,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Type',
         category: ['Connection Mapping'],
         editor: TypeaheadTextField,
-        })
+      })
 
       .addCustomEditor({
         path: 'dataMapping.extOrigin',
@@ -40,7 +40,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'External Origin',
         category: ['Connection Mapping'],
         editor: TypeaheadTextField,
-        })
+      })
 
       .addCustomEditor({
         path: 'dataMapping.extTarget',
@@ -48,8 +48,8 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'External Target',
         category: ['Connection Mapping'],
         editor: TypeaheadTextField,
-        })
-  
+      })
+
       //Data Mapping
       .addCustomEditor({
         id: 'responseTime',
@@ -57,7 +57,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Response Time Column',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
-        })
+      })
 
       .addCustomEditor({
         id: 'requestRateColumn',
@@ -65,7 +65,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Request Rate Column',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
-        })
+      })
 
       .addCustomEditor({
         id: 'errorRateColumn',
@@ -73,7 +73,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Error Rate Column',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
-        })
+      })
 
       .addCustomEditor({
         id: 'responseTimeOutgoingColumn',
@@ -81,7 +81,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Response Time Column (Outgoing)',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
-        })
+      })
 
       .addCustomEditor({
         id: 'requestRateOutgoingColumn',
@@ -89,7 +89,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Request Rate Column (Outgoing)',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
-        })
+      })
 
       .addCustomEditor({
         id: 'errorRateOutgoingColumn',
@@ -97,7 +97,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Error Rate Column (Outgoing)',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
-        })
+      })
 
       .addCustomEditor({
         id: 'baselineRtUpper',
@@ -105,8 +105,8 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Response Time Baseline (Upper)',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
-        })
-        
+      })
+
       //General Settings
       .addBooleanSwitch({
         path: 'showConnectionStats',
@@ -117,21 +117,23 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       .addBooleanSwitch({
         path: 'sumTimings',
         name: 'Handle Timings as Sums',
-        description: "If this setting is active, the timings provided" +
-          "by the mapped response time columns are considered as a " +
-          "continually increasing sum of response times. When " +
-          "deactivated, it is considered that the timings provided "+ 
-          "by columns are the actual average response times.",
+        description:
+          'If this setting is active, the timings provided' +
+          'by the mapped response time columns are considered as a ' +
+          'continually increasing sum of response times. When ' +
+          'deactivated, it is considered that the timings provided ' +
+          'by columns are the actual average response times.',
         category: ['General Settings'],
       })
 
       .addBooleanSwitch({
         path: 'filterEmptyConnections',
         name: 'Filter Empty Data',
-        description: "If this setting is active, the timings provided by "+
-          "the mapped response time columns are considered as a continually "+
-          "increasing sum of response times. When deactivated, it is considered "+
-          "that the timings provided by columns are the actual average response times.",
+        description:
+          'If this setting is active, the timings provided by ' +
+          'the mapped response time columns are considered as a continually ' +
+          'increasing sum of response times. When deactivated, it is considered ' +
+          'that the timings provided by columns are the actual average response times.',
         category: ['General Settings'],
       })
 
@@ -154,29 +156,29 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Show Baselines',
         category: ['General Settings'],
       })
-      
+
       //Appearance
       .addColorPicker({
         path: 'style.healthyColor',
         name: 'Healthy Color',
         category: ['Appearance'],
-        defaultValue: "rgb(87, 148, 242)"
+        defaultValue: 'rgb(87, 148, 242)',
       })
 
       .addColorPicker({
         path: 'style.dangerColor',
         name: 'Danger Color',
         category: ['Appearance'],
-        defaultValue: "#C4162A"
+        defaultValue: '#C4162A',
       })
-      
+
       .addColorPicker({
         path: 'style.noDataColor',
         name: 'No Data Color',
         category: ['Appearance'],
-        defaultValue: "rgb(123, 123, 138)"
+        defaultValue: 'rgb(123, 123, 138)',
       })
-  
+
       //Service Icon Mapping
       .addCustomEditor({
         path: 'serviceIcons',
@@ -185,7 +187,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: '',
         category: ['Service Icon Mapping'],
       })
-      
+
       // External Service Icon Mapping
       .addCustomEditor({
         path: 'externalIcons',
@@ -194,12 +196,12 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: '',
         category: ['External Icon Mapping'],
       })
-      
-  
-      //Tracing Drilldown  
+
+      //Tracing Drilldown
       .addTextInput({
         path: 'drillDownLink',
         name: 'Backend URL',
         category: ['Tracing Drilldown'],
       })
-    };
+  );
+};

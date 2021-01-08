@@ -32,6 +32,7 @@
     "babel-loader": "8.2.2",
     "emotion": "10.0.27",
     "sass-loader": "^10.1.0",
+    "ts-jest": "^26.4.4",
     "ts-loader": "8.0.11"
   },
   "engines": {
@@ -39,9 +40,11 @@
   },
   "dependencies": {
     "@grafana/runtime": "^7.3.2",
+    "@types/lodash": "^4.14.167",
     "@types/react-autosuggest": "^10.0.1",
     "@types/react-bootstrap-typeahead": "^3.4.7",
     "babel-preset-react": "^6.24.1",
+    "css-loader": "^5.0.1",
     "cytoscape": "^3.14.2",
     "cytoscape-canvas": "^3.0.1",
     "cytoscape-cola": "^2.4.0",
@@ -51,10 +54,8 @@
     "react-bootstrap-typeahead": "^5.1.2",
     "react-cytoscapejs": "^1.2.1",
     "react-native": "^0.63.3",
-    "typescript": "^4.1.2",
-    "webpack": "^5.9.0",
     "style-loader": "^2.0.0",
-    "css-loader": "^5.0.1",
-    "@types/lodash": "^4.14.167"
+    "typescript": "^4.0.5",
+    "webpack": "^5.9.0"
   }
 }

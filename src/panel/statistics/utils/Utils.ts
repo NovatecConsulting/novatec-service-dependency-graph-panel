@@ -1,18 +1,18 @@
-
 function roundPercentageToDecimal(decimal: number, value: any) {
-    if(value !== "-" ) {
-        var valueDecimals = _getDecimalsOf( parseFloat(value))
-        if(valueDecimals > decimal) {
-            value = parseFloat(value).toFixed(decimal) + "%";
-        }
+  if (value !== '-') {
+    var valueDecimals = _getDecimalsOf(parseFloat(value));
+    if (valueDecimals > decimal) {
+      value = parseFloat(value).toFixed(decimal) + '%';
     }
-    return value;
+  }
+  return value;
 }
 
-function _getDecimalsOf(value: number){
-    if (Math.floor(value) !== value)
-        return value.toString().split(".")[1].length || 0;
-    return 0;
+function _getDecimalsOf(value: number) {
+  if (Math.floor(value) !== value) {
+    return value.toString().split('.')[1].length || 0;
+  }
+  return 0;
 }
 
 export default roundPercentageToDecimal;

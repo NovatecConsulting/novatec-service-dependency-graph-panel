@@ -1,9 +1,9 @@
 import React from 'react';
-import { TableHeader } from '../../types'
+import { IntTableHeader } from '../../types'
 import BootstrapTable  from 'react-bootstrap-table-next'
 
 interface SortableTableProps  {
-    tableHeaders: TableHeader[];
+    tableHeaders: IntTableHeader[];
     data: any[];
 }
 

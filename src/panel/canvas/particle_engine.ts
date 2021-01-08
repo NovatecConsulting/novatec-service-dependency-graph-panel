@@ -1,121 +1,119 @@
-import CanvasDrawer from "./graph_canvas";
+import CanvasDrawer from './graph_canvas';
 import _, { defaultTo } from 'lodash';
-import { Particles, Particle, IGraphMetrics } from "../../types";
+import { Particles, Particle, IntGraphMetrics } from '../../types';
 
 export default class ParticleEngine {
+  drawer: CanvasDrawer;
 
-    drawer: CanvasDrawer;
+  maxVolume = 800;
 
-    maxVolume: number = 800;
+  minSpawnPropability = 0.004;
 
-    minSpawnPropability: number = 0.004;
+  spawnInterval: any;
 
-    spawnInterval: any;
+  animating: boolean;
 
-    animating: boolean;
-    
-    constructor(canvasDrawer: CanvasDrawer) {
-        this.drawer = canvasDrawer;
-        this.animating = false;
+  constructor(canvasDrawer: CanvasDrawer) {
+    this.drawer = canvasDrawer;
+    this.animating = false;
+  }
+
+  start() {
+    this.animating = true;
+    if (!this.spawnInterval) {
+      const that = this;
+      this.spawnInterval = setInterval(() => that.animate(), 60);
     }
+  }
 
-    start() {
-        this.animating = true;
-        if (!this.spawnInterval) {
-            const that = this;
-            this.spawnInterval = setInterval(() => that.animate(), 60);
-        }
+  stop() {
+    this.animating = false;
+  }
+
+  animate() {
+    const that = this;
+    if (!that.animating) {
+      if (!this.hasParticles()) {
+        clearInterval(this.spawnInterval);
+        this.spawnInterval = null;
+      }
+    } else {
+      that._spawnParticles();
     }
+    that.drawer.repaint();
+  }
 
-    stop() {
-        this.animating = false;
+  hasParticles() {
+    for (const edge of this.drawer.cytoscape.edges().toArray()) {
+      if (
+        edge.data('particles') !== undefined &&
+        (edge.data('particles').normal.length > 0 || edge.data('particles').danger.length > 0)
+      ) {
+        return true;
+      }
     }
+    return false;
+  }
 
-    animate(){
-        const that = this;
-        if(!that.animating) {
-            if(!this.hasParticles()) {
-                clearInterval(this.spawnInterval);
-                this.spawnInterval = null;
-            }
-        } else {
-            that._spawnParticles();
-        }
-        that.drawer.repaint();
-    }
+  _spawnParticles() {
+    const cy = this.drawer.cytoscape;
 
-    hasParticles(){
-        for(const edge of this.drawer.cytoscape.edges().toArray()) {
+    const now = Date.now();
+    cy.edges().forEach(edge => {
+      let particles: Particles = edge.data('particles');
+      const metrics: IntGraphMetrics = edge.data('metrics');
 
-            if(edge.data('particles') !== undefined &&  (edge.data('particles').normal.length > 0 || edge.data('particles').danger.length > 0)) {
-                return true;
-            } 
-        }
-        return false;
-    }
+      if (!metrics) {
+        return;
+      }
 
-    _spawnParticles() {
-        const cy = this.drawer.cytoscape;
+      const rate = defaultTo(metrics.rate, 0);
+      const error_rate = defaultTo(metrics.error_rate, 0);
+      const volume = rate + error_rate;
 
-        const now = Date.now();
-        cy.edges().forEach(edge => {
-            
-            let particles: Particles = edge.data('particles');
-            const metrics: IGraphMetrics = edge.data('metrics');
+      let errorRate;
+      if (rate >= 0 && error_rate >= 0) {
+        errorRate = error_rate / rate;
+      } else {
+        errorRate = 0;
+      }
 
-            
-            if (!metrics) {
-                return;
-            }
+      if (particles === undefined) {
+        particles = {
+          normal: [],
+          danger: [],
+        };
+        edge.data('particles', particles);
+      }
 
-            const rate = defaultTo(metrics.rate, 0);
-            const error_rate = defaultTo(metrics.error_rate, 0);
-            const volume = rate + error_rate;
-
-            let errorRate;
-            if (rate >= 0 && error_rate >= 0) {
-                errorRate = error_rate / rate;
+      if (metrics && volume > 0) {
+        const spawnPropability = Math.min(volume / this.maxVolume, 1.0);
+        for (let i = 0; i < 5; i++) {
+          if (Math.random() <= spawnPropability + this.minSpawnPropability) {
+            const particle: Particle = {
+              velocity: 0.05 + Math.random() * 0.05,
+              startTime: now,
+            };
+            if (Math.random() < errorRate) {
+              particles.danger.push(particle);
             } else {
-                errorRate = 0;
+              particles.normal.push(particle);
             }
+          }
+        }
+      }
+    });
+  }
 
-            if (particles === undefined) {
-                particles = {
-                    normal: [],
-                    danger: []
-                };
-                edge.data('particles', particles);
-            }
+  count() {
+    const cy = this.drawer.cytoscape;
 
-            if (metrics && volume > 0) {
-                const spawnPropability = Math.min(volume / this.maxVolume, 1.0);
-                for (let i = 0; i < 5; i++) {
-                    if (Math.random() <= spawnPropability + this.minSpawnPropability) {
-                        const particle: Particle = {
-                            velocity: 0.05 + (Math.random() * 0.05),
-                            startTime: now
-                        };
-                        if (Math.random() < errorRate) {
-                            particles.danger.push(particle);
-                        } else {
-                            particles.normal.push(particle);
-                        }
-                        
-                    }
-                }
-            }
-        });
-    }
+    const count = _(cy.edges())
+      .map(edge => edge.data('particles'))
+      .filter()
+      .map(particleArray => particleArray.normal.length + particleArray.danger.length)
+      .sum();
 
-    count() {
-        const cy = this.drawer.cytoscape;
-
-        const count = _(cy.edges())
-            .map(edge => edge.data('particles'))
-            .filter()
-            .map(particleArray => particleArray.normal.length + particleArray.danger.length)
-            .sum();
-
-        return count;
-    }
+    return count;
+  }
 }
