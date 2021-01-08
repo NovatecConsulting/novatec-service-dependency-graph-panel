@@ -38,7 +38,7 @@ class GraphGenerator {
       return undefined;
     }
 
-    const sumMetrics = !this.controller.getSettings().sumTimings;
+    const sumMetrics = !this.controller.getSettings().sumTimings.value;
 
     var nodeName = dataElements[0].target;
     if (nodeName === '' || nodeName === undefined || nodeName === null) {
@@ -201,7 +201,7 @@ class GraphGenerator {
     if (!isUndefined(response_time_out)) {
       const { sumTimings } = this.controller.getSettings();
 
-      if (!sumTimings && metrics.rate) {
+      if (!sumTimings.value && metrics.rate) {
         metrics.response_time = response_time_out / metrics.rate;
       } else {
         metrics.response_time = response_time_out;
@@ -224,7 +224,7 @@ class GraphGenerator {
   _filterData(graph: IntGraph): IntGraph {
     const { filterEmptyConnections: filterData } = this.controller.getSettings();
 
-    if (filterData) {
+    if (filterData.value) {
       const filteredGraph: IntGraph = {
         nodes: [],
         edges: [],

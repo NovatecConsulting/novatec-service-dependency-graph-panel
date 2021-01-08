@@ -57,13 +57,13 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
     }
     dataMapping.showDummyData = newValue;
     this.props.onChange.call(this.state.item.path, dataMapping);
-    /*this.setState({
-            value:!this.state.value,
-            dataMapping:this.props.context.options.dataMapping
-        });*/
   };
 
   render() {
+    if(this.props.context.options.dataMapping === undefined){
+      this.props.context.options.dataMapping = this.props.item.defaultValue;
+  }
+
     return (
       <div>
         <Switch

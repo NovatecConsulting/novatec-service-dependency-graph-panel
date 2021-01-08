@@ -21,6 +21,7 @@ interface PanelState {
   animateButtonClass?: string,
   showStatistics: boolean;
   data: any;
+  settings:any;
 }
 
 cyCanvas(cytoscape);
@@ -214,7 +215,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   getSettings() {
-    return this.props.controller.state.options;
+    return this.props.settings;
   }
 
   toggleAnimation() {

@@ -4,6 +4,7 @@ import { TypeaheadTextField } from './TypeAheadTextfield/TypeaheadTextfield';
 import { ServiceIconMapping } from './serviceIconMapping/ServiceIconMapping';
 import { ExternalIconMapping } from './externalIconMapping/ExternalIconMapping';
 import { DummyDataSwitch } from './dummyDataSwitch/DummyDataSwitch';
+import { GenericDataSwitch } from './genericDataSwitch/GenericDataSwitch';
 
 export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>) => {
   return (
@@ -108,15 +109,20 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       })
 
       //General Settings
-      .addBooleanSwitch({
+      .addCustomEditor({
+        id: 'connectionStats',
         path: 'showConnectionStats',
         name: 'Show Connection Statistics',
+        editor: GenericDataSwitch,
         category: ['General Settings'],
+        defaultValue: {value: false}
       })
 
-      .addBooleanSwitch({
+      .addCustomEditor({
+        id: 'sumTimings',
         path: 'sumTimings',
         name: 'Handle Timings as Sums',
+        editor: GenericDataSwitch,
         description:
           'If this setting is active, the timings provided' +
           'by the mapped response time columns are considered as a ' +
@@ -124,23 +130,30 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
           'deactivated, it is considered that the timings provided ' +
           'by columns are the actual average response times.',
         category: ['General Settings'],
+        defaultValue: {value: false}
       })
 
-      .addBooleanSwitch({
+      .addCustomEditor({
+        id: 'filterEmptyConnections',
         path: 'filterEmptyConnections',
         name: 'Filter Empty Data',
+        editor: GenericDataSwitch,
         description:
           'If this setting is active, the timings provided by ' +
           'the mapped response time columns are considered as a continually ' +
           'increasing sum of response times. When deactivated, it is considered ' +
           'that the timings provided by columns are the actual average response times.',
         category: ['General Settings'],
+        defaultValue: {value: false}
       })
 
-      .addBooleanSwitch({
+      .addCustomEditor({
+        id: 'showDebugInformation',
         path: 'showDebugInformation',
         name: 'Show Debug Information',
+        editor: GenericDataSwitch,
         category: ['General Settings'],
+        defaultValue: {value: false}
       })
 
       .addCustomEditor({
@@ -149,12 +162,30 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Show Dummy Data',
         editor: DummyDataSwitch,
         category: ['General Settings'],
+        defaultValue: {
+          sourceComponentPrefix: 'origin_',
+          targetComponentPrefix: 'target_',
+          responseTimeColumn: 'in_timesum',
+          requestRateColumn: 'in_count',
+          errorRateColumn: 'error_in',
+          responseTimeOutgoingColumn: 'out_timesum',
+          requestRateOutgoingColumn: 'out_count',
+          errorRateOutgoingColumn: 'error_out',
+          extOrigin: '',
+          extTarget: '',
+          type: '',
+          showDummyData: true,
+          baselineRtUpper: 'threshold',
+        }
       })
 
-      .addBooleanSwitch({
+      .addCustomEditor({
+        id: 'showBaselines',
         path: 'showBaselines',
         name: 'Show Baselines',
+        editor: GenericDataSwitch,
         category: ['General Settings'],
+        defaultValue: {value: false}
       })
 
       //Appearance

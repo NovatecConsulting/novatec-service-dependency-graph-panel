@@ -217,7 +217,7 @@ export default class CanvasDrawer {
     // static element rendering
     // cyCanvas.resetTransform(ctx);
     cyCanvas.clear(ctx);
-    if (this.controller.getSettings().showDebugInformation) {
+    if (this.controller.getSettings().showDebugInformation.value) {
       this._drawDebugInformation();
     }
 
@@ -266,7 +266,7 @@ export default class CanvasDrawer {
     }
 
     const { showConnectionStats } = this.controller.getSettings();
-    if (showConnectionStats && cy.zoom() > 1) {
+    if (showConnectionStats.value && cy.zoom() > 1) {
       for (const edge of edges) {
         this._drawEdgeLabel(ctx, edge);
       }
@@ -494,7 +494,7 @@ export default class CanvasDrawer {
       this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct]);
 
       // drawing the baseline status
-      const showBaselines = this.controller.getSettings().showBaselines;
+      const showBaselines = this.controller.getSettings().showBaselines.value;
       if (showBaselines && responseTime >= 0 && threshold >= 0) {
         const thresholdViolation = threshold < responseTime;
 
@@ -655,7 +655,7 @@ export default class CanvasDrawer {
     const xPos = pos.x - labelWidth / 2;
     const yPos = pos.y + node.height() * 0.8;
 
-    const showBaselines = this.controller.getSettings().showBaselines;
+    const showBaselines = this.controller.getSettings().showBaselines.value;
     const metrics: IntGraphMetrics = node.data('metrics');
     const responseTime = _.defaultTo(metrics.response_time, -1);
     const threshold = _.defaultTo(metrics.threshold, -1);
