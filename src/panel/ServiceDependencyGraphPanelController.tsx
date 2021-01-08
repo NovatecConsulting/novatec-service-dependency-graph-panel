@@ -32,6 +32,7 @@ interface PanelState {
 }
 
 export class ServiceDependencyGraphPanelController extends PureComponent<Props, PanelState> {
+
   cy: cytoscape.Core | undefined;
 
   ref: any;
@@ -204,6 +205,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
               controller={this}
               animate={false}
               showStatistics={false}
+              settings={this.props.options}
             />
           </div>
         </div>
