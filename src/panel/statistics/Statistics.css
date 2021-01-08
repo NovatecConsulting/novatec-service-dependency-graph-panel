@@ -1,3 +1,15 @@
 .margin {
     margin: 10px;
 }
+
+.statistics {
+    flex-basis: 0;
+    transition: flex-basis 500ms ease-in-out;
+    overflow-y: scroll;
+    
+  }
+  
+  .statistics.show {
+    flex-basis: 30rem;
+    padding-left: 0.5%;
+  }

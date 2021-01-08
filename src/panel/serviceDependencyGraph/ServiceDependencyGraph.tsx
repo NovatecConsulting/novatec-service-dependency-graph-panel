@@ -10,6 +10,7 @@ import { Statistics } from '../statistics/Statistics';
 import _, { map, find, remove, each } from 'lodash';
 import { TableContent, IGraphMetrics, IGraph, IGraphNode, IGraphEdge } from 'types';
 import { TemplateSrv, getTemplateSrv } from '@grafana/runtime';
+import './ServiceDependencyGraph.css'
 
 
 interface PanelState {
@@ -373,9 +374,9 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       this._updateGraph(this.props.data);
     }
     return (
-        <div className="graph-container" ng-show="!ctrl.getError()">
+        <div className="graph-container">
             <div className="service-dependency-graph">
-                <div className="canvas-container" ref={ ref => this.ref = ref} style= {{height: "100%", width: "100%"}}>
+                <div className="canvas-container" ref={ ref => this.ref = ref} >
 
                 </div>
                 <div className="zoom-button-container">

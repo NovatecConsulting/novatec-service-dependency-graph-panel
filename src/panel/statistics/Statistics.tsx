@@ -26,9 +26,10 @@ export const Statistics: React.FC<StatisticsProps> = ({
     receiving,
     sending
     }) => {
-        
+        var statisticsClass = "statistics"
         var statistics=(<div></div>)
         if(show) {
+            statisticsClass ="statistics show "
             var drilldownLink = (<div></div>)
             if(resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL'){
 
@@ -94,7 +95,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
                     )
             }
             statistics = (
-                <div >
+                <div className="statistics">
                     <div className="header--selection">{selectionId}
                         {drilldownLink}
                     </div>
@@ -117,13 +118,8 @@ export const Statistics: React.FC<StatisticsProps> = ({
                 </div>
             )
         }
-        
-        var w = "0%"
-        if(show) {
-            w = "40%"
-        }
         return (
-            <div style={{width: w}}>
+            <div className = {statisticsClass}>
                 {statistics}
             </div>
         );
