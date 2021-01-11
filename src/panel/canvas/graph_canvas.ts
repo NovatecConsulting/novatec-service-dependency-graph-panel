@@ -553,7 +553,12 @@ export default class CanvasDrawer {
     }
     if (responseTime >= 0) {
       const decimals = responseTime >= 1000 ? 1 : 0;
-      lines.push('Avg. Resp. Time: ' + humanFormat(responseTime, { scale: this.timeScale, decimals }));
+
+      var labelText = 'Avg. Resp. Time: ';
+      if(this.controller.getSettings().sumTimings.value) {
+        labelText = 'Total Resp. Time: ';
+      }
+      lines.push(labelText + humanFormat(responseTime, { scale: this.timeScale, decimals }));
     }
 
     const pos = node.position();
