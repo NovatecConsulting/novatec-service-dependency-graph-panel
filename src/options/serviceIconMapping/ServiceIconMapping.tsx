@@ -63,7 +63,7 @@ export class ServiceIconMapping extends React.PureComponent<Props, State> {
 
   render() {
     if (!this.state.value || this.state.value === undefined) {
-      this.state.context.options.serviceIcons = [{ pattern: 'my-type', filename: 'default' }];
+      this.state.context.options.serviceIcons = this.state.item.defaultValue;
     }
     var optionsList: JSX.Element[] = [];
     if (this.state.serviceIcons !== undefined) {

@@ -1,7 +1,13 @@
 import React from 'react';
-import { StandardEditorProps } from '@grafana/data';
 import { Switch } from '@grafana/ui';
 import { IntSwitch } from 'types';
+
+interface StandardEditorProps {
+    item: any,
+    value: IntSwitch,
+    onChange: any,
+    context: any,
+}
 
 function onChangeOverride(value: IntSwitch, onChange: any, item: any) {
     value.value = !value.value;
@@ -10,7 +16,7 @@ function onChangeOverride(value: IntSwitch, onChange: any, item: any) {
 
 export const GenericDataSwitch: React.FC<StandardEditorProps> = ({item, value, onChange, context}) => {
     if(context.options[item.path] === undefined){
-        context.options[item.path] = {value: false}
+        context.options[item.path] = item.defaultValue;
     }
 
     return (

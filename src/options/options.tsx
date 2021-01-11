@@ -1,10 +1,11 @@
 import { PanelOptionsEditorBuilder } from '@grafana/data';
 import { PanelSettings } from '../types';
-import { TypeaheadTextField } from './TypeAheadTextfield/TypeaheadTextfield';
+import { TypeaheadTextField } from './typeAheadTextfield/TypeaheadTextfield';
 import { ServiceIconMapping } from './serviceIconMapping/ServiceIconMapping';
 import { ExternalIconMapping } from './externalIconMapping/ExternalIconMapping';
 import { DummyDataSwitch } from './dummyDataSwitch/DummyDataSwitch';
 import { GenericDataSwitch } from './genericDataSwitch/GenericDataSwitch';
+import { DefaultSettings } from './DefaultSettings';
 
 export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>) => {
   return (
@@ -17,6 +18,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         editor: TypeaheadTextField,
         name: 'Source Component Column Prefix',
         category: ['Connection Mapping'],
+        defaultValue: DefaultSettings.dataMapping.sourceComponentPrefix,
       })
 
       .addCustomEditor({
@@ -25,6 +27,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Target Component Column Prefix',
         category: ['Connection Mapping'],
         editor: TypeaheadTextField,
+        defaultValue: DefaultSettings.dataMapping.targetComponentPrefix,
       })
 
       .addCustomEditor({
@@ -33,6 +36,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Type',
         category: ['Connection Mapping'],
         editor: TypeaheadTextField,
+        defaultValue: DefaultSettings.dataMapping.type,
       })
 
       .addCustomEditor({
@@ -41,6 +45,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'External Origin',
         category: ['Connection Mapping'],
         editor: TypeaheadTextField,
+        defaultValue: DefaultSettings.dataMapping.extOrigin,
       })
 
       .addCustomEditor({
@@ -49,6 +54,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'External Target',
         category: ['Connection Mapping'],
         editor: TypeaheadTextField,
+        defaultValue: DefaultSettings.dataMapping.extTarget,
       })
 
       //Data Mapping
@@ -58,6 +64,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Response Time Column',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
+        defaultValue: DefaultSettings.dataMapping.responseTimeColumn,
       })
 
       .addCustomEditor({
@@ -66,6 +73,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Request Rate Column',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
+        defaultValue: DefaultSettings.dataMapping.requestRateColumn,
       })
 
       .addCustomEditor({
@@ -74,6 +82,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Error Rate Column',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
+        defaultValue: DefaultSettings.dataMapping.errorRateColumn,
       })
 
       .addCustomEditor({
@@ -82,6 +91,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Response Time Column (Outgoing)',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
+        defaultValue: DefaultSettings.dataMapping.responseTimeOutgoingColumn,
       })
 
       .addCustomEditor({
@@ -90,6 +100,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Request Rate Column (Outgoing)',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
+        defaultValue: DefaultSettings.dataMapping.requestRateOutgoingColumn,
       })
 
       .addCustomEditor({
@@ -98,6 +109,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Error Rate Column (Outgoing)',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
+        defaultValue: DefaultSettings.dataMapping.errorRateOutgoingColumn,
       })
 
       .addCustomEditor({
@@ -106,6 +118,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Response Time Baseline (Upper)',
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
+        defaultValue: DefaultSettings.dataMapping.baselineRtUpper,
       })
 
       //General Settings
@@ -115,7 +128,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Show Connection Statistics',
         editor: GenericDataSwitch,
         category: ['General Settings'],
-        defaultValue: {value: false}
+        defaultValue: DefaultSettings.showConnectionStats,
       })
 
       .addCustomEditor({
@@ -130,7 +143,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
           'deactivated, it is considered that the timings provided ' +
           'by columns are the actual average response times.',
         category: ['General Settings'],
-        defaultValue: {value: false}
+        defaultValue: DefaultSettings.sumTimings,
       })
 
       .addCustomEditor({
@@ -144,7 +157,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
           'increasing sum of response times. When deactivated, it is considered ' +
           'that the timings provided by columns are the actual average response times.',
         category: ['General Settings'],
-        defaultValue: {value: false}
+        defaultValue: DefaultSettings.filterEmptyConnections,
       })
 
       .addCustomEditor({
@@ -153,7 +166,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Show Debug Information',
         editor: GenericDataSwitch,
         category: ['General Settings'],
-        defaultValue: {value: false}
+        defaultValue: DefaultSettings.showDebugInformation,
       })
 
       .addCustomEditor({
@@ -162,21 +175,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Show Dummy Data',
         editor: DummyDataSwitch,
         category: ['General Settings'],
-        defaultValue: {
-          sourceComponentPrefix: 'origin_',
-          targetComponentPrefix: 'target_',
-          responseTimeColumn: 'in_timesum',
-          requestRateColumn: 'in_count',
-          errorRateColumn: 'error_in',
-          responseTimeOutgoingColumn: 'out_timesum',
-          requestRateOutgoingColumn: 'out_count',
-          errorRateOutgoingColumn: 'error_out',
-          extOrigin: '',
-          extTarget: '',
-          type: '',
-          showDummyData: true,
-          baselineRtUpper: 'threshold',
-        }
+        defaultValue: DefaultSettings.dataMapping,
       })
 
       .addCustomEditor({
@@ -185,7 +184,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: 'Show Baselines',
         editor: GenericDataSwitch,
         category: ['General Settings'],
-        defaultValue: {value: false}
+        defaultValue: DefaultSettings.showBaselines,
       })
 
       //Appearance
@@ -193,21 +192,21 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         path: 'style.healthyColor',
         name: 'Healthy Color',
         category: ['Appearance'],
-        defaultValue: 'rgb(87, 148, 242)',
+        defaultValue: DefaultSettings.style.healthyColor,
       })
 
       .addColorPicker({
         path: 'style.dangerColor',
         name: 'Danger Color',
         category: ['Appearance'],
-        defaultValue: '#C4162A',
+        defaultValue: DefaultSettings.style.dangerColor,
       })
 
       .addColorPicker({
-        path: 'style.noDataColor',
+        path: 'style.unknownColor',
         name: 'No Data Color',
         category: ['Appearance'],
-        defaultValue: 'rgb(123, 123, 138)',
+        defaultValue: DefaultSettings.style.unknownColor,
       })
 
       //Service Icon Mapping
@@ -217,6 +216,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         editor: ServiceIconMapping,
         name: '',
         category: ['Service Icon Mapping'],
+        defaultValue: DefaultSettings.serviceIcons,
       })
 
       // External Service Icon Mapping
@@ -226,6 +226,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         editor: ExternalIconMapping,
         name: '',
         category: ['External Icon Mapping'],
+        defaultValue: DefaultSettings.externalIcons,
       })
 
       //Tracing Drilldown
@@ -233,6 +234,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         path: 'drillDownLink',
         name: 'Backend URL',
         category: ['Tracing Drilldown'],
+        defaultValue: DefaultSettings.drillDownLink,
       })
   );
 };

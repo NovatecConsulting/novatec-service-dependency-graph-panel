@@ -22,8 +22,14 @@ interface State {
 export class TypeaheadTextField extends React.PureComponent<Props, State> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
+
+    var value = props.value;
+    if(value === undefined) {
+      value = props.item.defaultValue;
+    }
     this.state = {
       ...props,
+      value: value,
       suggestions: [],
     };
   }
@@ -90,7 +96,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
   render() {
     var value = this.props.value;
     if (value === undefined) {
-      value = '';
+      value = this.props.item.defaultValue;
     }
 
     const suggestions = this.getSuggestions(value);

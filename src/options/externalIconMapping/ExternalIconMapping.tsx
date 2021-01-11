@@ -45,7 +45,7 @@ export class ExternalIconMapping extends React.PureComponent<Props, Props> {
 
   render() {
     if (!this.state.value || this.state.value === undefined) {
-      this.state.context.options.externalIcons = [{ pattern: 'my-type', filename: 'default' }];
+      this.state.context.options.externalIcons = this.state.item.defaultValue;
     }
     var optionsList: JSX.Element[] = [];
     for (const image of this.getExternalIcons()) {
