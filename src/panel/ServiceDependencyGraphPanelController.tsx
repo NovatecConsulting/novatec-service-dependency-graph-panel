@@ -32,7 +32,6 @@ interface PanelState {
 }
 
 export class ServiceDependencyGraphPanelController extends PureComponent<Props, PanelState> {
-
   cy: cytoscape.Core | undefined;
 
   ref: any;

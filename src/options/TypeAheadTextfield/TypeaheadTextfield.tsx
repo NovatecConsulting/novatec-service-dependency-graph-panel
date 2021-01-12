@@ -24,7 +24,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     super(props);
 
     var value = props.value;
-    if(value === undefined) {
+    if (value === undefined) {
       value = props.item.defaultValue;
     }
     this.state = {

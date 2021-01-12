@@ -555,7 +555,7 @@ export default class CanvasDrawer {
       const decimals = responseTime >= 1000 ? 1 : 0;
 
       var labelText = 'Avg. Resp. Time: ';
-      if(this.controller.getSettings().sumTimings.value) {
+      if (this.controller.getSettings().sumTimings.value) {
         labelText = 'Total Resp. Time: ';
       }
       lines.push(labelText + humanFormat(responseTime, { scale: this.timeScale, decimals }));

@@ -11,37 +11,31 @@ interface NodeStatisticsProps {
 }
 
 const tableHeaders: IntTableHeader[] = [
-    {text: "Name", dataField: "name", sort: true, isKey: true},
-    {text: "Time", dataField: "time", sort: true, ignoreLiteral: " ms"},
-    {text: "Requests", dataField: "requests", sort: true,  ignoreLiteral: ""},
-    {text: "Error Rate", dataField: "error_rate", sort: true, ignoreLiteral: "%"},
-]
+  { text: 'Name', dataField: 'name', sort: true, isKey: true },
+  { text: 'Time', dataField: 'time', sort: true, ignoreLiteral: ' ms' },
+  { text: 'Requests', dataField: 'requests', sort: true, ignoreLiteral: '' },
+  { text: 'Error Rate', dataField: 'error_rate', sort: true, ignoreLiteral: '%' },
+];
 
-export const NodeStatistics: React.FC<NodeStatisticsProps> = ({nodeList, noDataText, title}) => {
-        var nodeStatistics = (<div className="no-data--selection">{noDataText}</div>)
-        if(nodeList.length > 0) {
-            var data = nodeList.map((node: any) => {
-                return {
-                    name: node.name,
-                    time: node.responseTime,
-                    requests: node.rate,
-                    error_rate: roundPercentageToDecimal(2, node.error)
-                }
-            }
-            );
+export const NodeStatistics: React.FC<NodeStatisticsProps> = ({ nodeList, noDataText, title }) => {
+  var nodeStatistics = <div className="no-data--selection">{noDataText}</div>;
+  if (nodeList.length > 0) {
+    var data = nodeList.map((node: any) => {
+      return {
+        name: node.name,
+        time: node.responseTime,
+        requests: node.rate,
+        error_rate: roundPercentageToDecimal(2, node.error),
+      };
+    });
 
-            nodeStatistics = (
-                <SortableTable
-                    tableHeaders={tableHeaders}
-                    data = {data}
-                />
-            )
-        }
+    nodeStatistics = <SortableTable tableHeaders={tableHeaders} data={data} />;
+  }
 
-        return (
-            <div>
-                <div className="secondHeader--selection">{title}</div>
-                {nodeStatistics}
-            </div>
-        )
-    }
+  return (
+    <div>
+      <div className="secondHeader--selection">{title}</div>
+      {nodeStatistics}
+    </div>
+  );
+};

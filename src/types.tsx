@@ -181,11 +181,11 @@ export interface IntTableHeader {
   dataField: string;
   isKey?: boolean;
   sort: boolean;
-  headerClasses?: string
-  footerClasses?: string
-  classes?: string
-  sortFunc?: any
-  ignoreLiteral?: string
+  headerClasses?: string;
+  footerClasses?: string;
+  classes?: string;
+  sortFunc?: any;
+  ignoreLiteral?: string;
 }
 
 export interface IntSwitch {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NodeStatistics } from './NodeStatistics'
+import { NodeStatistics } from './NodeStatistics';
 import '../../css/novatec-service-dependency-graph-panel.css';
 import './Statistics.css';
 import { TableContent } from 'types';
@@ -17,28 +17,27 @@ interface StatisticsProps {
 }
 
 export const Statistics: React.FC<StatisticsProps> = ({
-    show,
-    selectionId,
-    resolvedDrillDownLink,
-    selectionStatistics,
-    currentType,
-    showBaselines,
-    receiving,
-    sending
-    }) => {
-        var statisticsClass = "statistics"
-        var statistics=(<div></div>)
-        if(show) {
-            statisticsClass ="statistics show "
-            var drilldownLink = (<div></div>)
-            if(resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL'){
-
-                drilldownLink = (
-                    <a target="_blank" href={resolvedDrillDownLink}>
-                        <i className="fa fa-paper-plane-o margin"></i>
-                    </a>
-                    )
-            }
+  show,
+  selectionId,
+  resolvedDrillDownLink,
+  selectionStatistics,
+  currentType,
+  showBaselines,
+  receiving,
+  sending,
+}) => {
+  var statisticsClass = 'statistics';
+  var statistics = <div></div>;
+  if (show) {
+    statisticsClass = 'statistics show ';
+    var drilldownLink = <div></div>;
+    if (resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL') {
+      drilldownLink = (
+        <a target="_blank" href={resolvedDrillDownLink}>
+          <i className="fa fa-paper-plane-o margin"></i>
+        </a>
+      );
+    }
 
     var requests = <div></div>;
     if (selectionStatistics.requests >= 0) {
@@ -82,25 +81,31 @@ export const Statistics: React.FC<StatisticsProps> = ({
       );
     }
 
-            var baseline=(<div></div>)
-            if (showBaselines && selectionStatistics.threshold) {
-
-                var threshold = (<td className="table--td--selection threshold--good">Good "(&lt;= {selectionStatistics.threshold}ms)"</td>)
-                if(selectionStatistics.thresholdViolation) {
-                    threshold = <td className="table--td--selection threshold--bad">Bad ({">"} {selectionStatistics.threshold}ms)</td>
-                }
-                baseline = (
-                    <tr>
-                        <td className="table--td--selection">Response Time Health (Upper Baseline)</td>
-                        {threshold}
-                    </tr>
-                    )
-            }
-            statistics = (
-                <div className="statistics">
-                    <div className="header--selection">{selectionId}
-                        {drilldownLink}
-                    </div>
+    var baseline = <div></div>;
+    if (showBaselines && selectionStatistics.threshold) {
+      var threshold = (
+        <td className="table--td--selection threshold--good">Good "(&lt;= {selectionStatistics.threshold}ms)"</td>
+      );
+      if (selectionStatistics.thresholdViolation) {
+        threshold = (
+          <td className="table--td--selection threshold--bad">
+            Bad ({'>'} {selectionStatistics.threshold}ms)
+          </td>
+        );
+      }
+      baseline = (
+        <tr>
+          <td className="table--td--selection">Response Time Health (Upper Baseline)</td>
+          {threshold}
+        </tr>
+      );
+    }
+    statistics = (
+      <div className="statistics">
+        <div className="header--selection">
+          {selectionId}
+          {drilldownLink}
+        </div>
 
         <div className="secondHeader--selection">Statistics</div>
         <table className="table--selection">
@@ -120,19 +125,9 @@ export const Statistics: React.FC<StatisticsProps> = ({
           noDataText="No incoming statistics available."
           title="Incoming Statistics"
         />
-        <NodeStatistics
-          nodeList={sending}
-          noDataText = "No outgoing statistics available."
-          title="Outgoing Statistics"
-        />
-    </div>
-            )
-        }
-        return (
-            <div className = {statisticsClass}>
-                {statistics}
-            </div>
-        );
-    }
-
-
+        <NodeStatistics nodeList={sending} noDataText="No outgoing statistics available." title="Outgoing Statistics" />
+      </div>
+    );
+  }
+  return <div className={statisticsClass}>{statistics}</div>;
+};

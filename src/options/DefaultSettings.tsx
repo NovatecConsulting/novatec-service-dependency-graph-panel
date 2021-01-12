@@ -1,69 +1,69 @@
-import { PanelSettings} from '../types';
+import { PanelSettings } from '../types';
 
-export const DefaultSettings: PanelSettings =  {
-    animate: true,
+export const DefaultSettings: PanelSettings = {
+  animate: true,
 
-    dataMapping: {
-        sourceComponentPrefix: 'origin_',
-        targetComponentPrefix: 'target_',
-    
-        responseTimeColumn: 'response-time',
-        requestRateColumn: 'request-rate',
-        errorRateColumn: 'error-rate',
-        responseTimeOutgoingColumn: 'response-time-out',
-        requestRateOutgoingColumn: 'request-rate-out',
-        errorRateOutgoingColumn: 'error-rate-out',
-    
-        extOrigin: 'external_origin',
-        extTarget: 'external_target',
-        type: 'type',
-    
-        baselineRtUpper: 'threshold',
-    
-        showDummyData: false,
+  dataMapping: {
+    sourceComponentPrefix: 'origin_',
+    targetComponentPrefix: 'target_',
+
+    responseTimeColumn: 'response-time',
+    requestRateColumn: 'request-rate',
+    errorRateColumn: 'error-rate',
+    responseTimeOutgoingColumn: 'response-time-out',
+    requestRateOutgoingColumn: 'request-rate-out',
+    errorRateOutgoingColumn: 'error-rate-out',
+
+    extOrigin: 'external_origin',
+    extTarget: 'external_target',
+    type: 'type',
+
+    baselineRtUpper: 'threshold',
+
+    showDummyData: false,
+  },
+
+  sumTimings: { value: true },
+  filterEmptyConnections: { value: true },
+  showDebugInformation: { value: false },
+  showConnectionStats: { value: true },
+  showBaselines: { value: false },
+
+  style: {
+    healthyColor: 'rgb(87, 148, 242)',
+    dangerColor: 'rgb(196, 22, 42)',
+    unknownColor: 'rgb(123, 123, 138)',
+  },
+
+  serviceIcons: [
+    {
+      pattern: 'java',
+      filename: 'java',
     },
-
-    sumTimings: {value: true},
-    filterEmptyConnections: {value: true},
-    showDebugInformation: {value: false},
-    showConnectionStats: {value: true},
-    showBaselines: {value: false},
-
-    style: {
-        healthyColor: 'rgb(87, 148, 242)',
-        dangerColor:  'rgb(196, 22, 42)',
-        unknownColor: 'rgb(123, 123, 138)',
+    {
+      pattern: 'spok|star trek',
+      filename: 'star_trek',
     },
+  ],
 
-    serviceIcons: [
-        {
-            pattern: 'java',
-            filename: 'java'
-        },
-        {
-            pattern: 'spok|star trek',
-            filename: 'star_trek'
-        },
-    ],
+  externalIcons: [
+    {
+      pattern: 'web',
+      filename: 'web',
+    },
+    {
+      pattern: 'jms',
+      filename: 'message',
+    },
+    {
+      pattern: 'jdbc',
+      filename: 'database',
+    },
+    {
+      pattern: 'http',
+      filename: 'http',
+    },
+  ],
 
-    externalIcons: [
-        {
-            pattern: 'web',
-            filename: 'web'
-        },
-        {
-            pattern: 'jms',
-            filename: 'message'
-        },
-        {
-            pattern: 'jdbc',
-            filename: 'database'
-        },
-        {
-            pattern: 'http',
-            filename: 'http'
-        }
-    ],
-
-    drillDownLink: "",
-}
+  drillDownLink: '',
+};

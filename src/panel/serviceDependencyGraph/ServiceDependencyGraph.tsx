@@ -18,10 +18,10 @@ interface PanelState {
   controller: ServiceDependencyGraphPanelController;
   cy?: cytoscape.Core | undefined;
   graphCanvas?: CanvasDrawer | undefined;
-  animateButtonClass?: string,
+  animateButtonClass?: string;
   showStatistics: boolean;
   data: any;
-  settings:any;
+  settings: any;
 }
 
 cyCanvas(cytoscape);
@@ -46,23 +46,23 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 
   initResize = true;
 
-  constructor(props: PanelState){
-      super(props);
+  constructor(props: PanelState) {
+    super(props);
 
-      var animateButtonClass = "fa fa-play-circle";
-      if(props.animate) {
-        animateButtonClass = "fa fa-pause-circle";
-      }
+    var animateButtonClass = 'fa fa-play-circle';
+    if (props.animate) {
+      animateButtonClass = 'fa fa-pause-circle';
+    }
 
-      this.state = {
-          ...props,
-          showStatistics: false,
-          animateButtonClass: animateButtonClass,
-          animate: false
-      };
+    this.state = {
+      ...props,
+      showStatistics: false,
+      animateButtonClass: animateButtonClass,
+      animate: false,
+    };
 
-      this.ref = React.createRef();
-      this.templateSrv = getTemplateSrv();
+    this.ref = React.createRef();
+    this.templateSrv = getTemplateSrv();
   }
 
   componentDidMount() {
@@ -219,17 +219,17 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   toggleAnimation() {
-    var newValue = !this.state.animate
-    var animateButtonClass = "fa fa-play-circle"
+    var newValue = !this.state.animate;
+    var animateButtonClass = 'fa fa-play-circle';
     if (newValue) {
       this.state.graphCanvas.startAnimation();
-      animateButtonClass = "fa fa-pause-circle"
+      animateButtonClass = 'fa fa-pause-circle';
     } else {
       this.state.graphCanvas.stopAnimation();
     }
     this.setState({
       animate: newValue,
-      animateButtonClass: animateButtonClass
+      animateButtonClass: animateButtonClass,
     });
   }
 
@@ -373,38 +373,38 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       this._updateGraph(this.props.data);
     }
     return (
-        <div className="graph-container">
-            <div className="service-dependency-graph">
-                <div className="canvas-container" ref={ ref => this.ref = ref} >
-
-                </div>
-                <div className="zoom-button-container">
-                    <button className="btn navbar-button width-100" onClick={() => this.toggleAnimation()}>
-                        <i className={this.state.animateButtonClass}></i>
-                    </button>
-                    <button className="btn navbar-button width-100" onClick={() => this.runLayout()}>
-                        <i className="fa fa-sitemap"></i>
-                    </button>
-                    <button className="btn navbar-button width-100" onClick={() => this.fit()}>
-                        <i className="fa fa-dot-circle-o"></i>
-                        </button>
-                    <button className="btn navbar-button width-100" onClick={() => this.zoom(+1)}>
-                        <i className="fa fa-plus"></i>
-                    </button>
-                    <button className="btn navbar-button width-100" onClick={() => this.zoom(-1)}>
-                        <i className="fa fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <Statistics show = {this.state.showStatistics}
-                        selectionId = { this.selectionId }
-                        resolvedDrillDownLink= {this.resolvedDrillDownLink}
-                        selectionStatistics = { this.selectionStatistics }
-                        currentType = { this.currentType }
-                        showBaselines = {false}
-                        receiving = { this.receiving }
-                        sending = {this.sending}/>
+      <div className="graph-container">
+        <div className="service-dependency-graph">
+          <div className="canvas-container" ref={ref => (this.ref = ref)}></div>
+          <div className="zoom-button-container">
+            <button className="btn navbar-button width-100" onClick={() => this.toggleAnimation()}>
+              <i className={this.state.animateButtonClass}></i>
+            </button>
+            <button className="btn navbar-button width-100" onClick={() => this.runLayout()}>
+              <i className="fa fa-sitemap"></i>
+            </button>
+            <button className="btn navbar-button width-100" onClick={() => this.fit()}>
+              <i className="fa fa-dot-circle-o"></i>
+            </button>
+            <button className="btn navbar-button width-100" onClick={() => this.zoom(+1)}>
+              <i className="fa fa-plus"></i>
+            </button>
+            <button className="btn navbar-button width-100" onClick={() => this.zoom(-1)}>
+              <i className="fa fa-minus"></i>
+            </button>
+          </div>
         </div>
+        <Statistics
+          show={this.state.showStatistics}
+          selectionId={this.selectionId}
+          resolvedDrillDownLink={this.resolvedDrillDownLink}
+          selectionStatistics={this.selectionStatistics}
+          currentType={this.currentType}
+          showBaselines={false}
+          receiving={this.receiving}
+          sending={this.sending}
+        />
+      </div>
     );
   }
 }
