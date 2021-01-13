@@ -39,7 +39,6 @@ export const SortableTable: React.FC<SortableTableProps> = ({ tableHeaders, data
       columns={tableHeaders}
       classes="table--selection"
       headerClasses="table--selection table--selection--head"
-      trClassName="table--td--selection"
     />
   );
 };

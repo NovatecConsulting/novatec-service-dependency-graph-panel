@@ -1,6 +1,6 @@
 import { PanelOptionsEditorBuilder } from '@grafana/data';
 import { PanelSettings } from '../types';
-import { TypeaheadTextField } from './typeAheadTextfield/TypeaheadTextfield';
+import { TypeaheadTextField } from './TypeAheadTextfield/TypeaheadTextfield';
 import { ServiceIconMapping } from './serviceIconMapping/ServiceIconMapping';
 import { ExternalIconMapping } from './externalIconMapping/ExternalIconMapping';
 import { DummyDataSwitch } from './dummyDataSwitch/DummyDataSwitch';
