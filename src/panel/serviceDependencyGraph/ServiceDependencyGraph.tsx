@@ -140,6 +140,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
         this.runLayout(true);
       }
     }
+    this.state.graphCanvas.repaint(true);
   }
 
   _transformNodes(nodes: IntGraphNode[]): ElementDefinition[] {

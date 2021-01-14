@@ -53,7 +53,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
   }
 
   getSettings(): PanelSettings {
-    return this.state.options;
+    return this.props.options;
   }
 
   componentDidUpdate() {
@@ -186,7 +186,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
   }
 
   render() {
-    this.processData();
+    const data = this.processData();
     const error = this.getError();
     var panel = <div>{error}</div>;
     if (error === null) {
@@ -199,7 +199,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
             id="cy"
           >
             <ServiceDependencyGraph
-              data={this.processData()}
+              data={data}
               zoom={1}
               controller={this}
               animate={false}

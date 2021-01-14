@@ -4,7 +4,6 @@ import { TypeaheadTextField } from './TypeAheadTextfield/TypeaheadTextfield';
 import { ServiceIconMapping } from './serviceIconMapping/ServiceIconMapping';
 import { ExternalIconMapping } from './externalIconMapping/ExternalIconMapping';
 import { DummyDataSwitch } from './dummyDataSwitch/DummyDataSwitch';
-import { GenericDataSwitch } from './genericDataSwitch/GenericDataSwitch';
 import { DefaultSettings } from './DefaultSettings';
 
 export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>) => {
@@ -122,20 +121,16 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       })
 
       //General Settings
-      .addCustomEditor({
-        id: 'connectionStats',
+      .addBooleanSwitch({
         path: 'showConnectionStats',
         name: 'Show Connection Statistics',
-        editor: GenericDataSwitch,
         category: ['General Settings'],
         defaultValue: DefaultSettings.showConnectionStats,
       })
 
-      .addCustomEditor({
-        id: 'sumTimings',
+      .addBooleanSwitch({
         path: 'sumTimings',
         name: 'Handle Timings as Sums',
-        editor: GenericDataSwitch,
         description:
           'If this setting is active, the timings provided' +
           'by the mapped response time columns are considered as a ' +
@@ -146,11 +141,9 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         defaultValue: DefaultSettings.sumTimings,
       })
 
-      .addCustomEditor({
-        id: 'filterEmptyConnections',
+      .addBooleanSwitch({
         path: 'filterEmptyConnections',
         name: 'Filter Empty Data',
-        editor: GenericDataSwitch,
         description:
           'If this setting is active, the timings provided by ' +
           'the mapped response time columns are considered as a continually ' +
@@ -160,11 +153,9 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         defaultValue: DefaultSettings.filterEmptyConnections,
       })
 
-      .addCustomEditor({
-        id: 'showDebugInformation',
+      .addBooleanSwitch({
         path: 'showDebugInformation',
         name: 'Show Debug Information',
-        editor: GenericDataSwitch,
         category: ['General Settings'],
         defaultValue: DefaultSettings.showDebugInformation,
       })
@@ -178,11 +169,9 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         defaultValue: DefaultSettings.dataMapping,
       })
 
-      .addCustomEditor({
-        id: 'showBaselines',
+      .addBooleanSwitch({
         path: 'showBaselines',
         name: 'Show Baselines',
-        editor: GenericDataSwitch,
         category: ['General Settings'],
         defaultValue: DefaultSettings.showBaselines,
       })

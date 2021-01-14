@@ -23,11 +23,11 @@ export const DefaultSettings: PanelSettings = {
     showDummyData: false,
   },
 
-  sumTimings: { value: true },
-  filterEmptyConnections: { value: true },
-  showDebugInformation: { value: false },
-  showConnectionStats: { value: true },
-  showBaselines: { value: false },
+  sumTimings:  true,
+  filterEmptyConnections: true,
+  showDebugInformation: false,
+  showConnectionStats: true,
+  showBaselines: false,
 
   style: {
     healthyColor: 'rgb(87, 148, 242)',

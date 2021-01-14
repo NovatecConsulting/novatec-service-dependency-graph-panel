@@ -1,15 +1,15 @@
 export interface PanelSettings {
   animate: boolean;
-  sumTimings: IntSwitch;
-  filterEmptyConnections: IntSwitch;
+  sumTimings: boolean;
+  filterEmptyConnections: boolean;
   style: PanelStyleSettings;
-  showDebugInformation: IntSwitch;
-  showConnectionStats: IntSwitch;
+  showDebugInformation: boolean;
+  showConnectionStats: boolean;
   externalIcons: ExternalIconResource[];
   serviceIcons: IconResource[];
   dataMapping: DataMapping;
   drillDownLink: string;
-  showBaselines: IntSwitch;
+  showBaselines: boolean;
   timeFormat: string;
 }
 
@@ -187,8 +187,4 @@ export interface IntTableHeader {
   classes?: string;
   sortFunc?: any;
   ignoreLiteral?: string;
-}
-
-export interface IntSwitch {
-  value: boolean;
 }
