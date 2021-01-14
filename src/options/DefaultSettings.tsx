@@ -66,4 +66,5 @@ export const DefaultSettings: PanelSettings = {
   ],
 
   drillDownLink: '',
+  timeFormat:  'm',
 };

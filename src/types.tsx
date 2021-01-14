@@ -10,6 +10,7 @@ export interface PanelSettings {
   dataMapping: DataMapping;
   drillDownLink: string;
   showBaselines: IntSwitch;
+  timeFormat: string;
 }
 
 export interface DataMapping {

@@ -6,6 +6,12 @@ import { CyCanvas, Particle, EnGraphNodeType, Particles, IntGraphMetrics } from 
 import humanFormat from 'human-format';
 import assetUtils from '../asset_utils';
 
+const scaleValues = [
+  {unit: "ms", factor: 1},
+  {unit: "s", factor: 1000},
+  {unit: "m", factor: 60000}
+]
+
 export default class CanvasDrawer {
   readonly colors = {
     default: '#bad5ed',
@@ -71,12 +77,18 @@ export default class CanvasDrawer {
     this.offscreenCanvas = document.createElement('canvas');
     this.offscreenContext = this.offscreenCanvas.getContext('2d');
 
-    this.timeScale = new humanFormat.Scale({
-      ms: 1,
-      s: 1000,
-      min: 60000,
-    });
     this.repaint(true);
+  }
+
+  _getTimeScale(timeUnit: any) {
+    const scale: any = {}
+    for(const scaleValue of scaleValues) {
+      scale[scaleValue.unit] = scaleValue.factor;
+      if(scaleValue.unit === timeUnit) {
+        return scale;
+      }
+    }
+    return scale;
   }
 
   resetAssets() {
@@ -312,6 +324,8 @@ export default class CanvasDrawer {
   }
 
   _drawEdgeLabel(ctx: CanvasRenderingContext2D, edge: cytoscape.EdgeSingular) {
+    const { timeFormat  } =  this.controller.getSettings();
+
     const midpoint = edge.midpoint();
     const xMid = midpoint.x;
     const yMid = midpoint.y;
@@ -322,9 +336,11 @@ export default class CanvasDrawer {
     const requestCount = _.defaultTo(metrics.rate, -1);
     const errorCount = _.defaultTo(metrics.error_rate, -1);
 
+    const timeScale = new humanFormat.Scale(this._getTimeScale(timeFormat));
+
     if (duration >= 0) {
       const decimals = duration >= 1000 ? 1 : 0;
-      statistics.push(humanFormat(duration, { scale: this.timeScale, decimals }));
+      statistics.push(humanFormat(duration, { scale: timeScale, decimals }));
     }
     if (requestCount >= 0) {
       const decimals = requestCount >= 1000 ? 1 : 0;
@@ -536,12 +552,15 @@ export default class CanvasDrawer {
   }
 
   _drawNodeStatistics(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
+    const { timeFormat } = this.controller.getSettings()
     const lines: string[] = [];
 
     const metrics: IntGraphMetrics = node.data('metrics');
     const requestCount = _.defaultTo(metrics.rate, -1);
     const errorCount = _.defaultTo(metrics.error_rate, -1);
     const responseTime = _.defaultTo(metrics.response_time, -1);
+
+    const timeScale = new humanFormat.Scale(this._getTimeScale(timeFormat));
 
     if (requestCount >= 0) {
       const decimals = requestCount >= 1000 ? 1 : 0;
@@ -558,7 +577,7 @@ export default class CanvasDrawer {
       if (this.controller.getSettings().sumTimings.value) {
         labelText = 'Total Resp. Time: ';
       }
-      lines.push(labelText + humanFormat(responseTime, { scale: this.timeScale, decimals }));
+      lines.push(labelText + humanFormat(responseTime, { scale: timeScale, decimals }));
     }
 
     const pos = node.position();
