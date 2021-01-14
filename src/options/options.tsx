@@ -179,16 +179,19 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       .addSelect({
         path: 'timeFormat',
         name: 'Maximum Time Unit to Resolve',
-        description: 
+        description:
           'This setting controls to which time unit time values will be resolved to. ' +
           'Each value always includes the smaller units.',
         category: ['General Settings'],
         settings: {
-          options: [{value: 'ms', label: 'ms' }, {value: 's', label: 's' }, {value: 'm', label: 'm' }],
+          options: [
+            { value: 'ms', label: 'ms' },
+            { value: 's', label: 's' },
+            { value: 'm', label: 'm' },
+          ],
         },
-        defaultValue:  DefaultSettings.timeFormat
-      },
-      )
+        defaultValue: DefaultSettings.timeFormat,
+      })
 
       //Appearance
       .addColorPicker({

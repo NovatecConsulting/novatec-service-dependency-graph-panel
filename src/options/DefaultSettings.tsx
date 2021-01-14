@@ -23,7 +23,7 @@ export const DefaultSettings: PanelSettings = {
     showDummyData: false,
   },
 
-  sumTimings:  true,
+  sumTimings: true,
   filterEmptyConnections: true,
   showDebugInformation: false,
   showConnectionStats: true,
@@ -66,5 +66,5 @@ export const DefaultSettings: PanelSettings = {
   ],
 
   drillDownLink: '',
-  timeFormat:  'm',
+  timeFormat: 'm',
 };

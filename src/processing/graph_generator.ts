@@ -62,7 +62,7 @@ class GraphGenerator {
     };
 
     const aggregationFunction = sumMetrics ? sum : mean;
-    
+
     if (internalNode) {
       metrics.rate = sum(map(dataElements, element => element.data.rate_in));
       metrics.error_rate = sum(map(dataElements, element => element.data.error_rate_in));

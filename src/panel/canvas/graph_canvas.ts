@@ -7,10 +7,10 @@ import humanFormat from 'human-format';
 import assetUtils from '../asset_utils';
 
 const scaleValues = [
-  {unit: "ms", factor: 1},
-  {unit: "s", factor: 1000},
-  {unit: "m", factor: 60000}
-]
+  { unit: 'ms', factor: 1 },
+  { unit: 's', factor: 1000 },
+  { unit: 'm', factor: 60000 },
+];
 
 export default class CanvasDrawer {
   readonly colors = {
@@ -81,10 +81,10 @@ export default class CanvasDrawer {
   }
 
   _getTimeScale(timeUnit: any) {
-    const scale: any = {}
-    for(const scaleValue of scaleValues) {
+    const scale: any = {};
+    for (const scaleValue of scaleValues) {
       scale[scaleValue.unit] = scaleValue.factor;
-      if(scaleValue.unit === timeUnit) {
+      if (scaleValue.unit === timeUnit) {
         return scale;
       }
     }
@@ -324,7 +324,7 @@ export default class CanvasDrawer {
   }
 
   _drawEdgeLabel(ctx: CanvasRenderingContext2D, edge: cytoscape.EdgeSingular) {
-    const { timeFormat  } =  this.controller.getSettings();
+    const { timeFormat } = this.controller.getSettings();
 
     const midpoint = edge.midpoint();
     const xMid = midpoint.x;
@@ -510,7 +510,7 @@ export default class CanvasDrawer {
       this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct]);
 
       // drawing the baseline status
-      const {showBaselines} = this.controller.getSettings();
+      const { showBaselines } = this.controller.getSettings();
       if (showBaselines && responseTime >= 0 && threshold >= 0) {
         const thresholdViolation = threshold < responseTime;
 
@@ -552,7 +552,7 @@ export default class CanvasDrawer {
   }
 
   _drawNodeStatistics(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
-    const { timeFormat } = this.controller.getSettings()
+    const { timeFormat } = this.controller.getSettings();
     const lines: string[] = [];
 
     const metrics: IntGraphMetrics = node.data('metrics');
@@ -675,7 +675,7 @@ export default class CanvasDrawer {
     const xPos = pos.x - labelWidth / 2;
     const yPos = pos.y + node.height() * 0.8;
 
-    const {showBaselines} = this.controller.getSettings();
+    const { showBaselines } = this.controller.getSettings();
     const metrics: IntGraphMetrics = node.data('metrics');
     const responseTime = _.defaultTo(metrics.response_time, -1);
     const threshold = _.defaultTo(metrics.threshold, -1);
