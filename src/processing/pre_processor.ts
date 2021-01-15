@@ -1,6 +1,7 @@
-import _, { map, has, groupBy, values, reduce, merge, forOwn, keys, concat } from 'lodash';
+import { DataFrame } from '@grafana/data';
+import _ from 'lodash';
 import { ServiceDependencyGraphPanelController } from '../panel/ServiceDependencyGraphPanelController';
-import { QueryResponse, GraphDataElement, GraphDataType, CurrentData } from '../types';
+import { GraphDataElement, GraphDataType, CurrentData } from '../types';
 
 class PreProcessor {
   controller: ServiceDependencyGraphPanelController;
@@ -9,39 +10,24 @@ class PreProcessor {
     this.controller = controller;
   }
 
-  _transformTables(tables: any[]) {
-    var transformedTable: any[] = [];
-    for (var index = 0; index < tables.length; index++) {
-      var currentField = tables[index];
-
-      for (var j = 0; j < currentField.values.buffer.length; j++) {
-        if (transformedTable[j] === undefined) {
-          transformedTable[j] = {};
-        }
-        transformedTable[j][currentField.name] = currentField.values.buffer[j];
-      }
-    }
-
-    return transformedTable;
-  }
-
   _transformObjects(data: any[]): GraphDataElement[] {
-    const dataMapping = this.controller.getSettings().dataMapping;
-
-    const sourceComponentPrefix = dataMapping.sourceComponentPrefix;
-    const targetComponentPrefix = dataMapping.targetComponentPrefix;
-    const externalSource = dataMapping.extOrigin;
-    const externalTarget = dataMapping.extTarget;
     const aggregationSuffix: string = this.controller.getAggregationType();
+
+    const {
+      sourceComponentPrefix,
+      targetComponentPrefix,
+      extOrigin: externalSource,
+      extTarget: externalTarget,
+    } = this.controller.getSettings().dataMapping;
 
     const sourceColumn = sourceComponentPrefix + aggregationSuffix;
     const targetColumn = targetComponentPrefix + aggregationSuffix;
 
-    const result = map(data, dataObject => {
-      let source = has(dataObject, sourceColumn) && dataObject[sourceColumn] !== '';
-      let target = has(dataObject, targetColumn) && dataObject[targetColumn] !== '';
-      const extSource = has(dataObject, externalSource) && dataObject[externalSource] !== '';
-      const extTarget = has(dataObject, externalTarget) && dataObject[externalTarget] !== '';
+    const result = _.map(data, dataObject => {
+      var source = _.has(dataObject, sourceColumn) && dataObject[sourceColumn] !== '';
+      var target = _.has(dataObject, targetColumn) && dataObject[targetColumn] !== '';
+      const extSource = _.has(dataObject, externalSource) && dataObject[externalSource] !== '';
+      const extTarget = _.has(dataObject, externalTarget) && dataObject[externalTarget] !== '';
 
       let trueCount = [source, target, extSource, extTarget].filter(e => e).length;
 
@@ -98,11 +84,11 @@ class PreProcessor {
   }
 
   _mergeGraphData(data: GraphDataElement[]): GraphDataElement[] {
-    const groupedData = values(groupBy(data, element => element.source + '<--->' + element.target));
+    const groupedData = _.values(_.groupBy(data, element => element.source + '<--->' + element.target));
 
-    const mergedData = map(groupedData, group => {
-      return reduce(group, (result, next) => {
-        return merge(result, next);
+    const mergedData = _.map(groupedData, group => {
+      return _.reduce(group, (result, next) => {
+        return _.merge(result, next);
       });
     });
 
@@ -112,8 +98,8 @@ class PreProcessor {
   _cleanMetaData(columnMapping: any, metaData: any) {
     const result: any = {};
 
-    forOwn(columnMapping, (value, key) => {
-      if (has(metaData, value)) {
+    _.forOwn(columnMapping, (value, key) => {
+      if (_.has(metaData, value)) {
         result[key] = metaData[value];
       }
     });
@@ -123,7 +109,7 @@ class PreProcessor {
 
   _extractColumnNames(data: GraphDataElement[]): string[] {
     const columnNames: string[] = _(data)
-      .flatMap(dataElement => keys(dataElement.data))
+      .flatMap(dataElement => _.keys(dataElement.data))
       .uniq()
       .sort()
       .value();
@@ -151,7 +137,7 @@ class PreProcessor {
           if (mergedField === undefined) {
             mergedSeries.fields.push(field);
           } else {
-            mergedField.values = concat(field.values, mergedField.values);
+            mergedField.values = _.concat(field.values, mergedField.values);
           }
         }
       }
@@ -182,29 +168,23 @@ class PreProcessor {
     const targetColumn = targetComponentPrefix + aggregationSuffix;
 
     for (const inputData of inputDataSets) {
-      const externalSourceField = inputData.fields.find((field: { name: any }) => field.name === extOrigin);
-      const externalTargetField = inputData.fields.find((field: { name: any }) => field.name === extTarget);
-      const aggregationSuffixField = inputData.fields.find((field: { name: any }) => field.name === aggregationSuffix);
-      const typeField = inputData.fields.find((field: { name: any }) => field.name === type);
+      const { fields } = inputData;
+      const externalSourceField = _.find(fields, ['name', extOrigin]);
+      const externalTargetField = _.find(fields, ['name', extTarget]);
+      const aggregationSuffixField = _.find(fields, ['name', aggregationSuffix]);
 
-      const sourceColumnField = inputData.fields.find((field: { name: any }) => field.name === sourceColumn);
-      const targetColumnField = inputData.fields.find((field: { name: any }) => field.name === targetColumn);
+      const typeField = _.find(fields, ['name', type]);
 
-      const errorRateColumnField = inputData.fields.find((field: { name: any }) => field.name === errorRateColumn);
-      const errorRateOutgoingColumnField = inputData.fields.find(
-        (field: { name: any }) => field.name === errorRateOutgoingColumn
-      );
-      const responseTimeColumnField = inputData.fields.find(
-        (field: { name: any }) => field.name === responseTimeColumn
-      );
-      const responseTimeOutgoingColumnField = inputData.fields.find(
-        (field: { name: any }) => field.name === responseTimeOutgoingColumn
-      );
-      const requestRateColumnField = inputData.fields.find((field: { name: any }) => field.name === requestRateColumn);
-      const requestRateOutgoingColumnField = inputData.fields.find(
-        (field: { name: any }) => field.name === requestRateOutgoingColumn
-      );
-      const responseTimeBaselineField = inputData.fields.find((field: { name: any }) => field.name === baselineRtUpper);
+      const sourceColumnField = _.find(fields, ['name', sourceColumn]);
+      const targetColumnField = _.find(fields, ['name', targetColumn]);
+
+      const errorRateColumnField = _.find(fields, ['name', errorRateColumn]);
+      const errorRateOutgoingColumnField = _.find(fields, ['name', errorRateOutgoingColumn]);
+      const responseTimeColumnField = _.find(fields, ['name', responseTimeColumn]);
+      const responseTimeOutgoingColumnField = _.find(fields, ['name', responseTimeOutgoingColumn]);
+      const requestRateColumnField = _.find(fields, ['name', requestRateColumn]);
+      const requestRateOutgoingColumnField = _.find(fields, ['name', requestRateOutgoingColumn]);
+      const responseTimeBaselineField = _.find(fields, ['name', baselineRtUpper]);
 
       for (let i = 0; i < inputData.length; i++) {
         const row: any = {};
@@ -221,6 +201,8 @@ class PreProcessor {
         row['rate_out'] = requestRateOutgoingColumnField?.values.get(i);
         row['threshold'] = responseTimeBaselineField?.values.get(i);
         row['type'] = typeField?.values.get(i);
+        // The above code returns { "": undefined } for values that do not exist.
+        // These values are filtered by this line.
         Object.keys(row).forEach(key => (row[key] === undefined || row[key] === '') && delete row[key]);
         rows.push(row);
       }
@@ -229,10 +211,10 @@ class PreProcessor {
   }
 
   _resolveData(row: any) {
-    let source = has(row, 'sourceColumn') && row['sourceColumn'] !== '';
-    let target = has(row, 'targetColumn') && row['targetColumn'] !== '';
-    const extSource = has(row, 'extOrigin') && row['extOrigin'] !== '';
-    const extTarget = has(row, 'extTarget') && row['extTarget'] !== '';
+    let source = _.has(row, 'sourceColumn') && row['sourceColumn'] !== '';
+    let target = _.has(row, 'targetColumn') && row['targetColumn'] !== '';
+    const extSource = _.has(row, 'extOrigin') && row['extOrigin'] !== '';
+    const extTarget = _.has(row, 'extTarget') && row['extTarget'] !== '';
     let trueCount = [source, target, extSource, extTarget].filter(e => e).length;
 
     if (trueCount > 1) {
@@ -288,7 +270,7 @@ class PreProcessor {
     return mergedObjects;
   }
 
-  processData(inputData: QueryResponse[]): CurrentData {
+  processData(inputData: DataFrame[]): CurrentData {
     const rows = this._dataToRows(inputData);
 
     const flattenData = this._mergeObjects(rows);

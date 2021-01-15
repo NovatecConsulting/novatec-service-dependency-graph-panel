@@ -209,10 +209,10 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       })
 
       .addColorPicker({
-        path: 'style.unknownColor',
+        path: 'style.noDataColor',
         name: 'No Data Color',
         category: ['Appearance'],
-        defaultValue: DefaultSettings.style.unknownColor,
+        defaultValue: DefaultSettings.style.noDataColor,
       })
 
       //Service Icon Mapping

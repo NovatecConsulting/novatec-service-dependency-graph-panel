@@ -7,8 +7,16 @@ import cyCanvas from 'cytoscape-canvas';
 import cola from 'cytoscape-cola';
 import layoutOptions from '../layout_options';
 import { Statistics } from '../statistics/Statistics';
-import _, { map, find, remove, each } from 'lodash';
-import { TableContent, IntGraphMetrics, IntGraph, IntGraphNode, IntGraphEdge } from 'types';
+import _ from 'lodash';
+import {
+  TableContent,
+  IntGraphMetrics,
+  IntGraph,
+  IntGraphNode,
+  IntGraphEdge,
+  PanelSettings,
+  IntSelectionStatistics,
+} from 'types';
 import { TemplateSrv, getTemplateSrv } from '@grafana/runtime';
 import './ServiceDependencyGraph.css';
 
@@ -20,8 +28,8 @@ interface PanelState {
   graphCanvas?: CanvasDrawer | undefined;
   animateButtonClass?: string;
   showStatistics: boolean;
-  data: any;
-  settings: any;
+  data: IntGraph;
+  settings: PanelSettings;
 }
 
 cyCanvas(cytoscape);
@@ -30,11 +38,11 @@ cytoscape.use(cola);
 export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState> {
   ref: any;
 
-  selectionId: string | number;
+  selectionId: string;
 
   currentType: string;
 
-  selectionStatistics: any;
+  selectionStatistics: IntSelectionStatistics;
 
   receiving: TableContent[];
 
@@ -134,7 +142,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       this.runLayout();
     } else {
       if (cyNodes.length > 0) {
-        each(updatedNodes, node => {
+        _.each(updatedNodes, node => {
           node.lock();
         });
         this.runLayout(true);
@@ -144,7 +152,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   _transformNodes(nodes: IntGraphNode[]): ElementDefinition[] {
-    const cyNodes: ElementDefinition[] = map(nodes, node => {
+    const cyNodes: ElementDefinition[] = _.map(nodes, node => {
       const result: ElementDefinition = {
         group: 'nodes',
         data: {
@@ -163,7 +171,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   _transformEdges(edges: IntGraphEdge[]): ElementDefinition[] {
-    const cyEdges: ElementDefinition[] = map(edges, edge => {
+    const cyEdges: ElementDefinition[] = _.map(edges, edge => {
       const cyEdge: ElementDefinition = {
         group: 'edges',
         data: {
@@ -187,11 +195,11 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
     for (let i = 0; i < dataArray.length; i++) {
       const element = dataArray[i];
 
-      const cyNode = find(inputArray, { data: { id: element.id() } });
+      const cyNode = _.find(inputArray, { data: { id: element.id() } });
 
       if (cyNode) {
         element.data(cyNode.data);
-        remove(inputArray, n => n.data.id === cyNode.data.id);
+        _.remove(inputArray, n => n.data.id === cyNode.data.id);
         elements.push(element);
       } else {
         element.remove();
@@ -270,7 +278,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
     });
   }
 
-  zoom(zoom: any) {
+  zoom(zoom: number) {
     const zoomStep = 0.25 * zoom;
     const zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
     this.setState({
@@ -284,7 +292,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 
     if (selection.length === 1) {
       const currentNode: NodeSingular = selection[0];
-      this.selectionId = currentNode.id();
+      this.selectionId = currentNode.id().toString();
       this.currentType = currentNode.data('type');
       const receiving: TableContent[] = [];
       const sending: TableContent[] = [];

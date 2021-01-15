@@ -1,5 +1,5 @@
 import React from 'react';
-import { StandardEditorProps } from '@grafana/data';
+import { StandardEditorContext, StandardEditorProps } from '@grafana/data';
 import { PanelSettings, DataMapping } from '../../types';
 import { Switch } from '@grafana/ui';
 
@@ -7,7 +7,7 @@ interface Props extends StandardEditorProps<boolean, PanelSettings> {
   item: any;
   value: boolean;
   onChange: (value?: boolean) => void;
-  context: any;
+  context: StandardEditorContext<any>;
 }
 
 interface State {
@@ -15,16 +15,16 @@ interface State {
   value: boolean;
   dataMapping: DataMapping | undefined;
   onChange: (value?: boolean) => void;
-  context: any;
+  context: StandardEditorContext<any>;
 }
 
 export class DummyDataSwitch extends React.PureComponent<Props, State> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
 
-    var dataMapping = this.props.context.options.dataMapping;
+    var { dataMapping } = props.context.options;
     if (dataMapping === undefined) {
-      dataMapping = this.props.item.defaultValue;
+      dataMapping = props.item.defaultValue;
     }
     this.state = {
       dataMapping: dataMapping,
@@ -50,31 +50,30 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
     };
   };
 
-  onChange = (event: any) => {
-    var dataMapping = this.props.context.options.dataMapping;
-    var newValue = !dataMapping.showDummyData;
-    dataMapping = this.state.dataMapping;
+  onChange = () => {
+    var { dataMapping } = this.props.context.options;
+    const { item } = this.state;
+    const { onChange } = this.props;
+    const newValue = !dataMapping.showDummyData;
 
     if (newValue) {
       this.setState({ dataMapping: dataMapping });
       dataMapping = this.getDummyDataMapping();
     }
     dataMapping.showDummyData = newValue;
-    this.props.onChange.call(this.state.item.path, dataMapping);
+    onChange.call(item.path, dataMapping);
   };
 
   render() {
-    if (this.props.context.options.dataMapping === undefined) {
+    var { dataMapping } = this.props.context.options;
+    if (dataMapping === undefined) {
+      dataMapping = this.props.item.defaultValue;
       this.props.context.options.dataMapping = this.props.item.defaultValue;
     }
 
     return (
       <div>
-        <Switch
-          value={this.props.context.options.dataMapping.showDummyData}
-          css={{}}
-          onChange={(event: any) => this.onChange(event)}
-        />
+        <Switch value={dataMapping.showDummyData} css={{}} onChange={() => this.onChange()} />
       </div>
     );
   }

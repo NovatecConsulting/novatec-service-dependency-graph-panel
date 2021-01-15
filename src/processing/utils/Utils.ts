@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { DataMapping } from '../../types';
 import { ServiceDependencyGraph } from 'panel/serviceDependencyGraph/ServiceDependencyGraph';
 
 export function isPresent<T>(t: T | undefined | null | void): t is T {
@@ -6,7 +7,7 @@ export function isPresent<T>(t: T | undefined | null | void): t is T {
 }
 
 export default {
-  getConfig: function(graph: ServiceDependencyGraph, configName: string) {
+  getConfig: function(graph: ServiceDependencyGraph, configName: keyof DataMapping) {
     return graph.getSettings().dataMapping[configName];
   },
 };

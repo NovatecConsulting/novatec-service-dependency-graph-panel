@@ -1,6 +1,6 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
-import { StandardEditorProps } from '@grafana/data';
+import { StandardEditorContext, StandardEditorProps } from '@grafana/data';
 import './TypeaheadTextfield.css';
 import { PanelSettings } from '../../types';
 
@@ -8,14 +8,14 @@ interface Props extends StandardEditorProps<string, PanelSettings> {
   item: any;
   value: string;
   onChange: (value?: string) => void;
-  context: any;
+  context: StandardEditorContext<any>;
 }
 
 interface State {
   item: any;
   value: string;
   onChange: (value?: string) => void;
-  context: any;
+  context: StandardEditorContext<any>;
   suggestions: string[];
 }
 
@@ -23,7 +23,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
 
-    var value = props.value;
+    var { value } = props;
     if (value === undefined) {
       value = props.item.defaultValue;
     }
@@ -34,11 +34,11 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     };
   }
 
-  renderSuggestion(suggestion: any) {
+  renderSuggestion(suggestion: string) {
     return <div>{suggestion}</div>;
   }
 
-  getColumns() {
+  getColumnNames() {
     var { data } = this.props.context;
     var series;
     var columnNames = [];
@@ -46,35 +46,41 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
       series = data[0].fields;
       for (const index in series) {
         const field = series[index];
-        if (field.config !== undefined && field.config.displayName !== undefined) {
-          columnNames.push(field.config.displayName);
+        const { config, name } = field;
+        if (config !== undefined && config.displayName !== undefined) {
+          columnNames.push(config.displayName);
         } else {
-          columnNames.push(field.name);
+          columnNames.push(name);
         }
       }
     }
     return columnNames;
   }
 
-  onChange = (event: any, { newValue, method }: any) => {
+  onChange = (event: React.FormEvent<HTMLInputElement>, { newValue }: { newValue: string }) => {
+    //TODO make this type nicer!
+    const { path } = this.props.item;
+    const { value } = event.currentTarget;
     this.setState({
-      value: event.currentTarget.value,
+      value: value,
     });
-    this.props.onChange.call(this.props.item.path, newValue);
+    this.props.onChange.call(path, newValue);
   };
 
-  getSuggestions = (value: any) => {
+  getSuggestions = (value: string) => {
     var inputValue = '';
-    if (value.value !== undefined) {
+    if (value !== undefined) {
       return [];
     }
     if (value !== undefined && value !== null && value !== '') {
       inputValue = value.trim().toLowerCase();
     }
+
     const inputLength = inputValue.length;
-    return inputLength === 0
-      ? []
-      : this.getColumns().filter(column => column.toLowerCase().slice(0, inputLength) === inputValue);
+    if (inputLength === 0 || inputValue === undefined) {
+      return [];
+    }
+    return this.getColumnNames().filter(columnName => columnName.toLowerCase().startsWith(inputValue));
   };
 
   onSuggestionsFetchRequested = (value: any) => {
@@ -83,7 +89,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     });
   };
 
-  getSuggestionValue = (suggestion: any) => {
+  getSuggestionValue = (suggestion: string) => {
     return suggestion;
   };
 
@@ -94,7 +100,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
   };
 
   render() {
-    var value = this.props.value;
+    var { value } = this.props;
     if (value === undefined) {
       value = this.props.item.defaultValue;
     }

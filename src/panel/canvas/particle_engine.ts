@@ -1,5 +1,5 @@
 import CanvasDrawer from './graph_canvas';
-import _, { defaultTo } from 'lodash';
+import _ from 'lodash';
 import { Particles, Particle, IntGraphMetrics } from '../../types';
 
 export default class ParticleEngine {
@@ -67,8 +67,8 @@ export default class ParticleEngine {
         return;
       }
 
-      const rate = defaultTo(metrics.rate, 0);
-      const error_rate = defaultTo(metrics.error_rate, 0);
+      const rate = _.defaultTo(metrics.rate, 0);
+      const error_rate = _.defaultTo(metrics.error_rate, 0);
       const volume = rate + error_rate;
 
       let errorRate;

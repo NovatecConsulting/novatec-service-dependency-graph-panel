@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { remove } from 'lodash';
-import { StandardEditorProps } from '@grafana/data';
+import { StandardEditorContext, StandardEditorProps } from '@grafana/data';
 import { PanelSettings } from '../../types';
 
 interface Props extends StandardEditorProps<string, PanelSettings> {
   item: any;
   value: string;
   onChange: (value?: string) => void;
-  context: any;
+  context: StandardEditorContext<any>;
 }
 
 export class ExternalIconMapping extends React.PureComponent<Props, Props> {
@@ -29,12 +29,12 @@ export class ExternalIconMapping extends React.PureComponent<Props, Props> {
     this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
   }
 
-  setPatternValue(event: any, index: number) {
+  setPatternValue(event: React.FormEvent<HTMLInputElement>, index: number) {
     this.state.context.options.externalIcons[index].pattern = event.currentTarget.value;
     this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
   }
 
-  setFileNameValue(event: any, index: number) {
+  setFileNameValue(event: ChangeEvent<HTMLSelectElement>, index: number) {
     this.state.context.options.externalIcons[index].filename = event.currentTarget.value;
     this.state.onChange.call(this.state.item.path, this.state.context.options.externalIcons);
   }

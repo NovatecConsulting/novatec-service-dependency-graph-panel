@@ -1,13 +1,13 @@
 import React from 'react';
-import { IntTableHeader } from '../../types';
+import { IntTableHeader, NodeData } from '../../types';
 import BootstrapTable from 'react-bootstrap-table-next';
 
 interface SortableTableProps {
   tableHeaders: IntTableHeader[];
-  data: any[];
+  data: NodeData[];
 }
 
-function sort(a: string, b: string, order: any, ignoreLiteral: string) {
+function sort(a: string, b: string, order: string, ignoreLiteral: string) {
   var cleanA = a.replace(ignoreLiteral, '');
   var cleanB = b.replace(ignoreLiteral, '');
   if ((order === 'asc' && cleanA === '-') || (order !== 'asc' && cleanB === '-')) {
@@ -26,7 +26,7 @@ export const SortableTable: React.FC<SortableTableProps> = ({ tableHeaders, data
   tableHeaders.forEach(function(value, i) {
     value.classes = 'table--td--selection';
     if (i !== 0) {
-      value.sortFunc = (a: any, b: any, order: string, _dataField: any, _rowA: any) => {
+      value.sortFunc = (a: string, b: string, order: string, _dataField: any, _rowA: any) => {
         return sort(a, b, order, value.ignoreLiteral);
       };
     }

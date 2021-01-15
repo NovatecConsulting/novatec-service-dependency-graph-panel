@@ -1,4 +1,4 @@
-function roundPercentageToDecimal(decimal: number, value: any) {
+function roundPercentageToDecimal(decimal: number, value: string) {
   if (value !== '-') {
     var valueDecimals = _getDecimalsOf(parseFloat(value));
     if (valueDecimals > decimal) {

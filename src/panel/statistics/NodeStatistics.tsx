@@ -17,25 +17,30 @@ const tableHeaders: IntTableHeader[] = [
   { text: 'Error Rate', dataField: 'error_rate', sort: true, ignoreLiteral: '%' },
 ];
 
-export const NodeStatistics: React.FC<NodeStatisticsProps> = ({ nodeList, noDataText, title }) => {
-  var nodeStatistics = <div className="no-data--selection">{noDataText}</div>;
+function getStatisticsTable(noDataText: string, nodeList: TableContent[]) {
   if (nodeList.length > 0) {
-    var data = nodeList.map((node: any) => {
-      return {
-        name: node.name,
-        time: node.responseTime,
-        requests: node.rate,
-        error_rate: roundPercentageToDecimal(2, node.error),
-      };
-    });
-
-    nodeStatistics = <SortableTable tableHeaders={tableHeaders} data={data} />;
+    return (
+      <SortableTable
+        tableHeaders={tableHeaders}
+        data={nodeList.map((node: TableContent) => {
+          return {
+            name: node.name,
+            time: node.responseTime,
+            requests: node.rate,
+            error_rate: roundPercentageToDecimal(2, node.error),
+          };
+        })}
+      />
+    );
   }
+  return <div className="no-data--selection">{noDataText}</div>;
+}
 
+export const NodeStatistics: React.FC<NodeStatisticsProps> = ({ nodeList, noDataText, title }) => {
   return (
     <div>
       <div className="secondHeader--selection">{title}</div>
-      {nodeStatistics}
+      {getStatisticsTable(noDataText, nodeList)}
     </div>
   );
 };

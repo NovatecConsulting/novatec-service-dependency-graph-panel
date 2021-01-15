@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { LegacyRef } from 'react';
 import { PureComponent } from 'react';
-import { PanelProps } from '@grafana/data';
+import {
+  AbsoluteTimeRange,
+  DataFrame,
+  FieldConfigSource,
+  InterpolateFunction,
+  PanelProps,
+  TimeRange,
+} from '@grafana/data';
 import { ServiceDependencyGraph } from './serviceDependencyGraph/ServiceDependencyGraph';
-import _, { each, has, find, remove, map, isUndefined } from 'lodash';
-import { CyData, IntGraphEdge, IntGraphNode, PanelSettings, QueryResponse } from '../types';
+import _ from 'lodash';
+import { CurrentData, CyData, IntGraph, IntGraphEdge, IntGraphNode, PanelSettings } from '../types';
 import { getTemplateSrv } from '@grafana/runtime';
 import cytoscape, { EdgeSingular, NodeSingular } from 'cytoscape';
 import '../css/novatec-service-dependency-graph-panel.css';
@@ -15,26 +22,25 @@ interface Props extends PanelProps<PanelSettings> {}
 
 interface PanelState {
   id: string | number;
-  data: any;
-  fieldConfig: any;
-  height: any;
-  width: any;
-  onChangeTimeRange: any;
-  onFieldConfigChange: any;
-  onOptionsChange: any;
-  renderCounter: any;
-  replaceVariables: any;
-  timeRange: any;
-  timeZone: any;
-  title: any;
-  transparent: any;
-  options: any;
+  fieldConfig: FieldConfigSource<any>;
+  height: number;
+  width: number;
+  onChangeTimeRange: (timeRange: AbsoluteTimeRange) => void;
+  onFieldConfigChange: (config: FieldConfigSource<any>) => void;
+  onOptionsChange: (options: PanelSettings) => void;
+  renderCounter: number;
+  replaceVariables: InterpolateFunction;
+  timeRange: TimeRange;
+  timeZone: string;
+  title: string;
+  transparent: boolean;
+  options: PanelSettings;
 }
 
 export class ServiceDependencyGraphPanelController extends PureComponent<Props, PanelState> {
   cy: cytoscape.Core | undefined;
 
-  ref: any;
+  ref: LegacyRef<HTMLDivElement>;
 
   validQueryTypes: boolean;
 
@@ -42,7 +48,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
 
   preProcessor: PreProcessor;
 
-  currentData: any;
+  currentData: CurrentData;
 
   constructor(props: Props) {
     super(props);
@@ -60,7 +66,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
     this.processData();
   }
 
-  processQueryData(data: any[]) {
+  processQueryData(data: DataFrame[]) {
     this.validQueryTypes = this.hasOnlyTableQueries(data);
     if (this.hasAggregationVariable()) {
       const graphData = this.preProcessor.processData(data);
@@ -71,11 +77,11 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
     }
   }
 
-  hasOnlyTableQueries(inputData: QueryResponse[]) {
+  hasOnlyTableQueries(inputData: DataFrame[]) {
     var result = true;
 
-    each(inputData, dataElement => {
-      if (!has(dataElement, 'columns')) {
+    _.each(inputData, dataElement => {
+      if (!_.has(dataElement, 'columns')) {
         result = false;
       }
     });
@@ -98,23 +104,23 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
   }
 
   hasAggregationVariable() {
-    const templateVariable: any = this.getAggregationType();
+    const templateVariable: string = this.getAggregationType();
 
     return !!templateVariable;
   }
 
   processData() {
-    var inputData: any = this.props.data.series;
+    var inputData: DataFrame[] = this.props.data.series;
     if (this.getSettings().dataMapping.showDummyData) {
       inputData = data;
     }
     this.processQueryData(inputData);
-    const graph: any = this.graphGenerator.generateGraph(this.currentData.graph);
+    const graph: IntGraph = this.graphGenerator.generateGraph(this.currentData.graph);
     return graph;
   }
 
   _transformEdges(edges: IntGraphEdge[]): CyData[] {
-    const cyEdges = map(edges, edge => {
+    const cyEdges = _.map(edges, edge => {
       const cyEdge = {
         group: 'edges',
         data: {
@@ -133,7 +139,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
   }
 
   _transformNodes(nodes: IntGraphNode[]): CyData[] {
-    const cyNodes = map(nodes, node => {
+    const cyNodes = _.map(nodes, node => {
       const result: CyData = {
         group: 'nodes',
         data: {
@@ -156,11 +162,11 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
     for (let i = 0; i < dataArray.length; i++) {
       const element = dataArray[i];
 
-      const cyNode = find(inputArray, { data: { id: element.id() } });
+      const cyNode = _.find(inputArray, { data: { id: element.id() } });
 
       if (cyNode) {
         element.data(cyNode.data);
-        remove(inputArray, n => n.data.id === cyNode.data.id);
+        _.remove(inputArray, n => n.data.id === cyNode.data.id);
         elements.push(element);
       } else {
         element.remove();
@@ -181,16 +187,15 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
 
   isDataAvailable() {
     const dataExist =
-      !isUndefined(this.currentData) && !isUndefined(this.currentData.graph) && this.currentData.graph.length > 0;
+      !_.isUndefined(this.currentData) && !_.isUndefined(this.currentData.graph) && this.currentData.graph.length > 0;
     return dataExist;
   }
 
   render() {
     const data = this.processData();
     const error = this.getError();
-    var panel = <div>{error}</div>;
     if (error === null) {
-      panel = (
+      return (
         <div>
           <div
             className="service-dependency-graph-panel"
@@ -210,7 +215,6 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
         </div>
       );
     }
-
-    return panel;
+    return <div>{error}</div>;
   }
 }

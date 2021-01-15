@@ -32,7 +32,7 @@ export const DefaultSettings: PanelSettings = {
   style: {
     healthyColor: 'rgb(87, 148, 242)',
     dangerColor: 'rgb(196, 22, 42)',
-    unknownColor: 'rgb(123, 123, 138)',
+    noDataColor: 'rgb(123, 123, 138)',
   },
 
   serviceIcons: [

@@ -2,11 +2,11 @@ import _ from 'lodash';
 import cytoscape from 'cytoscape';
 import { ServiceDependencyGraph } from '../serviceDependencyGraph/ServiceDependencyGraph';
 import ParticleEngine from './particle_engine';
-import { CyCanvas, Particle, EnGraphNodeType, Particles, IntGraphMetrics } from '../../types';
+import { CyCanvas, Particle, EnGraphNodeType, Particles, IntGraphMetrics, ScaleValue, DrawContext } from '../../types';
 import humanFormat from 'human-format';
 import assetUtils from '../asset_utils';
 
-const scaleValues = [
+const scaleValues: ScaleValue[] = [
   { unit: 'ms', factor: 1 },
   { unit: 's', factor: 1000 },
   { unit: 'm', factor: 60000 },
@@ -56,8 +56,6 @@ export default class CanvasDrawer {
 
   dashAnimationOffset = 0;
 
-  timeScale: any;
-
   constructor(ctrl: ServiceDependencyGraph, cy: cytoscape.Core, cyCanvas: CyCanvas) {
     this.cytoscape = cy;
     this.cyCanvas = cyCanvas;
@@ -80,7 +78,7 @@ export default class CanvasDrawer {
     this.repaint(true);
   }
 
-  _getTimeScale(timeUnit: any) {
+  _getTimeScale(timeUnit: string) {
     const scale: any = {};
     for (const scaleValue of scaleValues) {
       scale[scaleValue.unit] = scaleValue.factor;
@@ -382,7 +380,7 @@ export default class CanvasDrawer {
     const yMinLimit = Math.min(sourcePoint.y, targetPoint.y);
     const yMaxLimit = Math.max(sourcePoint.y, targetPoint.y);
 
-    const drawContext = {
+    const drawContext: DrawContext = {
       ctx,
       now,
       xDirection,
@@ -435,7 +433,7 @@ export default class CanvasDrawer {
     ctx.fillText(label, xPos, yPos);
   }
 
-  _drawParticle(drawCtx: any, particles: Particle[], index: number) {
+  _drawParticle(drawCtx: DrawContext, particles: Particle[], index: number) {
     const { ctx, now, xDirection, yDirection, xMinLimit, xMaxLimit, yMinLimit, yMaxLimit, sourcePoint } = drawCtx;
 
     const particle = particles[index];
@@ -706,10 +704,10 @@ export default class CanvasDrawer {
   _drawDonut(
     ctx: CanvasRenderingContext2D,
     node: cytoscape.NodeSingular,
-    radius: any,
-    width: any,
-    strokeWidth: any,
-    percentages: any
+    radius: number,
+    width: number,
+    strokeWidth: number,
+    percentages: number[]
   ) {
     const cX = node.position().x;
     const cY = node.position().y;
@@ -744,7 +742,15 @@ export default class CanvasDrawer {
     ctx.fill();
   }
 
-  _drawArc(ctx: CanvasRenderingContext2D, currentArc: any, cX: any, cY: any, radius: any, percent: any, color: any) {
+  _drawArc(
+    ctx: CanvasRenderingContext2D,
+    currentArc: number,
+    cX: number,
+    cY: number,
+    radius: number,
+    percent: number,
+    color: string
+  ) {
     // calc size of our wedge in radians
     var WedgeInRadians = (percent * 360 * Math.PI) / 180;
     // draw the wedge

@@ -1,3 +1,5 @@
+import { DataFrame } from '@grafana/data';
+
 export interface PanelSettings {
   animate: boolean;
   sumTimings: boolean;
@@ -35,7 +37,7 @@ export interface DataMapping {
 export interface PanelStyleSettings {
   healthyColor: string;
   dangerColor: string;
-  unknownColor: string;
+  noDataColor: string;
 }
 
 export interface IconResource {
@@ -53,13 +55,6 @@ export interface QueryResponseColumn {
   text: string;
 }
 
-export interface QueryResponse {
-  columns: QueryResponseColumn[];
-  refId?: string;
-  meta?: string;
-  rows: any[];
-}
-
 export interface CyData {
   group: string;
   data: {
@@ -74,7 +69,7 @@ export interface CyData {
 
 export interface CurrentData {
   graph: GraphDataElement[];
-  raw: QueryResponse[];
+  raw: DataFrame[];
   columnNames: string[];
 }
 
@@ -117,6 +112,7 @@ export interface IntGraphNodeData {
   type: EnGraphNodeType;
   metrics?: IntGraphMetrics;
   external_type?: string;
+  label?: string;
 }
 
 export interface IntGraphMetrics {
@@ -185,6 +181,30 @@ export interface IntTableHeader {
   headerClasses?: string;
   footerClasses?: string;
   classes?: string;
-  sortFunc?: any;
+  sortFunc?: (a: string, b: string, order: string, _dataField: any, _rowA: any) => number;
   ignoreLiteral?: string;
+}
+
+export interface NodeData {
+  name: string;
+  time: string;
+  requests: string;
+  error_rate: string;
+}
+
+export interface ScaleValue {
+  unit: string;
+  factor: number;
+}
+
+export interface DrawContext {
+  ctx: CanvasRenderingContext2D;
+  now: number;
+  xDirection: number;
+  yDirection: number;
+  xMinLimit: number;
+  xMaxLimit: number;
+  yMinLimit: number;
+  yMaxLimit: number;
+  sourcePoint: cytoscape.Position;
 }

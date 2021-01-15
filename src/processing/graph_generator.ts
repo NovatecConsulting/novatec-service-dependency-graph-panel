@@ -1,19 +1,4 @@
-import _, {
-  groupBy,
-  filter,
-  map,
-  sum,
-  some,
-  isUndefined,
-  uniq,
-  difference,
-  flatMap,
-  concat,
-  mean,
-  defaultTo,
-  find,
-  size,
-} from 'lodash';
+import _ from 'lodash';
 import { isPresent } from './utils/Utils';
 import { ServiceDependencyGraphPanelController } from '../panel/ServiceDependencyGraphPanelController';
 import {
@@ -46,12 +31,13 @@ class GraphGenerator {
     }
 
     const internalNode =
-      some(dataElements, ['type', GraphDataType.INTERNAL]) || some(dataElements, ['type', GraphDataType.EXTERNAL_IN]);
+      _.some(dataElements, ['type', GraphDataType.INTERNAL]) ||
+      _.some(dataElements, ['type', GraphDataType.EXTERNAL_IN]);
     const nodeType = internalNode ? EnGraphNodeType.INTERNAL : EnGraphNodeType.EXTERNAL;
 
     const metrics: IntGraphMetrics = {};
 
-    const node: any = {
+    const node: IntGraphNode = {
       data: {
         id: nodeName,
         label: nodeName,
@@ -61,21 +47,21 @@ class GraphGenerator {
       },
     };
 
-    const aggregationFunction = sumMetrics ? sum : mean;
+    const aggregationFunction = sumMetrics ? _.sum : _.mean;
 
     if (internalNode) {
-      metrics.rate = sum(map(dataElements, element => element.data.rate_in));
-      metrics.error_rate = sum(map(dataElements, element => element.data.error_rate_in));
+      metrics.rate = _.sum(_.map(dataElements, element => element.data.rate_in));
+      metrics.error_rate = _.sum(_.map(dataElements, element => element.data.error_rate_in));
 
-      const response_timings = map(dataElements, element => element.data.response_time_in).filter(isPresent);
+      const response_timings = _.map(dataElements, element => element.data.response_time_in).filter(isPresent);
       if (response_timings.length > 0) {
         metrics.response_time = aggregationFunction(response_timings);
       }
     } else {
-      metrics.rate = sum(map(dataElements, element => element.data.rate_out));
-      metrics.error_rate = sum(map(dataElements, element => element.data.error_rate_out));
+      metrics.rate = _.sum(_.map(dataElements, element => element.data.rate_out));
+      metrics.error_rate = _.sum(_.map(dataElements, element => element.data.error_rate_out));
 
-      const response_timings = map(dataElements, element => element.data.response_time_out).filter(isPresent);
+      const response_timings = _.map(dataElements, element => element.data.response_time_out).filter(isPresent);
       if (response_timings.length > 0) {
         metrics.response_time = aggregationFunction(response_timings);
       }
@@ -97,8 +83,8 @@ class GraphGenerator {
       .mean();
 
     if (sumMetrics) {
-      const requestCount = defaultTo(metrics.rate, 0) + defaultTo(metrics.error_rate, 0);
-      const response_time = defaultTo(metrics.response_time, -1);
+      const requestCount = _.defaultTo(metrics.rate, 0) + _.defaultTo(metrics.error_rate, 0);
+      const response_time = _.defaultTo(metrics.response_time, -1);
       if (requestCount > 0 && response_time >= 0) {
         metrics.response_time = response_time / requestCount;
       }
@@ -114,19 +100,19 @@ class GraphGenerator {
   }
 
   _createMissingNodes(data: GraphDataElement[], nodes: IntGraphNode[]): IntGraphNode[] {
-    const existingNodeNames = map(nodes, node => node.data.id);
-    const expectedNodeNames = uniq(flatMap(data, dataElement => [dataElement.source, dataElement.target])).filter(
+    const existingNodeNames = _.map(nodes, node => node.data.id);
+    const expectedNodeNames = _.uniq(_.flatMap(data, dataElement => [dataElement.source, dataElement.target])).filter(
       isPresent
     );
-    const missingNodeNames = difference(expectedNodeNames, existingNodeNames);
+    const missingNodeNames = _.difference(expectedNodeNames, existingNodeNames);
 
-    const missingNodes = map(missingNodeNames, name => {
+    const missingNodes = _.map(missingNodeNames, name => {
       let nodeType: EnGraphNodeType;
       let external_type: string | undefined;
 
       // derive node type
-      let elementSrc = find(data, { source: name });
-      let elementTrgt = find(data, { target: name });
+      let elementSrc = _.find(data, { source: name });
+      let elementTrgt = _.find(data, { target: name });
       if (elementSrc && elementSrc.type === GraphDataType.EXTERNAL_IN) {
         nodeType = EnGraphNodeType.EXTERNAL;
         external_type = elementSrc.data.type;
@@ -152,7 +138,7 @@ class GraphGenerator {
   }
 
   _createNodes(data: GraphDataElement[]): IntGraphNode[] {
-    const filteredData = filter(
+    const filteredData = _.filter(
       data,
       dataElement =>
         dataElement.source !== dataElement.target ||
@@ -160,14 +146,14 @@ class GraphGenerator {
         (!_.has(dataElement, 'target') && _.has(dataElement, 'target'))
     );
 
-    const targetGroups = groupBy(filteredData, 'target');
+    const targetGroups = _.groupBy(filteredData, 'target');
 
-    const nodes = map(targetGroups, group => this._createNode(group)).filter(isPresent);
+    const nodes = _.map(targetGroups, group => this._createNode(group)).filter(isPresent);
 
     // ensure that all nodes exist, even we have no data for them
     const missingNodes = this._createMissingNodes(filteredData, nodes);
 
-    return concat(nodes, missingNodes);
+    return _.concat(nodes, missingNodes);
   }
 
   _createEdge(dataElement: GraphDataElement): IntGraphEdge | undefined {
@@ -191,15 +177,15 @@ class GraphGenerator {
     };
 
     const { rate_out, rate_in, error_rate_out, response_time_out } = dataElement.data;
-    if (!isUndefined(rate_out)) {
+    if (!_.isUndefined(rate_out)) {
       metrics.rate = rate_out;
-    } else if (!isUndefined(rate_in)) {
+    } else if (!_.isUndefined(rate_in)) {
       metrics.rate = rate_in;
     }
-    if (!isUndefined(error_rate_out)) {
+    if (!_.isUndefined(error_rate_out)) {
       metrics.error_rate = error_rate_out;
     }
-    if (!isUndefined(response_time_out)) {
+    if (!_.isUndefined(response_time_out)) {
       const { sumTimings } = this.controller.getSettings();
 
       if (!sumTimings && metrics.rate) {
@@ -218,7 +204,7 @@ class GraphGenerator {
       .filter(e => e.source !== e.target)
       .value();
 
-    const edges = map(filteredData, element => this._createEdge(element));
+    const edges = _.map(filteredData, element => this._createEdge(element));
     return edges.filter(isPresent);
   }
 
@@ -232,13 +218,13 @@ class GraphGenerator {
       };
 
       // filter empty connections
-      filteredGraph.edges = filter(graph.edges, edge => size(edge.data.metrics) > 0);
+      filteredGraph.edges = _.filter(graph.edges, edge => _.size(edge.data.metrics) > 0);
 
-      filteredGraph.nodes = filter(graph.nodes, node => {
+      filteredGraph.nodes = _.filter(graph.nodes, node => {
         const id = node.data.id;
 
         // don't filter connected elements
-        if (some(graph.edges, { 'data.source': id }) || some(graph.edges, { 'data.target': id })) {
+        if (_.some(graph.edges, { 'data.source': id }) || _.some(graph.edges, { 'data.target': id })) {
           return true;
         }
 
@@ -249,9 +235,9 @@ class GraphGenerator {
 
         // only if rate, error rate or response time is available
         return (
-          defaultTo(metrics.rate, -1) >= 0 ||
-          defaultTo(metrics.error_rate, -1) >= 0 ||
-          defaultTo(metrics.response_time, -1) >= 0
+          _.defaultTo(metrics.rate, -1) >= 0 ||
+          _.defaultTo(metrics.error_rate, -1) >= 0 ||
+          _.defaultTo(metrics.response_time, -1) >= 0
         );
       });
 
