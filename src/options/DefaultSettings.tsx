@@ -4,8 +4,9 @@ export const DefaultSettings: PanelSettings = {
   animate: true,
 
   dataMapping: {
-    sourceComponentPrefix: 'origin_',
-    targetComponentPrefix: 'target_',
+    aggregationType: 'service',
+    sourceColumn: 'origin_service',
+    targetColumn: 'target_service',
 
     responseTimeColumn: 'response-time',
     requestRateColumn: 'request-rate',

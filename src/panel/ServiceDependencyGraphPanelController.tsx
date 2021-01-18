@@ -11,7 +11,6 @@ import {
 import { ServiceDependencyGraph } from './serviceDependencyGraph/ServiceDependencyGraph';
 import _ from 'lodash';
 import { CurrentData, CyData, IntGraph, IntGraphEdge, IntGraphNode, PanelSettings } from '../types';
-import { getTemplateSrv } from '@grafana/runtime';
 import cytoscape, { EdgeSingular, NodeSingular } from 'cytoscape';
 import '../css/novatec-service-dependency-graph-panel.css';
 import GraphGenerator from 'processing/graph_generator';
@@ -68,13 +67,9 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
 
   processQueryData(data: DataFrame[]) {
     this.validQueryTypes = this.hasOnlyTableQueries(data);
-    if (this.hasAggregationVariable()) {
-      const graphData = this.preProcessor.processData(data);
+    const graphData = this.preProcessor.processData(data);
 
-      this.currentData = graphData;
-    } else {
-      this.currentData = undefined;
-    }
+    this.currentData = graphData;
   }
 
   hasOnlyTableQueries(inputData: DataFrame[]) {
@@ -87,26 +82,6 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
     });
 
     return result;
-  }
-
-  getAggregationType() {
-    const variables: any[] = getTemplateSrv().getVariables();
-
-    const index = _.findIndex(variables, function(o: any) {
-      return o.id === 'aggregationType';
-    });
-
-    if (index >= 0) {
-      return variables[index].query;
-    }
-
-    return -1;
-  }
-
-  hasAggregationVariable() {
-    const templateVariable: string = this.getAggregationType();
-
-    return !!templateVariable;
   }
 
   processData() {
@@ -176,9 +151,6 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
   }
 
   getError(): string | null {
-    if (!this.hasAggregationVariable()) {
-      return "Please provide a 'aggregationType' template variable.";
-    }
     if (!this.isDataAvailable()) {
       return 'No data to show - the query returned no data.';
     }

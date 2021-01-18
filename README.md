@@ -47,11 +47,8 @@ Depending on the query result, the data provides the following fields:
 * **threshold**: The critical threshold in miliseconds for the response times of incoming requests.
 
 
-In order to use this data you simply have to follow the following steps:
-
-1. Add a `template variable` in Grafana called `aggregationType` having the constant value `service`.
-2. After selecting the Novatec Service Dependency Graph in your panels' settings check the box called `Show Dummy Data`.
-3. Adapt the panel's `Data Mapping` according to the dummy data. You can use the following settings. Note: at least you have to specify the `Request Rate` mapping!
+In order to use this data you simply have to activate the Dummy Data Switch you can find in the General Settings. All necessary options will be applied.
+After activating the Dummy Data your Data Mapping should look like this:
 
 | key | value |
 | --- | --- |
@@ -75,15 +72,11 @@ ___
 
 If you now want to use your own data source you have make sure, that the data received is in the `TABLE` format and is structured as follows:
 
-* The table requires a column which is named equal to the value of the `aggregationType` template variable. This column defines the component to which the data refers.
-**Example**: Assuming the `aggregationType` template variable is set to `app`, the data table has to provide a column named `app`.
-* The table requires at least one column which specifies the connection's origin or target. This column has the following requirements for its naming:
-    * It requires a suffix which has to be equal to the `aggregationType` template variable.
-    * In case an incoming connection should be represented, a prefix is required which is equal to the `Source Component Column Prefix` panel option. By default it is `origin_`.
-    * In case an outcoming connection should be represented, a prefix is required which is equal to the `Target Component Column Prefix` panel option. By default it is `target_`.
-    
-    **Example**: Assuming the `aggregationType` template variable is set to `app`, the previously mentioned column prefix options are in its default state (`origin_` or `target_`) and we want to represent an outgoing connection. In this case, the data table has to provide a column named: `target_app`
-* The data table can contain multiple value columns. These columns have to be mapped on specifc attributes using the panel's `Data Mappings` options. 
+* The table requires a column which is named equal to the value of the `aggregationType` settings field. This column defines the component to which the data refers to.
+**Example**: Assuming the `aggregationType` variable is set to `app`, the data table has to provide a column named `app`.
+* The table requires at least one column which specifies the connection's source or target. The settings `Source Component Column` and `Target Component Column` need to be set to the exact namings of the respective fields.
+ 
+* The data can contain multiple value columns. These columns have to be mapped on specifc attributes using the panel's `Data Mappings` options. 
 **Example**: Assuming the data table contains a column named `req_rate` which values represents a request rate for the related connection in the current time window. In order to correctly visualize these values as a request rate, the `Request Rate Column` option has to be set to `req_rate` - the column's name.
 
 #### Examples
@@ -98,13 +91,13 @@ If the previously described requirements are respected, a minimal table can be a
 | service a | service c | 75 |
 | service c | service d | 25 |
 
-Assuming a `aggregationType` template variable is provided and set to `app` and the panel's settings are specified as seen in the screenshot, the panel will visualize the data as following:
+Assuming a `aggregationType` variable is provided and set to `app` and the panel's settings are specified as seen in the screenshot, the panel will visualize the data as following:
 
 ![Visualization of the minimal data table.](https://raw.githubusercontent.com/NovatecConsulting/novatec-service-dependency-graph-panel/master/src/img/data-example-1.png)
 
 > Note: It is important to know that connections can only be generated if at least one request-rate column (incoming or outgoing) is defined.
 
-The data mapping represents always the data from the point of view of the component which is specified by the column which name is equal to the `aggregationType` template variable. This means that if we want to represent an outgoing connection in this example, the `app` and `target_app` columns must be present. In case an incoming connection should be represented, the `app` and `origin_app` columns must be present.
+The data mapping represents always the data from the point of view of the component which is specified by the column which name is equal to the `aggregationType` variable. This means that if we want to represent an outgoing connection in this example, the `app` and `target_app` columns must be present. In case an incoming connection should be represented, the `app` and `origin_app` columns must be present.
 
 ##### Example 2
 

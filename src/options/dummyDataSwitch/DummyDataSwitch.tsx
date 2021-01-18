@@ -34,8 +34,9 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
 
   getDummyDataMapping = () => {
     return {
-      sourceComponentPrefix: 'origin_',
-      targetComponentPrefix: 'target_',
+      aggregationType: 'service',
+      sourceColumn: 'origin_service',
+      targetColumn: 'target_service',
       responseTimeColumn: 'in_timesum',
       requestRateColumn: 'in_count',
       errorRateColumn: 'error_in',

@@ -16,8 +16,9 @@ export interface PanelSettings {
 }
 
 export interface DataMapping {
-  sourceComponentPrefix: string;
-  targetComponentPrefix: string;
+  aggregationType: string;
+  sourceColumn: string;
+  targetColumn: string;
 
   responseTimeColumn: string;
   requestRateColumn: string;

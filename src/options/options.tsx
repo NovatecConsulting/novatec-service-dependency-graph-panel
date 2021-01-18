@@ -12,21 +12,30 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
 
       //Connection Mapping
       .addCustomEditor({
-        path: 'dataMapping.sourceComponentPrefix',
-        id: 'sourceComponentPrefix',
+        path: 'dataMapping.aggregationType',
+        id: 'aggregationType',
         editor: TypeaheadTextField,
-        name: 'Source Component Column Prefix',
+        name: 'Aggregation Type',
         category: ['Connection Mapping'],
-        defaultValue: DefaultSettings.dataMapping.sourceComponentPrefix,
+        defaultValue: DefaultSettings.dataMapping.aggregationType,
       })
 
       .addCustomEditor({
-        path: 'dataMapping.targetComponentPrefix',
+        path: 'dataMapping.sourceColumn',
+        id: 'sourceComponentPrefix',
+        editor: TypeaheadTextField,
+        name: 'Source Component Column',
+        category: ['Connection Mapping'],
+        defaultValue: DefaultSettings.dataMapping.sourceColumn,
+      })
+
+      .addCustomEditor({
+        path: 'dataMapping.targetColumn',
         id: 'targetComponentPrefix',
-        name: 'Target Component Column Prefix',
+        name: 'Target Component Column',
         category: ['Connection Mapping'],
         editor: TypeaheadTextField,
-        defaultValue: DefaultSettings.dataMapping.targetComponentPrefix,
+        defaultValue: DefaultSettings.dataMapping.targetColumn,
       })
 
       .addCustomEditor({

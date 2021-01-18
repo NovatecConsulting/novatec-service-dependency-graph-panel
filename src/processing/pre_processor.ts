@@ -11,17 +11,13 @@ class PreProcessor {
   }
 
   _transformObjects(data: any[]): GraphDataElement[] {
-    const aggregationSuffix: string = this.controller.getAggregationType();
-
     const {
-      sourceComponentPrefix,
-      targetComponentPrefix,
+      aggregationType,
+      sourceColumn,
+      targetColumn,
       extOrigin: externalSource,
       extTarget: externalTarget,
     } = this.controller.getSettings().dataMapping;
-
-    const sourceColumn = sourceComponentPrefix + aggregationSuffix;
-    const targetColumn = targetComponentPrefix + aggregationSuffix;
 
     const result = _.map(data, dataObject => {
       var source = _.has(dataObject, sourceColumn) && dataObject[sourceColumn] !== '';
@@ -49,15 +45,15 @@ class PreProcessor {
       };
 
       if (trueCount === 0) {
-        result.target = dataObject[aggregationSuffix];
+        result.target = dataObject[aggregationType];
         result.type = GraphDataType.EXTERNAL_IN;
       } else {
         if (source || target) {
           if (source) {
             result.source = dataObject[sourceColumn];
-            result.target = dataObject[aggregationSuffix];
+            result.target = dataObject[aggregationType];
           } else {
-            result.source = dataObject[aggregationSuffix];
+            result.source = dataObject[aggregationType];
             result.target = dataObject[targetColumn];
           }
 
@@ -66,10 +62,10 @@ class PreProcessor {
           }
         } else if (extSource) {
           result.source = dataObject[externalSource];
-          result.target = dataObject[aggregationSuffix];
+          result.target = dataObject[aggregationType];
           result.type = GraphDataType.EXTERNAL_IN;
         } else if (extTarget) {
-          result.source = dataObject[aggregationSuffix];
+          result.source = dataObject[aggregationType];
           result.target = dataObject[externalTarget];
           result.type = GraphDataType.EXTERNAL_OUT;
         }
@@ -148,10 +144,10 @@ class PreProcessor {
   _dataToRows(inputDataSets: any) {
     var rows: any[] = [];
 
-    const aggregationSuffix: string = this.controller.getAggregationType();
     const {
-      sourceComponentPrefix,
-      targetComponentPrefix,
+      aggregationType,
+      sourceColumn,
+      targetColumn,
       extOrigin,
       extTarget,
       type,
@@ -164,14 +160,11 @@ class PreProcessor {
       baselineRtUpper,
     } = this.controller.getSettings().dataMapping;
 
-    const sourceColumn = sourceComponentPrefix + aggregationSuffix;
-    const targetColumn = targetComponentPrefix + aggregationSuffix;
-
     for (const inputData of inputDataSets) {
       const { fields } = inputData;
       const externalSourceField = _.find(fields, ['name', extOrigin]);
       const externalTargetField = _.find(fields, ['name', extTarget]);
-      const aggregationSuffixField = _.find(fields, ['name', aggregationSuffix]);
+      const aggregationSuffixField = _.find(fields, ['name', aggregationType]);
 
       const typeField = _.find(fields, ['name', type]);
 
@@ -190,7 +183,7 @@ class PreProcessor {
         const row: any = {};
         row[extOrigin] = externalSourceField?.values.get(i);
         row[extTarget] = externalTargetField?.values.get(i);
-        row[aggregationSuffix] = aggregationSuffixField?.values.get(i);
+        row[aggregationType] = aggregationSuffixField?.values.get(i);
         row[sourceColumn] = sourceColumnField?.values.get(i);
         row[targetColumn] = targetColumnField?.values.get(i);
         row['error_rate_in'] = errorRateColumnField?.values.get(i);
