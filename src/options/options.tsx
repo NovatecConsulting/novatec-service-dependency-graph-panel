@@ -1,8 +1,7 @@
 import { PanelOptionsEditorBuilder } from '@grafana/data';
 import { PanelSettings } from '../types';
 import { TypeaheadTextField } from './TypeAheadTextfield/TypeaheadTextfield';
-import { ServiceIconMapping } from './serviceIconMapping/ServiceIconMapping';
-import { ExternalIconMapping } from './externalIconMapping/ExternalIconMapping';
+import { IconMapping } from './iconMapping/iconMapping';
 import { DummyDataSwitch } from './dummyDataSwitch/DummyDataSwitch';
 import { DefaultSettings } from './DefaultSettings';
 
@@ -224,24 +223,14 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         defaultValue: DefaultSettings.style.noDataColor,
       })
 
-      //Service Icon Mapping
+      //Icon Mapping
       .addCustomEditor({
-        path: 'serviceIcons',
-        id: 'serviceIconMapping',
-        editor: ServiceIconMapping,
+        path: 'icons',
+        id: 'iconMapping',
+        editor: IconMapping,
         name: '',
-        category: ['Service Icon Mapping'],
-        defaultValue: DefaultSettings.serviceIcons,
-      })
-
-      // External Service Icon Mapping
-      .addCustomEditor({
-        path: 'externalIcons',
-        id: 'externalIconMapping',
-        editor: ExternalIconMapping,
-        name: '',
-        category: ['External Icon Mapping'],
-        defaultValue: DefaultSettings.externalIcons,
+        category: ['Icon Mapping'],
+        defaultValue: DefaultSettings.icons,
       })
 
       //Tracing Drilldown

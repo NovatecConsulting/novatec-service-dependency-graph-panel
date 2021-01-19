@@ -1,0 +1,21 @@
+.no-background {
+    background-color: transparent;
+}
+
+.no-padding-left {
+    padding-left: 0;
+}
+
+.icon-mapping-button {
+    width: 46.5%;
+    margin-left: 0;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.width-half {
+    width: 47%;
+    text-overflow: ellipsis;
+}

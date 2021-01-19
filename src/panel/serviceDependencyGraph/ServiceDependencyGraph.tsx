@@ -285,6 +285,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       zoom: zoomLevel,
     });
     this.state.cy.zoom(zoomLevel);
+    this.state.cy.center();
   }
 
   updateStatisticTable() {

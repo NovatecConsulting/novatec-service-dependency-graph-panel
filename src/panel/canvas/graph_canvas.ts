@@ -124,7 +124,7 @@ export default class CanvasDrawer {
 
   _getImageAsset(assetName: string, resolveName = true) {
     if (!_.has(this.imageAssets, assetName)) {
-      const assetUrl = assetUtils.getTypeSymbol(assetName, this.controller.getSettings().externalIcons, resolveName);
+      const assetUrl = assetUtils.getTypeSymbol(assetName, this.controller.getSettings().icons, resolveName);
       this._loadImage(assetUrl, assetName);
     }
 
@@ -527,7 +527,7 @@ export default class CanvasDrawer {
 
   _drawServiceIcon(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
     const nodeId: string = node.id();
-    const iconMappings = this.controller.getSettings().serviceIcons;
+    const iconMappings = this.controller.getSettings().icons;
 
     const mapping = _.find(iconMappings, ({ pattern }) => {
       try {

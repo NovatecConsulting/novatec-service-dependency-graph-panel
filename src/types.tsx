@@ -7,8 +7,7 @@ export interface PanelSettings {
   style: PanelStyleSettings;
   showDebugInformation: boolean;
   showConnectionStats: boolean;
-  externalIcons: ExternalIconResource[];
-  serviceIcons: IconResource[];
+  icons: IconResource[];
   dataMapping: DataMapping;
   drillDownLink: string;
   showBaselines: boolean;

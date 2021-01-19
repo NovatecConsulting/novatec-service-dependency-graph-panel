@@ -36,7 +36,7 @@ export const DefaultSettings: PanelSettings = {
     noDataColor: 'rgb(123, 123, 138)',
   },
 
-  serviceIcons: [
+  icons: [
     {
       pattern: 'java',
       filename: 'java',
@@ -45,9 +45,6 @@ export const DefaultSettings: PanelSettings = {
       pattern: 'spok|star trek',
       filename: 'star_trek',
     },
-  ],
-
-  externalIcons: [
     {
       pattern: 'web',
       filename: 'web',

@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { StandardEditorContext, StandardEditorProps } from '@grafana/data';
 import { IconResource, PanelSettings } from '../../types';
 import assetUtils from '../../panel/asset_utils';
+import './iconMapping.css';
 
 interface Props extends StandardEditorProps<string, PanelSettings> {
   item: any;
@@ -15,22 +16,22 @@ interface State {
   value: string;
   onChange: (value?: string) => void;
   context: StandardEditorContext<any>;
-  serviceIcons: string[];
+  icons: string[];
 }
 
-export class ServiceIconMapping extends React.PureComponent<Props, State> {
+export class IconMapping extends React.PureComponent<Props, State> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
     this.state = {
       ...props,
-      serviceIcons: [],
+      icons: [],
     };
-    fetch(assetUtils.getAssetUrl('service_icons/icon_index.json'))
+    fetch(assetUtils.getAssetUrl('icons/icon_index.json'))
       .then(response => response.json())
       .then(data => {
         data.sort();
         this.setState({
-          serviceIcons: data,
+          icons: data,
         });
       })
       .catch(() => {
@@ -41,78 +42,82 @@ export class ServiceIconMapping extends React.PureComponent<Props, State> {
   }
 
   addMapping() {
-    const { serviceIcons } = this.state.context.options;
+    const { icons } = this.state.context.options;
     const { path } = this.state.item;
-    serviceIcons.push({ pattern: 'my-type', filename: 'default' });
-    this.state.onChange.call(path, serviceIcons);
+    icons.push({ pattern: 'my-type', filename: 'default' });
+    this.state.onChange.call(path, icons);
   }
 
   removeMapping(index: number) {
-    const { serviceIcons } = this.state.context.options;
+    const { icons } = this.state.context.options;
     const { path } = this.state.item;
-    serviceIcons.splice(index, 1);
-    this.state.onChange.call(path, serviceIcons);
+    icons.splice(index, 1);
+    this.state.onChange.call(path, icons);
   }
 
   setPatternValue(event: React.ChangeEvent<HTMLInputElement>, index: number) {
-    const { serviceIcons } = this.state.context.options;
+    const { icons } = this.state.context.options;
     const { path } = this.state.item;
-    serviceIcons[index].pattern = event.currentTarget.value;
-    this.state.onChange.call(path, serviceIcons);
+    icons[index].pattern = event.currentTarget.value;
+    this.state.onChange.call(path, icons);
   }
 
   setFileNameValue(event: ChangeEvent<HTMLSelectElement>, index: number) {
-    const { serviceIcons } = this.state.context.options;
+    const { icons } = this.state.context.options;
     const { path } = this.state.item;
-    serviceIcons[index].filename = event.currentTarget.value.toString();
-    this.props.onChange.call(path, serviceIcons);
+    icons[index].filename = event.currentTarget.value.toString();
+    this.props.onChange.call(path, icons);
   }
 
   render() {
-    var { serviceIcons } = this.state.context.options;
-    const { serviceIcons: serviceIconNames } = this.state;
-    if (serviceIcons === undefined) {
-      serviceIcons = [];
+    var { icons } = this.state.context.options;
+    const { icons: iconNames } = this.state;
+    if (icons === undefined) {
+      icons = this.state.item.defaultValue;
+      this.state.context.options.icons = this.state.item.defaultValue;
     }
 
     return (
       <div>
         <div className="gf-form-inline">
-          <div className="gf-form">
-            <label className="gf-form-label width-10">Target Name (RegEx)</label>
-            <label className="gf-form-label width-10">Icon</label>
+          <div className="gf-form width-100">
+            <label className="gf-form-label no-background no-padding-left width-half">Target Name (RegEx)</label>
+            <label className="gf-form-label no-background no-padding-left width-half">Icon</label>
           </div>
         </div>
         <div>
-          {serviceIcons.map((icon: IconResource, index: number) => (
+          {icons.map((icon: IconResource, index: number) => (
             <>
               <div className="gf-form">
                 <input
                   type="text"
-                  className="input-small gf-form-input width-10"
+                  className="input-small gf-form-input"
                   value={icon.pattern}
                   onChange={e => this.setPatternValue(e, index)}
                 />
 
                 <select
-                  className="input-small gf-form-input width-10"
+                  className="input-small gf-form-input"
                   value={icon.filename}
                   onChange={e => this.setFileNameValue(e, index)}
                 >
-                  {serviceIconNames.map((iconNames: string) => (
+                  {iconNames.map((iconNames: string) => (
                     <option value={iconNames}>{iconNames}</option>
                   ))}
                 </select>
 
-                <a className="gf-form-label tight-form-func" onClick={() => this.removeMapping(index)}>
+                <a className="gf-form-label tight-form-func no-background" onClick={() => this.removeMapping(index)}>
                   <i className="fa fa-trash"></i>
                 </a>
               </div>
             </>
           ))}
         </div>
-        <button className="btn navbar-button navbar-button--primary" onClick={() => this.addMapping()}>
-          Add Service Icon Mapping
+        <button
+          className="btn navbar-button navbar-button--primary icon-mapping-button"
+          onClick={() => this.addMapping()}
+        >
+          Add Icon Mapping
         </button>
       </div>
     );
