@@ -39,29 +39,24 @@ export const Statistics: React.FC<StatisticsProps> = ({
       );
     }
 
-    var requests = <div></div>;
-    if (selectionStatistics.requests >= 0) {
-      requests = (
+    const requests =
+      selectionStatistics.requests >= 0 ? (
         <tr>
           <td className="table--td--selection">Requests</td>
           <td className="table--td--selection">{selectionStatistics.requests}</td>
         </tr>
-      );
-    }
+      ) : null;
 
-    var errors = <div></div>;
-    if (selectionStatistics.errors >= 0) {
-      errors = (
+    const errors =
+      selectionStatistics.errors >= 0 ? (
         <tr>
           <td className="table--td--selection">Errors</td>
           <td className="table--td--selection">{selectionStatistics.errors}</td>
         </tr>
-      );
-    }
+      ) : null;
 
-    var errorRate = <div></div>;
-    if (selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0) {
-      errorRate = (
+    var errorRate =
+      selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0 ? (
         <tr ng-show="">
           <td className="table--td--selection">Error Rate</td>
           <td className="table--td--selection">
@@ -71,38 +66,32 @@ export const Statistics: React.FC<StatisticsProps> = ({
             )}
           </td>
         </tr>
-      );
-    }
+      ) : null;
 
-    var avgResponseTime = <div></div>;
-    if (selectionStatistics.responseTime >= 0) {
-      avgResponseTime = (
+    var avgResponseTime =
+      selectionStatistics.responseTime >= 0 ? (
         <tr>
           <td className="table--td--selection">Avg. Response Time</td>
           <td className="table--td--selection">{selectionStatistics.responseTime} ms</td>
         </tr>
-      );
-    }
+      ) : null;
 
-    var baseline = <div></div>;
-    if (showBaselines && selectionStatistics.threshold) {
-      var threshold = (
-        <td className="table--td--selection threshold--good">Good "(&lt;= {selectionStatistics.threshold}ms)"</td>
-      );
-      if (selectionStatistics.thresholdViolation) {
-        threshold = (
-          <td className="table--td--selection threshold--bad">
-            Bad ({'>'} {selectionStatistics.threshold}ms)
-          </td>
-        );
-      }
-      baseline = (
+    var threshold = selectionStatistics.thresholdViolation ? (
+      <td className="table--td--selection threshold--bad">
+        Bad ({'>'} {selectionStatistics.threshold}ms)
+      </td>
+    ) : (
+      <td className="table--td--selection threshold--good"> Good "(&lt;= {selectionStatistics.threshold}ms)" </td>
+    );
+
+    var baseline =
+      showBaselines && selectionStatistics.threshold ? (
         <tr>
           <td className="table--td--selection">Response Time Health (Upper Baseline)</td>
           {threshold}
         </tr>
-      );
-    }
+      ) : null;
+
     statistics = (
       <div className="statistics">
         <div className="header--selection">
