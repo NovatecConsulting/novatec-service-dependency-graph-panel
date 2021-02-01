@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { StandardEditorContext, StandardEditorProps } from '@grafana/data';
 import { IconResource, PanelSettings } from '../../types';
 import assetUtils from '../../panel/asset_utils';
-import './iconMapping.css';
+import './IconMapping.css';
 
 interface Props extends StandardEditorProps<string, PanelSettings> {
   item: any;
