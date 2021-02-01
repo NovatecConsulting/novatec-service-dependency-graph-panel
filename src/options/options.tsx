@@ -1,7 +1,7 @@
 import { PanelOptionsEditorBuilder } from '@grafana/data';
 import { PanelSettings } from '../types';
 import { TypeaheadTextField } from './TypeAheadTextfield/TypeaheadTextfield';
-import { IconMapping } from './iconMapping/iconMapping';
+import { IconMapping } from './iconMapping/IconMapping';
 import { DummyDataSwitch } from './dummyDataSwitch/DummyDataSwitch';
 import { DefaultSettings } from './DefaultSettings';
 
@@ -14,7 +14,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         path: 'dataMapping.aggregationType',
         id: 'aggregationType',
         editor: TypeaheadTextField,
-        name: 'Aggregation Type',
+        name: 'Component Column',
         category: ['Connection Mapping'],
         defaultValue: DefaultSettings.dataMapping.aggregationType,
       })

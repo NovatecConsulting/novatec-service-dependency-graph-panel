@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { isPresent } from './utils/Utils';
-import { ServiceDependencyGraphPanelController } from '../panel/ServiceDependencyGraphPanelController';
+import { PanelController } from '../panel/PanelController';
 import {
   GraphDataElement,
   IntGraph,
@@ -12,9 +12,9 @@ import {
 } from '../types';
 
 class GraphGenerator {
-  controller: ServiceDependencyGraphPanelController;
+  controller: PanelController;
 
-  constructor(controller: ServiceDependencyGraphPanelController) {
+  constructor(controller: PanelController) {
     this.controller = controller;
   }
 
@@ -23,7 +23,7 @@ class GraphGenerator {
       return undefined;
     }
 
-    const sumMetrics = !this.controller.getSettings().sumTimings;
+    const sumMetrics = !this.controller.getSettings(true).sumTimings;
 
     var nodeName = dataElements[0].target;
     if (nodeName === '' || nodeName === undefined || nodeName === null) {
@@ -186,7 +186,7 @@ class GraphGenerator {
       metrics.error_rate = error_rate_out;
     }
     if (!_.isUndefined(response_time_out)) {
-      const { sumTimings } = this.controller.getSettings();
+      const { sumTimings } = this.controller.getSettings(true);
 
       if (!sumTimings && metrics.rate) {
         metrics.response_time = response_time_out / metrics.rate;
@@ -209,7 +209,7 @@ class GraphGenerator {
   }
 
   _filterData(graph: IntGraph): IntGraph {
-    const { filterEmptyConnections: filterData } = this.controller.getSettings();
+    const { filterEmptyConnections: filterData } = this.controller.getSettings(true);
 
     if (filterData) {
       const filteredGraph: IntGraph = {

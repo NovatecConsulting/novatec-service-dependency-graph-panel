@@ -1,12 +1,12 @@
 import { DataFrame } from '@grafana/data';
 import _ from 'lodash';
-import { ServiceDependencyGraphPanelController } from '../panel/ServiceDependencyGraphPanelController';
+import { PanelController } from '../panel/PanelController';
 import { GraphDataElement, GraphDataType, CurrentData } from '../types';
 
 class PreProcessor {
-  controller: ServiceDependencyGraphPanelController;
+  controller: PanelController;
 
-  constructor(controller: ServiceDependencyGraphPanelController) {
+  constructor(controller: PanelController) {
     this.controller = controller;
   }
 
@@ -17,7 +17,7 @@ class PreProcessor {
       targetColumn,
       extOrigin: externalSource,
       extTarget: externalTarget,
-    } = this.controller.getSettings().dataMapping;
+    } = this.controller.getSettings(true).dataMapping;
 
     const result = _.map(data, dataObject => {
       var source = _.has(dataObject, sourceColumn) && dataObject[sourceColumn] !== '';
@@ -158,7 +158,7 @@ class PreProcessor {
       requestRateColumn,
       requestRateOutgoingColumn,
       baselineRtUpper,
-    } = this.controller.getSettings().dataMapping;
+    } = this.controller.getSettings(true).dataMapping;
 
     for (const inputData of inputDataSets) {
       const { fields } = inputData;

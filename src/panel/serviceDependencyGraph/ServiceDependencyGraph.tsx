@@ -2,7 +2,7 @@ import CanvasDrawer from 'panel/canvas/graph_canvas';
 import cytoscape, { EdgeCollection, EdgeSingular, ElementDefinition, NodeSingular } from 'cytoscape';
 import React from 'react';
 import { PureComponent } from 'react';
-import { ServiceDependencyGraphPanelController } from '../ServiceDependencyGraphPanelController';
+import { PanelController } from '../PanelController';
 import cyCanvas from 'cytoscape-canvas';
 import cola from 'cytoscape-cola';
 import layoutOptions from '../layout_options';
@@ -23,7 +23,7 @@ import './ServiceDependencyGraph.css';
 interface PanelState {
   zoom: number | undefined;
   animate: boolean | undefined;
-  controller: ServiceDependencyGraphPanelController;
+  controller: PanelController;
   cy?: cytoscape.Core | undefined;
   graphCanvas?: CanvasDrawer | undefined;
   animateButtonClass?: string;
@@ -223,8 +223,8 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
     }
   }
 
-  getSettings() {
-    return this.props.settings;
+  getSettings(resolveVariables: boolean): PanelSettings {
+    return this.state.controller.getSettings(resolveVariables);
   }
 
   toggleAnimation() {
@@ -371,7 +371,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   generateDrillDownLink() {
-    const { drillDownLink } = this.getSettings();
+    const { drillDownLink } = this.getSettings(false);
     if (drillDownLink !== undefined) {
       const link = drillDownLink.replace('{}', this.selectionId);
       this.resolvedDrillDownLink = this.templateSrv.replace(link);

@@ -9,7 +9,7 @@ export default class ParticleEngine {
 
   minSpawnPropability = 0.004;
 
-  spawnInterval: any;
+  spawnInterval: NodeJS.Timeout;
 
   animating: boolean;
 

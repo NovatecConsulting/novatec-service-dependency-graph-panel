@@ -16,6 +16,7 @@ import '../css/novatec-service-dependency-graph-panel.css';
 import GraphGenerator from 'processing/graph_generator';
 import PreProcessor from 'processing/pre_processor';
 import data from '../dummy_data_frame';
+import { getTemplateSrv } from '@grafana/runtime';
 
 interface Props extends PanelProps<PanelSettings> {}
 
@@ -36,7 +37,7 @@ interface PanelState {
   options: PanelSettings;
 }
 
-export class ServiceDependencyGraphPanelController extends PureComponent<Props, PanelState> {
+export class PanelController extends PureComponent<Props, PanelState> {
   cy: cytoscape.Core | undefined;
 
   ref: LegacyRef<HTMLDivElement>;
@@ -57,8 +58,43 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
     this.preProcessor = new PreProcessor(this);
   }
 
-  getSettings(): PanelSettings {
+  getSettings(resolveVariables: boolean): PanelSettings {
+    if (resolveVariables) {
+      return this.resolveVariables(this.props.options);
+    }
     return this.props.options;
+  }
+
+  resolveVariables(element: any) {
+    if (element instanceof Object) {
+      const newObject: any = {};
+      for (const key of Object.keys(element)) {
+        newObject[key] = this.resolveVariables(element[key]);
+      }
+      return newObject;
+    }
+
+    if (element instanceof String || typeof element === 'string') {
+      return getTemplateSrv().replace(element.toString());
+    }
+    return element;
+  }
+
+  resolveTemplateVars(input: any, copy: boolean) {
+    var value = input;
+    if (copy) {
+      value = _.cloneDeep(value);
+    }
+
+    if (typeof value === 'string' || value instanceof String) {
+      value = getTemplateSrv().replace(value.toString());
+    }
+    if (value instanceof Object) {
+      for (const key of Object.keys(value)) {
+        value[key] = this.resolveTemplateVars(value[key], false);
+      }
+    }
+    return value;
   }
 
   componentDidUpdate() {
@@ -86,7 +122,7 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
 
   processData() {
     var inputData: DataFrame[] = this.props.data.series;
-    if (this.getSettings().dataMapping.showDummyData) {
+    if (this.getSettings(true).dataMapping.showDummyData) {
       inputData = data;
     }
     this.processQueryData(inputData);
@@ -186,7 +222,8 @@ export class ServiceDependencyGraphPanelController extends PureComponent<Props, 
           </div>
         </div>
       );
+    } else {
+      return <div>{error}</div>;
     }
-    return <div>{error}</div>;
   }
 }

@@ -32,8 +32,9 @@ function getStatisticsTable(noDataText: string, nodeList: TableContent[]) {
         })}
       />
     );
+  } else {
+    return <div className="no-data--selection">{noDataText}</div>;
   }
-  return <div className="no-data--selection">{noDataText}</div>;
 }
 
 export const NodeStatistics: React.FC<NodeStatisticsProps> = ({ nodeList, noDataText, title }) => {

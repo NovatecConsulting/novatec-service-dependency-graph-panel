@@ -124,7 +124,7 @@ export default class CanvasDrawer {
 
   _getImageAsset(assetName: string, resolveName = true) {
     if (!_.has(this.imageAssets, assetName)) {
-      const assetUrl = assetUtils.getTypeSymbol(assetName, this.controller.getSettings().icons, resolveName);
+      const assetUrl = assetUtils.getTypeSymbol(assetName, this.controller.getSettings(true).icons, resolveName);
       this._loadImage(assetUrl, assetName);
     }
 
@@ -182,7 +182,7 @@ export default class CanvasDrawer {
       return false;
     }
 
-    if (!this.controller.getSettings().animate && elapsedTime < 1000) {
+    if (!this.controller.getSettings(true).animate && elapsedTime < 1000) {
       return true;
     }
     return false;
@@ -227,7 +227,7 @@ export default class CanvasDrawer {
     // static element rendering
     // cyCanvas.resetTransform(ctx);
     cyCanvas.clear(ctx);
-    if (this.controller.getSettings().showDebugInformation) {
+    if (this.controller.getSettings(true).showDebugInformation) {
       this._drawDebugInformation();
     }
 
@@ -275,7 +275,7 @@ export default class CanvasDrawer {
       this._drawEdgeParticles(ctx, edge, sourcePoint, targetPoint, now);
     }
 
-    const { showConnectionStats } = this.controller.getSettings();
+    const { showConnectionStats } = this.controller.getSettings(true);
     if (showConnectionStats && cy.zoom() > 1) {
       for (const edge of edges) {
         this._drawEdgeLabel(ctx, edge);
@@ -322,7 +322,7 @@ export default class CanvasDrawer {
   }
 
   _drawEdgeLabel(ctx: CanvasRenderingContext2D, edge: cytoscape.EdgeSingular) {
-    const { timeFormat } = this.controller.getSettings();
+    const { timeFormat } = this.controller.getSettings(true);
 
     const midpoint = edge.midpoint();
     const xMid = midpoint.x;
@@ -413,7 +413,7 @@ export default class CanvasDrawer {
       index--;
     }
 
-    const dangerColor = this.controller.getSettings().style.dangerColor;
+    const dangerColor = this.controller.getSettings(true).style.dangerColor;
     ctx.fillStyle = dangerColor;
     ctx.fill();
   }
@@ -508,7 +508,7 @@ export default class CanvasDrawer {
       this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct]);
 
       // drawing the baseline status
-      const { showBaselines } = this.controller.getSettings();
+      const { showBaselines } = this.controller.getSettings(true);
       if (showBaselines && responseTime >= 0 && threshold >= 0) {
         const thresholdViolation = threshold < responseTime;
 
@@ -527,7 +527,7 @@ export default class CanvasDrawer {
 
   _drawServiceIcon(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
     const nodeId: string = node.id();
-    const iconMappings = this.controller.getSettings().icons;
+    const iconMappings = this.controller.getSettings(true).icons;
 
     const mapping = _.find(iconMappings, ({ pattern }) => {
       try {
@@ -550,7 +550,7 @@ export default class CanvasDrawer {
   }
 
   _drawNodeStatistics(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
-    const { timeFormat } = this.controller.getSettings();
+    const { timeFormat } = this.controller.getSettings(true);
     const lines: string[] = [];
 
     const metrics: IntGraphMetrics = node.data('metrics');
@@ -614,7 +614,7 @@ export default class CanvasDrawer {
     ctx.closePath();
 
     ctx.setLineDash([10, 2]);
-    if (violation && this.controller.getSettings().animate) {
+    if (violation && this.controller.getSettings(true).animate) {
       ctx.lineDashOffset = this.dashAnimationOffset;
     } else {
       ctx.lineDashOffset = 0;
@@ -673,7 +673,7 @@ export default class CanvasDrawer {
     const xPos = pos.x - labelWidth / 2;
     const yPos = pos.y + node.height() * 0.8;
 
-    const { showBaselines } = this.controller.getSettings();
+    const { showBaselines } = this.controller.getSettings(true);
     const metrics: IntGraphMetrics = node.data('metrics');
     const responseTime = _.defaultTo(metrics.response_time, -1);
     const threshold = _.defaultTo(metrics.threshold, -1);
@@ -719,7 +719,7 @@ export default class CanvasDrawer {
     ctx.fillStyle = 'white';
     ctx.fill();
 
-    const { healthyColor, dangerColor, noDataColor } = this.controller.getSettings().style;
+    const { healthyColor, dangerColor, noDataColor } = this.controller.getSettings(true).style;
     const colors = [dangerColor, noDataColor, healthyColor];
     for (let i = 0; i < percentages.length; i++) {
       let arc = this._drawArc(ctx, currentArc, cX, cY, radius, percentages[i], colors[i]);
