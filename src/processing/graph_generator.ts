@@ -105,7 +105,6 @@ class GraphGenerator {
       isPresent
     );
     const missingNodeNames = _.difference(expectedNodeNames, existingNodeNames);
-
     const missingNodes = _.map(missingNodeNames, name => {
       let nodeType: EnGraphNodeType;
       let external_type: string | undefined;
@@ -130,10 +129,8 @@ class GraphGenerator {
           metrics: {},
         },
       };
-
       return value;
     });
-
     return missingNodes;
   }
 
@@ -152,7 +149,6 @@ class GraphGenerator {
 
     // ensure that all nodes exist, even we have no data for them
     const missingNodes = this._createMissingNodes(filteredData, nodes);
-
     return _.concat(nodes, missingNodes);
   }
 
@@ -224,7 +220,7 @@ class GraphGenerator {
         const id = node.data.id;
 
         // don't filter connected elements
-        if (_.some(graph.edges, { 'data.source': id }) || _.some(graph.edges, { 'data.target': id })) {
+        if (_.some(graph.edges, { source: id }) || _.some(graph.edges, { target: id })) {
           return true;
         }
 
@@ -258,7 +254,6 @@ class GraphGenerator {
     };
 
     const filteredGraph = this._filterData(graph);
-
     return filteredGraph;
   }
 }
