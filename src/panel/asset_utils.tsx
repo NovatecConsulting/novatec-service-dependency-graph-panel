@@ -1,5 +1,5 @@
 import { find } from 'lodash';
-import { ExternalIconResource } from 'types';
+import { IconResource } from 'types';
 
 export default {
   getAssetUrl(assetName: string) {
@@ -7,7 +7,7 @@ export default {
     return baseUrl + '/assets/' + assetName;
   },
 
-  getTypeSymbol(type: string, externalIcons: ExternalIconResource[], resolveName = true) {
+  getTypeSymbol(type: string, externalIcons: IconResource[], resolveName = true) {
     if (!type) {
       return this.getAssetUrl('default.png');
     }

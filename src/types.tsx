@@ -8,6 +8,7 @@ export interface PanelSettings {
   showDebugInformation: boolean;
   showConnectionStats: boolean;
   icons: IconResource[];
+  externalIcons: IconResource[];
   dataMapping: DataMapping;
   drillDownLink: string;
   showBaselines: boolean;
@@ -41,11 +42,6 @@ export interface PanelStyleSettings {
 }
 
 export interface IconResource {
-  pattern: string;
-  filename: string;
-}
-
-export interface ExternalIconResource {
   pattern: string;
   filename: string;
 }

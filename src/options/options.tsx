@@ -229,8 +229,24 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'iconMapping',
         editor: IconMapping,
         name: '',
+        description:
+          'This setting controls which images should be mapped to your directly monitored nodes. ' +
+          'The node names are matched by the regex pattern provided in the "Target Name(Regex) column.',
         category: ['Icon Mapping'],
         defaultValue: DefaultSettings.icons,
+      })
+
+      //External Icon Mapping
+      .addCustomEditor({
+        path: 'externalIcons',
+        id: 'externalIconMapping',
+        editor: IconMapping,
+        name: '',
+        description:
+          'This setting controls which images should be mapped to the external nodes. ' +
+          'The given type column is matched by the regex pattern provided in the "Target Name(Regex) column.',
+        category: ['External Icon Mapping'],
+        defaultValue: DefaultSettings.externalIcons,
       })
 
       //Tracing Drilldown

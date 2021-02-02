@@ -124,7 +124,8 @@ export default class CanvasDrawer {
 
   _getImageAsset(assetName: string, resolveName = true) {
     if (!_.has(this.imageAssets, assetName)) {
-      const assetUrl = assetUtils.getTypeSymbol(assetName, this.controller.getSettings(true).icons, resolveName);
+      const { externalIcons } = this.controller.getSettings(true);
+      const assetUrl = assetUtils.getTypeSymbol(assetName, externalIcons, resolveName);
       this._loadImage(assetUrl, assetName);
     }
 
@@ -538,7 +539,7 @@ export default class CanvasDrawer {
     });
 
     if (mapping) {
-      const image = this._getAsset(mapping.filename, 'service_icons/' + mapping.filename + '.png');
+      const image = this._getAsset(mapping.filename, 'icons/' + mapping.filename + '.png');
       if (image != null) {
         const cX = node.position().x;
         const cY = node.position().y;

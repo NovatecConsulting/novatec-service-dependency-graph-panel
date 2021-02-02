@@ -45,6 +45,9 @@ export const DefaultSettings: PanelSettings = {
       pattern: 'spok|star trek',
       filename: 'star_trek',
     },
+  ],
+
+  externalIcons: [
     {
       pattern: 'web',
       filename: 'web',
