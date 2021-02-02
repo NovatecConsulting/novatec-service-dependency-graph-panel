@@ -198,6 +198,7 @@ class GraphGenerator {
     const filteredData = _(data)
       .filter(e => !!e.source)
       .filter(e => e.source !== e.target)
+      .filter(e => e.target !== null || e.source !== null)
       .value();
 
     const edges = _.map(filteredData, element => this._createEdge(element));
