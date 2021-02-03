@@ -18,15 +18,6 @@ visualize the processes of your application much better.
 
 
 ___
-### How to build
-
-Due to dependency issues please install, if needed with `yarn install`
-
-To build a production build with minification: `yarn build`
-
-Run the following for hot-reloading during development: `yarn watch`
-
-___
 
 ## Configuration of the Data Source
 
