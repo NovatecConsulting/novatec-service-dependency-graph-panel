@@ -6,9 +6,16 @@
 
 ![Service Dependency Graph In Action](https://novatecconsulting.github.io/novatec-service-dependency-graph-panel/images/service-dependency-graph-panel.gif)
 
+
+
+**Version 4.0.0 is only compatible with Grafana from version 7.1.0!**
+
+
+
 The Service Dependency Graph Panel by [Novatec](https://www.novatec-gmbh.de/en/) provides you with many features such as monitoring 
 your latencies, errors and requests of your desired service. This interactive panel for [Grafana](https://grafana.com/) will help you
 visualize the processes of your application much better. 
+
 
 ___
 ### How to build
