@@ -129,9 +129,9 @@ This means that all nodes which have `java` in their name get the `java` icon.
 
 #### Custom Service Icons
 
-You can add custom icons, by putting them into the plugin's `/assets/service_icons/` directory.
+You can add custom icons, by putting them into the plugin's `/assets/icons/` directory.
 The file type **has to be `PNG`** and the icon itself and **has to be square**.
-In order to be able to use the icon, its name (without its ending) has to be put into the array contained in the `icon_index.json` file located in the `/assets/service_icons/` directory.
+In order to be able to use the icon, its name (without its ending) has to be put into the array contained in the `icon_index.json` file located in the `/assets/icons/` directory.
 
 ##### Example
 
@@ -141,7 +141,7 @@ If the `icon_index.json` has the following content:
 ["java", "star_trek"]
 ```
 
-it is assumed that the files `java.png` and `star_trek.png` is existing in the `/assets/service_icons/` directory.
+it is assumed that the files `java.png` and `star_trek.png` is existing in the `/assets/icons/` directory.
 ___
 
 ### Tracing Drilldown
