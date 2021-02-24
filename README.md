@@ -17,6 +17,9 @@ your latencies, errors and requests of your desired service. This interactive pa
 visualize the processes of your application much better. 
 
 
+### Updating the Service Dependency Graph Panel
+The file structure for the icon mapping has changed for version 4.0.0. **Icons are now located in the path 'plugins/novatec-sdg-panel/assets/icons/'.** This also applies to custom icons!
+
 ___
 
 ## Configuration of the Data Source
