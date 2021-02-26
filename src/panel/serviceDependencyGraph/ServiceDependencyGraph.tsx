@@ -410,7 +410,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
           resolvedDrillDownLink={this.resolvedDrillDownLink}
           selectionStatistics={this.selectionStatistics}
           currentType={this.currentType}
-          showBaselines={false}
+          showBaselines={this.getSettings(true).showBaselines}
           receiving={this.receiving}
           sending={this.sending}
         />

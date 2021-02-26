@@ -75,15 +75,13 @@ export const Statistics: React.FC<StatisticsProps> = ({
           <td className="table--td--selection">{selectionStatistics.responseTime} ms</td>
         </tr>
       ) : null;
-
     var threshold = selectionStatistics.thresholdViolation ? (
       <td className="table--td--selection threshold--bad">
         Bad ({'>'} {selectionStatistics.threshold}ms)
       </td>
     ) : (
-      <td className="table--td--selection threshold--good"> Good "(&lt;= {selectionStatistics.threshold}ms)" </td>
+      <td className="table--td--selection threshold--good"> Good (&lt;= {selectionStatistics.threshold}ms) </td>
     );
-
     var baseline =
       showBaselines && selectionStatistics.threshold ? (
         <tr>
