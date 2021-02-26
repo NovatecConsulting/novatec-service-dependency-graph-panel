@@ -4,7 +4,7 @@ import { IconResource } from 'types';
 export default {
   getAssetUrl(assetName: string) {
     var baseUrl = 'public/plugins/novatec-sdg-panel';
-    return baseUrl + '/assets/' + assetName;
+    return baseUrl + '/assets/icons/' + assetName;
   },
 
   getTypeSymbol(type: string, externalIcons: IconResource[], resolveName = true) {

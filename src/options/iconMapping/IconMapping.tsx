@@ -26,7 +26,7 @@ export class IconMapping extends React.PureComponent<Props, State> {
       ...props,
       icons: [],
     };
-    fetch(assetUtils.getAssetUrl('icons/icon_index.json'))
+    fetch(assetUtils.getAssetUrl('icon_index.json'))
       .then(response => response.json())
       .then(data => {
         data.sort();
