@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## v4.0.2
+
+Bug fix in icon path
+
+
 ## v4.0.1
+
 SumTimings now working as expected
 Response Time Health now dsiplayed in node statistics
 External Icons now use the correct path

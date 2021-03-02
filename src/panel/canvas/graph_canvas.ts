@@ -539,7 +539,7 @@ export default class CanvasDrawer {
     });
 
     if (mapping) {
-      const image = this._getAsset(mapping.filename, 'icons/' + mapping.filename + '.png');
+      const image = this._getAsset(mapping.filename, mapping.filename + '.png');
       if (image != null) {
         const cX = node.position().x;
         const cY = node.position().y;
