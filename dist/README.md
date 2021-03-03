@@ -6,18 +6,19 @@
 
 ![Service Dependency Graph In Action](https://novatecconsulting.github.io/novatec-service-dependency-graph-panel/images/service-dependency-graph-panel.gif)
 
+
+
+**Version 4.0.0 is only compatible with Grafana from version 7.1.0!**
+
+
+
 The Service Dependency Graph Panel by [Novatec](https://www.novatec-gmbh.de/en/) provides you with many features such as monitoring 
 your latencies, errors and requests of your desired service. This interactive panel for [Grafana](https://grafana.com/) will help you
 visualize the processes of your application much better. 
 
-___
-### How to build
 
-Due to dependency issues please install, if needed with `yarn install`
-
-To build a production build with minification: `yarn build`
-
-Run the following for hot-reloading during development: `yarn watch`
+### Updating the Service Dependency Graph Panel
+The file structure for the icon mapping has changed for version 4.0.0. **Icons are now located in the path 'plugins/novatec-sdg-panel/assets/icons/'.** This also applies to custom icons!
 
 ___
 
@@ -115,7 +116,7 @@ Now, the panel's `Data Mappings` option `Response Time Column` is set to `resp_t
 
 ___
 
-### Service Icons
+## Service Icons
 
 The service dependency graph plugin allows you to display your own symbols in the drawn nodes.
 For this purpose the option 'Service Icon Mapping' can be used.
@@ -131,9 +132,9 @@ This means that all nodes which have `java` in their name get the `java` icon.
 
 #### Custom Service Icons
 
-You can add custom icons, by putting them into the plugin's `/assets/service_icons/` directory.
+You can add custom icons, by putting them into the plugin's `/assets/icons/` directory.
 The file type **has to be `PNG`** and the icon itself and **has to be square**.
-In order to be able to use the icon, its name (without its ending) has to be put into the array contained in the `icon_index.json` file located in the `/assets/service_icons/` directory.
+In order to be able to use the icon, its name (without its ending) has to be put into the array contained in the `icon_index.json` file located in the `/assets/icons/` directory.
 
 ##### Example
 
@@ -143,7 +144,7 @@ If the `icon_index.json` has the following content:
 ["java", "star_trek"]
 ```
 
-it is assumed that the files `java.png` and `star_trek.png` is existing in the `/assets/service_icons/` directory.
+it is assumed that the files `java.png` and `star_trek.png` is existing in the `/assets/icons/` directory.
 ___
 
 ### Tracing Drilldown
@@ -159,6 +160,17 @@ The curly brackets `{}` will be replaced with the selected node.
 `http://{}/my/awesome/path` will end up to `http://customers-service/my/awesome/path` when you select the `customers-service`.
 
 ___
+
+## Create a Release
+
+To create a release bundle, ensure `release-it` is installed:
+```
+npm install --global release-it
+```
+To build a release bundle:
+```
+release-it [--no-git.requireCleanWorkingDir]
+```
 
 ### Found a bug? Have a question? Wanting to contribute?
 
