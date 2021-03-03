@@ -116,7 +116,7 @@ Now, the panel's `Data Mappings` option `Response Time Column` is set to `resp_t
 
 ___
 
-### Service Icons
+## Service Icons
 
 The service dependency graph plugin allows you to display your own symbols in the drawn nodes.
 For this purpose the option 'Service Icon Mapping' can be used.
@@ -160,6 +160,17 @@ The curly brackets `{}` will be replaced with the selected node.
 `http://{}/my/awesome/path` will end up to `http://customers-service/my/awesome/path` when you select the `customers-service`.
 
 ___
+
+## Create a Release
+
+To create a release bundle, ensure `release-it` is installed:
+```
+npm install --global release-it
+```
+To build a release bundle:
+```
+release-it [--no-git.requireCleanWorkingDir]
+```
 
 ### Found a bug? Have a question? Wanting to contribute?
 

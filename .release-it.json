@@ -1,0 +1,12 @@
+{
+    "github": {
+      "release": false
+    },
+    "npm": {
+      "publish": false
+    },
+    "hooks": {
+      "after:bump":
+        "rm -r dist; yarn build; npx @grafana/toolkit plugin:sign; cp -r dist novatec-sdg-panel; mkdir -p releases; zip -r releases/novatec-sdg-panel.zip novatec-sdg-panel; rm -r novatec-sdg-panel"
+    }
+  }
