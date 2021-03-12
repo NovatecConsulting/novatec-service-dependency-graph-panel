@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: SecretTest
+name: Release
 
 # Controls when the action will run. 
 on: workflow_dispatch
@@ -20,6 +20,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: release-it
+        uses: TheRealWaldo/release-it@v0.2.2
+        with:
+          json-opts: '{"dry-run": true}'
+
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo ${{ secrets.GRAFANA_API_KEY }}
+      - name: Sign the new release
+        run: |
+          export GRAFANA_API_KEY = ${{ secrets.GRAFANA_API_KEY }}
+          npx @grafana/toolkit plugin:sign
+
+          
