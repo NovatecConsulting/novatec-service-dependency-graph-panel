@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: release-it
-        uses: TheRealWaldo/release-it@v0.2.2
+        uses: TheRealWaldo/release-it@v14.4.1
         with:
           json-opts: '{"dry-run": true}'
 
