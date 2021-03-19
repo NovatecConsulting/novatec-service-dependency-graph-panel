@@ -30,12 +30,4 @@ jobs:
         run: yarn install
 
       - name: release-it
-        uses: TheRealWaldo/release-it@v0.2.2
-        with:
-          json-opts: '{"dry-run": true, "version": "${{ github.event.inputs.version }}"}'
-
-      # Runs a single command using the runners shell
-      - name: Sign the new release
-        run: |
-          export GRAFANA_API_KEY=${{ secrets.GRAFANA_API_KEY }}
-          npx @grafana/toolkit plugin:sign
+        run: yarn release --${{ github.event.inputs.version }} --ci
