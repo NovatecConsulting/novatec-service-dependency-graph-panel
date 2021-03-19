@@ -31,8 +31,8 @@ jobs:
         
       - name: set git config
         run: | 
-               git config --global user.email "dedi-extern@novatec-gmbh.de" 
-               git config --global user.name "Novatec Consulting GmbH"
+               git config --global user.email "marius.brill@novatec-gmbh.de" 
+               git config --global user.name "MariusBrill"
 
       - name: release-it
-        run: yarn release --${{ github.event.inputs.version }} --ci
+        run: yarn release -- ${{ github.event.inputs.version }} --ci
