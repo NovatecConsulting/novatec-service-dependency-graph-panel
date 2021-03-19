@@ -7,7 +7,8 @@
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
     "dev": "grafana-toolkit plugin:dev",
-    "watch": "grafana-toolkit plugin:dev --watch"
+    "watch": "grafana-toolkit plugin:dev --watch",
+    "release": "release-it"
   },
   "keywords": [
     "grafana",
@@ -31,6 +32,7 @@
     "@types/react-cytoscapejs": "^1.1.2",
     "babel-loader": "8.2.2",
     "emotion": "10.0.27",
+    "release-it": "^14.4.1",
     "sass-loader": "^10.1.0",
     "ts-jest": "^26.4.4",
     "ts-loader": "8.0.11"
