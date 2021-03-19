@@ -28,6 +28,11 @@ jobs:
       
       - name: install dependencies
         run: yarn install
+        
+      - name: set git config
+        run: | 
+               git config --global user.email "dedi-extern@novatec-gmbh.de" 
+               git config --global user.name "Novatec Consulting GmbH"
 
       - name: release-it
         run: yarn release --${{ github.event.inputs.version }} --ci
