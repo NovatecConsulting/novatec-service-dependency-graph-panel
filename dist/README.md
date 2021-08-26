@@ -61,6 +61,7 @@ After activating the Dummy Data your Data Mapping should look like this:
 | Error Rate (Outgoing) | error_out |
 | Response Time Baseline (Upper) | threshold |
 
+
 _Note that you may have to refresh the dashboard or reload the page in order for it to work._
 
 ##### Live example dummy data
@@ -73,8 +74,6 @@ ___
 
 If you now want to use your own data source you have make sure, that the data received is in the `TABLE` format and is structured as follows:
 
-* The table requires a column which is named equal to the value of the `aggregationType` settings field. This column defines the component to which the data refers to.
-**Example**: Assuming the `aggregationType` variable is set to `app`, the data table has to provide a column named `app`.
 * The table requires at least one column which specifies the connection's source or target. The settings `Source Component Column` and `Target Component Column` need to be set to the exact namings of the respective fields.
  
 * The data can contain multiple value columns. These columns have to be mapped on specifc attributes using the panel's `Data Mappings` options. 
@@ -92,13 +91,11 @@ If the previously described requirements are respected, a minimal table can be a
 | service a | service c | 75 |
 | service c | service d | 25 |
 
-Assuming a `aggregationType` variable is provided and set to `app` and the panel's settings are specified as seen in the screenshot, the panel will visualize the data as following:
+Assuming the panel's settings are specified as seen in the screenshot, the panel will visualize the data as following:
 
 ![Visualization of the minimal data table.](https://raw.githubusercontent.com/NovatecConsulting/novatec-service-dependency-graph-panel/master/src/img/data-example-1.png)
 
 > Note: It is important to know that connections can only be generated if at least one request-rate column (incoming or outgoing) is defined.
-
-The data mapping represents always the data from the point of view of the component which is specified by the column which name is equal to the `aggregationType` variable. This means that if we want to represent an outgoing connection in this example, the `app` and `target_app` columns must be present. In case an incoming connection should be represented, the `app` and `origin_app` columns must be present.
 
 ##### Example 2
 
@@ -175,4 +172,3 @@ release-it [--no-git.requireCleanWorkingDir]
 ### Found a bug? Have a question? Wanting to contribute?
 
 Feel free to open up an issue. We will take care of you and provide as much help as needed. Any suggestions/contributions are being very much appreciated.
-
