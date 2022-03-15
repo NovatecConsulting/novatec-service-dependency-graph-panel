@@ -56,7 +56,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
       ) : null;
 
     var errorRate =
-      selectionStatistics.requests >= 0 && selectionStatistics.errors >= 0 ? (
+      selectionStatistics.requests > 0 && selectionStatistics.errors >= 0 ? (
         <tr ng-show="">
           <td className="table--td--selection">Error Rate</td>
           <td className="table--td--selection">
