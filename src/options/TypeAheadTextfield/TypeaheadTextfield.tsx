@@ -108,7 +108,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     const suggestions = this.getSuggestions(value);
 
     const inputProps = {
-      placeholder: 'Enter cloumn name...',
+      placeholder: 'Enter column name...',
       value,
       onChange: this.onChange,
     };
