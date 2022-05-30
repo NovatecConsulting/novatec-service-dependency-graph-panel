@@ -59,7 +59,7 @@ export default class ParticleEngine {
     const cy = this.drawer.cytoscape;
 
     const now = Date.now();
-    cy.edges().forEach(edge => {
+    cy.edges().forEach((edge) => {
       let particles: Particles = edge.data('particles');
       const metrics: IntGraphMetrics = edge.data('metrics');
 
@@ -109,9 +109,9 @@ export default class ParticleEngine {
     const cy = this.drawer.cytoscape;
 
     const count = _(cy.edges())
-      .map(edge => edge.data('particles'))
+      .map((edge) => edge.data('particles'))
       .filter()
-      .map(particleArray => particleArray.normal.length + particleArray.danger.length)
+      .map((particleArray) => particleArray.normal.length + particleArray.danger.length)
       .sum();
 
     return count;

@@ -10,15 +10,15 @@ const options = {
   nodeDimensionsIncludeLabels: false, // whether labels should be included in determining the space used by a node
 
   // layout event callbacks
-  ready: function() {}, // on layoutready
-  stop: function() {}, // on layoutstop
+  ready: function () {}, // on layoutready
+  stop: function () {}, // on layoutstop
 
   // positioning options
   randomize: false, // use random node positions at beginning of layout
   avoidOverlap: true, // if true, prevents overlap of node bounding boxes
   handleDisconnected: true, // if true, avoids disconnected components from overlapping
   convergenceThreshold: 0.01, // when the alpha value (system energy) falls below this value, the layout stops
-  nodeSpacing: function(node: any) {
+  nodeSpacing: function (node: any) {
     return 50;
   }, // extra spacing around nodes
   flow: undefined as undefined, // use DAG/tree flow layout if specified, e.g. { axis: 'y', minSeparation: 30 }

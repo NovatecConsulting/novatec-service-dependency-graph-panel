@@ -27,8 +27,8 @@ export class IconMapping extends React.PureComponent<Props, State> {
       icons: [],
     };
     fetch(assetUtils.getAssetUrl('icon_index.json'))
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         data.sort();
         this.setState({
           icons: data,
@@ -75,7 +75,11 @@ export class IconMapping extends React.PureComponent<Props, State> {
     var icons = this.state.context.options[path];
     if (icons === undefined) {
       icons = this.state.item.defaultValue;
-      this.state.context.options[path] = this.state.item.defaultValue;
+      const context = this.state.context;
+      context.options[path] = this.state.item.defaultValue;
+      this.setState({
+        context: context,
+      });
     }
 
     return (
@@ -94,16 +98,18 @@ export class IconMapping extends React.PureComponent<Props, State> {
                   type="text"
                   className="input-small gf-form-input"
                   value={icon.pattern}
-                  onChange={e => this.setPatternValue(e, index)}
+                  onChange={(e) => this.setPatternValue(e, index)}
                 />
 
                 <select
                   className="input-small gf-form-input"
                   value={icon.filename}
-                  onChange={e => this.setFileNameValue(e, index)}
+                  onChange={(e) => this.setFileNameValue(e, index)}
                 >
-                  {iconNames.map((iconNames: string) => (
-                    <option value={iconNames}>{iconNames}</option>
+                  {iconNames.map((iconName: string, index: number) => (
+                    <option key={iconName + '-' + index} value={iconName}>
+                      {iconName}
+                    </option>
                   ))}
                 </select>
 

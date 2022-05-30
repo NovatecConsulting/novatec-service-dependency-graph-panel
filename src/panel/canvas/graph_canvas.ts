@@ -256,8 +256,8 @@ export default class CanvasDrawer {
     const edges = this.cytoscape.edges().toArray();
     const hasSelection = this.selectionNeighborhood.size() > 0;
 
-    const transparentEdges = edges.filter(edge => hasSelection && !this.selectionNeighborhood.has(edge));
-    const opaqueEdges = edges.filter(edge => !hasSelection || this.selectionNeighborhood.has(edge));
+    const transparentEdges = edges.filter((edge) => hasSelection && !this.selectionNeighborhood.has(edge));
+    const opaqueEdges = edges.filter((edge) => !hasSelection || this.selectionNeighborhood.has(edge));
 
     ctx.globalAlpha = 0.25;
     this._drawEdges(ctx, transparentEdges, now);

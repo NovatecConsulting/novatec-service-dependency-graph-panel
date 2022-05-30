@@ -23,7 +23,7 @@ function sort(a: string, b: string, order: string, ignoreLiteral: string) {
 }
 
 export const SortableTable: React.FC<SortableTableProps> = ({ tableHeaders, data }) => {
-  tableHeaders.forEach(function(value, i) {
+  tableHeaders.forEach(function (value, i) {
     value.classes = 'table--td--selection';
     if (i !== 0) {
       value.sortFunc = (a: string, b: string, order: string, _dataField: any, _rowA: any) => {

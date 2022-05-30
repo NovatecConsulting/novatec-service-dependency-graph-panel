@@ -1,5 +1,4 @@
-import React, { LegacyRef } from 'react';
-import { PureComponent } from 'react';
+import React, { LegacyRef, PureComponent } from 'react';
 import {
   AbsoluteTimeRange,
   DataFrame,
@@ -111,7 +110,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
   hasOnlyTableQueries(inputData: DataFrame[]) {
     var result = true;
 
-    _.each(inputData, dataElement => {
+    _.each(inputData, (dataElement) => {
       if (!_.has(dataElement, 'columns')) {
         result = false;
       }
@@ -131,7 +130,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
   }
 
   _transformEdges(edges: IntGraphEdge[]): CyData[] {
-    const cyEdges = _.map(edges, edge => {
+    const cyEdges = _.map(edges, (edge) => {
       const cyEdge = {
         group: 'edges',
         data: {
@@ -150,7 +149,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
   }
 
   _transformNodes(nodes: IntGraphNode[]): CyData[] {
-    const cyNodes = _.map(nodes, node => {
+    const cyNodes = _.map(nodes, (node) => {
       const result: CyData = {
         group: 'nodes',
         data: {
@@ -177,7 +176,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
 
       if (cyNode) {
         element.data(cyNode.data);
-        _.remove(inputArray, n => n.data.id === cyNode.data.id);
+        _.remove(inputArray, (n) => n.data.id === cyNode.data.id);
         elements.push(element);
       } else {
         element.remove();

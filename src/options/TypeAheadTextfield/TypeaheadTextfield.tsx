@@ -1,16 +1,14 @@
 import React from 'react';
-import Autosuggest from 'react-autosuggest';
+import Autosuggest, { InputProps } from 'react-autosuggest';
 import { StandardEditorContext, StandardEditorProps } from '@grafana/data';
 import './TypeaheadTextfield.css';
 import { PanelSettings } from '../../types';
-
 interface Props extends StandardEditorProps<string, PanelSettings> {
   item: any;
   value: string;
   onChange: (value?: string) => void;
   context: StandardEditorContext<any>;
 }
-
 interface State {
   item: any;
   value: string;
@@ -18,11 +16,9 @@ interface State {
   context: StandardEditorContext<any>;
   suggestions: string[];
 }
-
 export class TypeaheadTextField extends React.PureComponent<Props, State> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
-
     var { value } = props;
     if (value === undefined) {
       value = props.item.defaultValue;
@@ -33,11 +29,9 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
       suggestions: [],
     };
   }
-
   renderSuggestion(suggestion: string) {
     return <div>{suggestion}</div>;
   }
-
   getColumnNames() {
     var { data } = this.props.context;
     var series;
@@ -56,17 +50,15 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     }
     return columnNames;
   }
-
-  onChange = (event: React.FormEvent<HTMLInputElement>, { newValue }: { newValue: string }) => {
+  onChange = (event: React.FormEvent<HTMLElement>, { newValue }: { newValue: string }) => {
     //TODO make this type nicer!
     const { path } = this.props.item;
-    const { value } = event.currentTarget;
+    const { value } = event.currentTarget as HTMLInputElement;
     this.setState({
       value: value,
     });
     this.props.onChange.call(path, newValue);
   };
-
   getSuggestions = (value: string) => {
     var inputValue = '';
     if (value !== undefined) {
@@ -75,44 +67,36 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     if (value !== undefined && value !== null && value !== '') {
       inputValue = value.trim().toLowerCase();
     }
-
     const inputLength = inputValue.length;
     if (inputLength === 0 || inputValue === undefined) {
       return [];
     }
-    return this.getColumnNames().filter(columnName => columnName.toLowerCase().startsWith(inputValue));
+    return this.getColumnNames().filter((columnName) => columnName.toLowerCase().startsWith(inputValue));
   };
-
   onSuggestionsFetchRequested = (value: any) => {
     this.setState({
       suggestions: this.getSuggestions(value),
     });
   };
-
   getSuggestionValue = (suggestion: string) => {
     return suggestion;
   };
-
   onSuggestionsClearRequested = () => {
     this.setState({
       suggestions: [],
     });
   };
-
   render() {
     var { value } = this.props;
     if (value === undefined) {
       value = this.props.item.defaultValue;
     }
-
     const suggestions = this.getSuggestions(value);
-
-    const inputProps = {
+    const inputProps: InputProps<string> = {
       placeholder: 'Enter column name...',
       value,
       onChange: this.onChange,
     };
-
     return (
       <Autosuggest
         suggestions={suggestions}

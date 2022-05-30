@@ -19,13 +19,13 @@ class PreProcessor {
       extTarget: externalTarget,
     } = this.controller.getSettings(true).dataMapping;
 
-    const result = _.map(data, dataObject => {
+    const result = _.map(data, (dataObject) => {
       var source = _.has(dataObject, sourceColumn) && dataObject[sourceColumn] !== '';
       var target = _.has(dataObject, targetColumn) && dataObject[targetColumn] !== '';
       const extSource = _.has(dataObject, externalSource) && dataObject[externalSource] !== '';
       const extTarget = _.has(dataObject, externalTarget) && dataObject[externalTarget] !== '';
 
-      let trueCount = [source, target, extSource, extTarget].filter(e => e).length;
+      let trueCount = [source, target, extSource, extTarget].filter((e) => e).length;
 
       if (trueCount > 1) {
         if (target && extTarget) {
@@ -80,9 +80,9 @@ class PreProcessor {
   }
 
   _mergeGraphData(data: GraphDataElement[]): GraphDataElement[] {
-    const groupedData = _.values(_.groupBy(data, element => element.source + '<--->' + element.target));
+    const groupedData = _.values(_.groupBy(data, (element) => element.source + '<--->' + element.target));
 
-    const mergedData = _.map(groupedData, group => {
+    const mergedData = _.map(groupedData, (group) => {
       return _.reduce(group, (result, next) => {
         return _.merge(result, next);
       });
@@ -105,7 +105,7 @@ class PreProcessor {
 
   _extractColumnNames(data: GraphDataElement[]): string[] {
     const columnNames: string[] = _(data)
-      .flatMap(dataElement => _.keys(dataElement.data))
+      .flatMap((dataElement) => _.keys(dataElement.data))
       .uniq()
       .sort()
       .value();
@@ -196,7 +196,7 @@ class PreProcessor {
         row['type'] = typeField?.values.get(i);
         // The above code returns { "": undefined } for values that do not exist.
         // These values are filtered by this line.
-        Object.keys(row).forEach(key => (row[key] === undefined || row[key] === '') && delete row[key]);
+        Object.keys(row).forEach((key) => (row[key] === undefined || row[key] === '') && delete row[key]);
         rows.push(row);
       }
     }
@@ -208,7 +208,7 @@ class PreProcessor {
     let target = _.has(row, 'targetColumn') && row['targetColumn'] !== '';
     const extSource = _.has(row, 'extOrigin') && row['extOrigin'] !== '';
     const extTarget = _.has(row, 'extTarget') && row['extTarget'] !== '';
-    let trueCount = [source, target, extSource, extTarget].filter(e => e).length;
+    let trueCount = [source, target, extSource, extTarget].filter((e) => e).length;
 
     if (trueCount > 1) {
       if (target && extTarget) {

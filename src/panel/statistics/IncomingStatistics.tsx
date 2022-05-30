@@ -3,7 +3,7 @@ import { TableContent } from 'types';
 
 export const NodeStatistics = (receiving: TableContent[]) => {
   return (
-    <div>
+    <>
       <div className="secondHeader--selection">Incoming Statistics</div>
       {() => {
         if (receiving.length > 0) {
@@ -15,8 +15,8 @@ export const NodeStatistics = (receiving: TableContent[]) => {
                 <th className="table--th--selectionSmall">Requests</th>
                 <th className="table--th--selectionSmall">Error Rate</th>
               </tr>
-              {receiving.map((node: TableContent) => (
-                <tr>
+              {receiving.map((node: TableContent, index: number) => (
+                <tr key={'row-' + index}>
                   <td className="table--td--selection" title="{{node.name}}">
                     {node.name}
                   </td>
@@ -30,6 +30,6 @@ export const NodeStatistics = (receiving: TableContent[]) => {
         }
         return <div className="no-data--selection">No incoming statistics available.</div>;
       }}
-    </div>
+    </>
   );
 };

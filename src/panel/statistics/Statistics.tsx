@@ -33,7 +33,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
     var drilldownLink = <div></div>;
     if (resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL') {
       drilldownLink = (
-        <a target="_blank" href={resolvedDrillDownLink}>
+        <a target="_blank" rel="noreferrer" href={resolvedDrillDownLink}>
           <i className="fa fa-paper-plane-o margin"></i>
         </a>
       );
