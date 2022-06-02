@@ -38,6 +38,24 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       })
 
       .addCustomEditor({
+        path: 'dataMapping.namespaceColumn',
+        id: 'namespaceColumn',
+        name: 'Namespace Column',
+        category: ['Connection Mapping'],
+        editor: TypeaheadTextField,
+        defaultValue: DefaultSettings.dataMapping.namespaceColumn,
+      })
+
+      .addCustomEditor({
+        path: 'dataMapping.nameSpaceDelimiter',
+        id: 'nameSpaceDelimiter',
+        name: 'Namespace Delimiter',
+        category: ['Connection Mapping'],
+        editor: TypeaheadTextField,
+        defaultValue: DefaultSettings.dataMapping.namespaceDelimiter,
+      })
+
+      .addCustomEditor({
         path: 'dataMapping.type',
         id: 'type',
         name: 'Type',

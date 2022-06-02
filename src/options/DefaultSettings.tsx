@@ -7,6 +7,8 @@ export const DefaultSettings: PanelSettings = {
     aggregationType: 'service',
     sourceColumn: 'origin_service',
     targetColumn: 'target_service',
+    namespaceColumn: 'namespace',
+    namespaceDelimiter: '.',
 
     responseTimeColumn: 'response-time',
     requestRateColumn: 'request-rate',
