@@ -468,7 +468,13 @@ export default class CanvasDrawer {
       }
 
       // draw the node
-      that._drawNode(ctx, node);
+      if(node.data().type == "PARENT") {
+        if(node.data().layer >= this.controller.state.controller.state.currentLayer || node.data().layer == undefined) {
+          that._drawNode(ctx, node);
+        }
+      } else {
+        that._drawNode(ctx, node);
+      }
 
       // drawing the node label in case we are not zoomed out
       if (cy.zoom() > 1) {
@@ -672,7 +678,16 @@ export default class CanvasDrawer {
 
     const labelWidth = ctx.measureText(label).width;
     const xPos = pos.x - labelWidth / 2;
-    const yPos = pos.y + node.height() * 0.8;
+    var yPos = pos.y + node.height() * 0.8;
+
+    if(node.data().type == "PARENT") {
+      if(node.data().layer >= this.controller.state.controller.state.currentLayer || node.data().layer == undefined) {
+        
+      } else {
+        yPos = pos.y + node.height() * 0.5 + 30;
+      }
+    }
+
 
     const { showBaselines } = this.controller.getSettings(true);
     const metrics: IntGraphMetrics = node.data('metrics');

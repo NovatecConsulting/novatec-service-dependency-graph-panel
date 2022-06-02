@@ -29,6 +29,10 @@ interface PanelState {
   showStatistics: boolean;
   data: IntGraph;
   settings: PanelSettings;
+  layer: number | undefined;
+  maxLayer: number;
+  layerIncreaseFunction: any;
+  layerDecreaseFunction: any;
 }
 
 cyCanvas(cytoscape);
@@ -77,19 +81,34 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       container: this.ref,
       zoom: this.state.zoom,
       elements: this.props.data,
+      layout: {
+        name: 'cola'
+      },
       style: [
         {
           selector: 'node',
-          style: {
-            'background-opacity': 0,
-          },
+          css: {
+            'background-color': '#fbfbfb',
+            'background-opacity': 0
+          }
         },
+
+        {
+          selector: 'node:parent',
+          css: {
+            'background-opacity': 0.05,
+            'shape': 'barrel'
+          }
+        },
+
         {
           selector: 'edge',
-          style: {
-            visibility: 'hidden',
-          },
-        },
+          "style": {
+            "curve-style": "bezier",
+            "control-point-step-size": 100,
+            'visibility': 'hidden'
+          }
+        }
       ],
       wheelSensitivity: 0.125,
     });
@@ -158,6 +177,8 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
           id: node.data.id,
           type: node.data.type,
           external_type: node.data.external_type,
+          parent: node.data.parent,
+          layer: node.data.layer,
           metrics: {
             ...node.data.metrics,
           },
@@ -395,12 +416,13 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
             <button className="btn navbar-button width-100" onClick={() => this.fit()}>
               <i className="fa fa-dot-circle-o"></i>
             </button>
-            <button className="btn navbar-button width-100" onClick={() => this.zoom(+1)}>
+            <button className="btn navbar-button width-100" onClick={() => this.props.layerIncreaseFunction()}>
               <i className="fa fa-plus"></i>
             </button>
-            <button className="btn navbar-button width-100" onClick={() => this.zoom(-1)}>
+            <button className="btn navbar-button width-100" onClick={() => this.props.layerDecreaseFunction()}>
               <i className="fa fa-minus"></i>
             </button>
+            <span>Layer {this.state.controller.state.currentLayer}/{this.state.maxLayer}</span>
           </div>
         </div>
         <Statistics

@@ -34,6 +34,7 @@ interface PanelState {
   title: string;
   transparent: boolean;
   options: PanelSettings;
+  currentLayer: number;
 }
 
 export class PanelController extends PureComponent<Props, PanelState> {
@@ -49,9 +50,14 @@ export class PanelController extends PureComponent<Props, PanelState> {
 
   currentData: CurrentData;
 
+  maxLayer: number = 0;
+
   constructor(props: Props) {
     super(props);
-    this.state = { ...props };
+    this.state = { 
+      currentLayer: 0,
+      ...props 
+    };
     this.ref = React.createRef();
     this.graphGenerator = new GraphGenerator(this);
     this.preProcessor = new PreProcessor(this);
@@ -156,6 +162,9 @@ export class PanelController extends PureComponent<Props, PanelState> {
           id: node.data.id,
           type: node.data.type,
           external_type: node.data.external_type,
+          namespace: node.data.namespace,
+          layer: node.data.layer,
+          parent: node.data.parent,
           metrics: {
             ...node.data.metrics,
           },
@@ -198,7 +207,21 @@ export class PanelController extends PureComponent<Props, PanelState> {
     return dataExist;
   }
 
+  layer(layerIncrease: number) {
+    const that = this;
+    const currentLayer =  that.state ?  that.state.currentLayer : 0;
+    var layer = Math.max(0, currentLayer + layerIncrease);
+    if(layerIncrease > 0) {
+      layer = Math.min(that.maxLayer, currentLayer + layerIncrease);
+    }
+    that.setState({
+      currentLayer: layer
+    });
+  }
+
+
   render() {
+
     const data = this.processData();
     const error = this.getError();
     if (error === null) {
@@ -213,11 +236,15 @@ export class PanelController extends PureComponent<Props, PanelState> {
             <ServiceDependencyGraph
               data={data}
               zoom={1}
+              maxLayer={this.maxLayer}
               controller={this}
               animate={false}
               showStatistics={false}
               settings={this.props.options}
-            />
+              layerIncreaseFunction={() => this.layer(+1)}
+              layerDecreaseFunction={() => this.layer(-1)} 
+              layer={0}            
+              />
           </div>
         </div>
       );
