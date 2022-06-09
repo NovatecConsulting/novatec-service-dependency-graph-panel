@@ -220,3 +220,14 @@ export interface DrawContext {
   yMaxLimit: number;
   sourcePoint: cytoscape.Position;
 }
+
+export interface Rectangle {
+  coordinates: Point;
+  height: number;
+  width: number;
+}
+
+export interface Point {
+  x: number;
+  y: number;
+}

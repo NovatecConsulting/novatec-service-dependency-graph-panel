@@ -2,9 +2,20 @@ import _ from 'lodash';
 import cytoscape from 'cytoscape';
 import { ServiceDependencyGraph } from '../serviceDependencyGraph/ServiceDependencyGraph';
 import ParticleEngine from './particle_engine';
-import { CyCanvas, Particle, EnGraphNodeType, Particles, IntGraphMetrics, ScaleValue, DrawContext } from '../../types';
+import {
+  CyCanvas,
+  Particle,
+  EnGraphNodeType,
+  Particles,
+  IntGraphMetrics,
+  ScaleValue,
+  DrawContext,
+  Rectangle,
+  Point,
+} from '../../types';
 import humanFormat from 'human-format';
 import assetUtils from '../asset_utils';
+import CollisionDetector from './collision_detector';
 
 const scaleValues: ScaleValue[] = [
   { unit: 'ms', factor: 1 },
@@ -52,6 +63,8 @@ export default class CanvasDrawer {
 
   particleEngine: ParticleEngine;
 
+  collisionDetector: CollisionDetector;
+
   lastRenderTime = 0;
 
   dashAnimationOffset = 0;
@@ -61,6 +74,7 @@ export default class CanvasDrawer {
     this.cyCanvas = cyCanvas;
     this.controller = ctrl;
     this.particleEngine = new ParticleEngine(this);
+    this.collisionDetector = new CollisionDetector();
 
     this.pixelRatio = window.devicePixelRatio || 1;
 
@@ -199,6 +213,7 @@ export default class CanvasDrawer {
     const cyCanvas = this.cyCanvas;
     const offscreenCanvas = this.offscreenCanvas;
     const offscreenContext = this.offscreenContext;
+    this.collisionDetector.reset();
 
     offscreenCanvas.width = this.canvas.width;
     offscreenCanvas.height = this.canvas.height;
@@ -343,16 +358,16 @@ export default class CanvasDrawer {
     }
     if (requestCount >= 0) {
       const decimals = requestCount >= 1000 ? 1 : 0;
-      statistics.push(humanFormat(parseFloat(requestCount.toString()), { decimals }) + ' Requests');
+      statistics.push(humanFormat(parseFloat(requestCount.toString()), { decimals }) + ' Req.');
     }
     if (errorCount >= 0) {
       const decimals = errorCount >= 1000 ? 1 : 0;
-      statistics.push(humanFormat(errorCount, { decimals }) + ' Errors');
+      statistics.push(humanFormat(errorCount, { decimals }) + ' Err.');
     }
 
     if (statistics.length > 0) {
       const edgeLabel = statistics.join(', ');
-      this._drawLabel(ctx, edgeLabel, xMid, yMid);
+      this._drawLabel(ctx, edgeLabel, xMid, yMid, edge);
     }
   }
 
@@ -419,19 +434,51 @@ export default class CanvasDrawer {
     ctx.fill();
   }
 
-  _drawLabel(ctx: CanvasRenderingContext2D, label: string, cX: number, cY: number) {
+  _drawLabel(ctx: CanvasRenderingContext2D, label: string, cX: number, cY: number, edge: cytoscape.EdgeSingular) {
     const labelPadding = 1;
     ctx.font = '6px Arial';
 
     const labelWidth = ctx.measureText(label).width;
-    const xPos = cX - labelWidth / 2;
-    const yPos = cY + 3;
+    var xPos = cX - labelWidth / 2;
+    var yPos = cY + 3;
+    var labelArea: Rectangle = {
+      coordinates: {
+        x: xPos - labelPadding + 4,
+        y: yPos - 6 - labelPadding + 4,
+      },
+      width: labelWidth,
+      height: 6,
+    };
+
+    if (!isNaN(labelArea.coordinates.x) || !isNaN(labelArea.coordinates.y) || !isNaN(xPos) || !isNaN(yPos)) {
+      const maxRepeats = 5;
+      var repeats = 0;
+      while (this.collisionDetector.isColliding(labelArea) && repeats < maxRepeats) {
+        const nextPoint = this._getNextPointOnVector(xPos, yPos, edge, 0.9);
+        labelArea.coordinates = nextPoint;
+        yPos = nextPoint.y;
+        xPos = nextPoint.x;
+        repeats++;
+      }
+      this.collisionDetector.addRectangle(xPos - 4, yPos - 4, labelWidth + 12, 12);
+    }
 
     ctx.fillStyle = this.colors.default;
     ctx.fillRect(xPos - labelPadding, yPos - 6 - labelPadding, labelWidth + 2 * labelPadding, 6 + 2 * labelPadding);
-
     ctx.fillStyle = this.colors.background;
     ctx.fillText(label, xPos, yPos);
+  }
+
+  _getNextPointOnVector(x: number, y: number, edge: cytoscape.EdgeSingular, step: number) {
+    var yTarget = edge.sourceEndpoint().y;
+    var xTarget = edge.sourceEndpoint().x;
+
+    const newPoint: Point = {
+      x: xTarget * (1.0 - step) + x * step,
+      y: yTarget * (1.0 - step) + y * step,
+    };
+
+    return newPoint;
   }
 
   _drawParticle(drawCtx: DrawContext, particles: Particle[], index: number) {
@@ -468,8 +515,11 @@ export default class CanvasDrawer {
       }
 
       // draw the node
-      if(node.data().type == "PARENT") {
-        if(node.data().layer >= this.controller.state.controller.state.currentLayer || node.data().layer == undefined) {
+      if (node.data().type === 'PARENT') {
+        if (
+          node.data().layer >= this.controller.state.controller.state.currentLayer ||
+          node.data().layer === undefined
+        ) {
           that._drawNode(ctx, node);
         }
       } else {
@@ -680,14 +730,12 @@ export default class CanvasDrawer {
     const xPos = pos.x - labelWidth / 2;
     var yPos = pos.y + node.height() * 0.8;
 
-    if(node.data().type == "PARENT") {
-      if(node.data().layer >= this.controller.state.controller.state.currentLayer || node.data().layer == undefined) {
-        
+    if (node.data().type === 'PARENT') {
+      if (node.data().layer >= this.controller.state.controller.state.currentLayer || node.data().layer === undefined) {
       } else {
         yPos = pos.y + node.height() * 0.5 + 30;
       }
     }
-
 
     const { showBaselines } = this.controller.getSettings(true);
     const metrics: IntGraphMetrics = node.data('metrics');

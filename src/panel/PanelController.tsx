@@ -50,13 +50,13 @@ export class PanelController extends PureComponent<Props, PanelState> {
 
   currentData: CurrentData;
 
-  maxLayer: number = 0;
+  maxLayer = 0;
 
   constructor(props: Props) {
     super(props);
-    this.state = { 
+    this.state = {
       currentLayer: 0,
-      ...props 
+      ...props,
     };
     this.ref = React.createRef();
     this.graphGenerator = new GraphGenerator(this);
@@ -209,19 +209,17 @@ export class PanelController extends PureComponent<Props, PanelState> {
 
   layer(layerIncrease: number) {
     const that = this;
-    const currentLayer =  that.state ?  that.state.currentLayer : 0;
+    const currentLayer = that.state ? that.state.currentLayer : 0;
     var layer = Math.max(0, currentLayer + layerIncrease);
-    if(layerIncrease > 0) {
+    if (layerIncrease > 0) {
       layer = Math.min(that.maxLayer, currentLayer + layerIncrease);
     }
     that.setState({
-      currentLayer: layer
+      currentLayer: layer,
     });
   }
 
-
   render() {
-
     const data = this.processData();
     const error = this.getError();
     if (error === null) {
@@ -242,9 +240,9 @@ export class PanelController extends PureComponent<Props, PanelState> {
               showStatistics={false}
               settings={this.props.options}
               layerIncreaseFunction={() => this.layer(+1)}
-              layerDecreaseFunction={() => this.layer(-1)} 
-              layer={0}            
-              />
+              layerDecreaseFunction={() => this.layer(-1)}
+              layer={0}
+            />
           </div>
         </div>
       );

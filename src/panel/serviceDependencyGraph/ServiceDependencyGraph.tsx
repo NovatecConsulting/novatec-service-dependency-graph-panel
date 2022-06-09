@@ -82,33 +82,33 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       zoom: this.state.zoom,
       elements: this.props.data,
       layout: {
-        name: 'cola'
+        name: 'cola',
       },
       style: [
         {
           selector: 'node',
           css: {
             'background-color': '#fbfbfb',
-            'background-opacity': 0
-          }
+            'background-opacity': 0,
+          },
         },
 
         {
           selector: 'node:parent',
           css: {
             'background-opacity': 0.05,
-            'shape': 'barrel'
-          }
+            shape: 'barrel',
+          },
         },
 
         {
           selector: 'edge',
-          "style": {
-            "curve-style": "bezier",
-            "control-point-step-size": 100,
-            'visibility': 'hidden'
-          }
-        }
+          style: {
+            'curve-style': 'bezier',
+            'control-point-step-size': 100,
+            visibility: 'hidden',
+          },
+        },
       ],
       wheelSensitivity: 0.125,
     });
@@ -422,7 +422,9 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
             <button className="btn navbar-button width-100" onClick={() => this.props.layerDecreaseFunction()}>
               <i className="fa fa-minus"></i>
             </button>
-            <span>Layer {this.state.controller.state.currentLayer}/{this.state.maxLayer}</span>
+            <span>
+              Layer {this.state.controller.state.currentLayer}/{this.state.maxLayer}
+            </span>
           </div>
         </div>
         <Statistics

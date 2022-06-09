@@ -45,14 +45,13 @@ class PreProcessor {
         type: GraphDataType.INTERNAL,
       };
 
-      if(_.has(dataObject, "namespace")) {
-        const nameSpace = _.get(dataObject, "namespace")
-        if(nameSpace){
-          const namespaceResolved = nameSpace.split(namespaceDelimiter)
-          result.namespace = namespaceResolved
+      if (_.has(dataObject, 'namespace')) {
+        const nameSpace = _.get(dataObject, 'namespace');
+        if (nameSpace) {
+          const namespaceResolved = nameSpace.split(namespaceDelimiter);
+          result.namespace = namespaceResolved;
         }
       }
-
 
       if (trueCount === 0) {
         result.target = dataObject[aggregationType];

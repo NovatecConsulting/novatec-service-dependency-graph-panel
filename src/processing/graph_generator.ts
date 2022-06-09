@@ -12,7 +12,6 @@ import {
 } from '../types';
 import NodeTree from './node_tree';
 import NodeSubstitutor from './node_substitutor';
-import { stringFormater } from '@grafana/data';
 
 class GraphGenerator {
   controller: PanelController;
@@ -21,7 +20,6 @@ class GraphGenerator {
   constructor(controller: PanelController) {
     this.controller = controller;
     this.nodeSubstitutor = new NodeSubstitutor();
-
   }
 
   _createNode(dataElements: GraphDataElement[], nodeTree: NodeTree): IntGraphNode | undefined {
@@ -40,7 +38,7 @@ class GraphGenerator {
       _.some(dataElements, ['type', GraphDataType.INTERNAL]) ||
       _.some(dataElements, ['type', GraphDataType.EXTERNAL_IN]);
     const nodeType = internalNode ? EnGraphNodeType.INTERNAL : EnGraphNodeType.EXTERNAL;
-    
+
     const metrics: IntGraphMetrics = {};
 
     const node: IntGraphNode = {
@@ -56,16 +54,14 @@ class GraphGenerator {
     };
 
     //get first element where namespace is defined.
-    const namespaceElement = dataElements.find(el => el.namespace !== undefined)
-    if(namespaceElement) {
+    const namespaceElement = dataElements.find((el) => el.namespace !== undefined);
+    if (namespaceElement) {
       const namespace = namespaceElement.namespace;
-      node.data.namespace = namespace
+      node.data.namespace = namespace;
       node.data.layer = namespace.length;
       node.data.parent = namespace[namespace.length - 1];
       this._updateMaxLayer(node.data.layer);
     }
-
-    
 
     const aggregationFunction = sumMetrics ? _.sum : _.mean;
 
@@ -175,14 +171,17 @@ class GraphGenerator {
 
     // ensure that all nodes exist, even we have no data for them
     const missingNodes = this._createMissingNodes(filteredData, explicitlyNamedNodes);
-    missingNodes.forEach(node => tree.addNode(node))
+    missingNodes.forEach((node) => tree.addNode(node));
     const allNodes = tree.getNodesFromLayer(this.controller.state.currentLayer);
     return allNodes;
   }
 
   _resolveSubstitute(name: string): string {
-    
-    return this.nodeSubstitutor.substituteUntilLayer(name, this.controller.state.currentLayer, this.controller.maxLayer);
+    return this.nodeSubstitutor.substituteUntilLayer(
+      name,
+      this.controller.state.currentLayer,
+      this.controller.maxLayer
+    );
   }
 
   _createEdge(dataElement: GraphDataElement): IntGraphEdge | undefined {
@@ -194,10 +193,10 @@ class GraphGenerator {
 
     const metrics: IntGraphMetrics = {};
 
-    source = this._resolveSubstitute(source)
-    target = this._resolveSubstitute(target)
+    source = this._resolveSubstitute(source);
+    target = this._resolveSubstitute(target);
 
-    if(source === target) {
+    if (source === target) {
       return undefined;
     }
 
@@ -235,13 +234,13 @@ class GraphGenerator {
 
   _resolveEdgeMap(edges: IntGraphEdge[]) {
     var edgeMap: Map<string, IntGraphEdge[]> = new Map();
-    edges.forEach(edge => {
-      if(edgeMap.get(edge.source + "-" + edge.target)) {
-        edgeMap.get(edge.source + "-" + edge.target).push(edge);
+    edges.forEach((edge) => {
+      if (edgeMap.get(edge.source + '-' + edge.target)) {
+        edgeMap.get(edge.source + '-' + edge.target).push(edge);
       } else {
-        edgeMap.set(edge.source + "-" + edge.target, [edge]);
+        edgeMap.set(edge.source + '-' + edge.target, [edge]);
       }
-    })
+    });
     return edgeMap;
   }
 
@@ -253,80 +252,85 @@ class GraphGenerator {
     var thresholdCounter = 0;
 
     const mergedEdge: IntGraphEdge = {
-      target: "",
-      source: "",
+      target: '',
+      source: '',
       data: {
-        source: "",
-        target: "",
-        metrics: {
-          
-        }
+        source: '',
+        target: '',
+        metrics: {},
       },
     };
-    console.log(edges)
-    edges.forEach(edge => {
-      if(mergedEdge.source ==  ""){
-        mergedEdge.source = edge.source
-        mergedEdge.data.source = edge.data.source
+    edges.forEach((edge) => {
+      if (mergedEdge.source === '') {
+        mergedEdge.source = edge.source;
+        mergedEdge.data.source = edge.data.source;
       }
-      if(mergedEdge.target ==  ""){
-        mergedEdge.target = edge.target
-        mergedEdge.data.target = edge.data.target
+      if (mergedEdge.target === '') {
+        mergedEdge.target = edge.target;
+        mergedEdge.data.target = edge.data.target;
       }
-      console.log(edge.data.metrics.error_rate)
-      if(edge.data.metrics.error_rate) {
-        mergedEdge.data.metrics.error_rate ? mergedEdge.data.metrics.error_rate + edge.data.metrics.error_rate : mergedEdge.data.metrics.error_rate = edge.data.metrics.error_rate;
-        errorRateCounter ++;
+      if (edge.data.metrics.error_rate) {
+        mergedEdge.data.metrics.error_rate = mergedEdge.data.metrics.error_rate
+          ? mergedEdge.data.metrics.error_rate + edge.data.metrics.error_rate
+          : (mergedEdge.data.metrics.error_rate = edge.data.metrics.error_rate);
+        errorRateCounter++;
       }
-      if(edge.data.metrics.rate) {
-        mergedEdge.data.metrics.rate ? mergedEdge.data.metrics.rate + edge.data.metrics.rate : mergedEdge.data.metrics.rate = edge.data.metrics.rate;
-        rateCounter ++;
+      if (edge.data.metrics.rate) {
+        mergedEdge.data.metrics.rate = mergedEdge.data.metrics.rate
+          ? mergedEdge.data.metrics.rate + edge.data.metrics.rate
+          : (mergedEdge.data.metrics.rate = edge.data.metrics.rate);
+        rateCounter++;
       }
-      if(edge.data.metrics.response_time) {
-        mergedEdge.data.metrics.response_time ? mergedEdge.data.metrics.response_time + edge.data.metrics.response_time : mergedEdge.data.metrics.response_time = edge.data.metrics.response_time;
-        responseTimeCounter ++;
+      if (edge.data.metrics.response_time) {
+        mergedEdge.data.metrics.response_time = mergedEdge.data.metrics.response_time
+          ? mergedEdge.data.metrics.response_time + edge.data.metrics.response_time
+          : (mergedEdge.data.metrics.response_time = edge.data.metrics.response_time);
+        responseTimeCounter++;
       }
-      if(edge.data.metrics.success_rate) {
-        mergedEdge.data.metrics.success_rate ? mergedEdge.data.metrics.success_rate + edge.data.metrics.success_rate : mergedEdge.data.metrics.success_rate = edge.data.metrics.success_rate;
-        successRateCounter ++;
+      if (edge.data.metrics.success_rate) {
+        mergedEdge.data.metrics.success_rate = mergedEdge.data.metrics.success_rate
+          ? mergedEdge.data.metrics.success_rate + edge.data.metrics.success_rate
+          : (mergedEdge.data.metrics.success_rate = edge.data.metrics.success_rate);
+        successRateCounter++;
       }
-      if(edge.data.metrics.threshold) {
-        mergedEdge.data.metrics.threshold ? mergedEdge.data.metrics.threshold + edge.data.metrics.threshold : mergedEdge.data.metrics.threshold = edge.data.metrics.threshold;
-        thresholdCounter ++;
+      if (edge.data.metrics.threshold) {
+        mergedEdge.data.metrics.threshold = mergedEdge.data.metrics.threshold
+          ? mergedEdge.data.metrics.threshold + edge.data.metrics.threshold
+          : (mergedEdge.data.metrics.threshold = edge.data.metrics.threshold);
+        thresholdCounter++;
       }
-    })
+    });
 
-    if(mergedEdge.data.metrics.error_rate) {
+    if (mergedEdge.data.metrics.error_rate) {
       mergedEdge.data.metrics.error_rate = mergedEdge.data.metrics.error_rate / errorRateCounter;
     }
-    if(mergedEdge.data.metrics.rate) {
+    if (mergedEdge.data.metrics.rate) {
       mergedEdge.data.metrics.rate = mergedEdge.data.metrics.rate / rateCounter;
     }
-    if(mergedEdge.data.metrics.response_time) {
-      mergedEdge.data.metrics.response_time = mergedEdge.data.metrics.response_time / responseTimeCounter
+    if (mergedEdge.data.metrics.response_time) {
+      mergedEdge.data.metrics.response_time = mergedEdge.data.metrics.response_time / responseTimeCounter;
     }
-    if(mergedEdge.data.metrics.success_rate) {
-      mergedEdge.data.metrics.success_rate = mergedEdge.data.metrics.success_rate /  successRateCounter
+    if (mergedEdge.data.metrics.success_rate) {
+      mergedEdge.data.metrics.success_rate = mergedEdge.data.metrics.success_rate / successRateCounter;
     }
-    if(mergedEdge.data.metrics.threshold) {
+    if (mergedEdge.data.metrics.threshold) {
       mergedEdge.data.metrics.threshold = mergedEdge.data.metrics.threshold / thresholdCounter;
     }
-    
+
     return mergedEdge;
   }
 
   _edgeMapToMergedEdges(edgeMap: Map<string, IntGraphEdge[]>) {
     var edges: IntGraphEdge[] = [];
-    for (const entry of edgeMap.values()){
+    for (const entry of edgeMap.values()) {
       edges.push(this._mergeArrayOfEdges(entry));
     }
-    console.log(edges);
     return edges;
   }
 
-  _mergeEdges(edges: IntGraphEdge[]){
+  _mergeEdges(edges: IntGraphEdge[]) {
     const edgeMap = this._resolveEdgeMap(edges);
-    this._edgeMapToMergedEdges(edgeMap)
+    this._edgeMapToMergedEdges(edgeMap);
 
     return edges;
   }
@@ -397,7 +401,9 @@ class GraphGenerator {
   }
 
   _updateMaxLayer(layer: number) {
-    if(layer > this.controller.maxLayer) this.controller.maxLayer = layer;
+    if (layer > this.controller.maxLayer) {
+      this.controller.maxLayer = layer;
+    }
   }
 }
 
