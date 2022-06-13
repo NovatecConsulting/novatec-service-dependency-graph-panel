@@ -31,7 +31,8 @@ If you want to get a first impression of this panel without having your own data
 The dummy data is basically a snapshot of multiple query results in the table format. You'll find its source [here](https://github.com/NovatecConsulting/novatec-service-dependency-graph-panel/blob/master/src/dummy_data_frame.ts), in the panel's GitHub repository.
 
 Depending on the query result, the data provides the following tags:
-* **service**: The service (application) the data is realted to.
+* **service**: The service (application) the data is related to.
+* **namespace**: The namespace of a service. Every literal divided by "." corresponds to one level of a namespace. For instance **demo.infrastructure**.
 * **protocol**: The communication type (e.g. HTTP, JMS, ...).
 * **origin_service**: In case of an incoming communication, this is the origin service.
 * **target_service**: In case of an outgoing communication, this is the target service.
@@ -156,6 +157,17 @@ The curly brackets `{}` will be replaced with the selected node.
 
 `http://{}/my/awesome/path` will end up to `http://customers-service/my/awesome/path` when you select the `customers-service`.
 
+___
+
+### Layering
+
+From version 4.1.0, the Service Dependency Graph Panel supports layering service nodes by their respective namespace. 
+
+####  Setup
+To use this feature, add a tag containing the namespace of your service to your data. Then set the corresponding option `Namespace Column` in the panel's options to the name of this tag. If you have more than one namespace layer you want to be represented by the panel, you can separate multiple namespaces within your namespace tag by a certain character. This character must be set as the `Namespace Delimiter` in the panel's options. The default delimiter is `.`. Hence, if the content of a namespace column would be `my.awesome.namespace`, the graph would be built with `my` as layer 0, `awesome` as layer 1, and `namespace` as layer 2. Your respective service would then be on layer 3. 
+
+#### Usage
+You can control the layer of your panel by using the (+) and (-) buttons on the panel's top-right. (+) increases the layer currently displayed, (-) decreases the layer. 
 ___
 
 ## Create a Release
