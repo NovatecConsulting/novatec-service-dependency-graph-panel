@@ -10,15 +10,19 @@ import {
   EnGraphNodeType,
   GraphDataType,
 } from '../types';
+import NodeTree from './node_tree';
+import NodeSubstitutor from './node_substitutor';
 
 class GraphGenerator {
   controller: PanelController;
+  nodeSubstitutor: NodeSubstitutor;
 
   constructor(controller: PanelController) {
     this.controller = controller;
+    this.nodeSubstitutor = new NodeSubstitutor();
   }
 
-  _createNode(dataElements: GraphDataElement[]): IntGraphNode | undefined {
+  _createNode(dataElements: GraphDataElement[], nodeTree: NodeTree): IntGraphNode | undefined {
     if (!dataElements || dataElements.length <= 0) {
       return undefined;
     }
@@ -43,9 +47,21 @@ class GraphGenerator {
         label: nodeName,
         external_type: nodeType,
         type: nodeType,
+        layer: 0,
         metrics,
+        namespace: [],
       },
     };
+
+    //get first element where namespace is defined.
+    const namespaceElement = dataElements.find((el) => el.namespace !== undefined);
+    if (namespaceElement) {
+      const namespace = namespaceElement.namespace;
+      node.data.namespace = namespace;
+      node.data.layer = namespace.length;
+      node.data.parent = namespace[namespace.length - 1];
+      this._updateMaxLayer(node.data.layer);
+    }
 
     const aggregationFunction = sumMetrics ? _.sum : _.mean;
 
@@ -96,6 +112,9 @@ class GraphGenerator {
     } else {
       metrics.success_rate = 1.0;
     }
+
+    nodeTree.addNode(node);
+    this.nodeSubstitutor.add(node);
     return node;
   }
 
@@ -127,14 +146,17 @@ class GraphGenerator {
           type: nodeType,
           external_type: external_type,
           metrics: {},
+          layer: 0,
         },
       };
+      this.nodeSubstitutor.add(value);
       return value;
     });
     return missingNodes;
   }
 
   _createNodes(data: GraphDataElement[]): IntGraphNode[] {
+    var tree = new NodeTree();
     const filteredData = _.filter(
       data,
       (dataElement) =>
@@ -145,22 +167,38 @@ class GraphGenerator {
 
     const targetGroups = _.groupBy(filteredData, 'target');
 
-    const nodes = _.map(targetGroups, (group) => this._createNode(group)).filter(isPresent);
+    const explicitlyNamedNodes = _.map(targetGroups, (group) => this._createNode(group, tree)).filter(isPresent);
 
     // ensure that all nodes exist, even we have no data for them
-    const missingNodes = this._createMissingNodes(filteredData, nodes);
-    return _.concat(nodes, missingNodes);
+    const missingNodes = this._createMissingNodes(filteredData, explicitlyNamedNodes);
+    missingNodes.forEach((node) => tree.addNode(node));
+    const allNodes = tree.getNodesFromLayer(this.controller.state.currentLayer);
+    return allNodes;
+  }
+
+  _resolveSubstitute(name: string): string {
+    return this.nodeSubstitutor.substituteUntilLayer(
+      name,
+      this.controller.state.currentLayer,
+      this.controller.maxLayer
+    );
   }
 
   _createEdge(dataElement: GraphDataElement): IntGraphEdge | undefined {
-    const { source, target } = dataElement;
-
+    var { source, target } = dataElement;
     if (source === undefined || target === undefined) {
       console.error('source and target are necessary to create an edge', dataElement);
       return undefined;
     }
 
     const metrics: IntGraphMetrics = {};
+
+    source = this._resolveSubstitute(source);
+    target = this._resolveSubstitute(target);
+
+    if (source === target) {
+      return undefined;
+    }
 
     const edge: IntGraphEdge = {
       source: source,
@@ -194,6 +232,109 @@ class GraphGenerator {
     return edge;
   }
 
+  _resolveEdgeMap(edges: IntGraphEdge[]) {
+    var edgeMap: Map<string, IntGraphEdge[]> = new Map();
+    edges.forEach((edge) => {
+      if (edgeMap.get(edge.source + '-' + edge.target)) {
+        edgeMap.get(edge.source + '-' + edge.target).push(edge);
+      } else {
+        edgeMap.set(edge.source + '-' + edge.target, [edge]);
+      }
+    });
+    return edgeMap;
+  }
+
+  _mergeArrayOfEdges(edges: IntGraphEdge[]) {
+    var errorRateCounter = 0;
+    var rateCounter = 0;
+    var responseTimeCounter = 0;
+    var successRateCounter = 0;
+    var thresholdCounter = 0;
+
+    const mergedEdge: IntGraphEdge = {
+      target: '',
+      source: '',
+      data: {
+        source: '',
+        target: '',
+        metrics: {},
+      },
+    };
+    edges.forEach((edge) => {
+      if (mergedEdge.source === '') {
+        mergedEdge.source = edge.source;
+        mergedEdge.data.source = edge.data.source;
+      }
+      if (mergedEdge.target === '') {
+        mergedEdge.target = edge.target;
+        mergedEdge.data.target = edge.data.target;
+      }
+      if (edge.data.metrics.error_rate) {
+        mergedEdge.data.metrics.error_rate = mergedEdge.data.metrics.error_rate
+          ? mergedEdge.data.metrics.error_rate + edge.data.metrics.error_rate
+          : (mergedEdge.data.metrics.error_rate = edge.data.metrics.error_rate);
+        errorRateCounter++;
+      }
+      if (edge.data.metrics.rate) {
+        mergedEdge.data.metrics.rate = mergedEdge.data.metrics.rate
+          ? mergedEdge.data.metrics.rate + edge.data.metrics.rate
+          : (mergedEdge.data.metrics.rate = edge.data.metrics.rate);
+        rateCounter++;
+      }
+      if (edge.data.metrics.response_time) {
+        mergedEdge.data.metrics.response_time = mergedEdge.data.metrics.response_time
+          ? mergedEdge.data.metrics.response_time + edge.data.metrics.response_time
+          : (mergedEdge.data.metrics.response_time = edge.data.metrics.response_time);
+        responseTimeCounter++;
+      }
+      if (edge.data.metrics.success_rate) {
+        mergedEdge.data.metrics.success_rate = mergedEdge.data.metrics.success_rate
+          ? mergedEdge.data.metrics.success_rate + edge.data.metrics.success_rate
+          : (mergedEdge.data.metrics.success_rate = edge.data.metrics.success_rate);
+        successRateCounter++;
+      }
+      if (edge.data.metrics.threshold) {
+        mergedEdge.data.metrics.threshold = mergedEdge.data.metrics.threshold
+          ? mergedEdge.data.metrics.threshold + edge.data.metrics.threshold
+          : (mergedEdge.data.metrics.threshold = edge.data.metrics.threshold);
+        thresholdCounter++;
+      }
+    });
+
+    if (mergedEdge.data.metrics.error_rate) {
+      mergedEdge.data.metrics.error_rate = mergedEdge.data.metrics.error_rate / errorRateCounter;
+    }
+    if (mergedEdge.data.metrics.rate) {
+      mergedEdge.data.metrics.rate = mergedEdge.data.metrics.rate / rateCounter;
+    }
+    if (mergedEdge.data.metrics.response_time) {
+      mergedEdge.data.metrics.response_time = mergedEdge.data.metrics.response_time / responseTimeCounter;
+    }
+    if (mergedEdge.data.metrics.success_rate) {
+      mergedEdge.data.metrics.success_rate = mergedEdge.data.metrics.success_rate / successRateCounter;
+    }
+    if (mergedEdge.data.metrics.threshold) {
+      mergedEdge.data.metrics.threshold = mergedEdge.data.metrics.threshold / thresholdCounter;
+    }
+
+    return mergedEdge;
+  }
+
+  _edgeMapToMergedEdges(edgeMap: Map<string, IntGraphEdge[]>) {
+    var edges: IntGraphEdge[] = [];
+    for (const entry of edgeMap.values()) {
+      edges.push(this._mergeArrayOfEdges(entry));
+    }
+    return edges;
+  }
+
+  _mergeEdges(edges: IntGraphEdge[]) {
+    const edgeMap = this._resolveEdgeMap(edges);
+    this._edgeMapToMergedEdges(edgeMap);
+
+    return edges;
+  }
+
   _createEdges(data: GraphDataElement[]): IntGraphEdge[] {
     const filteredData = _(data)
       .filter((e) => !!e.source)
@@ -202,7 +343,8 @@ class GraphGenerator {
       .value();
 
     const edges = _.map(filteredData, (element) => this._createEdge(element));
-    return edges.filter(isPresent);
+    const filteredEdges = edges.filter(isPresent);
+    return this._mergeEdges(filteredEdges);
   }
 
   _filterData(graph: IntGraph): IntGraph {
@@ -256,6 +398,12 @@ class GraphGenerator {
 
     const filteredGraph = this._filterData(graph);
     return filteredGraph;
+  }
+
+  _updateMaxLayer(layer: number) {
+    if (layer > this.controller.maxLayer) {
+      this.controller.maxLayer = layer;
+    }
   }
 }
 

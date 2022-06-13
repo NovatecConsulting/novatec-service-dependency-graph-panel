@@ -19,6 +19,8 @@ export interface DataMapping {
   aggregationType: string;
   sourceColumn: string;
   targetColumn: string;
+  namespaceColumn: string;
+  namespaceDelimiter: string;
 
   responseTimeColumn: string;
   requestRateColumn: string;
@@ -60,6 +62,9 @@ export interface CyData {
     metrics: IntGraphMetrics;
     type?: string;
     external_type?: string;
+    layer?: number;
+    namespace?: string[];
+    parent?: string;
   };
 }
 
@@ -74,6 +79,7 @@ export interface GraphDataElement {
   target: string;
   data: DataElement;
   type: GraphDataType;
+  namespace?: string[];
 }
 
 export interface DataElement {
@@ -109,6 +115,9 @@ export interface IntGraphNodeData {
   metrics?: IntGraphMetrics;
   external_type?: string;
   label?: string;
+  layer: number;
+  namespace?: string[];
+  parent?: string;
 }
 
 export interface IntGraphMetrics {
@@ -122,6 +131,7 @@ export interface IntGraphMetrics {
 export enum EnGraphNodeType {
   INTERNAL = 'INTERNAL',
   EXTERNAL = 'EXTERNAL',
+  PARENT = 'PARENT',
 }
 
 export interface IntGraphEdge {
@@ -135,6 +145,12 @@ export interface IntGraphEdgeData {
   source: string;
   target: string;
   metrics?: IntGraphMetrics;
+}
+
+export interface NodeTreeElement {
+  id: string;
+  node?: IntGraphNode;
+  children: NodeTreeElement[];
 }
 
 export interface Particle {
@@ -203,4 +219,15 @@ export interface DrawContext {
   yMinLimit: number;
   yMaxLimit: number;
   sourcePoint: cytoscape.Position;
+}
+
+export interface Rectangle {
+  coordinates: Point;
+  height: number;
+  width: number;
+}
+
+export interface Point {
+  x: number;
+  y: number;
 }

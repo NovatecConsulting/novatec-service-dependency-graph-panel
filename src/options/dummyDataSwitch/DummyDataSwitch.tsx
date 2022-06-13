@@ -74,7 +74,7 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
 
     return (
       <div>
-        <Switch value={dataMapping.showDummyData} css={{}} onChange={() => this.onChange()} />
+        <Switch value={dataMapping.showDummyData} onChange={() => this.onChange()} />
       </div>
     );
   }

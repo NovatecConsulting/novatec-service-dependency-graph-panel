@@ -17,6 +17,7 @@ class PreProcessor {
       targetColumn,
       extOrigin: externalSource,
       extTarget: externalTarget,
+      namespaceDelimiter,
     } = this.controller.getSettings(true).dataMapping;
 
     const result = _.map(data, (dataObject) => {
@@ -43,6 +44,14 @@ class PreProcessor {
         data: dataObject,
         type: GraphDataType.INTERNAL,
       };
+
+      if (_.has(dataObject, 'namespace')) {
+        const nameSpace = _.get(dataObject, 'namespace');
+        if (nameSpace) {
+          const namespaceResolved = nameSpace.split(namespaceDelimiter);
+          result.namespace = namespaceResolved;
+        }
+      }
 
       if (trueCount === 0) {
         result.target = dataObject[aggregationType];
@@ -148,6 +157,7 @@ class PreProcessor {
       aggregationType,
       sourceColumn,
       targetColumn,
+      namespaceColumn,
       extOrigin,
       extTarget,
       type,
@@ -170,6 +180,7 @@ class PreProcessor {
 
       const sourceColumnField = _.find(fields, ['name', sourceColumn]);
       const targetColumnField = _.find(fields, ['name', targetColumn]);
+      const namespaceColumnField = _.find(fields, ['name', namespaceColumn]);
 
       const errorRateColumnField = _.find(fields, ['name', errorRateColumn]);
       const errorRateOutgoingColumnField = _.find(fields, ['name', errorRateOutgoingColumn]);
@@ -186,6 +197,7 @@ class PreProcessor {
         row[aggregationType] = aggregationSuffixField?.values.get(i);
         row[sourceColumn] = sourceColumnField?.values.get(i);
         row[targetColumn] = targetColumnField?.values.get(i);
+        row['namespace'] = namespaceColumnField?.values.get(i);
         row['error_rate_in'] = errorRateColumnField?.values.get(i);
         row['error_rate_out'] = errorRateOutgoingColumnField?.values.get(i);
         row['response_time_in'] = responseTimeColumnField?.values.get(i);
