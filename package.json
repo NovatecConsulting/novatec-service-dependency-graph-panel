@@ -25,21 +25,23 @@
   "devDependencies": {
     "@babel/core": "7.12.9",
     "@babel/preset-env": "7.12.7",
-    "@grafana/data": "^7.0.0",
-    "@grafana/toolkit": "^7.3.4",
-    "@grafana/ui": "^7.0.0",
+    "@grafana/data": "^8.5.5",
+    "@grafana/toolkit": "^8.5.5",
+    "@grafana/ui": "^8.5.5",
     "@types/react-cytoscapejs": "^1.1.2",
     "babel-loader": "8.2.2",
     "emotion": "10.0.27",
+    "prettier": "2.6.2",
     "sass-loader": "^10.1.0",
-    "ts-jest": "^26.4.4",
+    "ts-jest": "^28.0.4",
     "ts-loader": "8.0.11"
   },
   "engines": {
     "node": ">=12"
   },
+
   "dependencies": {
-    "@grafana/runtime": "^7.3.2",
+    "@grafana/runtime": "^8.5.4",
     "@types/lodash": "^4.14.167",
     "@types/react-autosuggest": "^10.0.1",
     "@types/react-bootstrap-table-next": "^4.0.10",

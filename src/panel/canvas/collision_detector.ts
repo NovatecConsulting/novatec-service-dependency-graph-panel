@@ -29,6 +29,7 @@ export default class CollisionDetector {
       if (this._intersects(shape, blockingShape)) {
         return true;
       }
+      return false;
     });
     return collidingShape !== undefined;
   }

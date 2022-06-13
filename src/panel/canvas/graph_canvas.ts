@@ -451,10 +451,12 @@ export default class CanvasDrawer {
     };
 
     if (!isNaN(labelArea.coordinates.x) || !isNaN(labelArea.coordinates.y) || !isNaN(xPos) || !isNaN(yPos)) {
-      const maxRepeats = 5;
+      // TODO: Rather than using a fixed number here, we should find a way to compute a second boundary condition smarter.
+      // This is for the case when all nodes are so close together the labels need to overlap each other.
+      const maxRepeats = 1000;
       var repeats = 0;
       while (this.collisionDetector.isColliding(labelArea) && repeats < maxRepeats) {
-        const nextPoint = this._getNextPointOnVector(xPos, yPos, edge, 0.9);
+        const nextPoint = this._getNextPointOnVector(xPos, yPos, edge, 0.999);
         labelArea.coordinates = nextPoint;
         yPos = nextPoint.y;
         xPos = nextPoint.x;
