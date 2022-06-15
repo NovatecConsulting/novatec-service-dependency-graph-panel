@@ -195,7 +195,6 @@ class GraphGenerator {
 
     source = this._resolveSubstitute(source);
     target = this._resolveSubstitute(target);
-
     if (source === target) {
       return undefined;
     }
@@ -362,8 +361,12 @@ class GraphGenerator {
       filteredGraph.nodes = _.filter(graph.nodes, (node) => {
         const id = node.data.id;
 
-        // don't filter connected elements
-        if (_.some(graph.edges, { source: id }) || _.some(graph.edges, { target: id })) {
+        // don't filter connected elements and parents
+        if (
+          _.some(graph.edges, { source: id }) ||
+          _.some(graph.edges, { target: id }) ||
+          node.data.type === EnGraphNodeType.PARENT
+        ) {
           return true;
         }
 
@@ -390,7 +393,6 @@ class GraphGenerator {
     const nodes = this._createNodes(graphData);
 
     const edges = this._createEdges(graphData);
-
     const graph: IntGraph = {
       nodes,
       edges,
