@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/github/license/NovatecConsulting/novatec-service-dependency-graph-panel)](LICENSE)
 
 
-![Service Dependency Graph In Action](https://novatecconsulting.github.io/novatec-service-dependency-graph-panel/images/service-dependency-graph-panel.gif)
+![SDG_PRESENTATION](https://user-images.githubusercontent.com/53812669/173822816-da6791ec-c785-435b-a235-21ead3ebd4e1.gif)
 
 
 
