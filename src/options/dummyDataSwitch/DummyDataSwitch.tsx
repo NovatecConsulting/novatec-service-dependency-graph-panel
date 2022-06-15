@@ -43,9 +43,9 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
       responseTimeOutgoingColumn: 'out_timesum',
       requestRateOutgoingColumn: 'out_count',
       errorRateOutgoingColumn: 'error_out',
-      extOrigin: '',
-      extTarget: '',
-      type: '',
+      extOrigin: 'origin_external',
+      extTarget: 'target_external',
+      type: 'protocol',
       showDummyData: true,
       baselineRtUpper: 'threshold',
     };
