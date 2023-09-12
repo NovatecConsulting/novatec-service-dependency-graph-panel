@@ -11,8 +11,8 @@ class NodeSubstitutor {
   add(node: IntGraphNode) {
     const nameSpace = node.data.namespace;
     if (nameSpace && nameSpace.length > 0) {
-      var currentValue = nameSpace;
-      var currentKey = node.data.label;
+      let currentValue = nameSpace;
+      let currentKey = node.data.label;
       this._substitutionMap.set(currentKey, currentValue);
     }
   }

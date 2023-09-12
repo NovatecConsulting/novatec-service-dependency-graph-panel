@@ -21,8 +21,8 @@ class PreProcessor {
     } = this.controller.getSettings(true).dataMapping;
 
     const result = _.map(data, (dataObject) => {
-      var source = _.has(dataObject, sourceColumn) && dataObject[sourceColumn] !== '';
-      var target = _.has(dataObject, targetColumn) && dataObject[targetColumn] !== '';
+      let source = _.has(dataObject, sourceColumn) && dataObject[sourceColumn] !== '';
+      let target = _.has(dataObject, targetColumn) && dataObject[targetColumn] !== '';
       const extSource = _.has(dataObject, externalSource) && dataObject[externalSource] !== '';
       const extTarget = _.has(dataObject, externalTarget) && dataObject[externalTarget] !== '';
 
@@ -132,7 +132,7 @@ class PreProcessor {
   }
 
   _mergeSeries(series: any[]) {
-    var mergedSeries: any = undefined;
+    let mergedSeries: any = undefined;
     for (const seriesElement of series) {
       if (mergedSeries === undefined) {
         mergedSeries = seriesElement;
@@ -151,7 +151,7 @@ class PreProcessor {
   }
 
   _dataToRows(inputDataSets: any) {
-    var rows: any[] = [];
+    let rows: any[] = [];
 
     const {
       aggregationType,
@@ -232,7 +232,7 @@ class PreProcessor {
         return;
       }
     }
-    var resolvedObject: any = {
+    let resolvedObject: any = {
       data: row.data,
     };
     if (trueCount === 0) {
@@ -267,7 +267,7 @@ class PreProcessor {
   }
 
   _mergeObjects(rows: any[]) {
-    var mergedObjects: any[] = [];
+    let mergedObjects: any[] = [];
 
     for (const row of rows) {
       mergedObjects.push(row);

@@ -26,11 +26,11 @@ export const Statistics: React.FC<StatisticsProps> = ({
   receiving,
   sending,
 }) => {
-  var statisticsClass = 'statistics';
-  var statistics = <div></div>;
+  let statisticsClass = 'statistics';
+  let statistics = <div></div>;
   if (show) {
     statisticsClass = 'statistics show ';
-    var drilldownLink = <div></div>;
+    let drilldownLink = <div></div>;
     if (resolvedDrillDownLink && resolvedDrillDownLink.length > 0 && currentType === 'INTERNAL') {
       drilldownLink = (
         <a target="_blank" rel="noreferrer" href={resolvedDrillDownLink}>
@@ -55,9 +55,9 @@ export const Statistics: React.FC<StatisticsProps> = ({
         </tr>
       ) : null;
 
-    var errorRate =
+    let errorRate =
       selectionStatistics.requests > 0 && selectionStatistics.errors >= 0 ? (
-        <tr ng-show="">
+        <tr>
           <td className="table--td--selection">Error Rate</td>
           <td className="table--td--selection">
             {roundPercentageToDecimal(
@@ -68,21 +68,21 @@ export const Statistics: React.FC<StatisticsProps> = ({
         </tr>
       ) : null;
 
-    var avgResponseTime =
+    let avgResponseTime =
       selectionStatistics.responseTime >= 0 ? (
         <tr>
           <td className="table--td--selection">Avg. Response Time</td>
           <td className="table--td--selection">{selectionStatistics.responseTime} ms</td>
         </tr>
       ) : null;
-    var threshold = selectionStatistics.thresholdViolation ? (
+    let threshold = selectionStatistics.thresholdViolation ? (
       <td className="table--td--selection threshold--bad">
         Bad ({'>'} {selectionStatistics.threshold}ms)
       </td>
     ) : (
       <td className="table--td--selection threshold--good"> Good (&lt;= {selectionStatistics.threshold}ms) </td>
     );
-    var baseline =
+    let baseline =
       showBaselines && selectionStatistics.threshold ? (
         <tr>
           <td className="table--td--selection">Response Time Health (Upper Baseline)</td>

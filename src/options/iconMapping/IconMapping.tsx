@@ -72,7 +72,7 @@ export class IconMapping extends React.PureComponent<Props, State> {
   render() {
     const { path } = this.state.item;
     const { icons: iconNames } = this.state;
-    var icons = this.state.context.options[path];
+    let icons = this.state.context.options[path];
     if (icons === undefined) {
       icons = this.state.item.defaultValue;
       const context = this.state.context;

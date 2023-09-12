@@ -86,7 +86,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
   }
 
   resolveTemplateVars(input: any, copy: boolean) {
-    var value = input;
+    let value = input;
     if (copy) {
       value = _.cloneDeep(value);
     }
@@ -114,7 +114,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
   }
 
   hasOnlyTableQueries(inputData: DataFrame[]) {
-    var result = true;
+    let result = true;
 
     _.each(inputData, (dataElement) => {
       if (!_.has(dataElement, 'columns')) {
@@ -126,7 +126,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
   }
 
   processData() {
-    var inputData: DataFrame[] = this.props.data.series;
+    let inputData: DataFrame[] = this.props.data.series;
     if (this.getSettings(true).dataMapping.showDummyData) {
       inputData = data;
     }
@@ -210,7 +210,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
   layer(layerIncrease: number) {
     const that = this;
     const currentLayer = that.state ? that.state.currentLayer : 0;
-    var layer = Math.max(0, currentLayer + layerIncrease);
+    let layer = Math.max(0, currentLayer + layerIncrease);
     if (layerIncrease > 0) {
       layer = Math.min(that.maxLayer, currentLayer + layerIncrease);
     }
