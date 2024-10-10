@@ -33,6 +33,9 @@ interface PanelState {
   maxLayer: number;
   layerIncreaseFunction: any;
   layerDecreaseFunction: any;
+  selectionStatistics?: IntSelectionStatistics;
+  receiving?: TableContent[];
+  sending?: TableContent[];
 }
 
 cyCanvas(cytoscape);
@@ -60,15 +63,13 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   constructor(props: PanelState) {
     super(props);
 
-    var animateButtonClass = 'fa fa-play-circle';
-    if (props.animate) {
-      animateButtonClass = 'fa fa-pause-circle';
-    }
-
     this.state = {
       ...props,
       showStatistics: false,
-      animateButtonClass: animateButtonClass,
+      selectionStatistics: {},
+      receiving: [],
+      sending: [],
+      animateButtonClass: props.animate ? 'fa fa-pause-circle' : 'fa fa-play-circle',
       animate: false,
     };
 
@@ -233,13 +234,9 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
 
     if (selection.length === 1) {
       this.updateStatisticTable();
-      this.setState({
-        showStatistics: true,
-      });
+      this.setState({ showStatistics: true });
     } else {
-      this.setState({
-        showStatistics: false,
-      });
+      this.setState({ showStatistics: false });
     }
   }
 
@@ -320,28 +317,18 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       const edges: EdgeCollection = selection.connectedEdges();
 
       const metrics: IntGraphMetrics = selection.nodes()[0].data('metrics');
-
       const requestCount = _.defaultTo(metrics.rate, -1);
       const errorCount = _.defaultTo(metrics.error_rate, -1);
       const duration = _.defaultTo(metrics.response_time, -1);
       const threshold = _.defaultTo(metrics.threshold, -1);
 
-      this.selectionStatistics = {};
-
-      if (requestCount >= 0) {
-        this.selectionStatistics.requests = Math.floor(requestCount);
-      }
-      if (errorCount >= 0) {
-        this.selectionStatistics.errors = Math.floor(errorCount);
-      }
-      if (duration >= 0) {
-        this.selectionStatistics.responseTime = Math.floor(duration);
-
-        if (threshold >= 0) {
-          this.selectionStatistics.threshold = Math.floor(threshold);
-          this.selectionStatistics.thresholdViolation = duration > threshold;
-        }
-      }
+      this.selectionStatistics = {
+        requests: requestCount >= 0 ? Math.floor(requestCount) : undefined,
+        errors: errorCount >= 0 ? Math.floor(errorCount) : undefined,
+        responseTime: duration >= 0 ? Math.floor(duration) : undefined,
+        threshold: threshold >= 0 ? Math.floor(threshold) : undefined,
+        thresholdViolation: duration > threshold,
+      };
 
       for (let i = 0; i < edges.length; i++) {
         const actualEdge: EdgeSingular = edges[i];
@@ -383,8 +370,13 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
           receiving.push(sendingObject);
         }
       }
-      this.receiving = receiving;
-      this.sending = sending;
+
+      this.setState({
+        selectionStatistics: this.selectionStatistics,
+        receiving: receiving,
+        sending: sending,
+        showStatistics: true,
+      });
 
       this.generateDrillDownLink();
     }
@@ -431,11 +423,11 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
           show={this.state.showStatistics}
           selectionId={this.selectionId}
           resolvedDrillDownLink={this.resolvedDrillDownLink}
-          selectionStatistics={this.selectionStatistics}
+          selectionStatistics={this.state.selectionStatistics}
           currentType={this.currentType}
           showBaselines={this.getSettings(true).showBaselines}
-          receiving={this.receiving}
-          sending={this.sending}
+          receiving={this.state.receiving || []}
+          sending={this.state.sending || []}
         />
       </div>
     );
