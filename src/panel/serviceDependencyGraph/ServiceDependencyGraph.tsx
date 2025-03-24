@@ -60,7 +60,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   constructor(props: PanelState) {
     super(props);
 
-    var animateButtonClass = 'fa fa-play-circle';
+    let animateButtonClass = 'fa fa-play-circle';
     if (props.animate) {
       animateButtonClass = 'fa fa-pause-circle';
     }
@@ -113,7 +113,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       wheelSensitivity: 0.125,
     });
 
-    var graphCanvas = new CanvasDrawer(
+    let graphCanvas = new CanvasDrawer(
       this,
       cy,
       cy.cyCanvas({
@@ -248,8 +248,8 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   toggleAnimation() {
-    var newValue = !this.state.animate;
-    var animateButtonClass = 'fa fa-play-circle';
+    let newValue = !this.state.animate;
+    let animateButtonClass = 'fa fa-play-circle';
     if (newValue) {
       this.state.graphCanvas.startAnimation();
       animateButtonClass = 'fa fa-pause-circle';

@@ -17,7 +17,7 @@ class NodeTree {
   }
 
   getNodesFromLayer(layer: number) {
-    var nodes = this._getNodesFromLayer(this._root, layer, 0);
+    let nodes = this._getNodesFromLayer(this._root, layer, 0);
     nodes.forEach((element) => {
       if (this._metricMap[element.data.id]) {
         (Object.keys(element.data.metrics) as Array<keyof typeof element.data.metrics>).forEach(
@@ -29,7 +29,7 @@ class NodeTree {
   }
 
   getNamePath(namePath: string[]) {
-    var currentLayer = this._root;
+    let currentLayer = this._root;
     namePath.forEach((element) => {
       currentLayer = this._getObjectFromArray(currentLayer.children, element);
     });
@@ -37,7 +37,7 @@ class NodeTree {
   }
 
   private _getNodesFromLayer(currentNode: NodeTreeElement, layer: number, layerCounter: number): IntGraphNode[] {
-    var children;
+    let children;
     if (layer === layerCounter) {
       children = currentNode.children.map((element) => element.node);
       if (currentNode !== this._root) {
@@ -54,7 +54,7 @@ class NodeTree {
   }
 
   private _getNameSpaceFromCurrentLevel(namespace: string[], currentLevel: number) {
-    var nameSpaces = [];
+    let nameSpaces = [];
     for (let i = 0; i < currentLevel; i++) {
       nameSpaces.push(namespace[i]);
     }
@@ -64,7 +64,7 @@ class NodeTree {
   private _sumMetrics(sourceNode: IntGraphNode, targetNode: IntGraphNode): IntGraphMetrics {
     const source = sourceNode.data.metrics;
     const target = targetNode.data.metrics;
-    var metrics: IntGraphMetrics = {};
+    let metrics: IntGraphMetrics = {};
     if (!this._metricMap[targetNode.data.id]) {
       this._metricMap[targetNode.data.id] = {};
     }
@@ -117,7 +117,7 @@ class NodeTree {
   }
 
   private _getObjectFromArray(array: NodeTreeElement[], id: string) {
-    for (var i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       if (array[i].node.data.label === id) {
         return array[i];
       }

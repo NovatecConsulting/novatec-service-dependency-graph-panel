@@ -1,6 +1,6 @@
 function roundPercentageToDecimal(decimal: number, value: string) {
   if (value !== '-') {
-    var valueDecimals = _getDecimalsOf(parseFloat(value));
+    let valueDecimals = _getDecimalsOf(parseFloat(value));
     if (valueDecimals > decimal) {
       value = parseFloat(value).toFixed(decimal) + '%';
     }

@@ -8,8 +8,8 @@ interface SortableTableProps {
 }
 
 function sort(a: string, b: string, order: string, ignoreLiteral: string) {
-  var cleanA = a.replace(ignoreLiteral, '');
-  var cleanB = b.replace(ignoreLiteral, '');
+  let cleanA = a.replace(ignoreLiteral, '');
+  let cleanB = b.replace(ignoreLiteral, '');
   if ((order === 'asc' && cleanA === '-') || (order !== 'asc' && cleanB === '-')) {
     return -1;
   }

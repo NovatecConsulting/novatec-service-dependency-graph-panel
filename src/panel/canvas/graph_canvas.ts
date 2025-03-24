@@ -439,9 +439,9 @@ export default class CanvasDrawer {
     ctx.font = '6px Arial';
 
     const labelWidth = ctx.measureText(label).width;
-    var xPos = cX - labelWidth / 2;
-    var yPos = cY + 3;
-    var labelArea: Rectangle = {
+    let xPos = cX - labelWidth / 2;
+    let yPos = cY + 3;
+    let labelArea: Rectangle = {
       coordinates: {
         x: xPos - labelPadding + 4,
         y: yPos - 6 - labelPadding + 4,
@@ -454,7 +454,7 @@ export default class CanvasDrawer {
       // TODO: Rather than using a fixed number here, we should find a way to compute a second boundary condition smarter.
       // This is for the case when all nodes are so close together the labels need to overlap each other.
       const maxRepeats = 1000;
-      var repeats = 0;
+      let repeats = 0;
       while (this.collisionDetector.isColliding(labelArea) && repeats < maxRepeats) {
         const nextPoint = this._getNextPointOnVector(xPos, yPos, edge, 0.999);
         labelArea.coordinates = nextPoint;
@@ -472,8 +472,8 @@ export default class CanvasDrawer {
   }
 
   _getNextPointOnVector(x: number, y: number, edge: cytoscape.EdgeSingular, step: number) {
-    var yTarget = edge.sourceEndpoint().y;
-    var xTarget = edge.sourceEndpoint().x;
+    let yTarget = edge.sourceEndpoint().y;
+    let xTarget = edge.sourceEndpoint().x;
 
     const newPoint: Point = {
       x: xTarget * (1.0 - step) + x * step,
@@ -546,9 +546,9 @@ export default class CanvasDrawer {
       const responseTime = _.defaultTo(metrics.response_time, -1);
       const threshold = _.defaultTo(metrics.threshold, -1);
 
-      var unknownPct;
-      var errorPct;
-      var healthyPct;
+      let unknownPct;
+      let errorPct;
+      let healthyPct;
       if (requestCount < 0) {
         healthyPct = 0;
         errorPct = 0;
@@ -730,7 +730,7 @@ export default class CanvasDrawer {
 
     const labelWidth = ctx.measureText(label).width;
     const xPos = pos.x - labelWidth / 2;
-    var yPos = pos.y + node.height() * 0.8;
+    let yPos = pos.y + node.height() * 0.8;
 
     if (node.data().type === 'PARENT') {
       if (node.data().layer >= this.controller.state.controller.state.currentLayer || node.data().layer === undefined) {
@@ -818,7 +818,7 @@ export default class CanvasDrawer {
     color: string
   ) {
     // calc size of our wedge in radians
-    var WedgeInRadians = (percent * 360 * Math.PI) / 180;
+    let WedgeInRadians = (percent * 360 * Math.PI) / 180;
     // draw the wedge
     ctx.save();
     ctx.beginPath();

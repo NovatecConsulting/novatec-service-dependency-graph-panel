@@ -22,7 +22,7 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
 
-    var { dataMapping } = props.context.options;
+    let { dataMapping } = props.context.options;
     if (dataMapping === undefined) {
       dataMapping = props.item.defaultValue;
     }
@@ -52,7 +52,7 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
   };
 
   onChange = () => {
-    var { dataMapping } = this.props.context.options;
+    let { dataMapping } = this.props.context.options;
     const { item } = this.state;
     const { onChange } = this.props;
     const newValue = !dataMapping.showDummyData;
@@ -66,7 +66,7 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
   };
 
   render() {
-    var { dataMapping } = this.props.context.options;
+    let { dataMapping } = this.props.context.options;
     if (dataMapping === undefined) {
       dataMapping = this.props.item.defaultValue;
       this.props.context.options.dataMapping = this.props.item.defaultValue;

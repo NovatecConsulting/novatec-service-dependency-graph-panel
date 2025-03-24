@@ -19,7 +19,7 @@ interface State {
 export class TypeaheadTextField extends React.PureComponent<Props, State> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
-    var { value } = props;
+    let { value } = props;
     if (value === undefined) {
       value = props.item.defaultValue;
     }
@@ -33,9 +33,9 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     return <div>{suggestion}</div>;
   }
   getColumnNames() {
-    var { data } = this.props.context;
-    var series;
-    var columnNames = [];
+    let { data } = this.props.context;
+    let series;
+    let columnNames = [];
     if (data !== undefined && data.length > 0) {
       series = data[0].fields;
       for (const index in series) {
@@ -60,7 +60,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     this.props.onChange.call(path, newValue);
   };
   getSuggestions = (value: string) => {
-    var inputValue = '';
+    let inputValue = '';
     if (value !== undefined) {
       return [];
     }
@@ -87,7 +87,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     });
   };
   render() {
-    var { value } = this.props;
+    let { value } = this.props;
     if (value === undefined) {
       value = this.props.item.defaultValue;
     }
