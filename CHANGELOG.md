@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## v4.1.2
+
+Add layering mechanism
+Add collision between edge-labels
+Update dependencies
 
 ## v4.0.2
 
@@ -11,7 +16,7 @@ Bug fix in icon path
 ## v4.0.1
 
 SumTimings now working as expected
-Response Time Health now dsiplayed in node statistics
+Response Time Health now displayed in node statistics
 External Icons now use the correct path
 
 
@@ -19,7 +24,7 @@ External Icons now use the correct path
 
 Ported project to react.
 aggregationType is not needed as template variable anymore.
-Unit type of data now can be choosen.
+Unit type of data now can be chosen.
 Tables of Incoming/Outgoing Statistics are now sortable.
 Settings needed for the dummy data to be displayed is now filled in automatically when dummy data is activated.
 Service Icons can now be customized for both Internal and External Services.
