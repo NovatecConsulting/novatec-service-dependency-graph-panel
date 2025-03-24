@@ -1,12 +1,13 @@
 ## Novatec Service Dependency Graph Panel
 
-[![Downloads](https://img.shields.io/badge/dynamic/json?color=orange&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22novatec-sdg-panel%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/novatec-sdg-panel)
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins%2Fnovatec-sdg-panel&query=%24.downloads&color=orange&label=downloads)
 [![License](https://img.shields.io/github/license/NovatecConsulting/novatec-service-dependency-graph-panel)](LICENSE)
 
 
 ![SDG_PRESENTATION](https://user-images.githubusercontent.com/53812669/173822816-da6791ec-c785-435b-a235-21ead3ebd4e1.gif)
 
 
+**Version 4.1.2 is only compatible with Grafana from version 10.1.0!**
 
 **Version 4.0.0 is only compatible with Grafana from version 7.1.0!**
 
@@ -36,8 +37,8 @@ Depending on the query result, the data provides the following tags:
 * **protocol**: The communication type (e.g. HTTP, JMS, ...).
 * **origin_service**: In case of an incoming communication, this is the origin service.
 * **target_service**: In case of an outgoing communication, this is the target service.
-* **origin_external**: The origin of an incoming communication, which cannot be correlated to a known serive (e.g. HTTP request of a third party application).
-* **target_external**: The target of an outgoing communication, which cannot be correlated to a known serive (e.g. third party HTTP endpoint).
+* **origin_external**: The origin of an incoming communication, which cannot be correlated to a known service (e.g. HTTP request of a third party application).
+* **target_external**: The target of an outgoing communication, which cannot be correlated to a known service (e.g. third party HTTP endpoint).
 
 Depending on the query result, the data provides the following fields:
 * **in_timesum**: The total sum of all incoming request response times. (Prometheus style)
@@ -46,7 +47,7 @@ Depending on the query result, the data provides the following fields:
 * **out_timesum**: The total sum of all outgoing request response times. (Prometheus style)
 * **out_count**: The total amount of outgoing requests.
 * **error_out**: The amount of outgoing requests which produced an error.
-* **threshold**: The critical threshold in miliseconds for the response times of incoming requests.
+* **threshold**: The critical threshold in milliseconds for the response times of incoming requests.
 
 
 In order to use this data you simply have to activate the Dummy Data Switch you can find in the General Settings. All necessary options will be applied.
@@ -77,7 +78,7 @@ If you now want to use your own data source you have make sure, that the data re
 
 * The table requires at least one column which specifies the connection's source or target. The settings `Source Component Column` and `Target Component Column` need to be set to the exact namings of the respective fields.
  
-* The data can contain multiple value columns. These columns have to be mapped on specifc attributes using the panel's `Data Mappings` options. 
+* The data can contain multiple value columns. These columns have to be mapped on specific attributes using the panel's `Data Mappings` options. 
 **Example**: Assuming the data table contains a column named `req_rate` which values represents a request rate for the related connection in the current time window. In order to correctly visualize these values as a request rate, the `Request Rate Column` option has to be set to `req_rate` - the column's name.
 
 #### Examples
