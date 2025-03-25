@@ -9,8 +9,11 @@ services:
       args:
         grafana_image: ${GRAFANA_IMAGE:-grafana-enterprise}
         grafana_version: ${GRAFANA_VERSION:-11.2.0}
+    environment:
+      - GF_PATHS_PROVISIONING=/usr/share/grafana/custom/
     ports:
       - 3000:3000/tcp
     volumes:
       - ./dist:/var/lib/grafana/plugins/novatec-sdg-panel
-      - ./provisioning:/etc/grafana/provisioning
+      - ./provisioning:/usr/share/grafana/custom/
+      - ./provisioning/home/home.json:/usr/share/grafana/public/dashboards/home.json
