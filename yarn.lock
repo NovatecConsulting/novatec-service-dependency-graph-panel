@@ -5228,20 +5228,25 @@ cytoscape-canvas@^3.0.1:
   resolved "https://registry.npmjs.org/cytoscape-canvas/-/cytoscape-canvas-3.0.1.tgz"
   integrity sha512-R1nCLnJHGTR5fWEpNQQBPyoigdnfhnk1lOHegzmzz1Kg6yxzVf0hfdRAMa0wPAhtC4kkgyoViiIfZ/zyCqMhEQ==
 
-cytoscape-cola@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.npmjs.org/cytoscape-cola/-/cytoscape-cola-2.4.0.tgz"
-  integrity sha512-zY029SIMi08DRSZatC3oQD7e77ufvkXMiLHmex6Tv2U9F1Qn/+CrQQtjry32VQEYcj0jKj6W/YCH2T+samrCHw==
+cytoscape-cola@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/cytoscape-cola/-/cytoscape-cola-2.5.1.tgz#1ec25dfd92533485f29943adf740ecd4feb2ea16"
+  integrity sha512-4/2S9bW1LvdsEPmxXN1OEAPFPbk7DvCx2c9d+TblkQAAvptGaSgtPWCByTEGgT8UxCxcVqes2aFPO5pzwo7R2w==
   dependencies:
     webcola "^3.4.0"
 
-cytoscape@^3.14.2, cytoscape@^3.2.19:
+cytoscape@^3.2.19:
   version "3.17.0"
   resolved "https://registry.npmjs.org/cytoscape/-/cytoscape-3.17.0.tgz"
   integrity sha512-zPAB2UVV4QWArs+0UEq0ojYn7riFfz8CjivL67wibE/zdnAE8TTvDO5bFxsShSTutmG+1NkCnTXJjOxfosDMwA==
   dependencies:
     heap "^0.2.6"
     lodash.debounce "^4.0.8"
+
+cytoscape@^3.31.1:
+  version "3.31.1"
+  resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-3.31.1.tgz#29b12cac715fbb2aacc50cdf5cf1467aadde9c00"
+  integrity sha512-Hx5Mtb1+hnmAKaZZ/7zL1Y5HTFYOjdDswZy/jD+1WINRU8KVi1B7+vlHdsTwY+VCFucTreoyu1RDzQJ9u0d2Hw==
 
 d3-array@1, d3-array@^1.1.1, d3-array@^1.2.0:
   version "1.2.4"
