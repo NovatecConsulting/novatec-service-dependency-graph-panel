@@ -41,8 +41,6 @@
           "errorRateOutgoingColumn": "error_out",
           "extOrigin": "origin_external",
           "extTarget": "target_external",
-          "namespaceColumn": "namespace",
-          "namespaceDelimiter": ".",
           "requestRateColumn": "in_count",
           "requestRateOutgoingColumn": "out_count",
           "responseTimeColumn": "in_timesum",
@@ -82,9 +80,9 @@
             "pattern": "spok|star trek"
           }
         ],
-        "showBaselines": true,
+        "showBaselines": false,
         "showConnectionStats": true,
-        "showDebugInformation": true,
+        "showDebugInformation": false,
         "style": {
           "dangerColor": "rgb(196, 22, 42)",
           "healthyColor": "rgb(87, 148, 242)",
@@ -93,7 +91,7 @@
         "sumTimings": true,
         "timeFormat": "m"
       },
-      "pluginVersion": "4.1.2",
+      "pluginVersion": "4.2.0",
       "title": "SDG",
       "type": "novatec-sdg-panel"
     },
@@ -104,7 +102,7 @@
         "x": 0,
         "y": 17
       },
-      "id": 123124,
+      "id": 123125,
       "type": "gettingstarted"
     },
     {
@@ -113,6 +111,16 @@
         "w": 24,
         "x": 0,
         "y": 26
+      },
+      "id": 123124,
+      "type": "gettingstarted"
+    },
+    {
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 35
       },
       "id": 123123,
       "type": "gettingstarted"
