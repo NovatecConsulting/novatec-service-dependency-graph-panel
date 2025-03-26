@@ -7,7 +7,7 @@
 ![SDG_PRESENTATION](https://user-images.githubusercontent.com/53812669/173822816-da6791ec-c785-435b-a235-21ead3ebd4e1.gif)
 
 
-**Version 4.2.0 is only compatible with Grafana from version 10.1.0!**
+**Version 4.2.0 is only compatible with Grafana from version 10.4.0!**
 
 **Version 4.0.0 is only compatible with Grafana from version 7.1.0!**
 
