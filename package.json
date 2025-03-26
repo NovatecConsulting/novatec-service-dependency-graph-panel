@@ -69,18 +69,16 @@
     "webpack-livereload-plugin": "^3.0.2"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=20"
   },
   "dependencies": {
     "@emotion/css": "^11.13.5",
     "@grafana/data": "^8.5.5",
     "@grafana/runtime": "^8.5.4",
     "@grafana/ui": "^8.5.5",
-    "@types/lodash": "^4.17.16",
     "@types/react-autosuggest": "^10.1.11",
     "@types/react-bootstrap-table-next": "^4.0.26",
     "babel-preset-react": "^6.24.1",
-    "css-loader": "^5.0.1",
     "cytoscape": "^3.31.1",
     "cytoscape-canvas": "^3.0.1",
     "cytoscape-cola": "^2.5.1",
@@ -90,11 +88,7 @@
     "react-bootstrap-table-next": "^4.0.3",
     "react-cytoscapejs": "^2.0.0",
     "react-dom": "^18.3.1",
-    "react-native": "^0.78.1",
-    "style-loader": "^2.0.0",
-    "tslib": "2.5.3",
-    "typescript": "^5.3.3",
-    "webpack": "^5.98.0"
+    "react-native": "^0.78.1"
   },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@1.22.22"
 }
