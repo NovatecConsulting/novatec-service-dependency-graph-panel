@@ -32,9 +32,7 @@
   "devDependencies": {
     "@babel/core": "^7.26.10",
     "@babel/preset-env": "^7.23.9",
-    "@grafana/e2e": "^11.0.7",
     "@grafana/plugin-e2e": "^1.17.1",
-    "@grafana/e2e-selectors": "^11.2.0",
     "@grafana/eslint-config": "^8.0.0",
     "@grafana/eslint-plugin-plugins": "^0.2.1",
     "@grafana/tsconfig": "^2.0.0",
