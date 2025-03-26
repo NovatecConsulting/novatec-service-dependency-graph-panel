@@ -3,8 +3,8 @@
   "name": "Service Dependency Graph",
   "id": "novatec-sdg-panel",
   "info": {
-    "version": "4.1.2",
-    "updated": "2025-03-24",
+    "version": "4.2.0",
+    "updated": "2025-03-26",
     "description": "Service Dependency Graph panel for Grafana. Shows metric-based, dynamic dependency graph between services, indicates responsetime, load and error rate statistic for individual services and communication edges. Shows communication to external services, such as Web calls, database calls, message queues, LDAP calls, etc. Provides a details dialog for each selected service that shows statistics about incoming and outgoing traffic.",
     "author": {
       "name": "Novatec Consulting GmbH",
@@ -38,7 +38,7 @@
     ]
   },
   "dependencies": {
-    "grafanaDependency": ">=10.1.0",
+    "grafanaDependency": ">=10.4.0",
     "plugins": []
   }
 }

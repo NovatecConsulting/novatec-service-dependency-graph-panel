@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v4.2.0
+
+Update dependencies
+
 ## v4.1.2
 
 Add layering mechanism

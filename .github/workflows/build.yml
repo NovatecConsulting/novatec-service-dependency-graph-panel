@@ -1,0 +1,16 @@
+name: Build plugin
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    container:
+      image: node:20.19
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build plugin
+        run: |
+          yarn install && yarn build

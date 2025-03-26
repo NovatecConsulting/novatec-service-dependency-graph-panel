@@ -1,0 +1,136 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "dataMapping": {
+          "aggregationType": "service",
+          "baselineRtUpper": "threshold",
+          "errorRateColumn": "error_in",
+          "errorRateOutgoingColumn": "error_out",
+          "extOrigin": "origin_external",
+          "extTarget": "target_external",
+          "namespaceColumn": "namespace",
+          "namespaceDelimiter": ".",
+          "requestRateColumn": "in_count",
+          "requestRateOutgoingColumn": "out_count",
+          "responseTimeColumn": "in_timesum",
+          "responseTimeOutgoingColumn": "out_timesum",
+          "showDummyData": true,
+          "sourceColumn": "origin_service",
+          "targetColumn": "target_service",
+          "type": "protocol"
+        },
+        "drillDownLink": "",
+        "externalIcons": [
+          {
+            "filename": "web",
+            "pattern": "web"
+          },
+          {
+            "filename": "message",
+            "pattern": "jms"
+          },
+          {
+            "filename": "database",
+            "pattern": "jdbc"
+          },
+          {
+            "filename": "http",
+            "pattern": "http"
+          }
+        ],
+        "filterEmptyConnections": true,
+        "icons": [
+          {
+            "filename": "java",
+            "pattern": "java"
+          },
+          {
+            "filename": "star_trek",
+            "pattern": "spok|star trek"
+          }
+        ],
+        "showBaselines": true,
+        "showConnectionStats": true,
+        "showDebugInformation": true,
+        "style": {
+          "dangerColor": "rgb(196, 22, 42)",
+          "healthyColor": "rgb(87, 148, 242)",
+          "noDataColor": "rgb(123, 123, 138)"
+        },
+        "sumTimings": true,
+        "timeFormat": "m"
+      },
+      "pluginVersion": "4.1.2",
+      "title": "SDG",
+      "type": "novatec-sdg-panel"
+    },
+    {
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 123124,
+      "type": "gettingstarted"
+    },
+    {
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 123123,
+      "type": "gettingstarted"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Dummy Dashboard",
+  "uid": "fegw5u6zfsao0f",
+  "version": 1,
+  "weekStart": ""
+}
