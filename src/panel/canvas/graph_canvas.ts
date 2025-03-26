@@ -722,7 +722,7 @@ export default class CanvasDrawer {
 
     if (this.selectionNeighborhood.empty() || !this.selectionNeighborhood.has(node)) {
       if (label.length > 20) {
-        label = label.substr(0, 7) + '...' + label.slice(-7);
+        label = label.substring(0, 7) + '...' + label.slice(-7);
       }
     }
 
