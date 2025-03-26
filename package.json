@@ -92,6 +92,7 @@
   },
   "packageManager": "yarn@1.22.22",
   "resolutions": {
-    "underscore": "^1.12.1"
+    "underscore": "^1.12.1",
+    "semver": "^6.3.1"
   }
 }
