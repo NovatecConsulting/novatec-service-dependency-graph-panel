@@ -164,8 +164,6 @@ export default class CanvasDrawer {
   }
 
   start() {
-    console.log('Starting graph logic');
-
     const that = this;
     const repaintWrapper = () => {
       that.repaint();
