@@ -7,7 +7,7 @@ import { PanelSettings } from 'types';
  * @param options The options object which should be checked.
  */
 function isLegacyFormat(options: any) {
-  return !('showDummyData' in options['dataMapping']);
+  return options && !('showDummyData' in options['dataMapping']);
 }
 
 /**

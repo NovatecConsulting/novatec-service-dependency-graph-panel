@@ -1,5 +1,3 @@
-version: '3.0'
-
 services:
   grafana:
     container_name: 'novatec-sdg-panel'
@@ -8,7 +6,7 @@ services:
       context: ./.config
       args:
         grafana_image: ${GRAFANA_IMAGE:-grafana-enterprise}
-        grafana_version: ${GRAFANA_VERSION:-11.2.0}
+        grafana_version: ${GRAFANA_VERSION:-11.6.0}
     environment:
       - GF_PATHS_PROVISIONING=/usr/share/grafana/custom/
     ports:
