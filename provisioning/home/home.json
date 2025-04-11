@@ -132,13 +132,12 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Dummy Dashboard",
-  "uid": "fegw5u6zfsao0f",
   "version": 1,
   "weekStart": ""
 }
