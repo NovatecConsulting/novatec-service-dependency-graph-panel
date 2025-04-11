@@ -1,21 +1,21 @@
-.no-background {
+.service-dependency-graph-panel .no-background {
     background-color: transparent;
 }
 
-.no-padding-left {
+.service-dependency-graph-panel .no-padding-left {
     padding-left: 0;
 }
 
-.icon-mapping-button {
+.service-dependency-graph-panel .icon-mapping-button {
     width: 46.5%;
     margin-left: 0;
 }
 
-.width-100 {
+.service-dependency-graph-panel .width-100 {
     width: 100%;
 }
 
-.width-half {
+.service-dependency-graph-panel .width-half {
     width: 47%;
     text-overflow: ellipsis;
 }

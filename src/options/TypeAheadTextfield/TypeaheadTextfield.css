@@ -1,4 +1,4 @@
-.suggestion {
+.service-dependency-graph-panel .suggestion {
     width: 100%;
     border-right: 1px solid #3865AB ;
     border-left: 1px solid #3865AB ;
@@ -6,10 +6,10 @@
     padding-left: 10px;
 }
 
-ul {
+.service-dependency-graph-panel ul {
     list-style-type: none;
 }
 
-ul:last-child {
+.service-dependency-graph-panel ul:last-child {
     border-bottom: 1px solid #3865AB ;
 }
