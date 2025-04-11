@@ -24,13 +24,13 @@ Add appropriate release notes.
 To sign a plugin, you will need a **plugin signing token**, 
 which has been created in our Grafana Cloud account.
 
-Set the environment variable `GRAFANA_POLICY_TOKEN_ACCESS` via
+Set the environment variable `GRAFANA_ACCESS_POLICY_TOKEN` via
 
-`export GRAFANA_POLICY_TOKEN_ACCESS=<token>` 
+`export GRAFANA_ACCESS_POLICY_TOKEN=<token>` 
 
 or in Windows 
 
-`set GRAFANA_POLICY_TOKEN_ACCESS=<token>`
+`set GRAFANA_ACCESS_POLICY_TOKEN=<token>`
 
 Then run the release script to create a signed plugin:
 
