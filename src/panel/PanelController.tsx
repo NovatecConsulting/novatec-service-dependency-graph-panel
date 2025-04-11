@@ -223,9 +223,11 @@ export class PanelController extends PureComponent<Props, PanelState> {
     const data = this.processData();
     const error = this.getError();
     if (error === null) {
+      // This is our root DOM
       return (
         <div>
           <div
+            // The className is also used to scope all of our css rules
             className="service-dependency-graph-panel"
             style={{ height: this.props.height, width: this.props.width }}
             ref={this.ref}

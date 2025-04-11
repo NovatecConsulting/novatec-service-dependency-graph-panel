@@ -5,26 +5,26 @@
   flex-direction: column;
 }
 
-.graph-container {
+.service-dependency-graph-panel .graph-container {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
 }
 
-.service-dependency-graph {
+.service-dependency-graph-panel .service-dependency-graph {
   position: relative;
   flex-grow: 1;
   min-width: 0;
 }
 
-.canvas-container {
+.service-dependency-graph-panel .canvas-container {
    width: 100%;
    height: 100%;
    overflow: hidden;
 }
 
-.zoom-button-container {
+.service-dependency-graph-panel .zoom-button-container {
   position: absolute;
   top: 0;
   right: 1rem;
@@ -32,19 +32,19 @@
   width: 35px;
 }
 
-.statistics {
+.service-dependency-graph-panel .statistics {
   flex-basis: 0;
   transition: flex-basis 250ms ease-in-out;
   overflow-y: scroll;
-  
+
 }
 
-.statistics.show {
+.service-dependency-graph-panel .statistics.show {
   flex-basis: 30rem;
   padding-left: 0.5%;
 }
 
-.header--selection {
+.service-dependency-graph-panel .header--selection {
   font-size: 1.25em;
   text-align: center;
   border-bottom: 2px solid #161719;
@@ -52,61 +52,59 @@
   color: rgb(216, 217, 218);
 }
 
-.secondHeader--selection {
+.service-dependency-graph-panel .secondHeader--selection {
   font-size: 1.2em;
   text-align: center;
   padding-top: 1.5rem;
   padding-bottom: 0.5rem;
 }
 
-.no-data--selection{
+.service-dependency-graph-panel .no-data--selection{
   color: #888888;
   text-align: center;
 }
 
-.table--selection {
+.service-dependency-graph-panel .table--selection {
   width: 99%;
   table-layout: fixed;
 }
 
-.table--selection th, .table--selection td {
+.service-dependency-graph-panel .table--selection th, .table--selection td {
   padding: 3px 5px;
 }
 
-.table--selection tr {
+.service-dependency-graph-panel .table--selection tr {
   border-bottom: 2px solid #161719;
 }
 
-.table--td--selection {
+.service-dependency-graph-panel .table--td--selection {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.threshold--bad {
+.service-dependency-graph-panel .threshold--bad {
   color:#f2495c;
 }
 
-.threshold--good {
+.service-dependency-graph-panel .threshold--good {
   color: #73bf69;
 }
 
-.table--th--selectionSmall {
+.service-dependency-graph-panel .table--th--selectionSmall {
   width: 5.5rem;
 }
 
-.table--th--selectionMedium {
+.service-dependency-graph-panel .table--th--selectionMedium {
   width: 8rem;
 }
 
-.table--selection--head {
+.service-dependency-graph-panel .table--selection--head {
   background-color: #28282a;
   border-top: 2px solid #161719;
   color: #33b5e5;
 }
 
-.width-100 {
+.service-dependency-graph-panel .width-100 {
   width: 100%;
 }
-
-
