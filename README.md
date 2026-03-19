@@ -120,7 +120,7 @@ ___
 The service dependency graph plugin allows you to display your own symbols in the drawn nodes.
 For this purpose the option 'Service Icon Mapping' can be used.
 Here you can specify an assignment of icons to certain name patterns.
-All nodes that match the specified pattern (regular expression) will get the icon.
+All nodes that contain one of the specified pipe-separated values will get the icon.
 
 ![Custom service icons in the graph.](https://raw.githubusercontent.com/NovatecConsulting/novatec-service-dependency-graph-panel/master/src/img/service-icons.png)
 
@@ -150,9 +150,9 @@ ___
 
 The service dependency graph plugin allows you to specify a backend URL for each drawn node.
 For this purpose the option 'Tracing Drilldown' can be used.
-Here you can specify a backend URL. An open and closed curly bracket `{}` is the placeholder for the selected node.
+Here you can specify an `http` or `https` backend URL. An open and closed curly bracket `{}` is the placeholder for the selected node.
 Each node will get an arrow icon in the details view. This icon is a link to your backend, specified in the options.
-The curly brackets `{}` will be replaced with the selected node.
+The curly brackets `{}` will be replaced with the URL-encoded selected node.
 
 #### Example
 

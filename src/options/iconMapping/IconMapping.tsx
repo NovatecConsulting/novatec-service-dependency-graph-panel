@@ -86,7 +86,7 @@ export class IconMapping extends React.PureComponent<Props, State> {
       <div>
         <div className="gf-form-inline">
           <div className="gf-form width-100">
-            <label className="gf-form-label no-background no-padding-left width-half">Target Name (RegEx)</label>
+            <label className="gf-form-label no-background no-padding-left width-half">Target Name Pattern</label>
             <label className="gf-form-label no-background no-padding-left width-half">Icon</label>
           </div>
         </div>

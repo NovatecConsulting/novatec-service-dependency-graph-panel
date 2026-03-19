@@ -17,6 +17,7 @@ import {
   IntSelectionStatistics,
 } from 'types';
 import { TemplateSrv, getTemplateSrv } from '@grafana/runtime';
+import { buildSafeDrillDownLink } from '../security_utils';
 import './ServiceDependencyGraph.css';
 
 interface PanelState {
@@ -393,8 +394,12 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   generateDrillDownLink() {
     const { drillDownLink } = this.getSettings(false);
     if (drillDownLink !== undefined) {
-      const link = drillDownLink.replace('{}', this.selectionId);
-      this.resolvedDrillDownLink = this.templateSrv.replace(link);
+      this.resolvedDrillDownLink = buildSafeDrillDownLink(
+        drillDownLink,
+        this.selectionId,
+        (value) => this.templateSrv.replace(value),
+        window.location.href
+      );
     }
   }
 
