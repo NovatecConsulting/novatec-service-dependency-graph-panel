@@ -16,6 +16,7 @@ import {
 import humanFormat from 'human-format';
 import assetUtils from '../asset_utils';
 import CollisionDetector from './collision_detector';
+import { matchesIconPattern } from '../security_utils';
 
 const scaleValues: ScaleValue[] = [
   { unit: 'ms', factor: 1 },
@@ -586,13 +587,7 @@ export default class CanvasDrawer {
     const nodeId: string = node.id();
     const iconMappings = this.controller.getSettings(true).icons;
 
-    const mapping = _.find(iconMappings, ({ pattern }) => {
-      try {
-        return new RegExp(pattern).test(nodeId);
-      } catch (error) {
-        return false;
-      }
-    });
+    const mapping = _.find(iconMappings, ({ pattern }) => matchesIconPattern(pattern, nodeId));
 
     if (mapping) {
       const image = this._getAsset(mapping.filename, mapping.filename + '.png');

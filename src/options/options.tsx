@@ -249,7 +249,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: '',
         description:
           'This setting controls which images should be mapped to your directly monitored nodes. ' +
-          'The node names are matched by the regex pattern provided in the "Target Name(Regex) column.',
+          'The node names are matched case-insensitively against the pipe-separated values provided in the "Target Name Pattern" column.',
         category: ['Icon Mapping'],
         defaultValue: DefaultSettings.icons,
       })
@@ -262,7 +262,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         name: '',
         description:
           'This setting controls which images should be mapped to the external nodes. ' +
-          'The given type column is matched by the regex pattern provided in the "Target Name(Regex) column.',
+          'The given type column is matched case-insensitively against the pipe-separated values provided in the "Target Name Pattern" column.',
         category: ['External Icon Mapping'],
         defaultValue: DefaultSettings.externalIcons,
       })
@@ -270,7 +270,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       //Tracing Drilldown
       .addTextInput({
         path: 'drillDownLink',
-        name: 'Backend URL',
+        name: 'Backend URL (http/https)',
         category: ['Tracing Drilldown'],
         defaultValue: DefaultSettings.drillDownLink,
       })
